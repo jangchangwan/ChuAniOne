@@ -1,11 +1,17 @@
 import React from 'react';
 import './GoogleLogin.css';
+import googleIcon from '../../assets/images/google_icon.png'
+import Box from '@mui/material/Box';
 
 function GoogleLogin() {
   return (
-    <div>
-      <h1>GoogleLogin</h1>
-    </div>
+    <Box>
+      <img 
+        className='googleIcon'
+        src={googleIcon} 
+        alt='googleIcon' 
+      />
+    </Box>
   );
 }
 

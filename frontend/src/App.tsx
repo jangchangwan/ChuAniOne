@@ -16,6 +16,7 @@ import Mypage from './components/mypage/MyPage'
 function App() {
   return (
     <BrowserRouter>
+      
       <Nav/>
       <Routes>
         {/* 여기에 링크 추가 */}

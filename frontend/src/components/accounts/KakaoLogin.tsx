@@ -1,11 +1,15 @@
 import React from 'react';
 import './KakaoLogin.css';
-
+import kakaoIcon from "../../assets/images/kakao_icon.png";
+import Box from '@mui/material/Box';
 function KakaoLogin() {
   return (
-    <div>
-      <h1>KakaoLogin</h1>
-    </div>
+    <Box>
+      <img
+        className='kakaoIcon' 
+        src={kakaoIcon} 
+        alt="Kakao_icon" />
+    </Box>
   );
 }
 
