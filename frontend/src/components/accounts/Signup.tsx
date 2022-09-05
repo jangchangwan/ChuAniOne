@@ -1,11 +1,12 @@
-import React from 'react';
 import './Signup.css';
+import * as React from 'react';
+
+
+
 
 function Signup() {
   return (
-    <div>
-      <h1>Signup</h1>
-    </div>
+    <div>아아</div>
   );
 }
 
