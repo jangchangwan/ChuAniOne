@@ -52,4 +52,4 @@ function TalkItem({recommend, mine}: any): any {
   )
 }
 
-export default TalkItem;
+export default TalkItem

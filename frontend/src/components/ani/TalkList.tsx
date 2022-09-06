@@ -17,4 +17,4 @@ function TalkList({recommend}: any): any {
   );
 }
 
-export default TalkList;
+export default TalkList
