@@ -1,11 +1,15 @@
-import React from 'react';
-import './AniDetail.css';
+import React, { ReactElement } from 'react'
+import styled from "styled-components"
 
-function AniDetail() {
+const Container = styled.div`
+`
+
+
+function AniDetail({ recommend }: any): ReactElement {
   return (
-    <div>
+    <Container>
       <h1>AniDetail</h1>
-    </div>
+    </Container>
   );
 }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import './SearchChat.css';
 
 function SearchChat() {
   return (
