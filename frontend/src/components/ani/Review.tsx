@@ -4,7 +4,7 @@ import Rating from '@mui/material/Rating'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import TextField from '@mui/material/TextField'
-import TextareaAutosize from '@mui/material/TextareaAutosize'
+import ReviewList from './ReviewList'
 
 
 const ContentBox = styled.div`
@@ -23,6 +23,7 @@ const StarContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: 1.5rem;
 `
 
 const StarBox = styled.div`
@@ -38,6 +39,7 @@ const StarTitle = styled.h3`
 `
 
 const StarText = styled.h1`
+  margin: 0.7rem;
 `
 
 const StyledRating = styled(Rating)({
@@ -51,6 +53,11 @@ const StyledRating = styled(Rating)({
 
 
 const ReviewInput = styled(TextField)`
+`
+
+const ReviewTitle = styled.p`
+  font-weight: bold;
+  margin-bottom: 0;
 `
 
 
@@ -93,9 +100,9 @@ function Review({ recommend }: any): any {
           />
         </StarBox>
       </StarContainer>
-      <h1>리뷰</h1>
-      <ReviewInput id="outlined-basic" placeholder="리뷰를 입력하세요" variant="outlined" multiline rows={3}/>
-      
+      <ReviewInput id="outlined-basic" placeholder="이 작품에 대한 리뷰를 작성해보세요 !" variant="outlined" multiline rows={3}/>
+        <ReviewTitle>리뷰</ReviewTitle>
+      <ReviewList/>
     </ContentBox>
   );
 }
