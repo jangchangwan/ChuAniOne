@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Carousel from 'react-material-ui-carousel'
 import { Paper } from '@mui/material'
 import axios from "axios"
@@ -75,13 +75,12 @@ const styleBoxDetail = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '75%',
-  height: '90vh',
+  width: '50%',
+  height: '90%',
   bgcolor: 'background.paper',
   borderRadius: '0.3rem',
   border: 'none',
   boxShadow: 24,
-  p: 4
 }
 
 
@@ -120,6 +119,10 @@ function Main() {
   const handleOpenDetail = () => setOpenDetail(true)
   const handleCloseDetail = () => setOpenDetail(false)
 
+  useEffect(()=> {
+    getAni()
+  }, [])
+
   async function getAni(): Promise<void> {
     const ani = await axios.get('https://laftel.net/api/items/v2/40815/')
     await setRecommend({
@@ -144,7 +147,7 @@ function Main() {
     console.log(recommend)
   }
 
-  getAni()
+
 
   const carouselImg: string[] = [
     // "https://image.laftel.net/carousel/carousel_hero_linkclick_w.jpg?Expires=1662364266&Signature=innFnb~9SdcBX25y0PWhzjaONO~f-1lZVyomRikJYzxul8wQ22cj5njbmggI9c8hjv4yTNq~x7Fd1WN7162vNFr9x-pJQedTsxUUGo7OlIELeQhQvxsZU-zAEiCbIzBGWK4TYo4Dpm0fiIpY3gBZy9PywfrsWqIHykh5fpzEIhzJSAoZn~3~GXhbmOWfB0XHzgd-2wB4v4inIvMRLjLFWFETKtM~3XnX5a7wvWs0J7E1lXGiCZTyngCLJeu8mFJAXJhMANFsEYK-VPPXEQ9EgQTm3yxN2KQZqRh-2-ngrhn0QVOOi5kp7ZUwmQ0BFM3V~Uz2aNGyaYDcsaBeGW8cBg__&Key-Pair-Id=APKAJMMAKL567BYWKQ5A",
