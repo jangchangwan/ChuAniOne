@@ -1,5 +1,4 @@
 import React from 'react';
-import './PasswordFind.css';
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';

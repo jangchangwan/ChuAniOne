@@ -1,5 +1,4 @@
 import React from 'react';
-import './SearchList.css';
 
 function SearchList() {
   return (

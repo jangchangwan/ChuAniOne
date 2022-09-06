@@ -1,5 +1,4 @@
 import React from 'react';
-import './ChatBody.css';
 
 function ChatBody() {
   return (

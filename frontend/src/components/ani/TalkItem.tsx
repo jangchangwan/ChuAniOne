@@ -1,5 +1,4 @@
 import React from 'react';
-import './TalkItem.css';
 
 function TalkItem() {
   return (

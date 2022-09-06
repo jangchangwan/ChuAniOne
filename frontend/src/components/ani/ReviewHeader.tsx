@@ -1,5 +1,4 @@
 import React from 'react';
-import './ReviewHeader.css';
 
 function ReviewHeader() {
   return (

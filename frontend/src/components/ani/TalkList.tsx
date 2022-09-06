@@ -1,5 +1,4 @@
 import React from 'react';
-import './TalkList.css';
 
 function TalkList() {
   return (
