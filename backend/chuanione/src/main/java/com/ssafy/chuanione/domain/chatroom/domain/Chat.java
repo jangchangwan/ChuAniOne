@@ -1,9 +1,9 @@
 package com.ssafy.chuanione.domain.chatroom.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.sun.istack.NotNull;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Table(name="chat")
+@ToString
 public class Chat {
 
     @Id
@@ -32,6 +35,11 @@ public class Chat {
     @Column(updatable = false)
     private LocalDateTime sendData;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="member_id", nullable=false, updatable=false)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @NotNull
+//    private Member member;
 
     @Builder
     public Chat(Room room, String sender, String message){
@@ -40,6 +48,8 @@ public class Chat {
         this.message=message;
         this.sendData = LocalDateTime.now();
     }
+
+
     /**채팅 생성
      * @param room 채팅 방
      * @param sender 보낸이

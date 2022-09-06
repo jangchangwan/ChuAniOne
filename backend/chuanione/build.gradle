@@ -31,8 +31,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 // chatroom
-	//	implementation 'org.webjars:sockjs-client:1.0.2'
-//	implementation 'org.webjars:stomp-websocket:2.3.3'
+	implementation 'org.webjars:sockjs-client:1.0.2'
+	implementation 'org.webjars:stomp-websocket:2.3.3'
 }
 tasks.named('test') {
 	useJUnitPlatform()
