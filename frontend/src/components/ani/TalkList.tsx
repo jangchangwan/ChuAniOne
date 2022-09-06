@@ -1,10 +1,19 @@
-import React from 'react';
+import React from 'react'
+import styled from 'styled-components'
+import TalkItem from './TalkItem';
 
-function TalkList() {
+const Container = styled.div`
+`
+
+
+function TalkList({recommend}: any): any {
   return (
-    <div>
-      <h1>TalkList</h1>
-    </div>
+    <Container>
+      <TalkItem recommend={recommend} mine={true}/>
+      <TalkItem recommend={recommend}/>
+      <TalkItem recommend={recommend}/>
+      <TalkItem recommend={recommend}/>
+    </Container>
   );
 }
 
