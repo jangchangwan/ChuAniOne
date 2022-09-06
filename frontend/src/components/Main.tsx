@@ -50,7 +50,6 @@ const RecommendBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 1rem;
 `
 
 const RecommendImgBox = styled.div`
@@ -64,10 +63,10 @@ const RecommendImg = styled.img`
   width: 100%;
   position: top;
   object-fit: cover;
-  /* box-sizing: inherit; */
 `
 
 const RecommendName = styled.p`
+  margin: 0;
 `
 
 const styleBoxDetail = {
@@ -144,7 +143,7 @@ function Main() {
       production: ani.data.production,
       tags: ani.data.tags,
     })
-    console.log(recommend)
+    console.log(ani.data)
   }
 
 
