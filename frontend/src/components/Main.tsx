@@ -7,6 +7,9 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import AniDetail from './ani/AniDetail'
 
+const Container = styled.div`
+  
+`
 
 const CarouselContainer = styled(Carousel)`
   margin-bottom: 3rem;
@@ -50,6 +53,7 @@ const RecommendBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 1.5rem;
 `
 
 const RecommendImgBox = styled.div`
@@ -169,7 +173,7 @@ function Main() {
 
 
   return (
-    <div>
+    <Container>
       <Carousel>
         { carouselImg.map((item: string, idx: number) => (
           <CarouselPaper elevation={0}>
@@ -196,94 +200,94 @@ function Main() {
         <RecommendTitle>당신을 위한 추천 !</RecommendTitle>
         <CarouselContainer indicators={false}>
           <CarouselPaper elevation={0}>
-              <RecommendBox onClick={handleOpenDetail}>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
+            <RecommendBox onClick={handleOpenDetail}>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
 
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
           </CarouselPaper>
 
           <CarouselPaper elevation={0}>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
           </CarouselPaper>
         </CarouselContainer>
       </RecommendContainer>
@@ -292,99 +296,98 @@ function Main() {
         <RecommendTitle>이번 추천은 ?!</RecommendTitle>
         <CarouselContainer indicators={false}>
           <CarouselPaper elevation={0}>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
           </CarouselPaper>
 
           <CarouselPaper elevation={0}>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img}/>
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
+            <RecommendBox>
+              <RecommendImgBox>
+                <RecommendImg src={recommend.img}/>
+              </RecommendImgBox>
+              <RecommendName>{recommend.name}</RecommendName>
+            </RecommendBox>
           </CarouselPaper>
         </CarouselContainer>
       </RecommendContainer>
-
-    </div>
+    </Container>
   )
 }
 
-export default Main;
+export default Main
