@@ -15,8 +15,6 @@ import SignupFormOne from './SignupFormOne';
 import SignupFormTwo from './SignupFormTwo';
 
 
-// 화면전환 애니메이션
-import { motion } from 'framer-motion';
 
 
 const steps = ['Step 1', 'Step 2'];
@@ -44,84 +42,75 @@ function Signup() {
   };
 
   return (
-    <motion.div
-      // initial = {{width: 0}}
-      // animate = {{width: "100%"}}
-      // exit = {{x:window.innerWidth}}
-      initial = {{opacity: 0}}
-      animate = {{opacity: 1}}
-      exit = {{opacity:0}}
-    >
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <AppBar
-          position="absolute"
-          color="default"
-          elevation={0}
-          sx={{
-            position: 'relative',
-            borderBottom: (t) => `1px solid ${t.palette.divider}`,
-          }}
-        >
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar
+        position="absolute"
+        color="default"
+        elevation={0}
+        sx={{
+          position: 'relative',
+          borderBottom: (t) => `1px solid ${t.palette.divider}`,
+        }}
+      >
 
-        </AppBar>
-        <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-          <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-            <Typography component="h1" variant="h4" align="center">
-              회원가입
-            </Typography>
-            <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <React.Fragment>
-              {activeStep === steps.length ? (
-                <React.Fragment>
-                  <Typography variant="h5" gutterBottom>
-                    회원 가입 성공!
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    로그인 화면으로 돌아가 로그인 후 서비스를 이용부탁드리겠습니다.
-                  </Typography>
-                  <Box
-                    sx={{ display: 'flex', justifyContent: 'center'  }}
+      </AppBar>
+      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+          <Typography component="h1" variant="h4" align="center">
+            회원가입
+          </Typography>
+          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <React.Fragment>
+            {activeStep === steps.length ? (
+              <React.Fragment>
+                <Typography variant="h5" gutterBottom>
+                  회원 가입 성공!
+                </Typography>
+                <Typography variant="subtitle1">
+                  로그인 화면으로 돌아가 로그인 후 서비스를 이용부탁드리겠습니다.
+                </Typography>
+                <Box
+                  sx={{ display: 'flex', justifyContent: 'center'  }}
+                >
+                  <Button
+                    variant="contained"
+                    href='/login'
                   >
-                    <Button
-                      variant="contained"
-                      href='/login'
-                    >
-                      로그인으로 이동
+                    로그인으로 이동
+                  </Button>
+                </Box>
+                
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                {getStepContent(activeStep)}
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  {activeStep !== 0 && (
+                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                      Back
                     </Button>
-                  </Box>
-                  
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  {getStepContent(activeStep)}
-                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    {activeStep !== 0 && (
-                      <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                        Back
-                      </Button>
-                    )}
-                    <Button
-                      variant="contained"
-                      onClick={handleNext}
-                      sx={{ mt: 3, ml: 1 }}
-                    >
-                      {activeStep === steps.length - 1 ? 'Signup' : 'Next'}
-                    </Button>
-                  </Box>
-                </React.Fragment>
-              )}
-            </React.Fragment>
-          </Paper>
-        </Container>
-      </ThemeProvider>
-    </motion.div>
+                  )}
+                  <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    sx={{ mt: 3, ml: 1 }}
+                  >
+                    {activeStep === steps.length - 1 ? 'Signup' : 'Next'}
+                  </Button>
+                </Box>
+              </React.Fragment>
+            )}
+          </React.Fragment>
+        </Paper>
+      </Container>
+    </ThemeProvider>
   );
 }
 
