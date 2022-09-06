@@ -39,7 +39,13 @@ function Login() {
       transition = {{ duration: 0.5}}
     >
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <Container 
+          component="main" 
+          maxWidth="xs"
+          sx = {{
+            padding: '3rem'
+          }}
+          >
           <CssBaseline />
           <Box
             boxShadow={2}

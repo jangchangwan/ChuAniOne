@@ -38,7 +38,12 @@ function SignupFormTwo() {
     id="birthday"
     autoComplete="birthday"
     />
-    <FormControl>
+    <FormControl
+      sx={{
+        top: '0.5rem',
+        left: '-9.5rem'
+      }}
+    >
       <FormLabel id="demo-row-radio-buttons-group-label">성별</FormLabel>
       <RadioGroup
         row
