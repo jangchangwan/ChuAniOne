@@ -27,9 +27,9 @@ const NavContainer = styled.div`
 `
 
 const NavGrid = styled(Grid)`
-  &:hover .test{
-    scale: 1.2 !important;
-    transition: 0.5s !important;
+  &:hover Navhref{
+    scale: 1.2;
+    transition: 0.5s;
   }
 `
 
@@ -39,7 +39,11 @@ const Navhref = styled(NavLink)`
   color: black;
   font-weight: 700;
   margin-left: 2rem;
-  
+
+  &:hover{
+    scale: 1.2;
+    transition: 0.5s;
+  }
 
 `
 
@@ -67,7 +71,7 @@ function Nav() {
   // else if (window.location.pathname === '/pwd') return null;
 
   return (
-    <NavContainer style={ show ? { backgroundColor: 'black'}  : {backgroundColor: 'transparent'}} >
+    <NavContainer style={ show ? { backgroundColor: '#f37b83'}  : {backgroundColor: 'transparent'}} >
       <LogoImg
         src={logoicon}
         alt="Logo"
@@ -89,12 +93,12 @@ function Nav() {
             marginTop: '1rem'
           }}
         >
-          <Navhref className='test' style={ show ? { color: 'white'}  : {color: 'black'}} to="/">Main</Navhref>
-          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/intro">Intro</Navhref>
-          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/search">Search</Navhref>
+          <Navhref className='test' style={ show ? { color: 'white'}  : {color: 'black'}} to="/">메인</Navhref>
+          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/intro">소개</Navhref>
+          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/search">검색</Navhref>
           
-          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/openchat">OpenChat</Navhref>
-          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/bigvoca">BigVoca</Navhref>
+          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/openchat">오픈채팅</Navhref>
+          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/bigvoca">빅보카</Navhref>
         </NavGrid>
 
         {/* 로그인 유무에 따른 변화 */}
@@ -104,9 +108,9 @@ function Nav() {
         >
           {
             isLogin ? 
-            <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/mypage">Mypage</Navhref>
+            <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/mypage">마이페이지</Navhref>
           :
-            <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/login">Login</Navhref>
+            <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/login">로그인</Navhref>
           }
         </Grid>
       </Grid>

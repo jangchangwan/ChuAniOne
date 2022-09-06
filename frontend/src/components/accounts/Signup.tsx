@@ -18,7 +18,7 @@ import SignupFormTwo from './SignupFormTwo';
 import { motion } from 'framer-motion';
 
 
-const steps = ['Step 1', 'Step 2'];
+const steps = ['이메일 및 비밀번호 입력', '개인정보 입력'];
 
 function getStepContent(step: number) {
   switch (step) {
@@ -44,12 +44,9 @@ function Signup() {
 
   return (
     <motion.div
-      initial = {{width: 0}}
-      animate = {{width: "100%"}}
-      exit = {{x:window.innerWidth}}
-      // initial = {{opacity: 0}}
-      // animate = {{opacity: 1}}
-      // exit = {{opacity:0}}
+      initial = {{opacity: 0}}
+      animate = {{opacity: 1}}
+      exit = {{opacity:0}}
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -103,7 +100,7 @@ function Signup() {
                   <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     {activeStep !== 0 && (
                       <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                        Back
+                        뒤로
                       </Button>
                     )}
                     <Button
@@ -111,7 +108,7 @@ function Signup() {
                       onClick={handleNext}
                       sx={{ mt: 3, ml: 1 }}
                     >
-                      {activeStep === steps.length - 1 ? 'Signup' : 'Next'}
+                      {activeStep === steps.length - 1 ? '회원가입' : '다음'}
                     </Button>
                   </Box>
                 </React.Fragment>

@@ -45,8 +45,8 @@ function SignupFormTwo() {
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
       >
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
+        <FormControlLabel value="female" control={<Radio />} label="남성" />
+        <FormControlLabel value="male" control={<Radio />} label="여성" />
       </RadioGroup>
     </FormControl>
     </Box>

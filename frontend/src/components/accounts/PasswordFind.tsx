@@ -37,7 +37,7 @@ function PasswordFind() {
           >
 
             <Typography component="h1" variant="h5">
-              SignUp
+              비밀번호 찾기
             </Typography>
             <Box 
               component="form" 
@@ -130,7 +130,7 @@ function PasswordFind() {
                 color="success"
                 sx={{ mt: 1, mb: 3 }}
               >
-                회원가입
+                비밀번호 변경
               </Button>
             </Box>
           </Box>
