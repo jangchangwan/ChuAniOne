@@ -1,11 +1,14 @@
 import React from 'react';
-import './Bigvoca.css';
+import Container from '@mui/material/Container';
+
+import WordList from './WordList';
 
 function Bigvoca() {
   return (
-    <div>
-      <h1>Bigvoca</h1>
-    </div>
+    <Container>
+      <div></div>
+      <WordList></WordList>
+    </Container>
   );
 }
 

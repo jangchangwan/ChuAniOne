@@ -1,5 +1,4 @@
 import React from 'react';
-import './WordItem.css';
 
 function WordItem() {
   return (

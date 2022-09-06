@@ -1,4 +1,3 @@
-import './Signup.css';
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
@@ -45,12 +44,12 @@ function Signup() {
 
   return (
     <motion.div
-      // initial = {{width: 0}}
-      // animate = {{width: "100%"}}
-      // exit = {{x:window.innerWidth}}
-      initial = {{opacity: 0}}
-      animate = {{opacity: 1}}
-      exit = {{opacity:0}}
+      initial = {{width: 0}}
+      animate = {{width: "100%"}}
+      exit = {{x:window.innerWidth}}
+      // initial = {{opacity: 0}}
+      // animate = {{opacity: 1}}
+      // exit = {{opacity:0}}
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />

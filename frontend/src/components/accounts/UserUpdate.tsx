@@ -1,5 +1,4 @@
 import React from 'react';
-import './UserUpdate.css';
 
 function UserUpdate() {
   return (
