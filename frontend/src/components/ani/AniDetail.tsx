@@ -174,7 +174,7 @@ function AniDetail({ recommend, }: any): any {
             <Review recommend={recommend}/>
           </TabPanel>
           <TabPanel value={value} index={2}>
-            {/* <SimilarAni recommend={recommend}/> */}
+            <SimilarAni recommend={recommend}/>
           </TabPanel>
           <TabPanel value={value} index={3}>
             {/* <Talk recommend={recommend}/> */}

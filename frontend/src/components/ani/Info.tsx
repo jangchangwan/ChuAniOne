@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 
-const ContentBox = styled.div`
+const Container = styled.div`
   width: 90%;
   height: 95%;
   padding: 2.5% 5%;
@@ -34,21 +34,19 @@ const Genre = styled.span`
 
 function Info({ recommend, }: any): any {
   return (
-    <div>
-      <ContentBox>
-        {/* <Content>{ recommend.content_rating }</Content> */}
-        <ContentBold>제작</ContentBold>
-        <Content>{recommend.production}</Content>
-        <Genres>
-          { recommend.genres.map((genre: string, idx: number) => (
-            <Genre>{genre}</Genre>
-          ))}
-        </Genres>
-        <Title>줄거리</Title>
-        <Content>{recommend.content}</Content>
-      </ContentBox>
-    </div>
-  );
+    <Container>
+      {/* <Content>{ recommend.content_rating }</Content> */}
+      <ContentBold>제작</ContentBold>
+      <Content>{recommend.production}</Content>
+      <Genres>
+        { recommend.genres.map((genre: string, idx: number) => (
+          <Genre>{genre}</Genre>
+        ))}
+      </Genres>
+      <Title>줄거리</Title>
+      <Content>{recommend.content}</Content>
+    </Container>
+  )
 }
 
 export default Info;

@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField'
 import ReviewList from './ReviewList'
 
 
-const ContentBox = styled.div`
+const Container = styled.div`
   width: 90%;
   height: 95%;
   padding: 2.5% 5%;
@@ -70,7 +70,7 @@ function Review({ recommend }: any): any {
   }
 
   return (
-    <ContentBox>
+    <Container>
       <StarContainer>
         <StarBox>
           <StarTitle>내 별점</StarTitle>
@@ -103,8 +103,8 @@ function Review({ recommend }: any): any {
       <ReviewInput id="outlined-basic" placeholder="이 작품에 대한 리뷰를 작성해보세요 !" variant="outlined" multiline rows={3}/>
         <ReviewTitle>리뷰</ReviewTitle>
       <ReviewList/>
-    </ContentBox>
-  );
+    </Container>
+  )
 }
 
 export default Review;
