@@ -21,12 +21,6 @@ const SubTopic = styled.div`
   font-weight: 500;
 `
 
-const pageChangeDiv = styled.div`
-  height: 100%;
-  width: 20%;
-  background-color: black;
-`
-
 
 function Bigvoca() {
   return (
@@ -62,7 +56,7 @@ function Bigvoca() {
       <motion.div
         initial = {{ y:-400 }}
         animate = {{ y: -10 }}
-        transition = {{ delay: 0.6, type: 'spring', stiffness: 120 }}
+        transition = {{ delay: 0.5, type: 'spring', stiffness: 120 }}
         
       >
         <MajorTopic>
@@ -72,7 +66,7 @@ function Bigvoca() {
       <motion.div
         initial = {{ y:-400 }}
         animate = {{ y: -10 }}
-        transition = {{ delay: 0.8, type: 'spring', stiffness: 120  }}
+        transition = {{ delay: 0.7, type: 'spring', stiffness: 120  }}
       >
         <SubTopic>
           <p>30만개의 리뷰와 2355개의 애니 분석을 통해</p>
@@ -82,7 +76,7 @@ function Bigvoca() {
       <motion.div
         initial = {{ y:-700 }}
         animate = {{ y: -10 }}
-        transition = {{ delay: 1, type: 'spring', stiffness: 120  }}
+        transition = {{ delay: 0.9, type: 'spring', stiffness: 120  }}
       >
         <Grid container>
           <Grid item xs={5}>
