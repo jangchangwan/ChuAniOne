@@ -1,5 +1,4 @@
 import React from 'react';
-import './ChatLeft.css';
 
 function ChatLeft() {
   return (
