@@ -1,5 +1,4 @@
 import React from 'react';
-import './OpenChat.css';
 
 function OpenChat() {
   return (

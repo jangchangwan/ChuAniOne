@@ -1,5 +1,4 @@
 import React from 'react';
-import './ChatRoomItem.css';
 
 function ChatRoomItem() {
   return (

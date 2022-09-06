@@ -1,5 +1,4 @@
 import React from 'react';
-import './ChatTotal.css';
 
 function ChatTotal() {
   return (
