@@ -1,10 +1,8 @@
 import { NavLink } from "react-router-dom";
-import React, { useState } from 'react';
 
 import "./Nav.css";
 
 function Nav() {
-
   // 로그인 , 회원가입, 비밀번호 찾기 인 경우 네비게이션 바 없애기
   if (window.location.pathname === '/login') return null;
   else if (window.location.pathname === '/signup') return null;
