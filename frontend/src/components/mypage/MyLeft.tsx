@@ -1,5 +1,5 @@
-import React from 'react';
-import './MyLeft.css';
+import React from 'react'
+
 
 function MyLeft() {
   return (

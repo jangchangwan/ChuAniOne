@@ -1,5 +1,5 @@
-import React from 'react';
-import './MyAniList.css';
+import React from 'react'
+
 
 function MyAniList() {
   return (
