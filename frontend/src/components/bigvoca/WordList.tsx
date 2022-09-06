@@ -1,5 +1,4 @@
 import React from 'react';
-import './WordList.css';
 
 function WordList() {
   return (

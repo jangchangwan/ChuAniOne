@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components"
-import "./Nav.css";
 import logoicon from '../assets/images/Logo.png'
 import React, {useState, useEffect} from 'react';
 import Grid from '@mui/material/Grid';

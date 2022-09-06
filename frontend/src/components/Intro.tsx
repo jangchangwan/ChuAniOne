@@ -1,5 +1,4 @@
 import React from 'react';
-import './Intro.css';
 import { motion } from 'framer-motion';
 import Box from '@mui/material/Box';
 function Intro() {
