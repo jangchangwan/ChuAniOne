@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -14,6 +16,11 @@ import javax.persistence.Entity;
 @Builder
 @AllArgsConstructor
 public class JoinUser {
+
+    @Id
+    @GeneratedValue
+    @Column(name="member_room_id")
+    private Long id;
 
     @Column(name="room_id")
     private Room room_id; //방번호
