@@ -1,5 +1,6 @@
 package com.ssafy.chuanione.domain.chatroom.domain;
 
+import com.ssafy.chuanione.domain.member.domain.Member;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+//@AllArgsConstructor
 @Table(name="chat")
 @ToString
 public class Chat {
@@ -28,7 +29,7 @@ public class Chat {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private String sender; //보낸사람
+    private Member sender; //보낸사람
 
     @Column(columnDefinition = "TEXT")
     private String message;
