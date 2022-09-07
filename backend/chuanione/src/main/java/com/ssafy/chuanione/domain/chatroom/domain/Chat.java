@@ -24,16 +24,18 @@ public class Chat {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
-    private Room room;
+    private Room room; //방번호
 
-    private String sender;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private String sender; //보낸사람
 
     @Column(columnDefinition = "TEXT")
     private String message;
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime sendData;
+    private LocalDateTime sendDate;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name="member_id", nullable=false, updatable=false)
@@ -46,7 +48,7 @@ public class Chat {
         this.room=room;
         this.sender=sender;
         this.message=message;
-        this.sendData = LocalDateTime.now();
+        this.sendDate = LocalDateTime.now();
     }
 
 

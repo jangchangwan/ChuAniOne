@@ -4,10 +4,7 @@ package com.ssafy.chuanione.domain.chatroom.domain;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -18,8 +15,12 @@ public class Room {
     @Id
     @GeneratedValue
     @Column(name = "room_id")
-    private Long id;
-    private String name;
+    private Long id; //방번호
+    private String name; //방이름
+
+//    @ManyToMany
+//    @JoinColumn(name = "member_id")
+//    private String admin; //방장 admin? master? owner?
 
     @Builder
     public Room(String name) {

@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a09db53d-39d8-46b1-81ac-78b9c426adfd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/chatroom/domain/Chat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/chatroom/domain/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chuanione/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chuanione/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="a09db53d-39d8-46b1-81ac-78b9c426adfd" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,7 +117,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1662339870766</updated>
-      <workItem from="1662339872886" duration="6983000" />
+      <workItem from="1662339872886" duration="7730000" />
     </task>
     <servers />
   </component>
