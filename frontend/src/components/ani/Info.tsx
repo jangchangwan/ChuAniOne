@@ -49,4 +49,4 @@ function Info({ recommend, }: any): any {
   )
 }
 
-export default Info;
+export default Info
