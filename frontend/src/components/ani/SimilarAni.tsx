@@ -1,5 +1,4 @@
 import React from 'react';
-import './SimilarAni.css';
 
 function SimilarAni() {
   return (

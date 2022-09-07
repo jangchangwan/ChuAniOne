@@ -1,11 +1,24 @@
 import React from 'react';
-import './Intro.css';
-
+import { motion } from 'framer-motion';
+import Box from '@mui/material/Box';
 function Intro() {
   return (
-    <div>
+    <motion.div
+      
+      initial = {{opacity: 0}}
+      animate = {{opacity: 1}}
+      exit = {{opacity:0}}
+    >
       <h1>Intro</h1>
-    </div>
+      <Box
+        sx={{
+          height: '300vh',
+        }}
+      >
+        아아
+      </Box>
+    </motion.div>
+
   );
 }
 

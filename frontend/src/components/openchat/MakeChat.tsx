@@ -1,5 +1,4 @@
 import React from 'react';
-import './MakeChat.css';
 
 function MakeChat() {
   return (

@@ -1,5 +1,5 @@
-import React from 'react';
-import './MyWordList.css';
+import React from 'react'
+
 
 function MyWordList() {
   return (

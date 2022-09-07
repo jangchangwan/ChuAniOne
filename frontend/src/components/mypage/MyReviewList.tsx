@@ -1,5 +1,5 @@
-import React from 'react';
-import './MyPageList.css';
+import React from 'react'
+
 
 function MyPageList() {
   return (

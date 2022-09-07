@@ -1,5 +1,5 @@
-import React from 'react';
-import './MyGoalList.css';
+import React from 'react'
+
 
 function MyGoalList() {
   return (

@@ -1,10 +1,13 @@
 import React from 'react';
-import './WordList.css';
-
+import WordItem from './WordItem';
 function WordList() {
   return (
     <div>
-      <h1>WordList</h1>
+      <h1>애니 단어장</h1>
+      <WordItem></WordItem>
+      <WordItem></WordItem>
+      <WordItem></WordItem>
+      <WordItem></WordItem>
     </div>
   );
 }
