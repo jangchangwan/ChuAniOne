@@ -180,7 +180,7 @@ function AniDetail({ recommend, }: any): any {
             <Talk recommend={recommend}/>
           </TabPanel>
           <TabPanel value={value} index={4}>
-            {/* <Books recommend={recommend}/> */}
+            <Books recommend={recommend}/>
           </TabPanel> 
         </TabBox>
         : null
