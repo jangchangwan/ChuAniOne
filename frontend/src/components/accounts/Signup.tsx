@@ -1,5 +1,6 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+
+// CSS 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -9,7 +10,8 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+// 하위컴포넌트
 import SignupFormOne from './SignupFormOne';
 import SignupFormTwo from './SignupFormTwo';
 
@@ -29,7 +31,6 @@ function getStepContent(step: number) {
   }
 }
 
-const theme = createTheme();
 
 function Signup() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -47,9 +48,14 @@ function Signup() {
       initial = {{opacity: 0}}
       animate = {{opacity: 1}}
       exit = {{opacity:0}}
+      
+
     >
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <Container
+        sx = {{
+          padding: '3rem'
+        }}
+        >
         <AppBar
           position="absolute"
           color="default"
@@ -116,7 +122,7 @@ function Signup() {
             </React.Fragment>
           </Paper>
         </Container>
-      </ThemeProvider>
+      </Container>
     </motion.div>
   );
 }

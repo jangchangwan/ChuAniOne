@@ -20,7 +20,13 @@ function PasswordFind() {
       exit = {{opacity:0}}
       transition = {{ duration: 0.5}}
       >
-        <Container component="main" maxWidth="xs">
+        <Container 
+          component="main" 
+          maxWidth="xs"
+          sx = {{
+            padding: '3rem'
+          }}
+        >
           <CssBaseline />
           <Box
             boxShadow={2}
