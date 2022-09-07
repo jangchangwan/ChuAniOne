@@ -1,2 +1,4 @@
-package com.ssafy.chuanione.global.config;public class SecurityConfig {
+package com.ssafy.chuanione.global.config;
+
+public class SecurityConfig {
 }
