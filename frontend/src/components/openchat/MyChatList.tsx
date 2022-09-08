@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import MyChatItem from './MyChatItem'
 import Pagination from '@mui/material/Pagination'
+import { PaginationItem } from '@mui/material'
 
 const Container = styled.div`
   width: 96%;
@@ -89,8 +90,18 @@ function MyChatList() {
   }
 
   const handlePage = (event: any) => {
-    const nowPageInt = parseInt(event.target.outerText)
-    setPage(nowPageInt)
+    if (event.target.dataset.testid) {
+      if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
+        const nowPageInt = page - 1
+        setPage(nowPageInt)
+      } else if (event.target.dataset.testid === "NavigateNextIcon" && page < lastPage) {
+        const nowPageInt = page + 1
+        setPage(nowPageInt)
+      }
+    } else {
+      const nowPageInt = parseInt(event.target.outerText)
+      setPage(nowPageInt)
+    }
   }
 
   return (
@@ -102,7 +113,7 @@ function MyChatList() {
         ) : null
       }
       <PageBox>
-        <Pagination count={lastPage} defaultPage={1} boundaryCount={2} 
+        <Pagination count={lastPage} defaultPage={1} boundaryCount={2}
           size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)} />
       </PageBox>
     </Container>

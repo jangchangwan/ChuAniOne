@@ -121,8 +121,18 @@ function ChatTotalList() {
   }
 
   const handlePage = (event: any) => {
-    const nowPageInt = parseInt(event.target.outerText)
-    setPage(nowPageInt)
+    if (event.target.dataset.testid) {
+      if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
+        const nowPageInt = page - 1
+        setPage(nowPageInt)
+      } else if (event.target.dataset.testid === "NavigateNextIcon" && page < lastPage) {
+        const nowPageInt = page + 1
+        setPage(nowPageInt)
+      }
+    } else {
+      const nowPageInt = parseInt(event.target.outerText)
+      setPage(nowPageInt)
+    }
   }
 
 
