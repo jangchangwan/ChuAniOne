@@ -81,8 +81,6 @@ const TabBox = styled.div`
 `
 
 const TabDiv = styled.div`
-
-
 `
 
 const DetailBox = styled(Box)`
@@ -114,7 +112,7 @@ function TabPanel(props: TabPanelProps) {
         </DetailBox>
       )}
     </TabDiv>
-  );
+  )
 }
 
 
