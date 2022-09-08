@@ -32,7 +32,7 @@ const ProfileContainerBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 70%;
+  width: 100%;
 `
 
 // 레벨과 닉네임
@@ -40,21 +40,23 @@ const ProfileContainerLv = styled.div`
   display: flex;
   align-items: flex-start;
   font-size: 1.5rem;
-  margin: 0 0 1rem 0;
+  /* margin: 0 0 1rem 0; */
 `
 
 // 경험치 바 위의 텍스트 박스
 const ProfileContainerExpTextBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: end;
   width: 100%;
-  height: 1rem;
+  /* height: 1rem; */
   margin-bottom: 0.5rem;
 `
 
 // 텍스트 박스 안의 왼쪽, 오른쪽 텍스트
 const ProfileContainerExpText = styled.div`
   height: 1rem;
+  font-size: 0.8rem;
 `
 
 // 경험치 바 밖
@@ -62,38 +64,42 @@ const ProfileContainerExpOut = styled.div`
   border: solid 1px;
   width: 100%;
   height: 1rem;
-  border-radius: 5%;
+  border-radius: 10px 10px 10px 10px;
   border-color: #f37b83;
 `
 
 // 경험치 바 안
 const ProfileContainerExpIn = styled.div`
   height: 1rem;
-  border-radius: 5%;
+  border-radius: 10px 10px 10px 10px;
   background-color: #f37b83; 
 `
 
 // 소개
 const IntroductonBox = styled.div`
-  margin: 1rem 2rem 1rem 0;
+  margin: 2rem 0 2rem 0;
 `
 
 // 벳지 박스
 const BadgeBox = styled.div`
-  display: flex;
-  flex-direction: row;
+  /* display: inline; */
+  /* flex-direction: row; */
   /* align-items: flex-start; */
-  align-items: center;
-  flex-wrap: wrap;
+  /* align-items: center; */
+  /* flex-wrap: wrap; */
+  /* justify-content: left; */
 `
 
 // 벳지 이미지
 const BadgeImg = styled.img`
-  width: 2.5rem;
-  display: flex;
-  justify-content: center; 
-  align-items: center;
-  margin: 1rem;
+  /* width: 2.5rem; */
+  width: 2rem;
+  height: 2rem;
+  /* display: flex; */
+  /* justify-content: center;  */
+  /* align-items: center; */
+  /* margin: 0; */
+  /* margin: 2rem; */
   filter: drop-shadow(5px 5px 5px #000); // 배경 짤라야 온전하게 그림자 적용 가능
 `
 
@@ -108,16 +114,12 @@ function MyLeft() {
   }
 
   const exp:number = 370
-  const level:number = Math.floor(exp/100)+1  // 소수점 버림
+  const tier:any = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']
+  const mytier:string = tier[Math.floor(exp/100)]  // 소수점 버림
   const myexp:number = exp%100
   const imgArr:any = [0, badgeicon1, badgeicon2, badgeicon3]
   const imgArrId:any = [1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2] // 12개
-  // let imgLine:number = 1
-  // let imgArrIdLen:number = imgArrId.length
-  // while (imgArrIdLen > 8) {
-  //   imgLine += 1
-  //   imgArrIdLen -= 8
-  // }
+
 
 
   return (
@@ -127,20 +129,59 @@ function MyLeft() {
       <ProfileContainer>
         <ProfileImg src={profileicon}></ProfileImg>
         <ProfileContainerBox>
-          <ProfileContainerLv>Lv {level}   닉네임</ProfileContainerLv>
+          <ProfileContainerLv>{mytier}({myexp})   닉네임</ProfileContainerLv>
           <ProfileContainerExpTextBox>
-            <ProfileContainerExpText>현재 경험치 : {myexp}</ProfileContainerExpText>
-            <ProfileContainerExpText>다음 레벨까지 : {100 - myexp} !!</ProfileContainerExpText>
+            {/* <ProfileContainerExpText style={{ color:"blue" }}>현재 경험치 : {myexp}</ProfileContainerExpText> */}
+            <ProfileContainerExpText style={{ color:"red" }}>다음 레벨까지 : {100 - myexp} !!</ProfileContainerExpText>
           </ProfileContainerExpTextBox>
           <ProfileContainerExpOut>
             <ProfileContainerExpIn style={{ width: `${myexp}%`}}></ProfileContainerExpIn>
           </ProfileContainerExpOut>
         </ProfileContainerBox>
       </ProfileContainer>
+      {/* <IntroductonBox style={{ color:"#f37b83" }}> */}
       <IntroductonBox>
         안녕하세요 아이자와 소영입니다! #도리벤 좋아함 암튼 자기소개 100자 간단 하 게 . . .... 잠오는ing 많관부 바이루
       </IntroductonBox>
-      <BadgeBox>
+      <Grid container>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[0]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[1]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[2]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[3]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[4]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[5]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[6]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[7]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[8]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1} margin={1}>
+          <BadgeImg src={imgArr[imgArrId[9]]}></BadgeImg>
+        </Grid>
+        {/* <Grid item xs={2} xl={1}>
+          <BadgeImg src={imgArr[imgArrId[10]]}></BadgeImg>
+        </Grid>
+        <Grid item xs={2} xl={1}>
+          <BadgeImg src={imgArr[imgArrId[11]]}></BadgeImg>
+        </Grid> */}
+      </Grid>
+      {/* <BadgeBox>
         <BadgeImg src={imgArr[imgArrId[0]]}></BadgeImg>
         <BadgeImg src={imgArr[imgArrId[1]]}></BadgeImg>
         <BadgeImg src={imgArr[imgArrId[2]]}></BadgeImg>
@@ -153,7 +194,7 @@ function MyLeft() {
         <BadgeImg src={imgArr[imgArrId[9]]}></BadgeImg>
         <BadgeImg src={imgArr[imgArrId[10]]}></BadgeImg>
         <BadgeImg src={imgArr[imgArrId[11]]}></BadgeImg>
-      </BadgeBox>
+      </BadgeBox> */}
     </div>
   );
 }
