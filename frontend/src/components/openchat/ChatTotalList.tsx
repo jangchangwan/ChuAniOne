@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ChatTotalItem from './ChatTotalItem'
 import Pagination from '@mui/material/Pagination'
-import Stack from '@mui/material/Stack'
 
 const Container = styled.div`
   width: 96%;
@@ -106,9 +105,9 @@ function ChatTotalList() {
     } else {
       setLastPage(value)
     }
-    getPageData()
+    
   }, [])
-
+  
   useEffect(() => {
     getPageData()
     }, [page])
