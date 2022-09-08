@@ -1,2 +1,4 @@
-package com.ssafy.chuanione.domain.model;public class BaseTime {
+package com.ssafy.chuanione.domain.model;
+
+public class BaseTime {
 }
