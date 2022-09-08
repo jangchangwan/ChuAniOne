@@ -5,7 +5,7 @@ function ChatItem() {
     <div>
       <h1>ChatItem</h1>
     </div>
-  );
+  )
 }
 
-export default ChatItem;
+export default ChatItem
