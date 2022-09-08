@@ -11,7 +11,7 @@ const Container = styled.div`
   margin: 7.5% 3rem;
   background-color: #FCE2DB;
   border-radius: 2rem;
-  outline: 0.4rem solid #f37b83;
+  outline: 0.35rem solid #f37b83;
 
   display: flex;
   flex-direction: column;
