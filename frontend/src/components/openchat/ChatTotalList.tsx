@@ -19,6 +19,7 @@ const PageBox = styled.div`
   left: 0;
 `
 
+
 function ChatTotalList() {
   interface Data {
     room_name: string,
@@ -95,7 +96,7 @@ function ChatTotalList() {
 
   const [lastPage, setLastPage] = useState<number>(1)
   const value = parseInt(`${data.length / 5}`)
-  
+
   const [page, setPage] = useState<number>(1)
   const [showData, setShowData] = useState<Data[]>([])
 
@@ -105,7 +106,6 @@ function ChatTotalList() {
     } else {
       setLastPage(value)
     }
-    
   }, [])
   
   useEffect(() => {
@@ -125,6 +125,7 @@ function ChatTotalList() {
     setPage(nowPageInt)
   }
 
+
   return (
     <Container>
       { showData ?
@@ -135,7 +136,7 @@ function ChatTotalList() {
       }
       <PageBox>
         <Pagination count={lastPage} defaultPage={1} boundaryCount={2} 
-          color="secondary" size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)} />
+          size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)} />
       </PageBox>
     </Container>
   )

@@ -103,7 +103,7 @@ function MyChatList() {
       }
       <PageBox>
         <Pagination count={lastPage} defaultPage={1} boundaryCount={2} 
-          color="secondary" size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)} />
+          size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)} />
       </PageBox>
     </Container>
   )

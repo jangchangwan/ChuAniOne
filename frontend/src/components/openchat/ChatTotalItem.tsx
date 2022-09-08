@@ -2,11 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import Button from '@mui/material/Button'
 
+
 const Container = styled.div`
   width: 100%;
   height: 17%;
   margin-bottom: 1rem;
-  background-color: pink;
+  background-color: #F4F4F4;
   border-radius: 1.5rem;
 
   display: flex;
@@ -68,7 +69,9 @@ const EnterRoom = styled(Button)`
   margin: 0;
   font-size: 1.1rem;
   border-radius: 2rem !important;
+  background-color: #f37b83 !important;
 `
+
 
 function ChatTotalItem({ chatData }: any): any {
   return (
@@ -86,7 +89,7 @@ function ChatTotalItem({ chatData }: any): any {
           <MemberCount>{chatData.now_num} / {chatData.max_num}</MemberCount>
         </MemberCountBox>
         <EnterRoomBox>
-          <EnterRoom variant="contained" color="secondary">입장하기</EnterRoom>
+          <EnterRoom variant="contained">입장하기</EnterRoom>
         </EnterRoomBox>
       </RoomBox>
     </Container>

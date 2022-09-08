@@ -6,7 +6,7 @@ const Container = styled.div`
   width: 100%;
   height: 17%;
   margin-bottom: 1rem;
-  background-color: pink;
+  background-color: #F4F4F4;
   border-radius: 1.5rem;
 
   display: flex;
@@ -68,6 +68,7 @@ const EnterRoom = styled(Button)`
   margin: 0;
   font-size: 1.1rem;
   border-radius: 2rem !important;
+  background-color: #f37b83 !important;
 `
 
 function MyChatItem({ chatData }: any): any {
