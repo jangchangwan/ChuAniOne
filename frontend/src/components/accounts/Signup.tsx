@@ -1,5 +1,6 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+
+// CSS 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -9,7 +10,8 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+// 하위컴포넌트
 import SignupFormOne from './SignupFormOne';
 import SignupFormTwo from './SignupFormTwo';
 
@@ -18,7 +20,7 @@ import SignupFormTwo from './SignupFormTwo';
 import { motion } from 'framer-motion';
 
 
-const steps = ['Step 1', 'Step 2'];
+const steps = ['이메일 및 비밀번호 입력', '개인정보 입력'];
 
 function getStepContent(step: number) {
   switch (step) {
@@ -29,7 +31,6 @@ function getStepContent(step: number) {
   }
 }
 
-const theme = createTheme();
 
 function Signup() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -44,15 +45,17 @@ function Signup() {
 
   return (
     <motion.div
-      initial = {{width: 0}}
-      animate = {{width: "100%"}}
-      exit = {{x:window.innerWidth}}
-      // initial = {{opacity: 0}}
-      // animate = {{opacity: 1}}
-      // exit = {{opacity:0}}
+      initial = {{opacity: 0}}
+      animate = {{opacity: 1}}
+      exit = {{opacity:0}}
+      
+
     >
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <Container
+        sx = {{
+          padding: '3rem'
+        }}
+        >
         <AppBar
           position="absolute"
           color="default"
@@ -103,7 +106,7 @@ function Signup() {
                   <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     {activeStep !== 0 && (
                       <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                        Back
+                        뒤로
                       </Button>
                     )}
                     <Button
@@ -111,7 +114,7 @@ function Signup() {
                       onClick={handleNext}
                       sx={{ mt: 3, ml: 1 }}
                     >
-                      {activeStep === steps.length - 1 ? 'Signup' : 'Next'}
+                      {activeStep === steps.length - 1 ? '회원가입' : '다음'}
                     </Button>
                   </Box>
                 </React.Fragment>
@@ -119,7 +122,7 @@ function Signup() {
             </React.Fragment>
           </Paper>
         </Container>
-      </ThemeProvider>
+      </Container>
     </motion.div>
   );
 }

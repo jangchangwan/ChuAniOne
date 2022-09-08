@@ -20,7 +20,13 @@ function PasswordFind() {
       exit = {{opacity:0}}
       transition = {{ duration: 0.5}}
       >
-        <Container component="main" maxWidth="xs">
+        <Container 
+          component="main" 
+          maxWidth="xs"
+          sx = {{
+            padding: '3rem'
+          }}
+        >
           <CssBaseline />
           <Box
             boxShadow={2}
@@ -37,7 +43,7 @@ function PasswordFind() {
           >
 
             <Typography component="h1" variant="h5">
-              SignUp
+              비밀번호 찾기
             </Typography>
             <Box 
               component="form" 
@@ -130,7 +136,7 @@ function PasswordFind() {
                 color="success"
                 sx={{ mt: 1, mb: 3 }}
               >
-                회원가입
+                비밀번호 변경
               </Button>
             </Box>
           </Box>
