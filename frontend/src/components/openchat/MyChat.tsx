@@ -45,7 +45,12 @@ function MyChat() {
   return (
     <Container>
       <SearchBox>
-        <SearchInput id="outlined-basic" placeholder='검색어를 입력하세요' variant="outlined"  />
+        <SearchInput id="outlined-basic" placeholder='검색어를 입력하세요' variant="outlined" 
+          sx={{
+            "& .MuiOutlinedInput-root.Mui-focused": {
+              "& > fieldset": {
+              borderColor: "#f37b83"
+          }}}}/>
         <SearchIconBox>
           <SearchIcon1/>
         </SearchIconBox>

@@ -93,7 +93,12 @@ function MakeChat() {
         <Box>
           <Name>방제목</Name>
           <InputField variant="outlined" fullWidth
-            value={room.name}  onChange={(e) => setRoom({...room, name: e.target.value})} />
+            value={room.name}  onChange={(e) => setRoom({...room, name: e.target.value})} 
+            sx={{
+              "& .MuiOutlinedInput-root.Mui-focused": {
+                "& > fieldset": {
+                borderColor: "#f37b83"
+            }}}}/>
         </Box>
         <Box>
           <Name>해시태그</Name>
@@ -107,7 +112,13 @@ function MakeChat() {
                   addHash()
                   setHash('')
                 }
-              }}/>
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused": {
+                  "& > fieldset": {
+                  borderColor: "#f37b83"
+              }}}}
+              />
           : null }
         </Box>
         <Box>
@@ -115,7 +126,11 @@ function MakeChat() {
           <InputField type="number" InputProps={{ inputProps: { min: 2, max: 5 } }} 
             variant="outlined" fullWidth value={room.member}
             onChange={(e) => setRoom({...room, member: parseInt(e.target.value)})}
-            />
+            sx={{
+              "& .MuiOutlinedInput-root.Mui-focused": {
+                "& > fieldset": {
+                borderColor: "#f37b83"
+            }}}}/>
         </Box>
       </BoxDiv>
       <Box>
