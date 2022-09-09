@@ -1,10 +1,20 @@
-import React from 'react';
+import React from 'react'
+import styled from 'styled-components'
+import ReviewItem from './ReviewItem'
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
 function ReviewList() {
   return (
-    <div>
-      <h1>ReviewList</h1>
-    </div>
+    <Container>
+      <ReviewItem/>
+      <ReviewItem/>
+      <ReviewItem/>
+      <ReviewItem/>
+    </Container>
   );
 }
 
