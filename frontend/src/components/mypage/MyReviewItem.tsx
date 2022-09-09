@@ -1,5 +1,5 @@
-import React from 'react';
-import './MyPageItem.css';
+import React from 'react'
+
 
 function MyPageItem() {
   return (
