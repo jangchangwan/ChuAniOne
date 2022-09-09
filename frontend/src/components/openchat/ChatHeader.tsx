@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { Menu, MenuItem, Button } from '@mui/material'
+import { Menu, MenuItem, IconButton } from '@mui/material'
+
 
 const Container = styled.div`
   width: calc(100% - 2rem);
@@ -22,7 +23,7 @@ const Name = styled.h3`
   color: #333333;
 `
 
-const IconBox = styled(Button)`
+const IconBox = styled(IconButton)`
   height: 100%;
   aspect-ratio: 1 / 1;
   display: flex;

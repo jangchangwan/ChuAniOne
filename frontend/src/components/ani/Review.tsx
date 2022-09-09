@@ -79,7 +79,6 @@ function Review({ recommend }: any): any {
             name="customized-color"
             value={myStar}
             onChange={getStar}
-            // getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
             precision={0.5}
             icon={<FavoriteIcon fontSize="inherit" />}
             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
