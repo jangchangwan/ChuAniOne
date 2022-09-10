@@ -66,7 +66,7 @@ function Bigvoca() {
       </motion.div>
       <motion.div
         initial = {{ x : 1500 , y:  -2300 }}
-        animate = {{ x : [ 1500, -300, 1500, 1500, -1500],  y: [-2300, -1500, -500, -3000,-3000]}}
+        animate = {{ x : [ 1500, -300, 1500, 1500, -1500],  y: [-2300, -1500, -500, -3300,-3300]}}
         exit = {{ display: 'none' }}
         transition = {{ duration: '3'}}
       >
