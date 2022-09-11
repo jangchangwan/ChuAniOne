@@ -4,13 +4,13 @@ package com.ssafy.chuanione.domain.chatroom.dto;
 import com.ssafy.chuanione.domain.chatroom.domain.JoinUser;
 import com.ssafy.chuanione.domain.chatroom.domain.Room;
 import io.swagger.annotations.ApiModel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "RoomResponseDto", description = "Room 응답 Dto")
 public class RoomResponseDto {
 
@@ -29,7 +29,11 @@ public class RoomResponseDto {
     // 현재 참가자 수
     private int count;
 
-    public static RoomResponseDto from(Room room, JoinUser joinuser, int count) {
+
+//    public RoomResponseDto(Room room) {
+//    }
+
+    public static RoomResponseDto from(Room room, JoinUser joinUser, int count) {
         if (room == null) return null;
 
 //        int tempCount =
