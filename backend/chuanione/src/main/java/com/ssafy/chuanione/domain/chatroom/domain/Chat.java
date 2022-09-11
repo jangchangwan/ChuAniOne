@@ -10,12 +10,15 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@AllArgsConstructor
-@Table(name="chat")
+@Builder
+@AllArgsConstructor
 @ToString
+@Table(name="chat")
 public class Chat {
 
     @Id
@@ -27,9 +30,15 @@ public class Chat {
     @JoinColumn(name = "room_id")
     private Room room; //방번호
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member sender; //보낸사람
+    // member 생기면 변경
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private Member sender; //보낸사람
+
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+    private String sender; //보낸사람
+
 
     @Column(columnDefinition = "TEXT")
     private String message;
@@ -44,21 +53,21 @@ public class Chat {
 //    @NotNull
 //    private Member member;
 
-    @Builder
-    public Chat(Room room, String sender, String message){
-        this.room=room;
-        this.sender=sender;
-        this.message=message;
-        this.sendDate = LocalDateTime.now();
-    }
-
-
-    /**채팅 생성
-     * @param room 채팅 방
-     * @param sender 보낸이
-     * */
-
-    public static Chat createChat(Room room, String sender, String message){
-        return Chat.builder().room(room).sender(sender).message(message).build();
-    }
+//    @Builder
+//    public Chat(Room room, String sender, String message){
+//        this.room=room;
+//        this.sender=sender;
+//        this.message=message;
+//        this.sendDate = LocalDateTime.now();
+//    }
+//
+//
+//    /**채팅 생성
+//     * @param room 채팅 방
+//     * @param sender 보낸이
+//     * */
+//
+//    public static Chat createChat(Room room, String sender, String message){
+//        return Chat.builder().room(room).sender(sender).message(message).build();
+//    }
 }

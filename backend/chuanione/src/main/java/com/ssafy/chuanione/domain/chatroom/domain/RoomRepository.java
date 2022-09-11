@@ -14,7 +14,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
 
     // 방 삭제
-
+    @Query(value = "delete from room where room_id = ?1)", nativeQuery = true)
+    void deleteById(int id);
 
     // 방 수정
 
