@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 
@@ -34,17 +34,25 @@ const UserContent = styled.p`
 `
 
 function TalkItem({recommend, mine}: any): any {
-  if (mine) {
-    const container = document.querySelector(Container)
-    const talkbox = document.querySelector(TalkBox)
+  console.log(mine)
+  
+  useEffect(() => {
+    setMine()
+  }, [])
 
-    container?.setAttribute("className", "mine")
-    talkbox?.setAttribute("className", "mine")
+  async function setMine(): Promise<void> {
+    const container = await document.querySelector('.container')
+    const talkbox = await document.querySelector('.talkBox')
+
+    if (mine && container && talkbox) {
+      await container.classList.add("mine")
+      await talkbox.classList.add("mine")
+    }
   }
 
   return (
-    <Container>
-      <TalkBox>
+    <Container className="container">
+      <TalkBox className="talkBox">
         <UserName>User</UserName>
         <UserContent>어머나 세상에</UserContent>
       </TalkBox>

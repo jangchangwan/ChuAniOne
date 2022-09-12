@@ -90,6 +90,7 @@ const styleBoxDetail = {
 function Main() {
   interface AniInfo {
     air_year_quarter: string,
+    author: string[],
     avg_rating: number,
     cnt_short_review: number,
     content: string,
@@ -102,6 +103,7 @@ function Main() {
       hls_url: string,
     },
     id: number,
+    illustrator: string[],
     images: Array<{
       crop_ratio: string,
       img_url: string,
@@ -131,6 +133,7 @@ function Main() {
     await setRecommend({
       ...recommend,
       air_year_quarter: ani.data.air_year_quarter,
+      author: ani.data.author,
       img: ani.data.img,
       name: ani.data.name,
       avg_rating: ani.data.avg_rating,
@@ -141,6 +144,7 @@ function Main() {
       genres: ani.data.genres,
       highlight_video: ani.data.highlight_video,
       id: ani.data.id,
+      illustrator: ani.data.illustrator,
       images: ani.data.images,
       is_adult: ani.data.is_adult,
       is_ending: ani.data.is_ending,

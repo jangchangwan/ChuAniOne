@@ -81,8 +81,6 @@ const TabBox = styled.div`
 `
 
 const TabDiv = styled.div`
-
-
 `
 
 const DetailBox = styled(Box)`
@@ -114,7 +112,7 @@ function TabPanel(props: TabPanelProps) {
         </DetailBox>
       )}
     </TabDiv>
-  );
+  )
 }
 
 
@@ -180,7 +178,7 @@ function AniDetail({ recommend, }: any): any {
             <Talk recommend={recommend}/>
           </TabPanel>
           <TabPanel value={value} index={4}>
-            {/* <Books recommend={recommend}/> */}
+            <Books recommend={recommend}/>
           </TabPanel> 
         </TabBox>
         : null
