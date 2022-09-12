@@ -15,7 +15,7 @@ const KoreaWordItem = styled.div`
   display : flex;
   align-items : center;
 `
-function MyWordList() {
+function MyWordItem() {
   return (
     <Grid container sx={{display: "flex", alignItems: 'center'}}>
       <Grid item xs={4.5} sx={{display: 'flex', justifyContent: 'center'}}>
@@ -41,4 +41,4 @@ function MyWordList() {
   );
 }
 
-export default MyWordList;
+export default MyWordItem;
