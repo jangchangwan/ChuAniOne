@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface RoomRepository extends JpaRepository<Room, int> {
+public interface RoomRepository extends JpaRepository<Room, Integer> {
 
     // 전체 채팅 수
     int countByChatroomNo(long chatroomNo);

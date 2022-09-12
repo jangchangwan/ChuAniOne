@@ -45,8 +45,6 @@ public class ChatResponseDto {
 //                .message()
                 .sendDate(datetimeToChatTime(chat.getSendDate()))
                 .build();
-
-
     }
 
     private static String datetimeToChatTime(LocalDateTime t) {

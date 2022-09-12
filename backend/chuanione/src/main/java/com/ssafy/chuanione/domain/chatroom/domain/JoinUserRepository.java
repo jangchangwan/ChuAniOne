@@ -15,7 +15,7 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 
     //참가자 삭제
     //room_id 와 member_id 조건걸어야함
-    void deleteById(int id);
+    void deleteById(int room_id, int member_id);
 
 
     //참가자 추가 -> save로 된다. 기본제공인가?
