@@ -15,8 +15,8 @@ import MyRight from './MyRight';
 function MyPage() {
   return (
     <div>
-      <h1>MyPage</h1>
-      <Grid container>
+      {/* <h1>MyPage</h1> */}
+      <Grid container paddingTop={7}>
         <Grid item md={1}></Grid>
         <Grid item xs={12} md={3.5}>
           <Box m={2}>

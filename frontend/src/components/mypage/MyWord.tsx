@@ -1,5 +1,5 @@
 import React from 'react'
-import MyWordList from './MyWordList';
+import MyWordItem from './MyWordItem';
 import styled from 'styled-components';
 
 // const WordBox = styled.div`
@@ -13,10 +13,10 @@ function MyWord() {
     <div>
       {/* <WordBox> */}
       <h1>MyWord</h1>
-      <MyWordList></MyWordList>
-      <MyWordList></MyWordList>
-      <MyWordList></MyWordList>
-      <MyWordList></MyWordList>
+      <MyWordItem></MyWordItem>
+      <MyWordItem></MyWordItem>
+      <MyWordItem></MyWordItem>
+      <MyWordItem></MyWordItem>
       {/* </WordBox> */}
     </div>
   );

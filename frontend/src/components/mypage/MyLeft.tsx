@@ -82,12 +82,10 @@ const IntroductonBox = styled.div`
 
 // 벳지 박스
 const BadgeBox = styled.div`
-  /* display: inline; */
-  /* flex-direction: row; */
-  /* align-items: flex-start; */
-  /* align-items: center; */
-  /* flex-wrap: wrap; */
-  /* justify-content: left; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
 `
 
 // 벳지 이미지
@@ -95,10 +93,10 @@ const BadgeImg = styled.img`
   /* width: 2.5rem; */
   width: 2rem;
   height: 2rem;
-  /* display: flex; */
-  /* justify-content: center;  */
-  /* align-items: center; */
-  /* margin: 0; */
+  /* display: flex;
+  justify-content: center; 
+  align-items: center;
+  margin: 0; */
   /* margin: 2rem; */
   filter: drop-shadow(5px 5px 5px #000); // 배경 짤라야 온전하게 그림자 적용 가능
 `
@@ -144,57 +142,57 @@ function MyLeft() {
         안녕하세요 아이자와 소영입니다! #도리벤 좋아함 암튼 자기소개 100자 간단 하 게 . . .... 잠오는ing 많관부 바이루
       </IntroductonBox>
       <Grid container>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[0]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+          <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[0]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[1]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+          <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[1]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[2]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+          <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[2]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[3]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+          <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[3]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[4]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+          <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[4]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[5]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+        <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[5]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[6]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+        <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[6]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[7]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+        <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[7]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[8]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+        <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[8]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        <Grid item xs={2} xl={1} margin={1}>
-          <BadgeImg src={imgArr[imgArrId[9]]}></BadgeImg>
+        <Grid item xs={2} xl={1.5} alignSelf="center">
+        <BadgeBox>
+            <BadgeImg src={imgArr[imgArrId[9]]}></BadgeImg>
+          </BadgeBox>
         </Grid>
-        {/* <Grid item xs={2} xl={1}>
-          <BadgeImg src={imgArr[imgArrId[10]]}></BadgeImg>
-        </Grid>
-        <Grid item xs={2} xl={1}>
-          <BadgeImg src={imgArr[imgArrId[11]]}></BadgeImg>
-        </Grid> */}
       </Grid>
-      {/* <BadgeBox>
-        <BadgeImg src={imgArr[imgArrId[0]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[1]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[2]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[3]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[4]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[5]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[6]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[7]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[8]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[9]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[10]]}></BadgeImg>
-        <BadgeImg src={imgArr[imgArrId[11]]}></BadgeImg>
-      </BadgeBox> */}
     </div>
   );
 }
