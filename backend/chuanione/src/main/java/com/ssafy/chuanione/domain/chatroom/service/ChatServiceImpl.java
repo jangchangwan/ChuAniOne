@@ -64,10 +64,19 @@ public class ChatServiceImpl implements ChatService {
 
     // 채팅방 생성
     @Override
-    public RoomResponseDto registRoom(RoomRequestDto roomRequestDto) {
+    public RoomResponseDto insertRoom(RoomRequestDto roomRequestDto) {
 //        Member member = memberRepository.findById(roomRequestDto.getWriter()).orElseThrow(UserNotFoundException::new);
         Member member = memberRepository.getReferenceById(roomRequestDto.getMemberId());
+        System.out.println("insertRoom");
+        System.out.println(member);
         Room room = roomRequestDto.toEntity(roomRequestDto,member);
+        roomRepository.save(room);
+//        joinUserRepository.insertJoin(room.getId(),member.getId());
+        JoinUser joinuser = JoinUser.builder()
+                .room_id(room)
+                .member_id(member)
+                .build();
+        joinUserRepository.save(joinuser);
         return RoomResponseDto.from(room, 1, member);
     }
 
@@ -83,15 +92,15 @@ public class ChatServiceImpl implements ChatService {
         Room updated = roomRepository.save(target);
 
         // 참여인원
-        int count = joinUserRepository.countDistinctById(roomRequestDto.getId());
-
+        int count = joinUserRepository.countDistinctById(id);
+//int count = 0;
         return RoomResponseDto.from(updated, count,member);
     }
 
     // 채팅방 삭제
     @Override
     public void deleteRoom(int room_id) {
-        roomRepository.deleteById((room_id));
+        roomRepository.deleteById(room_id);
     }
 
 ////////////////////////////////////////////////////////////////////////////////

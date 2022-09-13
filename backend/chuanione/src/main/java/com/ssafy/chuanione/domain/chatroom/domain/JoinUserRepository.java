@@ -10,7 +10,7 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 
     //방마다 참가자수
     //    joinUser 테이블에서 room_id로 group by 한 count 값
-    @Query(nativeQuery = true, value ="SELECT COUNT(*) FROM joinuser group by room_id where room_id = ?1")
+    @Query(nativeQuery = true, value ="SELECT COUNT(*) FROM member_room where room_id = ?1 group by room_id")
     int countDistinctById(int room_id);
 
     //참가자 삭제
@@ -19,7 +19,8 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 
 
     //참가자 추가 -> save로 된다. 기본제공인가?
-
+    @Query(nativeQuery = true, value ="INSERT INTO member_room (member_id,room_id) VALUES (?1,?2)")
+    void insertJoin(int room_id, int member_id);
 
     //참가자 조회!!!!!!!!
 //    List<Member>

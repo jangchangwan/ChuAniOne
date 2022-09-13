@@ -45,7 +45,7 @@ public class ChatController {
     @PostMapping("/room")
     @ApiOperation(value = "채팅방 생성 ")
     public ResponseEntity<RoomResponseDto> insertRoom(@RequestBody RoomRequestDto dto) {
-        RoomResponseDto response = chatService.registRoom(dto);
+        RoomResponseDto response = chatService.insertRoom(dto);
 //        return new ResponseEntity<>(response, HttpStatus.OK);
         return (response != null) ?
                 ResponseEntity.status(HttpStatus.OK).body(response) :

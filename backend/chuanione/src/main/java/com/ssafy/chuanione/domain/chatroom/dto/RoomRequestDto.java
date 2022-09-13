@@ -4,17 +4,17 @@ package com.ssafy.chuanione.domain.chatroom.dto;
 import com.ssafy.chuanione.domain.chatroom.domain.Room;
 import com.ssafy.chuanione.domain.member.domain.Member;
 import io.swagger.annotations.ApiModel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "RoomRequestDto", description = "Room 요청 Dto")
 public class RoomRequestDto {
 
-    private int id; //방번호
+//    private int id; //방번호
     private String name; //방이름
     private String tag1;
     private String tag2;
