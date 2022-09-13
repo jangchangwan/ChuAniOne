@@ -34,6 +34,7 @@ const CarouselImgIn = styled.img`
   left: 3.125em;
   bottom: 11em;
   max-width: 38.75em;
+  height: auto;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   box-sizing: inherit;
   display: block;
