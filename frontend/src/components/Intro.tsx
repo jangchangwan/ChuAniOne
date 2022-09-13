@@ -9,9 +9,9 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { padding } from '@mui/system';
+
 // 모션
-// import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 
 const PageIntro = styled.div`
