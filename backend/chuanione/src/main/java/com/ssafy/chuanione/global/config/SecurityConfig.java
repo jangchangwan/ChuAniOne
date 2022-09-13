@@ -1,8 +1,8 @@
 package com.ssafy.chuanione.global.config;
 
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-@EnableWebSecurity
+//@EnableWebSecurity
 public class SecurityConfig {
 
 }

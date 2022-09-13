@@ -2,6 +2,7 @@ package com.ssafy.chuanione.domain.chatroom.dto;
 
 import com.ssafy.chuanione.domain.chatroom.domain.Chat;
 import com.ssafy.chuanione.domain.chatroom.domain.Room;
+import com.ssafy.chuanione.domain.member.domain.Member;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class ChatResponseDto {
 
     private Room roomId;
 
-    private String memberId;
+    private Member memberId;
     // private Member memberId;
 //    private String memberNickname;
 

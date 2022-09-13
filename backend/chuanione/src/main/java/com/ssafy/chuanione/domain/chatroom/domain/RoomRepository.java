@@ -8,11 +8,11 @@ import java.util.List;
 public interface RoomRepository extends JpaRepository<Room, Integer> {
 
     // 전체 채팅 수
-    int countByChatroomNo(long chatroomNo);
+//    int countByChatroomNo(long chatroomNo);
 
     // 방 하나 조회
-    @Query(value = "select * from room where room_id = ?1 and member_id = ?2", nativeQuery = true)
-    Room findOne(int room_id, int member_id);
+    @Query(value = "select * from room where room_id = ?1", nativeQuery = true)
+    Room findOne(int room_id);
 
 //    @Query(value = "delete from room where room_id in (select room_id from chatroom_user where member_id = ?1)", nativeQuery = true)
 //    void deleteByUserNo(int userNo);

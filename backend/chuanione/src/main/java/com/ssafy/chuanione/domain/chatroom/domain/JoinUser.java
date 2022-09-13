@@ -12,6 +12,7 @@ import javax.persistence.*;
 @ToString
 @Builder
 @AllArgsConstructor
+@Table(name = "member_room")
 public class JoinUser {
 
     @Id
@@ -23,7 +24,8 @@ public class JoinUser {
     @JoinColumn(name="room_id")
     private Room room_id; //방번호
 
-//    @Column(name="member_id")
-//    private Member member_id; //회원번호
+    @ManyToOne
+    @JoinColumn(name="member_id")
+    private Member member_id; //회원번호
 
 }

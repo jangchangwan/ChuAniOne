@@ -26,18 +26,14 @@ public class Chat {
     @Column(name="chat_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room; //방번호
 
     // member 생기면 변경
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    private Member sender; //보낸사람
-
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-    private String sender; //보낸사람
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member sender; //보낸사람
 
 
     @Column(columnDefinition = "TEXT")

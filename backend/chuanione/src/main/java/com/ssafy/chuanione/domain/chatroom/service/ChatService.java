@@ -9,13 +9,13 @@ public interface ChatService {
     // 전체 채팅방 리스트
     List<RoomResponseDto> getListAll();
     // 채팅방 하나 조회
-    RoomResponseDto getRoom(int room_id, int member_id);
+    RoomResponseDto getRoom(int room_id);
     // 채팅방 생성 -> roomRequestDto : 멤버id, 방이름, tag 123, 최대인원
-    void registRoom(int member_id);
+    RoomResponseDto registRoom(RoomRequestDto roomRequestDto);
     // 채팅방 삭제 -> member_id 비교 필요.
     void deleteRoom(int room_id);
     // 채팅방 수정 RoomResponseDto를 파라미터로?
-    RoomResponseDto updateRoom(int room_id, int member_id);
+    RoomResponseDto updateRoom(int id, RoomRequestDto roomRequestDto);
     // 채팅 받기 -> 필요없을지도
     List<ChatResponseDto> getMessages(int room_id, int member_id);
     // 채팅 보내기

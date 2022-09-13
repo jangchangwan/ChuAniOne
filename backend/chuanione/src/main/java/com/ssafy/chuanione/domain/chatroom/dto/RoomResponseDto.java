@@ -3,8 +3,11 @@ package com.ssafy.chuanione.domain.chatroom.dto;
 
 import com.ssafy.chuanione.domain.chatroom.domain.JoinUser;
 import com.ssafy.chuanione.domain.chatroom.domain.Room;
+import com.ssafy.chuanione.domain.member.domain.Member;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -20,8 +23,8 @@ public class RoomResponseDto {
     private String tag2;
     private String tag3;
 
-    // private Member memberId;
-//    private String memberNickname;
+    private Integer memberId;
+    private String nickname;
 
     // 최대 참가자 수
     private int max;
@@ -29,15 +32,14 @@ public class RoomResponseDto {
     // 현재 참가자 수
     private int count;
 
+//    private List<JoinUser> joinList;
+
 
 //    public RoomResponseDto(Room room) {
 //    }
 
-    public static RoomResponseDto from(Room room, JoinUser joinUser, int count) {
+    public static RoomResponseDto from(Room room,  int count, Member member) {
         if (room == null) return null;
-
-//        int tempCount =
-
 
         return RoomResponseDto.builder()
                 .id(room.getId())
@@ -46,9 +48,10 @@ public class RoomResponseDto {
                 .tag2(room.getTag2())
                 .tag3(room.getTag3())
                 .max(room.getMax())
-                .count(count) // 몇개인지 count해서 보내줘야함
-////                .memberNickname(member.get~) -> Member 이후
-////                .message()
+                .count(count)
+//                .joinList(joinList)
+                .memberId(member.getId())
+                .nickname(member.getNickname())
                 .build();
     }
 
