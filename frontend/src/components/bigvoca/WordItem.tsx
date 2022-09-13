@@ -43,6 +43,7 @@ function textToSpeech( word:string ):void {
 }
 
 
+
 function WordItem() {
   const [checked, setChecked] = React.useState(false)
 
@@ -62,13 +63,11 @@ function WordItem() {
         alignItems: 'center',
       }}
     >
-      
+      {/* 일본어 */}
       <Grid item xs={3}>
         <Checkbox color= 'secondary' onChange={checkChange} id = 'word'/>
         <label htmlFor="word" style={ checked ? { textDecoration: 'line-through' } : { textDecoration: 'none'}}>こんにちは</label>
-        
       </Grid>
-      
       <Grid item xs={2}>
         <Button
           onClick={() =>{
@@ -84,15 +83,14 @@ function WordItem() {
         >
           <VolumeUpIcon/> 
         </Button>
-        
       </Grid>
 
+      {/* 한국어 */}
       <Grid 
         item xs={5}
       >
         <KoreaWordItem>안녕</KoreaWordItem>
       </Grid>
-
     </Grid>
   );
 }
