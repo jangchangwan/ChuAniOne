@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const https = axios.create({
-  baseURL: "http://localhost:8080/api",
+const http = axios.create({
+  baseURL: "http://localhost:8080/api/v1/",
   headers: {
     "Content-type" : "application/json",
   },
@@ -10,4 +10,4 @@ const https = axios.create({
 });
 
 
-export default https;
+export default http;
