@@ -75,10 +75,12 @@ const MoreIcon = styled(AddIcon)`
   `
 
 const FilterBox = styled(FormGroup)`
+  display: flex !important;
+  flex-direction: row !important;
 `
 
 const Filter = styled(FormControlLabel)`
-  width: fit-content;
+  width: 40%;
 `
 
 const Check = styled(Checkbox)`
@@ -103,21 +105,23 @@ function SearchFilter() {
           <SearchIcon1/>
         </SearchIconBox>
       </SearchBox>
+
+      <NameBox>
+        <FilterName>장르</FilterName>
+        <IconBox onClick={() => {setShowMoreFilter(!showMoreFilter)}}>
+          { showMoreFilter ? <MoreCloseIcon /> : <MoreIcon/> }
+        </IconBox>
+      </NameBox>
+
       <FilterBox>
-        <NameBox>
-          <FilterName>장르</FilterName>
-          <IconBox onClick={() => {setShowMoreFilter(!showMoreFilter)}}>
-            { showMoreFilter ? <MoreCloseIcon /> : <MoreIcon/> }
-          </IconBox>
-        </NameBox>
-        <Filter control={<Check color="primary"/>} label="로맨스" />
+        <Filter control={<Check />} label="미스터리" />
+        <Filter control={<Check />} label="로맨스" />
         <Filter control={<Check />} label="로맨스" />
         <Filter control={<Check />} label="로맨스" />
         <Filter control={<Check />} label="로맨스" />
         <Filter control={<Check />} label="로맨스" />
         { showMoreFilter ? 
           <>
-            <Filter control={<Check />} label="로맨스" />
             <Filter control={<Check />} label="로맨스" />
             <Filter control={<Check />} label="로맨스" />
             <Filter control={<Check />} label="로맨스" />
