@@ -81,6 +81,12 @@ const Filter = styled(FormControlLabel)`
   width: fit-content;
 `
 
+const Check = styled(Checkbox)`
+  &&.MuiCheckbox-colorPrimary.Mui-checked {
+    color: #f37b83 !important;
+  }
+`
+
 function SearchFilter() {
   const [ showMoreFilter, setShowMoreFilter ] = useState<boolean>(false)
 
@@ -104,18 +110,18 @@ function SearchFilter() {
             { showMoreFilter ? <MoreCloseIcon /> : <MoreIcon/> }
           </IconBox>
         </NameBox>
-        <Filter control={<Checkbox />} label="로맨스" />
-        <Filter control={<Checkbox />} label="로맨스" />
-        <Filter control={<Checkbox />} label="로맨스" />
-        <Filter control={<Checkbox />} label="로맨스" />
-        <Filter control={<Checkbox />} label="로맨스" />
+        <Filter control={<Check color="primary"/>} label="로맨스" />
+        <Filter control={<Check />} label="로맨스" />
+        <Filter control={<Check />} label="로맨스" />
+        <Filter control={<Check />} label="로맨스" />
+        <Filter control={<Check />} label="로맨스" />
         { showMoreFilter ? 
           <>
-            <Filter control={<Checkbox />} label="로맨스" />
-            <Filter control={<Checkbox />} label="로맨스" />
-            <Filter control={<Checkbox />} label="로맨스" />
-            <Filter control={<Checkbox />} label="로맨스" />
-            <Filter control={<Checkbox />} label="로맨스" />
+            <Filter control={<Check />} label="로맨스" />
+            <Filter control={<Check />} label="로맨스" />
+            <Filter control={<Check />} label="로맨스" />
+            <Filter control={<Check />} label="로맨스" />
+            <Filter control={<Check />} label="로맨스" />
           </> : null
         }
       </FilterBox>
