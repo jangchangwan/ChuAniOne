@@ -4,15 +4,6 @@ import logoicon from '../assets/images/Logo.png'
 import React, {useState, useEffect} from 'react';
 import Grid from '@mui/material/Grid';
 
-// 로고 이미지
-const LogoImg = styled.img`
-  position: fixed;
-  left: 0;
-  width: 5rem;
-  height: auto;
-  object-fit: contain;
-  background-color: 'transparent';
-`
 
 // Nav 전체 틀
 const NavContainer = styled.div`
@@ -26,13 +17,22 @@ const NavContainer = styled.div`
   transition: all 0.5s;
 `
 
+// 로고 이미지
+const LogoImg = styled.img`
+  position: fixed;
+  left: 0;
+  width: 5rem;
+  height: auto;
+  object-fit: contain;
+  background-color: 'transparent';
+`
+
 const NavGrid = styled(Grid)`
   &:hover Navhref{
     scale: 1.2;
     transition: 0.5s;
   }
 `
-
 
 const Navhref = styled(NavLink)`
   text-decoration : none;

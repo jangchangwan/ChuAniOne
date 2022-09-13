@@ -1,4 +1,7 @@
 package com.ssafy.chuanione.domain.member.dao;
 
-public interface MemberRepository{
+import com.ssafy.chuanione.domain.member.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MemberRepository extends JpaRepository<Member, Integer> {
 }
