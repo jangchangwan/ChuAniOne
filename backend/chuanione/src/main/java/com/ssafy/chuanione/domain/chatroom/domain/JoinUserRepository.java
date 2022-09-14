@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.Column;
+import javax.transaction.Transactional;
+import java.util.List;
 
 public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 
@@ -24,5 +26,11 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 
     //참가자 조회!!!!!!!!
 //    List<Member>
+    @Query(nativeQuery = true, value ="SELECT * FROM member_room where room_id = ?1")
+    List<JoinUser> findAllByRoom_id(int room);
+
+    // 한 채팅방에 관한 참가자 모두 삭제
+    @Query(nativeQuery = true, value ="delete from member_room where room_id = ?1")
+    void deleteJoinUserByRoom(int room);
 
 }

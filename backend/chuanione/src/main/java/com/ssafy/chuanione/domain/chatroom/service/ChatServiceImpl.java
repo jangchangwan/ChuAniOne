@@ -67,8 +67,6 @@ public class ChatServiceImpl implements ChatService {
     public RoomResponseDto insertRoom(RoomRequestDto roomRequestDto) {
 //        Member member = memberRepository.findById(roomRequestDto.getWriter()).orElseThrow(UserNotFoundException::new);
         Member member = memberRepository.getReferenceById(roomRequestDto.getMemberId());
-        System.out.println("insertRoom");
-        System.out.println(member);
         Room room = roomRequestDto.toEntity(roomRequestDto,member);
         roomRepository.save(room);
 //        joinUserRepository.insertJoin(room.getId(),member.getId());
@@ -100,7 +98,13 @@ public class ChatServiceImpl implements ChatService {
     // 채팅방 삭제
     @Override
     public void deleteRoom(int room_id) {
-        roomRepository.deleteById(room_id);
+        Room room = roomRepository.findById(room_id).orElse(null);
+        List<JoinUser> list = joinUserRepository.findAllByRoom_id(room_id);
+        for(JoinUser join : list){
+            joinUserRepository.delete(join);
+        }
+//        roomRepository.deleteByIdInQuery(room_id);
+        roomRepository.delete(room);
     }
 
 ////////////////////////////////////////////////////////////////////////////////
