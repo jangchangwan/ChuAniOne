@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 //@MessageMapping("/{roomId}")
 //@SendTo("/room/{roomId}")
@@ -21,18 +22,25 @@ import java.util.List;
 public class ChatController {
     private final ChatService chatService;
 
-    @GetMapping("/list.do")
-    @ApiOperation(value = "전체 채팅방 목록 가져오기 / 페이지네이션 아직")
-    public ResponseEntity<List<RoomResponseDto>> getListAll() {
+    @GetMapping("/list.do/{page}")
+    @ApiOperation(value = "전체 채팅방 목록 가져오기 / 페이지네이션 완료. 1부터시작")
+    public ResponseEntity<Map<String,Object>> getListAll(@PathVariable int page) {
+//        List<RoomResponseDto> list = chatService.getListAll();
+        Map<String,Object> rooms = chatService.getListAllPage(page-1);
+//        List<RoomResponseDto> rDto = (List<RoomResponseDto>)rooms.get("rDto");
+//        long totalCnt = (long)rooms.get("totalCnt");
+//        long pageCnt = (long)rooms.get("pageCnt");
+//        rooms.put("totalCnt", totalCnt);
+//        rooms.put("pageCnt",pageCnt );
 
-        List<RoomResponseDto> list = chatService.getListAll();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+
     }
 
-    @GetMapping("/list.do/{id}")
+    @GetMapping("/list.do/join/{id}/page/{page}")
     @ApiOperation(value = "참여중인 채팅방 목록 가져오기 / 페이지네이션 아직  (id:사용자)")
-    public ResponseEntity<List<RoomResponseDto>> getMyList(@PathVariable int id) {
-        List<RoomResponseDto> list = chatService.getMyList(id);
+    public ResponseEntity<Map<String,Object>> getMyList(@PathVariable int id,@PathVariable int page) {
+        Map<String,Object> list = chatService.getMyList(id,page);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

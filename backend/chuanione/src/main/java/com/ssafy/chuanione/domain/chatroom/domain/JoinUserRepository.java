@@ -1,6 +1,8 @@
 package com.ssafy.chuanione.domain.chatroom.domain;
 
 import com.ssafy.chuanione.domain.member.domain.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -35,5 +37,5 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 
     // 참여중인 채팅방 id 리스트
     @Query(nativeQuery = true, value ="SELECT room_id FROM member_room where member_id = ?1")
-    List<Integer> getMyList(int memberid);
+    Page<Integer> getMyList(Pageable pageable, int memberid);
 }

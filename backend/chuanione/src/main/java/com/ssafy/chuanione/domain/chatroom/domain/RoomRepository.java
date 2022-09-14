@@ -1,5 +1,7 @@
 package com.ssafy.chuanione.domain.chatroom.domain;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -26,7 +28,8 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
     // 방 수정
 
     // 전체 리스트
-    List<Room> findAll();
+//    List<Room> findAll();
+     Page<Room> findAll(Pageable pageable);
 
     // 입장중인 리스트
 

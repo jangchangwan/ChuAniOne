@@ -6,13 +6,15 @@ import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 //@RequiredArgsConstructor
 //@Transactional
@@ -49,6 +51,28 @@ public class ChatServiceImpl implements ChatService {
         return resList;
     }
 
+    // 전체 채팅방 리스트 - 페이지네이션
+    @Override
+    public Map<String, Object> getListAllPage(int page) {
+//        Page<Perfume> perfumePage = perfumeRepository.findAll(PageRequest.of(page, 16, Sort.by("koName")));
+        Page<Room> roomPage = roomRepository.findAll(PageRequest.of(page,5));
+        long totalCount = roomPage.getTotalElements();
+        long pageCount = roomPage.getTotalPages();;
+        List<Room> rooms = roomPage.getContent();
+        List<RoomResponseDto> dtoList = new LinkedList<>();
+        for(Room room : rooms){
+            int count = joinUserRepository.countDistinctById(room.getId());
+            Member member = room.getAdmin();
+            dtoList.add(RoomResponseDto.from(room,count,member));
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCnt",totalCount);
+        map.put("pageCnt",pageCount);
+        map.put("rDto",dtoList);
+        return map;
+    }
+    
     // 채팅방 하나 조회
     @Override
     public RoomResponseDto getRoom(int room_id) {
@@ -141,17 +165,38 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<RoomResponseDto> getMyList(int member_id) {
-        List<Integer> roomList = joinUserRepository.getMyList(member_id); //joinUser에서 가져온 room_id 리스트
-        List<RoomResponseDto> result = new ArrayList<>();
+    public Map<String, Object> getMyList(int member_id, int page) {
+//        List<Integer> roomList = joinUserRepository.getMyList(member_id); //joinUser에서 가져온 room_id 리스트
+//        List<RoomResponseDto> result = new ArrayList<>();
+//        for(int room_id : roomList){
+//            Room room = roomRepository.findOne(room_id);
+//            int count = joinUserRepository.countDistinctById(room_id); // joinUser의 숫자
+//            Member member = room.getAdmin(); // 이거맞는지모름
+//
+//            result.add(RoomResponseDto.from(roomRepository.save(room), count, member));
+//        }
+
+
+        Page<Integer> roomPage = joinUserRepository.getMyList(PageRequest.of(page,5), member_id);
+        long totalCount = roomPage.getTotalElements();
+        long pageCount = roomPage.getTotalPages();;
+        List<Integer> roomList = roomPage.getContent(); //joinUser에서 가져온 room_id 리스트
+
+
+        List<RoomResponseDto> dtoList = new LinkedList<>();
         for(int room_id : roomList){
             Room room = roomRepository.findOne(room_id);
             int count = joinUserRepository.countDistinctById(room_id); // joinUser의 숫자
             Member member = room.getAdmin(); // 이거맞는지모름
-
-            result.add(RoomResponseDto.from(roomRepository.save(room), count, member));
+            dtoList.add(RoomResponseDto.from(roomRepository.save(room), count, member));
+//            dtoList.add(RoomResponseDto.from(room,count,member));
         }
-        return result;
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCnt",totalCount);
+        map.put("pageCnt",pageCount);
+        map.put("rDto",dtoList);
+        return map;
     }
 
     @Override
