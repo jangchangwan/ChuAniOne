@@ -8,7 +8,7 @@ import badgeicon2 from '../../assets/images/kakao_icon.png' // 임시로 사진 
 import badgeicon3 from '../../assets/images/Logo.png' // 임시로 사진 가져옴
 // 방사형 그래프
 // https://velog.io/@eunjin/React-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EA%B7%B8%EB%9E%98%ED%94%84%EC%B0%A8%ED%8A%B8-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EB%AA%A8%EC%9D%8C
-
+import  { MyAniChart }  from "./MyAniChart";
 
 // 프로필 사진, 닉네임, 경험치 관련
 const ProfileContainer = styled.div`
@@ -122,7 +122,6 @@ function MyLeft() {
 
   return (
     <div>
-      <h1>MyLeft</h1>
       {/* 프로필사진, 경험치, 닉네임, 소개, 벳지 가져오기 */}
       <ProfileContainer>
         <ProfileImg src={profileicon}></ProfileImg>
@@ -193,6 +192,8 @@ function MyLeft() {
           </BadgeBox>
         </Grid>
       </Grid>
+
+      <MyAniChart></MyAniChart>
     </div>
   );
 }

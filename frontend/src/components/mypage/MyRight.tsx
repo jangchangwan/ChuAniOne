@@ -90,7 +90,6 @@ function MyRight() {
 
   return (
     <div>
-      <h1>MyRight</h1>
       <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
         <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary" variant='fullWidth'>
           <Tab label="애니메이션" {...a11yProps(0)} />

@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 // slice 불러오기
-
+import accountsReducer from '../components/accounts/accountsslice'
 
 // thunk 관련
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
@@ -14,9 +14,9 @@ const rootPersistConfig = {
 }
 
 const rootReducers = combineReducers({
-  
-  // signup: signupReducer,
 
+  // signup: signupReducer,
+  accounts : accountsReducer,
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducers)
