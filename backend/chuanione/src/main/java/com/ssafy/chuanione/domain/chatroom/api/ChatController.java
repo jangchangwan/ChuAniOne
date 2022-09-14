@@ -30,9 +30,9 @@ public class ChatController {
     }
 
     @GetMapping("/list.do/{id}")
-    @ApiOperation(value = "참여중인 채팅방 목록 가져오기 / 미완료  (id:사용자)")
-    public ResponseEntity<List<RoomResponseDto>> getMyList() {
-        List<RoomResponseDto> list = chatService.getListAll();
+    @ApiOperation(value = "참여중인 채팅방 목록 가져오기 / 페이지네이션 아직  (id:사용자)")
+    public ResponseEntity<List<RoomResponseDto>> getMyList(@PathVariable int id) {
+        List<RoomResponseDto> list = chatService.getMyList(id);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

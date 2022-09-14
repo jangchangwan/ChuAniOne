@@ -23,7 +23,7 @@ public interface ChatService {
     // 검색 리스트
     RoomListResponseDto searchRoom(String keyword);
     // 입장중인 리스트
-    RoomListResponseDto getListJoin(int member_id);
+    List<RoomResponseDto> getMyList(int member_id);
     // 채팅방 입장
     void registJoin(int room_id, int member_id);
     // 채팅방 퇴장

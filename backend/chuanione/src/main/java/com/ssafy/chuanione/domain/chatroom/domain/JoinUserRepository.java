@@ -30,7 +30,10 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
     List<JoinUser> findAllByRoom_id(int room);
 
     // 한 채팅방에 관한 참가자 모두 삭제
-    @Query(nativeQuery = true, value ="delete from member_room where room_id = ?1")
-    void deleteJoinUserByRoom(int room);
+//    @Query(nativeQuery = true, value ="delete from member_room where room_id = ?1")
+//    void deleteJoinUserByRoom(int room);
 
+    // 참여중인 채팅방 id 리스트
+    @Query(nativeQuery = true, value ="SELECT room_id FROM member_room where member_id = ?1")
+    List<Integer> getMyList(int memberid);
 }

@@ -40,9 +40,9 @@ public class ChatServiceImpl implements ChatService {
         List<Room> list = roomRepository.findAll();
         List<RoomResponseDto> resList = new ArrayList<>();
         //이건써야함
-        for (Room room:list ) {
+        for (Room room : list) {
             int count = joinUserRepository.countDistinctById(room.getId());
-            Member member=room.getAdmin(); // 이거맞는지모름
+            Member member = room.getAdmin(); // 이거맞는지모름
             resList.add(RoomResponseDto.from(roomRepository.save(room), count, member));
         }
 
@@ -56,9 +56,9 @@ public class ChatServiceImpl implements ChatService {
         int count = joinUserRepository.countDistinctById(room_id); // joinUser의 숫자
 
 //        Member member = memberRepository.getReferenceById(room.getAdmin());
-        Member member=room.getAdmin(); // 이거맞는지모름
+        Member member = room.getAdmin(); // 이거맞는지모름
 
-        return RoomResponseDto.from(roomRepository.save(room),count , member);
+        return RoomResponseDto.from(roomRepository.save(room), count, member);
 //        return null;
     }
 
@@ -67,7 +67,7 @@ public class ChatServiceImpl implements ChatService {
     public RoomResponseDto insertRoom(RoomRequestDto roomRequestDto) {
 //        Member member = memberRepository.findById(roomRequestDto.getWriter()).orElseThrow(UserNotFoundException::new);
         Member member = memberRepository.getReferenceById(roomRequestDto.getMemberId());
-        Room room = roomRequestDto.toEntity(roomRequestDto,member);
+        Room room = roomRequestDto.toEntity(roomRequestDto, member);
         roomRepository.save(room);
 //        joinUserRepository.insertJoin(room.getId(),member.getId());
         JoinUser joinuser = JoinUser.builder()
@@ -84,15 +84,15 @@ public class ChatServiceImpl implements ChatService {
         //        Member member = memberRepository.findById(roomRequestDto.getWriter()).orElseThrow(UserNotFoundException::new);
         Room target = roomRepository.findOne(id);
         // 방장이랑 요청한사람이 같은지 비교필요
-        Member member = memberRepository.getReferenceById(roomRequestDto.getMemberId());
-        Room room = roomRequestDto.toEntity(roomRequestDto,member);
+        Member member = target.getAdmin();
+        Room room = roomRequestDto.toEntity(roomRequestDto, member);
         target.patch(room);
         Room updated = roomRepository.save(target);
 
         // 참여인원
         int count = joinUserRepository.countDistinctById(id);
 //int count = 0;
-        return RoomResponseDto.from(updated, count,member);
+        return RoomResponseDto.from(updated, count, member);
     }
 
     // 채팅방 삭제
@@ -100,7 +100,7 @@ public class ChatServiceImpl implements ChatService {
     public void deleteRoom(int room_id) {
         Room room = roomRepository.findById(room_id).orElse(null);
         List<JoinUser> list = joinUserRepository.findAllByRoom_id(room_id);
-        for(JoinUser join : list){
+        for (JoinUser join : list) {
             joinUserRepository.delete(join);
         }
 //        roomRepository.deleteByIdInQuery(room_id);
@@ -141,9 +141,17 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public RoomListResponseDto getListJoin(int member_id) {
+    public List<RoomResponseDto> getMyList(int member_id) {
+        List<Integer> roomList = joinUserRepository.getMyList(member_id); //joinUser에서 가져온 room_id 리스트
+        List<RoomResponseDto> result = new ArrayList<>();
+        for(int room_id : roomList){
+            Room room = roomRepository.findOne(room_id);
+            int count = joinUserRepository.countDistinctById(room_id); // joinUser의 숫자
+            Member member = room.getAdmin(); // 이거맞는지모름
 
-        return null;
+            result.add(RoomResponseDto.from(roomRepository.save(room), count, member));
+        }
+        return result;
     }
 
     @Override
