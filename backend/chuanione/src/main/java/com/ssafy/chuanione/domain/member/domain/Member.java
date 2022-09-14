@@ -25,11 +25,21 @@ public class Member {
     private String profile;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private String birth;
-    private String bio;
+    private String birthday;
+    private String introduction;
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
+    public Member toEntity(){
+        return Member.builder()
+                .email(email)
+                .password(password)
+                .nickname(nickname)
+                .profile(profile)
+                .gender(gender)
+                .birthday(birthday)
+                .introduction(introduction)
+                .build();
+    }
 
 }
