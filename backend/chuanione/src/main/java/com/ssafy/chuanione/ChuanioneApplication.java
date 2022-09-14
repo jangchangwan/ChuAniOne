@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableJpaAuditing
 public class ChuanioneApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ChuanioneApplication.class, args);
 	}
