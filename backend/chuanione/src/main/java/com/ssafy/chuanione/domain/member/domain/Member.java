@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -30,16 +31,34 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public Member toEntity(){
-        return Member.builder()
-                .email(email)
-                .password(password)
-                .nickname(nickname)
-                .profile(profile)
-                .gender(gender)
-                .birthday(birthday)
-                .introduction(introduction)
-                .build();
+    private String token;
+//    public Member toEntity(){
+//        return Member.builder()
+//                .email(email)
+//                .password(password)
+//                .nickname(nickname)
+//                .profile(profile)
+//                .gender(gender)
+//                .birthday(birthday)
+//                .introduction(introduction)
+//                .build();
+//    }
+    public void saveToken(String token){
+        this.token = token;
     }
 
+    public void patch(Member member, PasswordEncoder encoder){
+        if(member.getPassword() != null){
+            this.password = encoder.encode(member.getPassword());
+        }
+        if(member.getProfile() != null){
+            this.profile = member.getProfile();
+        }
+        if(member.getIntroduction() != null){
+            this.introduction = member.getIntroduction();
+        }
+        if(member.getNickname() != null){
+            this.nickname = member.getNickname();
+        }
+    }
 }

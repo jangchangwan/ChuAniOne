@@ -19,7 +19,6 @@ public class MemberResponseDto {
     private String password;
     private String nickname;
     private String birthday;
-    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String introduction;
     private Role role;
