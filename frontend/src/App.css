@@ -91,7 +91,7 @@
 }
 /* 메이플스토리 */
 * {
-    font-family: 'MaplestoryOTFBold';
+    font-family: 'MaplestoryOTFBold' !important;
 }
 
 /* 프리텐다드 */
