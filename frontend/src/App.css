@@ -1,0 +1,152 @@
+/* 메이플스토리 */
+@font-face {
+    font-family: 'MaplestoryOTFBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 프리텐다드 */
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+/* 강원교육모두체 */
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 코트라희망체 */
+@font-face {
+    font-family: 'KOTRAHOPE';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 잉크립퀴드체 */
+@font-face {
+    font-family: 'InkLipquid';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/InkLipquid.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 어그로체 */
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 조선100년체 */
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 강원교육새음체 */
+@font-face {
+    font-family: 'GangwonEduSaeeum_OTFMediumA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduSaeeum_OTFMediumA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 한림고딕체 */
+@font-face {
+    font-family: 'HallymGothic-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+/* 둥근모꼴 */
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 넥슨 배찌체 */
+@font-face {
+    font-family: 'Bazzi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/Bazzi.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 넥슨 고딕 Lv2 */
+@font-face {
+    font-family: 'NEXON Lv2 Gothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 넥슨 풋볼 고딕 */
+@font-face {
+    font-family: 'NEXONFootballGothicBA1';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXONFootballGothicBA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* 메이플스토리 */
+* {
+    font-family: 'MaplestoryOTFBold';
+}
+
+/* 프리텐다드 */
+.font-pretendard {
+    font-family: 'Pretendard-Regular';
+}
+
+/* 강원교육모두체 */
+.font-gangwon {
+    font-family: 'GangwonEdu_OTFBoldA';
+}
+
+/* 코트라희망체 */
+.font-kotra {
+    font-family: 'KOTRAHOPE';
+}
+
+/* 잉크립퀴드체 */
+.font-inklipquid {
+    font-family: 'InkLipquid';
+}
+
+/* 어그로체 */
+.font-aggro{
+    font-family: 'SBAggroB';
+}
+
+/* 조선100년체 */
+.font-chosun{
+    font-family: 'ChosunCentennial';
+}
+
+/* 강원교육새음체 */
+.font-saeeum{
+    font-family: 'GangwonEduSaeeum_OTFMediumA';
+}
+/* 한림고딕체 */
+.font-hallym{
+    font-family: 'HallymGothic-Regular';
+}
+/* 둥근모꼴 */
+.font-DungGeunMo{
+    font-family: 'DungGeunMo';
+}
+/* 넥슨 배찌체 */
+.font-bazzi {
+    font-family: 'Bazzi';
+}
+
+/* 넥슨 고딕 Lv2 */
+.font-nexon {
+    font-family: 'NEXON Lv2 Gothic';
+}
+
+/* 넥슨 풋볼 고딕 */
+.font-football {
+    font-family: 'NEXONFootballGothicBA1';
+}
