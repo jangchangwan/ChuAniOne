@@ -26,22 +26,16 @@ interface User {
   gender: string,
 }
 
-// 이메일인증
-
-
-// 닉네임 중복체크
-
-
-// 비밀번호 체크
 
 
 
 function Signup() {
   const emailState = false
-
+  // 회원가입
   const SignUpSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    
     console.log({
       email: data.get('email'),
       password: data.get('password'),
@@ -50,7 +44,14 @@ function Signup() {
       nickname: data.get('nickname')
     });
   };
+  // 이메일인증
 
+
+  // 닉네임 중복체크
+  const nicknameCheck = () => {
+
+  }
+  // 비밀번호 체크
   return (
     <motion.div
       initial = {{opacity: 0}}

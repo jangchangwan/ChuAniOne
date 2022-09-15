@@ -19,7 +19,8 @@ import KakaoLogin from './KakaoLogin'
 // redux 
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
-import { login } from './Loginslice'
+import { login, loginUser } from './Loginslice'
+
 // 화면전환 애니메이션
 import { motion } from 'framer-motion'
 import store from '../../store'
@@ -42,9 +43,9 @@ function Login() {
       .unwrap()
       .then(() =>
         navigate('/')
+        
       )
-    console.log(loginDto);
-    
+    dispatch(loginUser())
   };
 
   return (

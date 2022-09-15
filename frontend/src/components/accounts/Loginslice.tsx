@@ -8,7 +8,11 @@ export const login = createAsyncThunk(
   'LOGIN',
   async (userData:any, { rejectWithValue }) => {
     try {
+      console.log(userData);
+      
       const res = await http.post('member/login.do', userData)
+      
+      console.log(res)
       const {
         data: { accessToken },
       } = res
@@ -26,19 +30,25 @@ export const logout = createAsyncThunk(
   'LOGOUT',
   async (arg, { rejectWithValue }) => {
     try {
+      // const res = await http.post('member/logout.do')
       window.localStorage.removeItem('access-Token');
-      return '로그아웃'
+      return
     } catch (err:any) {
       return rejectWithValue(err.response)
     }
   },
 )
 
-const initialState = {
-  user: {},
-  loading: false,
+export interface loginReducerType {
+  user:string,
+  isLogin: boolean,
+  error: any,
+}
+
+const initialState:loginReducerType = {
+  user: '',
+  isLogin: false,
   error: null,
-  updateUserPoint: 0,
 }
 
 const loginSlice:any = createSlice({
@@ -46,21 +56,32 @@ const loginSlice:any = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-      state.user = {}
+      state.user = ''
     },
-    savePoint: (state) => {
-      // data unwrap 하고 싶을때 current 리덕스 툴킷에서 가져와서 쓰면 된다.
+    loginUser: (state) => {
+      state.isLogin = true
     },
+    logoutUser: (state) => {
+      state.isLogin = false
+    }
   },
   extraReducers: {
+    // fulfilled 성공했을때 동작
+    // rejected 실패했을때 동작
     [login.fulfilled.type]: (state:any) => {
-      state.loading = false
+      state.isLogin = true
     },
     [login.rejected.type]: (state:any) => {
-      state.isAuthenticated = false
+      state.isLogin = false
     },
+    [logout.fulfilled.type]: (state:any)=> {
+      state.isLogin = false
+    },
+    [logout.rejected.type]: (state:any) => {
+      state.isLogin = true
+    }
   },
 })
 
-export const { resetUser, savePoint } = loginSlice.actions
+export const { resetUser, loginUser, logoutUser } = loginSlice.actions
 export default loginSlice.reducer

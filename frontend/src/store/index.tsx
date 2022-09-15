@@ -32,5 +32,5 @@ const store = configureStore({
     }),
     devTools: process.env.NODE_ENV !== 'production',
 })
-
+export type AppDispatch = typeof store.dispatch;
 export default store;

@@ -10,7 +10,14 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-// Box, Tootip, IconButton, Menu, Avatar, Typography, MenuTiem
+
+// redux
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from "react-redux"
+import { logout, logoutUser } from '../components/accounts/Loginslice'
+import initialState from '../components/accounts/Loginslice';
+import store from '../store'
 
 // Nav 전체 틀
 const NavContainer = styled.div`
@@ -54,37 +61,41 @@ const Navhref = styled(NavLink)`
 
 `
 
+//채팅목록 불러오기
 
 
 function Nav() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch<typeof store.dispatch>()
+  // 로그인 유무
+  const logincheck = useSelector((state: initialState) => state.login.isLogin)
   // 네비게이션바 유무
   const [show, setShow] =useState(false);
-  // 로그인 유무
-  const [isLogin, setLogin] = useState(false);
-
-  // 로그인시 프로필 Tab 목록
-  const settings = ['마이페이지', '로그아웃']
+  
   
   // 
   const [User, setUser] = React.useState<null | HTMLElement>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setUser(event.currentTarget);
-    console.log(User);
-    
   };
   const handleCloseUserMenu = () => {
     // console.log(setUser);
-    
     setUser(null);
   };
 
-  const moveSettings = () => {
-    console.log()
+  const gologout = () => {
+    dispatch(logout())
+     .then(() => navigate('/login')) 
+    dispatch(logoutUser())
+  }
+  const goMypage = () => {
+    navigate('/mypage')
   }
   // 스크롤 내릴시 Nav 배경색 변화
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (window.pageYOffset > 50) {
+        console.log(logincheck);
         setShow(true);
       } else {
         setShow(false);
@@ -138,7 +149,7 @@ function Nav() {
           }}
         >
           {
-            isLogin ? 
+            logincheck ? 
             <Box sx={{ flexGrow: 0, textAlign: 'center' }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, paddingBottom: '0.5rem'}}>
@@ -161,11 +172,14 @@ function Nav() {
                 open={Boolean(User)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" onClick={moveSettings}>{setting}</Typography>
-                  </MenuItem>
-                ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={goMypage}>마이페이지</Typography>
+
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={gologout}>로그아웃</Typography>
+              </MenuItem>
+                
               </Menu>
             </Box>
           :
