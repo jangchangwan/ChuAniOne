@@ -60,7 +60,7 @@ function Nav() {
   // 네비게이션바 유무
   const [show, setShow] =useState(false);
   // 로그인 유무
-  const [isLogin, setLogin] = useState(true);
+  const [isLogin, setLogin] = useState(false);
 
   // 로그인시 프로필 Tab 목록
   const settings = ['마이페이지', '로그아웃']

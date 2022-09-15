@@ -1,13 +1,13 @@
 // persist관련
-import { persistStore, persistReducer } from 'redux-persist'
+import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 // slice 불러오기
-import accountsReducer from '../components/accounts/accountsslice'
-
+// import accountsReducer from '../components/accounts/accountsslice'
+import {AuthReducer} from '../components/accounts/authslice'
 // thunk 관련
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-
+import LoginReducer from '../components/accounts/Loginslice'
 const rootPersistConfig = {
   key: 'root',
   storage,
@@ -16,7 +16,9 @@ const rootPersistConfig = {
 const rootReducers = combineReducers({
 
   // signup: signupReducer,
-  accounts : accountsReducer,
+  // accounts : accountsReducer,
+  auth: AuthReducer,
+  login: LoginReducer
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducers)
@@ -28,10 +30,7 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
-  devTools: process.env.NODE_ENV !== 'production',
+    devTools: process.env.NODE_ENV !== 'production',
 })
 
-export default function configStore() {
-  const persistor = persistStore(store)
-  return { store, persistor }
-}
+export default store;

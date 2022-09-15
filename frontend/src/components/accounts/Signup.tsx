@@ -1,46 +1,54 @@
 import * as React from 'react';
 
 // CSS 
-import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
-// 하위컴포넌트
-import SignupFormOne from './SignupFormOne';
-import SignupFormTwo from './SignupFormTwo';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 
 // 화면전환 애니메이션
 import { motion } from 'framer-motion';
 
 
-const steps = ['이메일 및 비밀번호 입력', '개인정보 입력'];
-
-function getStepContent(step: number) {
-  switch (step) {
-    case 0:
-      return <SignupFormOne />;
-    case 1:
-      return <SignupFormTwo />;
-  }
+interface User {
+  nickName: string,
+  email: string,
+  password: string,
+  birthday: string,
+  gender: string,
 }
+
+// 이메일인증
+
+
+// 닉네임 중복체크
+
+
+// 비밀번호 체크
+
 
 
 function Signup() {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const emailState = false
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
+  const SignUpSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+      gender: data.get('gender'),
+      birthday: data.get('birthday'),
+      nickname: data.get('nickname')
+    });
   };
 
   return (
@@ -48,80 +56,173 @@ function Signup() {
       initial = {{opacity: 0}}
       animate = {{opacity: 1}}
       exit = {{opacity:0}}
-      
-
     >
+      
       <Container
+        component="main" 
+        maxWidth="xs"
         sx = {{
           padding: '3rem'
         }}
         >
-        <AppBar
-          position="absolute"
-          color="default"
-          elevation={0}
+        <Box
+          boxShadow={2}
           sx={{
-            position: 'relative',
-            borderBottom: (t) => `1px solid ${t.palette.divider}`,
+            display: 'flex',
+            marginTop: 8,
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: 3,
+            border: 1,
+            borderRadius: '1rem',
           }}
         >
-
-        </AppBar>
-        <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-          <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-            <Typography component="h1" variant="h4" align="center">
+        <Typography component="h1" variant="h5">
               회원가입
-            </Typography>
-            <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <React.Fragment>
-              {activeStep === steps.length ? (
-                <React.Fragment>
-                  <Typography variant="h5" gutterBottom>
-                    회원 가입 성공!
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    로그인 화면으로 돌아가 로그인 후 서비스를 이용부탁드리겠습니다.
-                  </Typography>
-                  <Box
-                    sx={{ display: 'flex', justifyContent: 'center'  }}
-                  >
-                    <Button
-                      variant="contained"
-                      href='/login'
-                    >
-                      로그인으로 이동
-                    </Button>
-                  </Box>
-                  
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  {getStepContent(activeStep)}
-                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    {activeStep !== 0 && (
-                      <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                        뒤로
-                      </Button>
-                    )}
-                    <Button
-                      variant="contained"
-                      onClick={handleNext}
-                      sx={{ mt: 3, ml: 1 }}
-                    >
-                      {activeStep === steps.length - 1 ? '회원가입' : '다음'}
-                    </Button>
-                  </Box>
-                </React.Fragment>
-              )}
-            </React.Fragment>
-          </Paper>
-        </Container>
+        </Typography>
+        <Box 
+          component="form" 
+          onSubmit={SignUpSubmit} 
+          noValidate sx={{ 
+            mt: 1
+          }}
+        >
+          <Grid container spacing={1}>
+            <Grid item xs={8}>
+              <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="nickname"
+              label="닉네임를 입력해주세요."
+              id="nickname"
+              autoComplete="nickname"
+            />
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                type='button'
+                fullWidth
+                variant="contained"
+                sx={{
+                  top: '1.5rem'
+                }}
+              >중복 체크</Button>
+            </Grid>
+          </Grid>
+          
+          <Grid container spacing={1}>
+            <Grid item xs={8}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="이메일을 입력해주세요."
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+            </Grid>
+
+            <Grid item xs={4}>
+              <Button
+                type='button'
+                fullWidth
+                variant="contained"
+                sx={{
+                  top: '1.5rem'
+                }}
+              >번호 전송</Button>
+            </Grid>
+          </Grid>
+          {
+            emailState === false
+            ? <Grid container spacing={1}>
+            <Grid item xs={8}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="emailcheck"
+                label="인증번호을 입력해주세요."
+                name="emailcheck"
+                autoComplete="emailcheck"
+                autoFocus
+              />
+            </Grid>
+
+            <Grid 
+              item xs={4}
+              >
+              <Button
+                type='button'
+                fullWidth
+                variant="contained"
+                sx={{
+                  top: '1.5rem'
+                }}
+              >인증 확인</Button>
+            </Grid>
+          </Grid> : null
+          }
+          
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="비밀번호를 입력해주세요."
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password2"
+            label="비밀번호를 재입력해주세요."
+            type="password"
+            id="password2"
+            autoComplete="current-password"
+          />
+          
+
+            <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="birthday"
+            label="생일을 입력해주세요."
+            id="birthday"
+            autoComplete="birthday"
+            />
+            <FormControl
+              sx={{ mt: 1, mb: 1, pl: 1 }}
+            >
+              <FormLabel id="demo-row-radio-buttons-group-label">성별</FormLabel>
+              <RadioGroup
+                aria-required
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="gender"
+              >
+                <FormControlLabel value="MALE" control={<Radio />} label="남성" />
+                <FormControlLabel value="FEMALE" control={<Radio />} label="여성" />
+              </RadioGroup>
+            </FormControl>
+            <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                회원가입
+              </Button>
+        </Box>
+      </Box>
       </Container>
     </motion.div>
   );
