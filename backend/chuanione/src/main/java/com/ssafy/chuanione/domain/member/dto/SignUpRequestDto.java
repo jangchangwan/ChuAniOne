@@ -25,13 +25,12 @@ public class SignUpRequestDto {
     @NotBlank
     @ApiModelProperty(value = "닉네임")
     private String nickname;
+    @NotBlank
     @ApiModelProperty(value = "생일")
     private String birthday;
     @ApiModelProperty(value = "성별")
     private Gender gender;
     @ApiModelProperty(value = "자기 소개")
     private String introduction;
-//    @ApiModelProperty(value = "장르")
-//    private List<Integer> genres;
 
 }
