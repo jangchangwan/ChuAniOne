@@ -76,6 +76,7 @@ function ChatHeader() {
       >
         <MenuItem onClick={handleClose}>방 정보</MenuItem>
         <MenuItem onClick={handleClose}>닫기</MenuItem>
+        <MenuItem onClick={handleClose}>퇴장하기</MenuItem>
       </Menu>
     </Container>
   )
