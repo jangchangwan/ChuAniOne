@@ -13,25 +13,24 @@ import java.util.List;
 public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 
     //방마다 참가자수
-    //    joinUser 테이블에서 room_id로 group by 한 count 값
     @Query(nativeQuery = true, value ="SELECT COUNT(*) FROM member_room where room_id = ?1 group by room_id")
     int countDistinctById(int room_id);
 
     //참가자 삭제
     //room_id 와 member_id 조건걸어야함
-//    void deleteById(int room_id, int member_id);
+    @Query(nativeQuery = true, value ="DELETE FROM member_room WHERE room_id = ?1 and member_id = ?2")
+    void deleteById(int room_id, int member_id);
 
 
     //참가자 추가 -> save로 된다. 기본제공인가?
     @Query(nativeQuery = true, value ="INSERT INTO member_room (member_id,room_id) VALUES (?1,?2)")
     void insertJoin(int room_id, int member_id);
 
-    //참가자 조회!!!!!!!!
-//    List<Member>
+    //참가자 조회
     @Query(nativeQuery = true, value ="SELECT * FROM member_room where room_id = ?1")
     List<JoinUser> findAllByRoom_id(int room);
 
-    // 한 채팅방에 관한 참가자 모두 삭제
+    // 한 채팅방에 관한 참가자 모두 삭제 -> 안쓸듯
 //    @Query(nativeQuery = true, value ="delete from member_room where room_id = ?1")
 //    void deleteJoinUserByRoom(int room);
 

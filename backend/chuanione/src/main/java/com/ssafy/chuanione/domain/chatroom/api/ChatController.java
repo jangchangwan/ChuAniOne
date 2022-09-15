@@ -4,22 +4,24 @@ import com.ssafy.chuanione.domain.chatroom.dto.RoomRequestDto;
 import com.ssafy.chuanione.domain.chatroom.dto.RoomResponseDto;
 import com.ssafy.chuanione.domain.chatroom.service.ChatService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-//@MessageMapping("/{roomId}")
-//@SendTo("/room/{roomId}")
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/chat")
 public class ChatController {
+
+//    @RequestHeader 헤더에 토큰담아서 보낸다면~
+
+
     private final ChatService chatService;
 
     @GetMapping("/list.do/{page}")
@@ -85,6 +87,26 @@ public class ChatController {
     }
 
 
+    /* 입 / 퇴장 */
+
+    @PostMapping("/join.do")
+    @ApiOperation(value = "채팅방 입장 ")
+    public ResponseEntity<Integer> enterRoom(@RequestBody @ApiParam(value="memberId, roomId",required = true) Map<String, Integer> map) {
+        int member_id = map.get("memberId");
+        int room_id = map.get("roomId");
+        // 입장하면 뭘줘야해 RoomResponseDto을 줘야하나
+        chatService.enterRoom(room_id,member_id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/join.do")
+    @ApiOperation(value = "채팅방 퇴장 ")
+    public ResponseEntity<Integer> exitRoom(@RequestBody @ApiParam(value="memberId, roomId",required = true) Map<String, Integer> map) {
+        int member_id = map.get("memberId");
+        int room_id = map.get("roomId");
+        chatService.exitRoom(room_id,member_id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 }

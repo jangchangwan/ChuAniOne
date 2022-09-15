@@ -159,24 +159,15 @@ public class ChatServiceImpl implements ChatService {
 
     //////////////////////////////////////////////////////////////////////////////
 
+    // 검색 리스트
     @Override
     public RoomListResponseDto searchRoom(String keyword) {
         return null;
     }
 
+    // 입장중인 리스트 
     @Override
     public Map<String, Object> getMyList(int member_id, int page) {
-//        List<Integer> roomList = joinUserRepository.getMyList(member_id); //joinUser에서 가져온 room_id 리스트
-//        List<RoomResponseDto> result = new ArrayList<>();
-//        for(int room_id : roomList){
-//            Room room = roomRepository.findOne(room_id);
-//            int count = joinUserRepository.countDistinctById(room_id); // joinUser의 숫자
-//            Member member = room.getAdmin(); // 이거맞는지모름
-//
-//            result.add(RoomResponseDto.from(roomRepository.save(room), count, member));
-//        }
-
-
         Page<Integer> roomPage = joinUserRepository.getMyList(PageRequest.of(page,5), member_id);
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
@@ -199,22 +190,27 @@ public class ChatServiceImpl implements ChatService {
         return map;
     }
 
+    // 채팅방 입장
     @Override
-    public void registJoin(int room_id, int member_id) {
+    public void enterRoom(int room_id, int member_id) {
         // member
         // UserEntity user = userRepository.findById(dto.getWriter()).orElseThrow(UserNotFoundException::new);
-        JoinUser joinUser = JoinUser
-                .builder()
-//                .room_id(room_id)
-//                .member_id(member_id)
+        Room room = roomRepository.findOne(room_id);
+        Member member = memberRepository.getReferenceById(member_id);
+        JoinUser joinUser = JoinUser.builder()
+                .room_id(room)
+                .member_id(member)
                 .build();
         joinUserRepository.save(joinUser);
 
     }
 
+    // 채팅방 퇴장
     @Override
-    public void deleteJoin(int room_id, int member_id) {
+    public void exitRoom(int room_id, int member_id) {
 //        joinUserRepository.deleteById(room_id,member_id);
+
+       joinUserRepository.deleteById(room_id,member_id);
 
     }
 }
