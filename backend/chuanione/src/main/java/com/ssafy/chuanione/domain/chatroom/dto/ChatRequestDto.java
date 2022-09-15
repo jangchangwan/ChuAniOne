@@ -16,7 +16,7 @@ public class ChatRequestDto {
     private int roomId;
 
     @ApiModelProperty(value = "유저 번호")
-    private String memberId;
+    private int memberId;
 
     @ApiModelProperty(value = "채팅 메시지")
 //    @Size(min = 1, max = 1000, message = "1자 이상, 1000자 이하의 메시지만 입력하세요")

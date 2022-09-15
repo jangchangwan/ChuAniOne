@@ -20,13 +20,13 @@ import java.util.Locale;
 @ApiModel(value = "ChatResponseDto", description = "chat 응답 Dto")
 public class ChatResponseDto {
 
-    private Room roomId;
+    private Room roomId; //방번호
 
-    private Member memberId;
-    // private Member memberId;
-//    private String memberNickname;
+    private Member memberId; // 보낸사람 아이디
+    private String memberNickname; // 보낸사람 닉네임
 
-
+    private String url; //보낸사람 프로필 이미지
+    
     private String message;
     private String sendDate;
 
@@ -36,13 +36,14 @@ public class ChatResponseDto {
 //	@ApiModelProperty(value = "에러 메시지")
 //	private String error;
 
-    public static ChatResponseDto from(Chat chat){
+    public static ChatResponseDto from(Chat chat, Member member){
         if(chat == null) return null;
 
         return ChatResponseDto.builder()
                 .roomId(chat.getRoom())
                 .memberId(chat.getSender())
-//                .memberNickname(member.get~) -> Member 이후
+                .memberNickname(member.getNickname())
+                .url("임시값")
 //                .message()
                 .sendDate(datetimeToChatTime(chat.getSendDate()))
                 .build();

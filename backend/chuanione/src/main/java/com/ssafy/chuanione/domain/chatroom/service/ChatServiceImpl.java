@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 //@RequiredArgsConstructor
@@ -133,11 +136,19 @@ public class ChatServiceImpl implements ChatService {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    // 채팅 받기
+    // 채팅 받기 (입장할때 이전 내역들 받아오기)
     @Override
     public List<ChatResponseDto> getMessages(int room_id, int member_id) {
-        List<ChatResponseDto> list = new ArrayList<>();
-        return null;
+        List<ChatResponseDto> resList = new ArrayList<>();
+
+        List<Chat> list = chatRepository.findAllByRoomId(room_id);
+
+        for (Chat chat : list){
+            Member member = chat.getSender(); // 여기에 member 값이 다 들어가나?
+            resList.add(ChatResponseDto.from(chat,member));
+        }
+
+        return resList;
     }
 
     // 채팅 보내기
@@ -145,16 +156,26 @@ public class ChatServiceImpl implements ChatService {
     public ChatResponseDto sendMessage(ChatRequestDto chatRequestDto) {
 
         LocalDateTime localDateTime = LocalDateTime.now();
+        Room room = roomRepository.findOne(chatRequestDto.getRoomId());
+        Member member = memberRepository.getReferenceById(chatRequestDto.getMemberId());
         Chat chat = Chat.builder()
-//                .room(chatRequestDto.getRoomId())
-//                .sender(chatRequestDto.getMemberId())
+                .room(room)
+                .sender(member)
                 .message(chatRequestDto.getMessage())
                 .sendDate(localDateTime)
                 .build();
 
-//        chat = chatRepository.save(chat);
+        chat = chatRepository.save(chat);
+        
+        // 오류났을때
+//        if (chat == null) {
+//            return new ChatRes(chatReq.getUserNo(), "", "/001.png", "[알림] 서버 오류로 채팅이 전송되지 않았습니다.",
+//                    ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime()
+//                            .format(DateTimeFormatter.ofPattern("a h:mm").withLocale(Locale.forLanguageTag("ko"))),
+//                    1, false, null);
+//        }
 
-        return ChatResponseDto.from(chat);
+        return ChatResponseDto.from(chat, member);
     }
 
     //////////////////////////////////////////////////////////////////////////////
