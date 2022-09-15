@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Snackbar } from '@mui/material'
 import { Cancel, Roofing } from '@mui/icons-material'
 import { createChat } from '../../request/openchat'
+import Alert from '@mui/material/Alert'
+import { SnackbarProvider, VariantType } from 'notistack'
 
 const Container = styled.div`
   width: calc(80% - 2rem);
@@ -124,6 +126,7 @@ const CreateRoom = styled.button`
   }
 `
 
+
 function MakeChat() {
   interface Room {
     name: string | null,
@@ -144,6 +147,9 @@ function MakeChat() {
     1: false,
     2: false
   })
+
+  const [openSuccess, setOpenSuccess] = useState<boolean>(false)
+  const [openFail, setOpenFail] = useState<boolean>(false)
 
   function getName(e: any): void {
     setName(name.trim())
@@ -183,17 +189,18 @@ function MakeChat() {
     setDeleteHash(change)
   }
 
-  function createRoom() {
+  async function createRoom() {
     if (room.name) {
       const data: any = {
         max: room.member,
         name: room.name,
+        memberId: 1,
       }
-      room.hashtags.map((hash, idx) => (
+      await room.hashtags.map((hash, idx) => (
         data[`tag${idx+1}`] = hash
       ))
-      
-      createChat(data)
+      await createChat(data)
+      setOpenSuccess(true)
     }
   }
 
@@ -203,7 +210,10 @@ function MakeChat() {
         <Box>
           <Name>방제목</Name>
           <InputField variant="outlined" fullWidth
-            value={name}  onChange={(e) => setName(e.target.value)}
+            value={name}  onChange={(e) => {
+              const val = e.target.value.trim()
+              if(val.length <= 10) setName(e.target.value)
+            }}
             onBlur={(e) => getName(e)} 
             sx={{
               "& .MuiOutlinedInput-root.Mui-focused": {
@@ -266,10 +276,25 @@ function MakeChat() {
 
       <Box>
         <CreateRoom 
-        // variant="contained" fullWidth
           onClick={createRoom}
         ><span>방 만들기</span></CreateRoom>
       </Box>
+      
+      <Snackbar open={openSuccess} autoHideDuration={3000} onClose={() => setOpenSuccess(!openSuccess)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+        <Alert severity="success" sx={{ width: '100%' }}>
+          방 생성 성공 !
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={openFail} autoHideDuration={3000} onClose={() => setOpenFail(!openFail)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+        <Alert severity="error" sx={{ width: '100%' }}>
+          방 생성 성공 !
+        </Alert>
+      </Snackbar>
     </Container>
   )
 }
