@@ -4,6 +4,7 @@ import com.ssafy.chuanione.domain.chatroom.domain.Chat;
 import com.ssafy.chuanione.domain.chatroom.dto.ChatRequestDto;
 import com.ssafy.chuanione.domain.chatroom.dto.ChatResponseDto;
 import com.ssafy.chuanione.domain.chatroom.service.ChatService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,6 +22,7 @@ public class ChatController {
 
     //"/pub/chat/enter"
     @MessageMapping(value = "/chat/enter")
+    @ApiOperation(value = "방 입장 / 경로 - /pub/chat/enter")
     public void enter(ChatRequestDto dto){
 //        dto.setMessage(dto.getSender() + "님이 채팅방에 참여하였습니다.");
         List<ChatResponseDto> chats = chatService.getMessages(dto.getRoomId(), dto.getMemberId());
@@ -28,14 +30,15 @@ public class ChatController {
         if (chats != null) {
             for (ChatResponseDto chatRes : chats) {
                 template.convertAndSend("/sub/chat/room/" + dto.getRoomId(), dto);
-                // db에 저장 안해도되나 ?
+                // db에 저장 안해도되나 ? -> message에서 다 하는듯
             }
         }
 
 
     }
 
-    @MessageMapping(value = "/chat/message")
+    @MessageMapping(value="/chat/message")
+    @ApiOperation(value = "채팅")
     public void message(ChatRequestDto dto){
 
         ChatResponseDto chatResponseDto = chatService.sendMessage(dto);
