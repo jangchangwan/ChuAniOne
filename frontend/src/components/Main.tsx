@@ -6,7 +6,10 @@ import styled from "styled-components"
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import AniDetail from './ani/AniDetail'
+import './Main.css'
 
+import { motion } from 'framer-motion';
+import { MonetizationOn, Opacity } from '@mui/icons-material'
 const Container = styled.div`
   
 `
@@ -179,6 +182,151 @@ function Main() {
 
   return (
     <Container>
+    <motion.div
+      initial = {{ opacity: 1}}
+      animate = {{ opacity: 0}}
+      
+      transition = {{ duration: '5'}}
+    >
+      <div className="animation01">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+      </div>
+      <div className="animation02">
+          <div></div>
+          <div></div>
+      </div>
+      <div className="animation03">
+          <div className="circle">
+              <div className="circle_element01"></div>
+          </div>
+          <div className="circle">
+              <div className="circle_element02"></div>
+          </div>
+          <div className="circle">
+              <div className="circle_element03"></div>
+          </div>
+          <div className="animation04">
+              <div className="line_wrapper line_wrapper01">
+                  <span className="line line01"></span>
+              </div>
+              <div className="rotate45">
+                  <div className="line_wrapper line_wrapper02">
+                      <span className="line line02"></span>
+                  </div>
+              </div>
+              <div className="line_wrapper line_wrapper03">
+                  <span className="line line03"></span>
+              </div>
+              <div className="rotate135">
+                  <div className="line_wrapper line_wrapper04">
+                      <span className="line line04"></span>
+                  </div>
+              </div>
+              <div className="line_wrapper line_wrapper05">
+                  <span className="line line05"></span>
+              </div>
+              <div className="rotate-135">
+                  <div className="line_wrapper line_wrapper06">
+                      <span className="line line06"></span>
+                  </div>
+              </div>
+              <div className="line_wrapper line_wrapper07">
+                  <span className="line line07"></span>
+              </div>
+              <div className="rotate-45">
+                  <div className="line_wrapper line_wrapper08">
+                      <span className="line line08"></span>
+                  </div>
+              </div>
+          </div>
+          <div className="animation05">
+              <div className="double_wrapper02 green02">
+                  <div className="double_wrapper01 green01">
+                      <div className="double_block green00"></div>
+                  </div>
+              </div>
+              <div className="double_wrapper02 navy02">
+                  <div className="double_wrapper01 navy01">
+                      <div className="double_block navy00"></div>
+                  </div>
+              </div>
+              <div className="double_wrapper02 yellow02">
+                  <div className="double_wrapper01 yellow01">
+                      <div className="double_block yellow00"></div>
+                  </div>
+              </div>
+              <div className="double_wrapper02 blue02">
+                  <div className="double_wrapper01 blue01">
+                      <div className="double_block blue00"></div>
+                  </div>
+              </div>
+              <div className="double_wrapper02 red02">
+                  <div className="double_wrapper01 red01">
+                      <div className="double_block red00"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div className="animation06">
+          <div className="rhombus05">
+              <div className="rhombus04">
+                  <div className="rhombus03">
+                      <div className="rhombus02">
+                          <div className="rhombus01"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div className="animation07">
+          <div className="circle">
+              <div className="circle_element01"></div>
+          </div>
+          <div className="line_wrapper line_wrapper01">
+              <span className="line line01"></span>
+          </div>
+          <div className="rotate60">
+              <div className="line_wrapper line_wrapper02">
+                  <span className="line line02"></span>
+              </div>
+          </div>
+          <div className="rotate120">
+              <div className="line_wrapper line_wrapper03">
+                  <span className="line line03"></span>
+              </div>
+          </div>
+          <div className="line_wrapper line_wrapper04">
+              <span className="line line04"></span>
+          </div>
+          <div className="rotate-120">
+              <div className="line_wrapper line_wrapper05">
+                  <span className="line line05"></span>
+              </div>
+          </div>
+          <div className="rotate-60">
+              <div className="line_wrapper line_wrapper06">
+                  <span className="line line06"></span>
+              </div>
+          </div>
+      </div>
+      {/* <div className='animation08'>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+      </div> */}
+    </motion.div>
+    <motion.div 
+      initial = {{ opacity: 0}}
+      animate = {{ opacity: 1}}
+      
+      transition = {{ duration: '7'}}
+    >
       <Carousel>
         { carouselImg.map((item: string, idx: number) => (
           <CarouselPaper elevation={0}>
@@ -391,6 +539,8 @@ function Main() {
           </CarouselPaper>
         </CarouselContainer>
       </RecommendContainer>
+    </motion.div>
+      
     </Container>
   )
 }
