@@ -33,7 +33,7 @@ export async function getMyChat( user_id: number ): Promise<void> {
 
 
 // 채팅방 생성
-export async function createChat(  ): Promise<void> {
+export async function createChat( data: any ): Promise<void> {
   await http.post(`chat/room`)
     .then((res) => {
       if (res.status === 200) return res
