@@ -1,34 +1,50 @@
-import * as React from 'react';
-
+import * as React from 'react'
 // MUI
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import Link from '@mui/material/Link'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+
 
 
 // 하위 컴포넌트
-import GoogleLogin from './GoogleLogin';
-import KakaoLogin from './KakaoLogin';
+import GoogleLogin from './GoogleLogin'
+import KakaoLogin from './KakaoLogin'
 
+// redux 
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from "react-redux"
+import { login } from './Loginslice'
 // 화면전환 애니메이션
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
+import store from '../../store'
 
-const theme = createTheme();
+const theme = createTheme()
 
 function Login() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch<typeof store.dispatch>()
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+
+    const loginDto = {
       email: data.get('email'),
-      password: data.get('password'),
-    });
+      password: data.get('password')
+    }
+    dispatch(login(loginDto))
+      .unwrap()
+      .then(() =>
+        navigate('/')
+      )
+    console.log(loginDto);
+    
   };
 
   return (
