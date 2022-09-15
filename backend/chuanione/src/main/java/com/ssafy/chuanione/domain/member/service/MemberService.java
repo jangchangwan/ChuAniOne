@@ -27,7 +27,7 @@ public class MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
-
+    private final EmailTokenService emailTokenService;
     public MemberResponseDto doSignUp(SignUpRequestDto requestDto) {
         // Login id/pw로 AuthenticationToken 생성
         if(memberRepository.findByEmail(requestDto.getEmail()).orElse(null) != null){
@@ -44,8 +44,10 @@ public class MemberService {
                 .introduction(requestDto.getIntroduction())
                 .role(role)
                 .build();
-
-        return MemberResponseDto.from(memberRepository.save(member));
+        //가입시 메일 전송
+        Member result = memberRepository.save(member);
+        emailTokenService.createEmailToken(result.getId(), result.getEmail());
+        return MemberResponseDto.from(result);
     }
 
     public TokenDto doLogin(LoginRequestDto requestDto) {
