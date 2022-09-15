@@ -1,5 +1,5 @@
 
-
+select * from member;
 
 -- member
 -- INSERT INTO MEMBER ( birthday, email, gender, introduction, nickname, password, profile, role) VALUES ('11.11','1','MAIL','자기소개','닉넴','1','1','ROLE_USER');
