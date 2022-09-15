@@ -11,8 +11,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -25,7 +28,7 @@ public class EmailTokenService {
     private final JavaMailSender emailSender;
 
     //이메일 인증 토큰 생성
-    public String createEmailToken(int memberId, String receiverEmail) throws MessagingException {
+    public String createEmailToken(int memberId, String receiverEmail) throws Exception {
         Assert.notNull(memberId, "memberId는 필수입니다");
         Assert.hasText(receiverEmail, "receiverEmail은 필수입니다.");
 
@@ -35,23 +38,20 @@ public class EmailTokenService {
 
         //이메일 전송
         MimeMessage mimeMessage = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-        helper.setTo(receiverEmail);
-        helper.setSubject("회원가입 이메일 인증");
+        mimeMessage.addRecipients(Message.RecipientType.TO, receiverEmail);
+       mimeMessage.setSubject("회원가입 이메일 인증");
+
         String msg = "";
         msg += "<div style='margin:100px;'>";
-        msg += "<div style='margin:100px;'>";
+        msg+= "<h1> 안녕하세요 ChuAniOne입니다. </h1>";
         msg += "<br>";
         msg += "<p> 아래의 링크를 눌러서 메일인증을 완료해주세요. </p>";
-        msg += "http://localhost:8080/confirm-email?token=\"+emailToken.getId()";
-        helper.setText(msg);
-//        mailMessage.setText("<div style='margin:100px;'>");
-//        mailMessage.setText("<h1> 안녕하세요 ChuAniOne입니다. </h1>");
-//        mailMessage.setText("<br>");
-//        mailMessage.setText("<p> 아래의 링크를 눌러서 메일인증을 완료해주세요. </p>");
-//        mailMessage.setText("http://localhost:8080/confirm-email?token="+emailToken.getId());
+        msg += "<br>";
+        msg += "http://localhost:8080/confirm-email?token="+emailToken.getId();
+        mimeMessage.setText(msg, "utf-8", "html");
+        mimeMessage.setFrom(new InternetAddress("pecommend@gmail.com","ChuAnione"));
 
-        emailSender.send(maile);
+        emailSender.send(mimeMessage);
 
         return emailToken.getId();
     }

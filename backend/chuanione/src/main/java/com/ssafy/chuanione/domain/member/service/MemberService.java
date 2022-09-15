@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final EmailTokenService emailTokenService;
-    public MemberResponseDto doSignUp(SignUpRequestDto requestDto) {
+    public MemberResponseDto doSignUp(SignUpRequestDto requestDto) throws Exception {
         // Login id/pw로 AuthenticationToken 생성
         if(memberRepository.findByEmail(requestDto.getEmail()).orElse(null) != null){
             throw new DuplicateEmailException();
