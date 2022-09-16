@@ -41,21 +41,23 @@ export const getMyChat = createAsyncThunk(
 
 
 // 채팅방 생성
-export async function createChat( data: any, setOpenSuccess: any, setOpenFail: any): Promise<void> {
-  await http.post(`room/room.do`, data)
-    .then((res) => {
-      if (res.status === 200) {
-        setOpenSuccess(true)
-        return res
-      }
-      else {
-        setOpenFail(true)
-      }
-    })
-    .catch((err) => {
-      setOpenFail(true)
-    })
-}
+export const createChat = createAsyncThunk(
+  'CREATECHAT',
+  async (data: any): Promise<void> => {
+    await http.post(`room/room.do`, data)
+      .then((res) => {
+        if (res.status === 200) {
+          return res
+        }
+        else {
+          console.log('에러', res)
+        }
+      })
+      .catch((err) => {
+        console.log('방생성 에러', err)
+      })
+  }
+)
 
 
 // 채팅방 하나 조회
@@ -99,7 +101,6 @@ export const deleteChat = createAsyncThunk(
 
 
 // 채팅방 수정
-
 export const updateChat = createAsyncThunk(
   'UPDATECHAT',
   async ( chat_no: number ): Promise<void> => {
@@ -116,7 +117,6 @@ export const updateChat = createAsyncThunk(
       })
   }
 )
-
 
 
 // 채팅방 검색 결과
@@ -141,7 +141,7 @@ export interface openChatReducerType {
   rooms: []
 }
 
-const initialState:openChatReducerType = {
+const initialState: openChatReducerType = {
   users: [],
   error: null,
   rooms: []
