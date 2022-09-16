@@ -28,6 +28,7 @@ public class MemberController {
     @PostMapping("/signup.do")
     @ApiOperation(value = "회원 가입")
     public ResponseEntity<MemberResponseDto> doSignUp(@Valid @RequestBody SignUpRequestDto requestDto, BindingResult result) throws Exception {
+        System.out.println(requestDto);
         if(result.hasErrors()){
             throw new InvalidParameterException(result);
         }
