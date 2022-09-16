@@ -8,11 +8,7 @@ export const login = createAsyncThunk(
   'LOGIN',
   async (userData:any, { rejectWithValue }) => {
     try {
-      console.log(userData);
-      
       const res = await http.post('member/login.do', userData)
-      
-      console.log(res)
       const {
         data: { accessToken },
       } = res
@@ -39,6 +35,19 @@ export const logout = createAsyncThunk(
   },
 )
 
+
+// 회원가입
+export const signup = createAsyncThunk(
+  'SIGNUP',
+  async (userData:any, { rejectWithValue }) => {
+    try {
+      const res = await http.post('member/signup.do', userData)
+      return res
+    } catch (err:any) {
+      return rejectWithValue(err.response)
+    }
+  }
+)
 export interface loginReducerType {
   user:string,
   isLogin: boolean,

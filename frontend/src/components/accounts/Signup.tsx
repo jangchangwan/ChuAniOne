@@ -13,37 +13,47 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
+// redux
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from "react-redux"
+import { signup } from './Loginslice'
+import store from '../../store'
 
 // 화면전환 애니메이션
 import { motion } from 'framer-motion';
 
 
-interface User {
-  nickName: string,
-  email: string,
-  password: string,
-  birthday: string,
-  gender: string,
-}
-
-
-
-
 function Signup() {
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch<typeof store.dispatch>()
+
   const emailState = false
   // 회원가입
   const SignUpSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
-    console.log({
+    const signupDto = {
       email: data.get('email'),
       password: data.get('password'),
       gender: data.get('gender'),
       birthday: data.get('birthday'),
       nickname: data.get('nickname')
-    });
-  };
+    }
+
+    dispatch(signup(signupDto))
+      .then(() =>
+        navigate('/login')
+      )
+    console.log({ 
+      email: data.get('email'),
+      password: data.get('password'),
+      gender: data.get('gender'),
+      birthday: data.get('birthday'),
+      nickname: data.get('nickname')
+    })
+  }
   // 이메일인증
 
 
@@ -52,6 +62,7 @@ function Signup() {
 
   }
   // 비밀번호 체크
+
   return (
     <motion.div
       initial = {{opacity: 0}}

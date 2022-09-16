@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components"
 import logoicon from '../assets/images/Logo.png'
+// import logo1 from '../assets/images/logo1.png'
+// import logo1 from '../assets/images/logo2.png'
 import React, {useState, useEffect} from 'react';
 import Grid from '@mui/material/Grid';
 import Tooltip from '@mui/material/Tooltip';
@@ -35,7 +37,8 @@ const NavContainer = styled.div`
 const LogoImg = styled.img`
   position: fixed;
   left: 0;
-  width: 5rem;
+  top: -6%;
+  width: 10rem;
   height: auto;
   object-fit: contain;
   background-color: 'transparent';
