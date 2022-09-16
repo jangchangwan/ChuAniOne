@@ -32,21 +32,16 @@ public class Member {
     private Role role;
 
     private String token;
-//    public Member toEntity(){
-//        return Member.builder()
-//                .email(email)
-//                .password(password)
-//                .nickname(nickname)
-//                .profile(profile)
-//                .gender(gender)
-//                .birthday(birthday)
-//                .introduction(introduction)
-//                .build();
-//    }
+
+    private boolean verified;
+
     public void saveToken(String token){
         this.token = token;
     }
 
+    public void setVerified(){
+        this.verified = true;
+    }
     public void patch(Member member, PasswordEncoder encoder){
         if(member.getPassword() != null){
             this.password = encoder.encode(member.getPassword());

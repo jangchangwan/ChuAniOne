@@ -2,6 +2,8 @@ package com.ssafy.chuanione.domain.member.api;
 
 
 import com.ssafy.chuanione.domain.member.dto.*;
+import com.ssafy.chuanione.domain.member.exception.TokenNotFoundException;
+import com.ssafy.chuanione.domain.member.service.EmailService;
 import com.ssafy.chuanione.domain.member.service.MemberService;
 import com.ssafy.chuanione.global.error.exception.InvalidParameterException;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @RestController
@@ -20,10 +23,11 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final EmailService emailService;
 
     @PostMapping("/signup.do")
     @ApiOperation(value = "회원 가입")
-    public ResponseEntity<MemberResponseDto> doSignUp(@Valid @RequestBody SignUpRequestDto requestDto, BindingResult result){
+    public ResponseEntity<MemberResponseDto> doSignUp(@Valid @RequestBody SignUpRequestDto requestDto, BindingResult result) throws Exception {
         if(result.hasErrors()){
             throw new InvalidParameterException(result);
         }
@@ -58,6 +62,12 @@ public class MemberController {
     public ResponseEntity<String> updateMember(@PathVariable int id, @RequestBody UpdateRequestDto requestDto){
         memberService.updateMember(id, requestDto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    @GetMapping("/email-confirm.do")
+    @ApiOperation(value = "메일 인증")
+    public ResponseEntity<Boolean> confirmEmail(String token){
+        return new ResponseEntity<>(emailService.confirmEmail(token), HttpStatus.OK);
     }
 
 }

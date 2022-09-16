@@ -7,9 +7,6 @@ import com.ssafy.chuanione.domain.member.domain.Role;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 @Getter
 @Builder
 public class MemberResponseDto {
