@@ -7,6 +7,9 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import AniDetail from './ani/AniDetail'
 import './Main.css'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 
 import { motion } from 'framer-motion';
 import { MonetizationOn, Opacity } from '@mui/icons-material'
@@ -327,7 +330,38 @@ function Main() {
       
       transition = {{ duration: '7'}}
     >
-      <Carousel>
+      <Carousel
+        navButtonsAlwaysVisible={true}
+        NextIcon={<ArrowForwardIosIcon/>}
+        PrevIcon={<ArrowBackIosNewIcon/>}
+        fullHeightHover={false}
+        navButtonsProps={{          // Change the colors and radius of the actual buttons. THIS STYLES BOTH BUTTONS
+          style: {
+            background: 'none',
+          }
+        }}
+        animation={"slide"}
+        interval={6000}
+        duration={1000}
+        // swipe={true}
+        IndicatorIcon={<HorizontalRuleIcon fontSize='large'/>}
+        indicatorIconButtonProps={{
+          style: {
+            color: '#e9b7ba'       // 3
+          }
+        }}
+        activeIndicatorIconButtonProps={{
+          style: {
+            color: "#f37b83"
+          }
+        }}
+        indicatorContainerProps={{
+          style: {
+            // marginTop: '50px', // 5
+            textAlign: 'center' // 4
+          }
+        }}
+      >
         { carouselImg.map((item: string, idx: number) => (
           <CarouselPaper elevation={0}>
             <CarouselImg src={item}/>
