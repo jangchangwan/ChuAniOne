@@ -33,17 +33,19 @@ export async function getMyChat( user_id: number ): Promise<void> {
 
 
 // 채팅방 생성
-export async function createChat( data: any ): Promise<void> {
-  await http.post(`chat/room`, data)
+export async function createChat( data: any, setOpenSuccess: any, setOpenFail: any): Promise<void> {
+  await http.post(`room/room.do`, data)
     .then((res) => {
-      if (res.status === 200) return res
+      if (res.status === 200) {
+        setOpenSuccess(true)
+        return res
+      }
       else {
-        console.log(res)
-        alert('데이터 전송 실패')
+        setOpenFail(true)
       }
     })
     .catch((err) => {
-      console.log(err)
+      setOpenFail(true)
     })
 }
 

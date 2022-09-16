@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { TextField, Button, Snackbar } from '@mui/material'
-import { Cancel, Roofing } from '@mui/icons-material'
+import { TextField, Snackbar } from '@mui/material'
+import { Cancel } from '@mui/icons-material'
 import { createChat } from '../../request/openchat'
 import Alert from '@mui/material/Alert'
-import { SnackbarProvider, VariantType } from 'notistack'
 
 const Container = styled.div`
   width: calc(80% - 2rem);
@@ -199,10 +198,18 @@ function MakeChat() {
       await room.hashtags.map((hash, idx) => (
         data[`tag${idx+1}`] = hash
       ))
-      await createChat(data)
-      setOpenSuccess(true)
+      await createChat(data, setOpenSuccess, setOpenFail)
+      await setRoom({
+        name: null,
+        hashtags: [],
+        member: 2,
+      })
+      await setName('')
+      await setHash('')
+    } else {
+      setOpenFail(true)
     }
-  }
+  } 
 
   return (
     <Container>
@@ -292,7 +299,7 @@ function MakeChat() {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
         <Alert severity="error" sx={{ width: '100%' }}>
-          방 생성 성공 !
+          방 생성에 실패하였습니다 😥
         </Alert>
       </Snackbar>
     </Container>
