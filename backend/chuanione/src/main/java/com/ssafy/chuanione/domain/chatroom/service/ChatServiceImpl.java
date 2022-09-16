@@ -39,20 +39,20 @@ public class ChatServiceImpl implements ChatService {
     @Autowired
     private MemberRepository memberRepository;
 
-    // 전체 채팅방 리스트
-    @Override
-    public List<RoomResponseDto> getListAll() {
-        List<Room> list = roomRepository.findAll();
-        List<RoomResponseDto> resList = new ArrayList<>();
-        //이건써야함
-        for (Room room : list) {
-            int count = joinUserRepository.countDistinctById(room.getId());
-            Member member = room.getAdmin(); // 이거맞는지모름
-            resList.add(RoomResponseDto.from(roomRepository.save(room), count, member));
-        }
-
-        return resList;
-    }
+//    // 전체 채팅방 리스트
+//    @Override
+//    public List<RoomResponseDto> getListAll() {
+//        List<Room> list = roomRepository.findAll();
+//        List<RoomResponseDto> resList = new ArrayList<>();
+//        //이건써야함
+//        for (Room room : list) {
+//            int count = joinUserRepository.countDistinctById(room.getId());
+//            Member member = room.getAdmin(); // 이거맞는지모름
+//            resList.add(RoomResponseDto.from(roomRepository.save(room), count, member));
+//        }
+//
+//        return resList;
+//    }
 
     // 전체 채팅방 리스트 - 페이지네이션
     @Override
@@ -102,7 +102,8 @@ public class ChatServiceImpl implements ChatService {
                 .member_id(member)
                 .build();
         joinUserRepository.save(joinuser);
-        return RoomResponseDto.from(room, 1, member);
+        int count = room.getCount();
+        return RoomResponseDto.from(room, count, member);
     }
 
     // 채팅방 수정

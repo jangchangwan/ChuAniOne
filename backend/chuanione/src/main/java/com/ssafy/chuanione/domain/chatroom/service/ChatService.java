@@ -8,7 +8,7 @@ import java.util.Map;
 public interface ChatService {
 
     // 전체 채팅방 리스트
-    List<RoomResponseDto> getListAll();
+//    List<RoomResponseDto> getListAll();
     // 전체 채팅방 리스트 - 페이지네이션
     Map<String, Object> getListAllPage(int page);
     // 채팅방 하나 조회

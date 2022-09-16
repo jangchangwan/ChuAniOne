@@ -1,5 +1,5 @@
 
-select * from member;
+-- select * from member;
 
 -- member / test1의 비번은 test1
 INSERT INTO MEMBER ( birthday, email, gender, introduction, nickname, password, profile, role,verified)
@@ -12,10 +12,11 @@ INSERT INTO MEMBER ( birthday, email, gender, introduction, nickname, password, 
 VALUES ('1991-01-31','test3@naver.com','MALE','intro','nick3','$2a$10$.6vOWSIo4Kp2l7/zYWqPVeElXdwTnulrcdjJ6QUpVaITm8p.u1hXy','1','ROLE_USER',true);
 
 
-
-
 -- room
-
+INSERT INTO ROOM ( max,member_id, name, tag1, tag2, tag3,count)
+VALUES (20,1,'test1','tag1','tag2','tag3',1);
 
 
 -- member_room
+
+INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,1);

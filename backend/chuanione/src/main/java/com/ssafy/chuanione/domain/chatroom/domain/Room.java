@@ -1,6 +1,5 @@
 package com.ssafy.chuanione.domain.chatroom.domain;
 
-//import javax.persistence.Entity;
 
 import com.ssafy.chuanione.domain.member.domain.Member;
 import lombok.*;
@@ -15,7 +14,7 @@ import javax.persistence.*;
 public class Room {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
     private int id; //방번호
     private String name; //방이름
@@ -31,7 +30,7 @@ public class Room {
     
     private int max; //최대인원
 
-    private int count; //현재인원
+    private int count = 0; //현재인원
 
 
     // onetomany list<chat> ?

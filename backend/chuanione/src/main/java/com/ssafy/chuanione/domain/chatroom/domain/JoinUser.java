@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class JoinUser {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="member_room_id")
     private Long id;
 

@@ -22,9 +22,9 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
     void deleteById(int room_id, int member_id);
 
 
-    //참가자 추가 -> save로 된다. 기본제공인가?
-    @Query(nativeQuery = true, value ="INSERT INTO member_room (member_id,room_id) VALUES (?1,?2)")
-    void insertJoin(int room_id, int member_id);
+//    //참가자 추가 -> save로 된다. 기본제공인가?
+//    @Query(nativeQuery = true, value ="INSERT INTO member_room (member_id,room_id) VALUES (?1,?2)")
+//    void insertJoin(int room_id, int member_id);
 
     //참가자 조회
     @Query(nativeQuery = true, value ="SELECT * FROM member_room where room_id = ?1")

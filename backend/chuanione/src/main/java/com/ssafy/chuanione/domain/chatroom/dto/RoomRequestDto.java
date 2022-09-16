@@ -29,6 +29,7 @@ public class RoomRequestDto {
                 .tag1(roomRequestDto.getTag1())
                 .tag2(roomRequestDto.getTag2())
                 .tag3(roomRequestDto.getTag3())
+                .count(1)
                 .admin(member)
                 .max(roomRequestDto.getMax())
                 .build();
