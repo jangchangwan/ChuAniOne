@@ -7,6 +7,7 @@ import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.DuplicateEmailException;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.global.jwt.TokenProvider;
+import com.ssafy.chuanione.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -88,4 +89,8 @@ public class MemberService {
         return;
     }
 
+    public MemberResponseDto getMyInfo() {
+        System.out.println("토큰 " + SecurityUtil.getCurrentUsername());
+        return MemberResponseDto.from(SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new));
+    }
 }
