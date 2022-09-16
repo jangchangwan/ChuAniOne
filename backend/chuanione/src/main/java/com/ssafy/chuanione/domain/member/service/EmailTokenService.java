@@ -47,7 +47,7 @@ public class EmailTokenService {
         msg += "<br>";
         msg += "<p> 아래의 링크를 눌러서 메일인증을 완료해주세요. </p>";
         msg += "<br>";
-        msg += "http://localhost:8080/confirm-email?token="+emailToken.getId();
+        msg += "<a href='http://localhost:8080/confirm-email?token="+emailToken.getId() + "'>링크 인증하기</a>";
         mimeMessage.setText(msg, "utf-8", "html");
         mimeMessage.setFrom(new InternetAddress("pecommend@gmail.com","ChuAnione"));
 
