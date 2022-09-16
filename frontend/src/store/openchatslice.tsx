@@ -2,24 +2,32 @@ import http from '../api/axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 
-
 /** chat-room **/
 // 전체 채팅방 목록 조회
 export const getChatAll = createAsyncThunk(
   'GETCHATALL',
-  async (page: number) => {
-    try {
+  async (page: number, { rejectWithValue }) => {
+    try { 
       const res = await http.get(`room/list.do/${page}`)
-      console.log(res)
-      if (res.status === 200) return res.data
-      else {
-        console.log('전체 채팅방 목록 조회 실패', res)
-    }
+      return res.data
     } catch(err) {
       console.log('전체 채팅방 목록 조회 실패', err)
     }
-}
+})
+
+// 채팅방 생성
+export const createChat = createAsyncThunk(
+  'CREATECHAT',
+  async (data: any): Promise<void> => {
+    try {
+      const res = await http.post(`room/room.do`, data)
+      return res.data
+    } catch (err) {
+      console.log('방 생성 에러', err)
+    }
+  }
 )
+
 
 // 내 채팅방 목록 조회 :: 구현 후, user_id를 헤더에 보낼 지 결정
 export const getMyChat = createAsyncThunk(
@@ -36,28 +44,10 @@ export const getMyChat = createAsyncThunk(
       .catch((err) => {
         console.log(err)
       })
-}
-)
-
-
-// 채팅방 생성
-export const createChat = createAsyncThunk(
-  'CREATECHAT',
-  async (data: any): Promise<void> => {
-    await http.post(`room/room.do`, data)
-      .then((res) => {
-        if (res.status === 200) {
-          return res
-        }
-        else {
-          console.log('에러', res)
-        }
-      })
-      .catch((err) => {
-        console.log('방생성 에러', err)
-      })
   }
 )
+
+
 
 
 // 채팅방 하나 조회
@@ -157,7 +147,6 @@ const openchatSlice:any = createSlice({
     },
   },
   extraReducers: {
-
   },
 })
 

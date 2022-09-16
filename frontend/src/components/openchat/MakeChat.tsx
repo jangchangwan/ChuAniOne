@@ -213,7 +213,7 @@ function MakeChat() {
         data[`tag${idx+1}`] = hash
       ))
       const val = await dispatch(createChat(data))
-      
+      console.log(val)
       if (val.type === "CREATECHAT/fulfilled") {
         await setOpenSuccess(true)
         await setRoom({
