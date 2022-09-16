@@ -1,24 +1,24 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"
 import styled from "styled-components"
-import logoicon from '../assets/images/Logo.png'
+// import logoicon from '../assets/images/Logo.png'
 // import logo1 from '../assets/images/logo1.png'
-// import logo1 from '../assets/images/logo2.png'
-import React, {useState, useEffect} from 'react';
-import Grid from '@mui/material/Grid';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import logoicon from '../assets/images/logo2.png'
+import React, {useState, useEffect} from 'react'
+import Grid from '@mui/material/Grid'
+import Tooltip from '@mui/material/Tooltip'
+import MenuItem from '@mui/material/MenuItem'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Menu from '@mui/material/Menu'
 
 // redux
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
-import { logout, logoutUser } from '../components/accounts/Loginslice'
-import initialState from '../components/accounts/Loginslice';
+import { logout, logoutUser } from '../store/Loginslice'
+import initialState from '../store/Loginslice'
 import store from '../store'
 
 // Nav 전체 틀
@@ -73,11 +73,9 @@ function Nav() {
   // 로그인 유무
   const logincheck = useSelector((state: initialState) => state.login.isLogin)
   // 네비게이션바 유무
-  const [show, setShow] =useState(false);
+  const [show, setShow] =useState(false)
   
-  
-  // 
-  const [User, setUser] = React.useState<null | HTMLElement>(null);
+  const [User, setUser] = React.useState<null | HTMLElement>(null)
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setUser(event.currentTarget);
   };
@@ -108,6 +106,8 @@ function Nav() {
       window.removeEventListener('scroll', () => {});
     }
   }, []);
+  
+  
   // 로그인 , 회원가입, 비밀번호 찾기 인 경우 네비게이션 바 없애기
   // if (window.location.pathname === '/login') return null;
   // else if (window.location.pathname === '/signup') return null;

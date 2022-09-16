@@ -14,10 +14,10 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 // redux
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
-import { signup } from './Loginslice'
+import { signup } from '../../store/Loginslice'
 import store from '../../store'
 
 // 화면전환 애니메이션
@@ -43,9 +43,16 @@ function Signup() {
     }
 
     dispatch(signup(signupDto))
-      .then(() =>
-        navigate('/login')
-      )
+      .then((res) => {
+        console.log(res.type)
+        if (res.type === 'SIGNUP/rejected'){
+          console.log("실패")
+          
+        } else {
+          console.log('성공')
+          navigate('/login')
+        }
+      })
     console.log({ 
       email: data.get('email'),
       password: data.get('password'),
@@ -58,7 +65,7 @@ function Signup() {
 
 
   // 닉네임 중복체크
-  const nicknameCheck = () => {
+  const nicknameConfirm = () => {
 
   }
   // 비밀번호 체크

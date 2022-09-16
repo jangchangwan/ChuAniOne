@@ -19,11 +19,11 @@ import KakaoLogin from './KakaoLogin'
 // redux 
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
-import { login, loginUser } from './Loginslice'
-
+import { login, loginUser } from '../../store/Loginslice'
+import store from '../../store'
 // 화면전환 애니메이션
 import { motion } from 'framer-motion'
-import store from '../../store'
+
 
 const theme = createTheme()
 

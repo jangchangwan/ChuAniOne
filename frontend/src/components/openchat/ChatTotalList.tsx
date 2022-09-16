@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ChatTotalItem from './ChatTotalItem'
 import Pagination from '@mui/material/Pagination'
-import { getChatAll } from '../../request/openchat'
+import { getChatAll } from '../../store/openchatslice'
 
 const Container = styled.div`
   width: 96%;

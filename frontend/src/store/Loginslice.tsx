@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import http from '../../api/axios'
+import http from '../api/axios'
 
 
 
@@ -44,6 +44,19 @@ export const signup = createAsyncThunk(
       const res = await http.post('member/signup.do', userData)
       return res
     } catch (err:any) {
+      return rejectWithValue(err.response)
+    }
+  }
+)
+
+// 닉네임 중복 확인
+export const nicknameCheck = createAsyncThunk(
+  'NICKNAMECHECK',
+  async (nickname:string, {rejectWithValue}) => {
+    try{
+      const res = await http.get(`member/check.do/${nickname}`)
+      return res
+    } catch(err:any) {
       return rejectWithValue(err.response)
     }
   }

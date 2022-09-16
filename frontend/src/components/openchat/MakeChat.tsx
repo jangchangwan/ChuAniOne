@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { TextField, Snackbar } from '@mui/material'
 import { Cancel } from '@mui/icons-material'
-import { createChat } from '../../request/openchat'
+import { createChat } from '../../store/openchatslice'
 import Alert from '@mui/material/Alert'
 
 const Container = styled.div`

@@ -1,4 +1,6 @@
 import http from '../api/axios'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
 
 export const getList = () => {
   http.get('voca')
@@ -41,3 +43,29 @@ export const deleteMyVoca = ( id:Number ) => {
     console.log(error)
   })
 }
+
+export interface openChatReducerType {
+  words: [],
+  error: any,
+}
+
+const initialState:openChatReducerType = {
+  words: [],
+  error: null,
+}
+
+const bigvocaslice:any = createSlice({
+  name: 'login',
+  initialState,
+  reducers: {
+    resetUsers: (state) => {
+      state.words = []
+    },
+  },
+  extraReducers: {
+
+  },
+})
+
+export const { resetUsers } = bigvocaslice.actions
+export default bigvocaslice.reducer

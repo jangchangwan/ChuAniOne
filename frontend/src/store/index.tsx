@@ -4,10 +4,10 @@ import storage from 'redux-persist/lib/storage'
 
 // slice 불러오기
 // import accountsReducer from '../components/accounts/accountsslice'
-import {AuthReducer} from '../components/accounts/authslice'
+import {AuthReducer} from './authslice'
 // thunk 관련
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import LoginReducer from '../components/accounts/Loginslice'
+import LoginReducer from './Loginslice'
 const rootPersistConfig = {
   key: 'root',
   storage,
