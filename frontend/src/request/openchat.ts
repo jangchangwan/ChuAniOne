@@ -1,19 +1,20 @@
 import http from '../api/axios'
 
+
+
 /** chat-room **/
 // 전체 채팅방 목록 조회
-export async function getChatAll(): Promise<void> {
-  await http.get(`chat/list`)
-    .then((res) => {
-      if (res.status === 200) return res
-      else {
-        console.log(res)
-        alert('데이터 전송 실패')
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+export async function getChatAll(page: number) {
+  try {
+    const res = await http.get(`room/list.do/${page}`)
+    console.log(res)
+    if (res.status === 200) return res.data
+    else {
+      console.log('전체 채팅방 목록 조회 실패', res)
+    }
+  } catch(err) {
+    console.log('전체 채팅방 목록 조회 실패', err)
+  }
 }
 
 // 내 채팅방 목록 조회 :: 구현 후, user_id를 헤더에 보낼 지 결정
