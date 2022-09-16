@@ -3,11 +3,14 @@ import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 // slice 불러오기
-// import accountsReducer from '../components/accounts/accountsslice'
 import {AuthReducer} from './authslice'
+import LoginReducer from './Loginslice'
+import OpenChatReducer from './openchatslice'
+import AniReducer from './anislice'
+import BigvocaReducer from './bigvocaslice'
 // thunk 관련
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import LoginReducer from './Loginslice'
+
 const rootPersistConfig = {
   key: 'root',
   storage,
@@ -18,7 +21,10 @@ const rootReducers = combineReducers({
   // signup: signupReducer,
   // accounts : accountsReducer,
   auth: AuthReducer,
-  login: LoginReducer
+  login: LoginReducer,
+  openchat: OpenChatReducer,
+  ani: AniReducer,
+  bigvoca: BigvocaReducer
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducers)

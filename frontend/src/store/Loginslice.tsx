@@ -9,10 +9,10 @@ export const login = createAsyncThunk(
   async (userData:any, { rejectWithValue }) => {
     try {
       const res = await http.post('member/login.do', userData)
-      const {
-        data: { accessToken },
-      } = res
+      const accessToken = res.data.accessToken
+      const refreshToken = res.data.refreshToken
       window.localStorage.setItem('access-Token', accessToken);
+      window.localStorage.setItem('refresh-Token', refreshToken);
       return res
     } catch (err:any) {
       return rejectWithValue(err.response) //err안에 response로 담겨있음
@@ -28,6 +28,7 @@ export const logout = createAsyncThunk(
     try {
       // const res = await http.post('member/logout.do')
       window.localStorage.removeItem('access-Token');
+      window.localStorage.removeItem('refresh-Token');
       return
     } catch (err:any) {
       return rejectWithValue(err.response)
@@ -54,21 +55,44 @@ export const nicknameCheck = createAsyncThunk(
   'NICKNAMECHECK',
   async (nickname:string, {rejectWithValue}) => {
     try{
-      const res = await http.get(`member/check.do/${nickname}`)
+      const res = await http.get(`member/check.do/${nickname}`,)
       return res
     } catch(err:any) {
       return rejectWithValue(err.response)
     }
   }
 )
+
+// 회원정보 받아오기
+export const myinfo = createAsyncThunk(
+  'MYINFO',
+  async (arg, {rejectWithValue}) => {
+    try{
+      const accessToken =localStorage.getItem("access-Token");
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      const res = await http.get('member/myinfo')
+
+      if (res.status === 200){
+        return res
+      } else {
+        console.log('실패',res)
+      }
+      
+
+    } catch(err:any) {
+      return rejectWithValue(err.response)
+    }
+    
+  }
+)
 export interface loginReducerType {
-  user:string,
+  userId:string,
   isLogin: boolean,
   error: any,
 }
 
 const initialState:loginReducerType = {
-  user: '',
+  userId: '',
   isLogin: false,
   error: null,
 }
@@ -78,7 +102,7 @@ const loginSlice:any = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-      state.user = ''
+      state.userId = ''
     },
     loginUser: (state) => {
       state.isLogin = true
@@ -87,21 +111,20 @@ const loginSlice:any = createSlice({
       state.isLogin = false
     }
   },
-  extraReducers: {
-    // fulfilled 성공했을때 동작
-    // rejected 실패했을때 동작
-    [login.fulfilled.type]: (state:any) => {
-      state.isLogin = true
-    },
-    [login.rejected.type]: (state:any) => {
-      state.isLogin = false
-    },
-    [logout.fulfilled.type]: (state:any)=> {
-      state.isLogin = false
-    },
-    [logout.rejected.type]: (state:any) => {
-      state.isLogin = true
-    }
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.fulfilled, (state) => {
+        state.isLogin = true
+      })
+      .addCase(login.rejected, (state) => {
+        state.isLogin = true
+      })
+      .addCase(myinfo.fulfilled, (state, { payload }) =>{
+        if (payload) {
+          console.log(payload.data.memberId);
+          state.userId = payload.data.memberId
+        }
+      })
   },
 })
 
