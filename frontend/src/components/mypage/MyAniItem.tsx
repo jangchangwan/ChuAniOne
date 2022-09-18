@@ -110,7 +110,7 @@ function MyAniItem() {
       production: ani.data.production,
       tags: ani.data.tags,
     })
-    console.log(ani.data)
+    // console.log(ani.data)
   }
 
   return (

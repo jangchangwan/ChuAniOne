@@ -1,14 +1,21 @@
 import React from 'react'
 import styled from "styled-components"
 import Grid from '@mui/material/Grid'
-import Container from '@mui/material/Container'
 import profileicon from '../../assets/images/kakao_icon.png' // 임시로 사진 가져옴
 import badgeicon1 from '../../assets/images/google_icon.png' // 임시로 사진 가져옴
 import badgeicon2 from '../../assets/images/kakao_icon.png' // 임시로 사진 가져옴
 import badgeicon3 from '../../assets/images/Logo.png' // 임시로 사진 가져옴
-// 방사형 그래프
-// https://velog.io/@eunjin/React-%EB%A6%AC%EC%95%A1%ED%8A%B8-%EA%B7%B8%EB%9E%98%ED%94%84%EC%B0%A8%ED%8A%B8-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC-%EB%AA%A8%EC%9D%8C
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MyAniChart   from "./MyAniChart";
+
+// MUI
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 // 프로필 사진, 닉네임, 경험치 관련
 const ProfileContainer = styled.div`
@@ -39,6 +46,7 @@ const ProfileContainerBox = styled.div`
 const ProfileContainerLv = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: space-around;
   font-size: 1.5rem;
   /* margin: 0 0 1rem 0; */
 `
@@ -103,13 +111,14 @@ const BadgeImg = styled.img`
 
 
 function MyLeft() {
-  interface MyInfo {
-    img: string,
-    exp: number,
-    nickname: string,
-    introduction: string,
-    badge: string,
-  }
+  const [open, setOpen] = React.useState(false);
+  // interface MyInfo {
+  //   img: string,
+  //   exp: number,
+  //   nickname: string,
+  //   introduction: string,
+  //   badge: string,
+  // }
 
   const exp:number = 370
   const tier:any = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']
@@ -119,6 +128,15 @@ function MyLeft() {
   const imgArrId:any = [1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2] // 12개
 
 
+  // 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   return (
     <div>
@@ -126,7 +144,64 @@ function MyLeft() {
       <ProfileContainer>
         <ProfileImg src={profileicon}></ProfileImg>
         <ProfileContainerBox>
-          <ProfileContainerLv>{mytier}({myexp})   닉네임</ProfileContainerLv>
+          <ProfileContainerLv>
+            <p style={{ margin : '0'}}>{mytier}({myexp})   닉네임</p>
+            <MoreVertIcon
+              type='button'
+              onClick={handleClickOpen}
+              sx={{ paddingTop: '2px',}}
+            ></MoreVertIcon>
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>회원정보 변경</DialogTitle>
+              <DialogContent
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column'
+                }}>
+                <DialogContentText>
+                  프로필 사진, 자기소개, 닉네임 등을 꾸며보세요!
+                </DialogContentText>
+                <hr />
+                <div style={{ justifyContent: 'center'}}>
+                  <img src="https://newsimg.sedaily.com/2022/07/10/268GU9UQSV_3.jpeg" alt="프로필사진" style={{ height: '10rem', width:'auto'}}/>
+                </div>
+                <Button>이미지 선택</Button>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="ninkname"
+                  label="닉네임을 입력해주세요"
+                  type="nickname"
+                  fullWidth
+                  variant="standard"
+                />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="myintro"
+                  label="자기소개을 입력해주세요"
+                  type="myintro"
+                  fullWidth
+                  variant="standard"
+                />
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="ninkname"
+                  label="닉네임을 입력해주세요"
+                  type="nickname"
+                  fullWidth
+                  variant="standard"
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>취소</Button>
+                <Button onClick={handleClose}>변경</Button>
+              </DialogActions>
+            </Dialog>
+          </ProfileContainerLv>
+          
           <ProfileContainerExpTextBox>
             {/* <ProfileContainerExpText style={{ color:"blue" }}>현재 경험치 : {myexp}</ProfileContainerExpText> */}
             <ProfileContainerExpText style={{ color:"red" }}>다음 레벨까지 : {100 - myexp} !!</ProfileContainerExpText>
