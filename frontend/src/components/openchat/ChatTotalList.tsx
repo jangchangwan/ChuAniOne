@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ChatTotalItem from './ChatTotalItem'
 import Pagination from '@mui/material/Pagination'
-import { getChatAll } from '../../store/openchatslice'
+
+// redux
 import { useDispatch } from 'react-redux'
+import { getChatAll } from '../../store/openchatslice'
 import store from '../../store'
 
 const Container = styled.div`
@@ -25,6 +27,7 @@ const PageBox = styled.div`
 
 function ChatTotalList() {
   interface RoomData {
+    id: number,
     name: string,
     tag1: string,
     tag2: string,
@@ -53,11 +56,10 @@ function ChatTotalList() {
 
   // 데이터 불러오기
   async function loadData(page: number) {
-    const val = await dispatch(getChatAll(page))
-    await console.log(val)
-    if (val.type === "GETCHATALL/fulfilled") {
-      await setLastPage(val.payload.pageCnt)
-      await setData(val.payload.rDto)
+    const res = await dispatch(getChatAll(page))
+    if (res.type === "GETCHATALL/fulfilled") {
+      await setLastPage(res.payload.pageCnt)
+      await setData(res.payload.rDto)
     }
   } 
 

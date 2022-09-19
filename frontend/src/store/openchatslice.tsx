@@ -1,7 +1,6 @@
 import http from '../api/axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-
 /** chat-room **/
 // 전체 채팅방 목록 조회
 export const getChatAll = createAsyncThunk(
@@ -15,10 +14,11 @@ export const getChatAll = createAsyncThunk(
     }
 })
 
+
 // 채팅방 생성
 export const createChat = createAsyncThunk(
   'CREATECHAT',
-  async (data: any): Promise<void> => {
+  async (data: any) => {
     try {
       const res = await http.post(`room/room.do`, data)
       return res.data
@@ -28,25 +28,25 @@ export const createChat = createAsyncThunk(
   }
 )
 
+interface getMyList {
+  userId: number,
+  page: number,
+}
+
 
 // 내 채팅방 목록 조회 :: 구현 후, user_id를 헤더에 보낼 지 결정
 export const getMyChat = createAsyncThunk(
   'GETMYCHAT',
-  async ( user_id: number ): Promise<void> => {
-    await http.get(`chat/list/${user_id}`)
-      .then((res) => {
-        if (res.status === 200) return res
-        else {
-          console.log(res)
-          alert('데이터 전송 실패')
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async ( data: getMyList ) => {
+    try {
+      const res = await http.get(`room/list.do/join/${data.userId}/page/${data.page}`)
+      return res
+    } catch (err) {
+      console.log('내 채팅방 목록 에러', err)
+    }
+    
   }
 )
-
 
 
 
