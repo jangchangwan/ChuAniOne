@@ -2,8 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import Button from '@mui/material/Button'
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist'
-import { useSelector } from 'react-redux'
+
+// redux
+import { useSelector, useDispatch } from 'react-redux'
 import initialState from '../../store/Loginslice'
+import { setChatting } from '../../store/openchatslice'
+import store from '../../store'
 
 const Container = styled.div`
   width: 100%;
@@ -83,7 +87,14 @@ const EnterRoom = styled(Button)`
 `
 
 function MyChatItem({ chatData }: any): any {
+  const dispatch = useDispatch<typeof store.dispatch>()
+
   const userId = useSelector((state: initialState) => state.login.userId)
+
+  const openChat = () => {
+    dispatch(setChatting(true))
+  }
+
   return (
     <Container>
       <NameHashBox>
@@ -104,7 +115,7 @@ function MyChatItem({ chatData }: any): any {
           <MemberCount>{chatData.count} / {chatData.max}</MemberCount>
         </MemberCountBox>
         <EnterRoomBox>
-          <EnterRoom variant="contained" color="secondary">입장하기</EnterRoom>
+          <EnterRoom variant="contained" color="secondary" onClick={openChat}>채팅열기</EnterRoom>
         </EnterRoomBox>
       </RoomBox>
     </Container>

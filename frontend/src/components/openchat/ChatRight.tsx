@@ -3,6 +3,10 @@ import styled from 'styled-components'
 import ChatHeader from './ChatHeader'
 import ChatBody from './ChatBody'
 
+// redux
+import { useSelector } from 'react-redux'
+import initialState from '../../store/openchatslice'
+
 
 const Container = styled.div`
   width: calc(38% - 6rem);
@@ -18,11 +22,20 @@ const Container = styled.div`
 `
 
 function ChatRight() {
+
+  const opened = useSelector((state: initialState) => state.openchat.chatting)
+
   return (
-    <Container>
-      <ChatHeader/>
-      <ChatBody/>
-    </Container>
+    <>
+      { opened ?
+        <Container>
+          <ChatHeader/>
+          <ChatBody/>
+        </Container>
+      : 
+        null
+      }
+    </>
   )
 }
 

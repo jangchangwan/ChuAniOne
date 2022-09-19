@@ -39,8 +39,6 @@ const SearchIcon1 = styled(SearchIcon)`
   color: #505050;
 `
 
-
-
 function ChatTotal() {
   return (
     <Container>

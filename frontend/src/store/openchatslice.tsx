@@ -126,29 +126,24 @@ export async function searchChat( keyword: string ): Promise<void> {
 
 
 export interface openChatReducerType {
-  users: [],
-  error: any,
-  rooms: []
+  chatting: boolean,
 }
 
 const initialState: openChatReducerType = {
-  users: [],
-  error: null,
-  rooms: []
+  chatting: false,
 }
 
 const openchatSlice:any = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    resetUsers: (state) => {
-      state.users = []
-      state.rooms = []
+    setChatting: (state) => {
+      state.chatting = !state.chatting
     },
   },
   extraReducers: {
   },
 })
 
-export const { resetUsers } = openchatSlice.actions
+export const { setChatting } = openchatSlice.actions
 export default openchatSlice.reducer

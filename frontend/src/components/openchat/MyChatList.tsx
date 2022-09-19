@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import MyChatItem from './MyChatItem'
 import Pagination from '@mui/material/Pagination'
-import { PaginationItem } from '@mui/material'
-
 
 // redux
 import { useDispatch } from 'react-redux'
@@ -63,7 +61,6 @@ function MyChatList() {
     async function loadData(userId: number, page: number) {
       const res: any = await dispatch(getMyChat({ userId: 1, page }))
       if (res.type === "GETMYCHAT/fulfilled") {
-        console.log(res.payload)
         await setLastPage(res.payload.data.pageCnt)
         await setData(res.payload.data.rDto)
       }

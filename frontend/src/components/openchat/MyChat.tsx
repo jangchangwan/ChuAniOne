@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search'
@@ -39,7 +39,6 @@ const SearchIcon1 = styled(SearchIcon)`
   padding: 12.5%;
   color: #505050;
 `
-
 
 
 function MyChat() {
