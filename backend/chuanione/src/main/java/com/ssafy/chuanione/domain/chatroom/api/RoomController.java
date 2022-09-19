@@ -25,7 +25,7 @@ public class RoomController {
     private final ChatService chatService;
 
     @GetMapping("/list.do/{page}")
-    @ApiOperation(value = "전체 채팅방 목록 가져오기 / 페이지네이션 완료. 1부터시작")
+    @ApiOperation(value = "전체 채팅방 목록 가져오기 / 페이지네이션 1부터시작")
     public ResponseEntity<Map<String,Object>> getListAll(@PathVariable int page) {
 //        List<RoomResponseDto> list = chatService.getListAll();
         Map<String,Object> rooms = chatService.getListAllPage(page-1);
@@ -40,16 +40,16 @@ public class RoomController {
     }
 
     @GetMapping("/list.do/join/{id}/page/{page}")
-    @ApiOperation(value = "참여중인 채팅방 목록 가져오기 (id:사용자)")
+    @ApiOperation(value = "참여중인 채팅방 목록 가져오기 (id:사용자) / page 1부터 시작")
     public ResponseEntity<Map<String,Object>> getMyList(@PathVariable int id,@PathVariable int page) {
         Map<String,Object> list = chatService.getMyList(id,page);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/search.do/{keyword}")
-    @ApiOperation(value = "채팅방 검색 목록 가져오기 / 미완료")
-    public ResponseEntity<List<RoomResponseDto>> getSearchList() {
-        List<RoomResponseDto> list = null;
+    @GetMapping("/search.do/{keyword}/page/{page}")
+    @ApiOperation(value = "채팅방 검색 목록 가져오기 / page 1부터 시작")
+    public ResponseEntity<Map<String,Object>> getSearchList(@PathVariable String keyword,@PathVariable int page) {
+        Map<String,Object> list = chatService.getSearchList(keyword,page-1);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

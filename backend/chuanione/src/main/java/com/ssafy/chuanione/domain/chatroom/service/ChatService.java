@@ -24,7 +24,7 @@ public interface ChatService {
     // 채팅 보내기
     ChatResponseDto sendMessage(ChatRequestDto chatRequestDto);
     // 검색 리스트
-    RoomListResponseDto searchRoom(String keyword);
+    Map<String, Object> getSearchList(String keyword, int page);
     // 입장중인 리스트
     Map<String, Object> getMyList(int member_id, int page);
     // 채팅방 입장

@@ -183,24 +183,50 @@ public class ChatServiceImpl implements ChatService {
 
     // 검색 리스트
     @Override
-    public RoomListResponseDto searchRoom(String keyword) {
-        return null;
+    public Map<String, Object> getSearchList(String keyword, int page) {
+
+//        Page<Room> roomPage = roomRepository.findAll(PageRequest.of(page,5));
+        String name = keyword;
+        String tag1 = keyword;
+        String tag2 = keyword;
+        String tag3 = keyword;
+        Page<Room> roomPage = roomRepository.findByNameLikeOrTag1LikeOrTag2LikeOrTag3Like(PageRequest.of(page,5),"%"+name+"%", "%"+tag1+"%","%"+tag2+"%","%"+tag3+"%");
+        long totalCount = roomPage.getTotalElements();
+        long pageCount = roomPage.getTotalPages();;
+        List<Room> rooms = roomPage.getContent();
+        List<RoomResponseDto> dtoList = new LinkedList<>();
+        for(Room room : rooms){
+            int count = joinUserRepository.countDistinctById(room.getId());
+            Member member = room.getAdmin();
+            dtoList.add(RoomResponseDto.from(room,count,member));
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCnt",totalCount);
+        map.put("pageCnt",pageCount);
+        map.put("rDto",dtoList);
+        return map;
     }
 
     // 입장중인 리스트 
     @Override
     public Map<String, Object> getMyList(int member_id, int page) {
-        Page<Integer> roomPage = joinUserRepository.getMyList(PageRequest.of(page,5), member_id);
+        Page<JoinUser> roomPage = joinUserRepository.getMyList(PageRequest.of(page,5), member_id);
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
-        List<Integer> roomList = roomPage.getContent(); //joinUser에서 가져온 room_id 리스트
+        List<JoinUser> roomList = roomPage.getContent(); //joinUser에서 가져온 room_id 리스트
 
 
         List<RoomResponseDto> dtoList = new LinkedList<>();
-        for(int room_id : roomList){
-            Room room = roomRepository.findOne(room_id);
-            int count = joinUserRepository.countDistinctById(room_id); // joinUser의 숫자
-            Member member = room.getAdmin(); // 이거맞는지모름
+        System.out.println("///////////////////////////////////////////");
+        for(JoinUser user : roomList){
+            Room room = user.getRoom_id();
+//            System.out.println("room_id");
+//            Room room = roomRepository.findOne(room_id);
+            int count = joinUserRepository.countDistinctById(room.getId()); // joinUser의 숫자
+            Room target = Room.builder().count(count).build(); // 업데이트용
+            room.patch(target);
+            Member member = room.getAdmin();
             dtoList.add(RoomResponseDto.from(roomRepository.save(room), count, member));
 //            dtoList.add(RoomResponseDto.from(room,count,member));
         }

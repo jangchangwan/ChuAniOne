@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.persistence.Column;
 import javax.transaction.Transactional;
@@ -35,6 +36,6 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 //    void deleteJoinUserByRoom(int room);
 
     // 참여중인 채팅방 id 리스트
-    @Query(nativeQuery = true, value ="SELECT room_id FROM member_room where member_id = ?1")
-    Page<Integer> getMyList(Pageable pageable, int memberid);
+    @Query(nativeQuery = true, value ="SELECT * FROM member_room where member_id = :member_id")
+    Page<JoinUser> getMyList(Pageable pageable, @Param("member_id")int member_id);
 }

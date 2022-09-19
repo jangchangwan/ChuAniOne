@@ -14,9 +14,26 @@ VALUES ('1991-01-31','test3@naver.com','MALE','intro','nick3','$2a$10$.6vOWSIo4K
 
 -- room
 INSERT INTO ROOM ( max,member_id, name, tag1, tag2, tag3,count)
-VALUES (20,1,'test1','tag1','tag2','tag3',1);
+VALUES (20,1,'test1','tag1','tag2','',1);
+INSERT INTO ROOM ( max,member_id, name, tag1, tag2, tag3,count)
+VALUES (20,1,'search','tag1','tag2','',1);
+INSERT INTO ROOM ( max,member_id, name, tag1, tag2, tag3,count)
+VALUES (20,1,'name','tag1','search','tag3',1);
+INSERT INTO ROOM ( max,member_id, name, tag1, tag2, tag3,count)
+VALUES (20,1,'11111','tag1','tag2','sea',1);
+INSERT INTO ROOM ( max,member_id, name, tag1, tag2, tag3,count)
+VALUES (20,1,'이름','','test','sea',1);
+INSERT INTO ROOM ( max,member_id, name, tag1, tag2, tag3,count)
+VALUES (20,1,'방이름','test','tag2','sea',1);
+
 
 
 -- member_room
 
 INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,1);
+INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,2);
+INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,3);
+INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,4);
+INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,5);
+INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (2,5);
+INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,6);

@@ -34,6 +34,8 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
     // 입장중인 리스트
 
     // 검색 리스트
-
-
+//    @Query(value = "select * from room where name = ?1 or tag1 or tag2 or tag3", nativeQuery = true)
+//    countQuery
+//    Page<Room> findByNameTag(Pageable pageable, String keyword);
+    Page<Room> findByNameLikeOrTag1LikeOrTag2LikeOrTag3Like(Pageable pageable, String name, String tag1, String tag2, String tag3);
 }
