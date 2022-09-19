@@ -49,7 +49,7 @@ public class MemberService {
                 .build();
         //가입시 메일 전송
         Member result = memberRepository.save(member);
-        emailTokenService.createEmailToken(result.getId(), result.getEmail());
+        emailTokenService.createEmailToken(result.getEmail());
         return MemberResponseDto.from(result);
     }
 
@@ -61,10 +61,10 @@ public class MemberService {
         // CustomUserDetailsService의 loadByUserName 실행
         Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        //SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto tokenDto = tokenProvider.createToken(authentication);
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         //Refresh Token 저장
         Optional<Member> member = memberRepository.findByEmail(authentication.getName());

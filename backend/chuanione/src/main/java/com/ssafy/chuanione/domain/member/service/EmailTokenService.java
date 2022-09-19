@@ -1,7 +1,9 @@
 package com.ssafy.chuanione.domain.member.service;
 
 import com.ssafy.chuanione.domain.member.dao.EmailTokenRepository;
+import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.EmailToken;
+import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.domain.member.exception.TokenNotFoundException;
 import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +30,14 @@ public class EmailTokenService {
 
     private final EmailTokenRepository emailTokenRepository;
     private final JavaMailSender emailSender;
+    private final MemberRepository memberRepository;
     private final ResourceLoader resourceLoader;
 
     //이메일 인증 토큰 생성
-    public String createEmailToken(int memberId, String receiverEmail) throws Exception {
-        Assert.notNull(memberId, "memberId는 필수입니다");
+    public String createEmailToken(String receiverEmail) throws Exception {
         Assert.hasText(receiverEmail, "receiverEmail은 필수입니다.");
-
+        System.out.println("receiver: " + receiverEmail);
+        int memberId = memberRepository.findByEmail(receiverEmail).orElseThrow(MemberNotFoundException::new).getId();
         //이메일 토큰 저장
         EmailToken emailToken = EmailToken.createEmailToken(memberId);
         emailTokenRepository.save(emailToken);
@@ -42,7 +45,7 @@ public class EmailTokenService {
         //이메일 전송
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         mimeMessage.addRecipients(Message.RecipientType.TO, receiverEmail);
-       mimeMessage.setSubject("회원가입 이메일 인증");
+        mimeMessage.setSubject("회원가입 이메일 인증");
 
 //        Resource resource = resourceLoader.getResource("classpath:static/img/email-confirm.jpg");
 //        System.out.println("존재: " + resource.exists());

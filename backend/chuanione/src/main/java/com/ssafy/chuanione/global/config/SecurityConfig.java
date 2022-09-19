@@ -71,7 +71,6 @@ public class SecurityConfig {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
                 // permitAll -> 요청 허용
                 // autenticated -> 인증해야함
                 .and()

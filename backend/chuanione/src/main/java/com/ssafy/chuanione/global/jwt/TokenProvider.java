@@ -33,9 +33,6 @@ public class TokenProvider implements InitializingBean {
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60;
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;
 
-    @Autowired
-    private MemberRepository memberRepository;
-
     private final String secret;
     private Key key;
 
@@ -50,24 +47,18 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public TokenDto createToken(Authentication authentication){
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+    public TokenDto createToken(String email, String authorities){
         //만료시간
         long now = (new Date()).getTime();
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName()) // sub : name(email)
+                .setSubject(email) // sub : name(email)
                 .claim(AUTHORITIES_KEY, authorities) // auth: ROLE
                 .setExpiration(accessTokenExpiresIn) // exp: ~~~
                 .signWith(key, SignatureAlgorithm.HS512) // alg: HS512
                 .compact();
 
-
         String refreshToken = Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
                 .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
@@ -79,6 +70,15 @@ public class TokenProvider implements InitializingBean {
                 .build();
     }
 
+    public TokenDto generateTokenDto(Authentication authentication){
+        // 권한 가져오기
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        return createToken(authentication.getName(), authorities);
+    }
+
     //토큰에 있는 권한 정보 리턴
     public Authentication getAuthentication(String token){
         Claims claims = Jwts
@@ -87,6 +87,7 @@ public class TokenProvider implements InitializingBean {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)

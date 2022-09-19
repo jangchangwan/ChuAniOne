@@ -4,6 +4,7 @@ package com.ssafy.chuanione.domain.member.api;
 import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.TokenNotFoundException;
 import com.ssafy.chuanione.domain.member.service.EmailService;
+import com.ssafy.chuanione.domain.member.service.EmailTokenService;
 import com.ssafy.chuanione.domain.member.service.MemberService;
 import com.ssafy.chuanione.global.error.exception.InvalidParameterException;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +26,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final EmailService emailService;
+    private final EmailTokenService emailTokenService;
 
     @PostMapping("/signup.do")
     @ApiOperation(value = "회원 가입")
@@ -35,23 +37,38 @@ public class MemberController {
         return new ResponseEntity<>(memberService.doSignUp(requestDto), HttpStatus.OK);
     }
 
+    @GetMapping("/email-confirm.do")
+    @ApiOperation(value = "메일 인증 확인")
+    public ResponseEntity<Boolean> confirmEmail(@RequestParam String token){
+        return new ResponseEntity<>(emailService.confirmEmail(token), HttpStatus.OK);
+    }
+
+    @GetMapping("/email-send.do")
+    @ApiOperation(value = "인증메일 재발송")
+    public ResponseEntity<String> sendEmail(@RequestParam String email) throws Exception {
+        emailTokenService.createEmailToken(email);
+        return new ResponseEntity<>("인증메일이 발송되었습니다.", HttpStatus.OK);
+    }
+
+
+
     @PostMapping("/login.do")
     @ApiOperation(value = "로그인")
     public ResponseEntity<TokenDto> doLogin(@Valid @RequestBody LoginRequestDto requestDto, BindingResult result){
         if(result.hasErrors()){
             throw new InvalidParameterException(result);
         }
+        HttpHeaders headers = new HttpHeaders();
+
+        //메일 인증이 안됐다면 다른곳으로 보낸다.
+        if(!memberService.emailConfirmCheck(requestDto.getEmail())){
+            headers.setLocation(URI.create("/api/v1/member/email-send.do?email=" + requestDto.getEmail()));
+            return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+        }
 
         TokenDto tokenDto = memberService.doLogin(requestDto);
-        HttpHeaders headers = new HttpHeaders();
         headers.add("Auth", tokenDto.getAccessToken());
         headers.add("Refresh", tokenDto.getRefreshToken());
-
-//        if(!memberService.emailConfirmCheck(requestDto.getEmail())){
-//            headers.setLocation(URI.create("/test"));
-//            System.out.println("test");
-//            return new ResponseEntity<>(tokenDto, headers, HttpStatus.MOVED_PERMANENTLY);
-//        }
 
         return new ResponseEntity<>(tokenDto, headers, HttpStatus.OK);
     }
@@ -68,13 +85,6 @@ public class MemberController {
     public ResponseEntity<String> updateMember(@PathVariable int id, @RequestBody UpdateRequestDto requestDto){
         memberService.updateMember(id, requestDto);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-    }
-
-    @GetMapping("/email-confirm.do")
-    @ApiOperation(value = "메일 인증")
-    public ResponseEntity<Boolean> confirmEmail(@RequestParam String token){
-        System.out.println("token = " + token);
-        return new ResponseEntity<>(emailService.confirmEmail(token), HttpStatus.OK);
     }
 
     @GetMapping("/myinfo")
