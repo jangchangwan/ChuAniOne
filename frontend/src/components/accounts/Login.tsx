@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, {useState} from 'react'
 // MUI
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -7,9 +7,9 @@ import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-
+import Alert from '@mui/material/Alert'
 import logoicon from '../../assets/images/logo2.png'
-
+import Snackbar from '@mui/material/Snackbar'
 // 하위 컴포넌트
 import GoogleLogin from './GoogleLogin'
 import KakaoLogin from './KakaoLogin'
@@ -34,7 +34,7 @@ const LogoImg = styled.img`
 function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch<typeof store.dispatch>()
-
+  const [LoginFail, setLoginFail] = useState<boolean>(false)
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -49,7 +49,9 @@ function Login() {
         dispatch(myinfo())
         navigate('/')
         }
-      )
+      ).catch((e) => {
+        setLoginFail(true)
+      })
     await dispatch(loginUser())
   };
 
@@ -168,6 +170,13 @@ function Login() {
           </Box>
         </Container>
       </div>
+      <Snackbar open={LoginFail} autoHideDuration={3000} onClose={() => setLoginFail(!LoginFail)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+        <Alert severity="error" sx={{ width: '100%' }}>
+          로그인에 실패하였습니다 😥
+        </Alert>
+      </Snackbar>
     </motion.div>
   );
 }
