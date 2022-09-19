@@ -6,10 +6,9 @@ import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 
-
+import logoicon from '../../assets/images/logo2.png'
 
 // 하위 컴포넌트
 import GoogleLogin from './GoogleLogin'
@@ -24,6 +23,13 @@ import store from '../../store'
 import { motion } from 'framer-motion'
 import BackgroundImg from '../../assets/images/memberBackground.png'
 
+import styled from "styled-components"
+const LogoImg = styled.img`
+  width: 10rem;
+  height: auto;
+  object-fit: contain;
+  background-color: 'transparent';
+`
 
 function Login() {
   const navigate = useNavigate()
@@ -47,6 +53,10 @@ function Login() {
     await dispatch(loginUser())
   };
 
+  // 홈으로 가기
+  const goMain = () => {
+    navigate('/')
+  }
   return (
     <motion.div
     >
@@ -60,7 +70,7 @@ function Login() {
           component="main" 
           maxWidth="xs"
           sx = {{
-            padding: '3rem'
+            padding: '6rem'
           }}
           >
           <CssBaseline />
@@ -78,10 +88,11 @@ function Login() {
               opacity: 0.9,
             }}
           >
-
-            <Typography component="h1" variant="h5">
-              로그인
-            </Typography>
+            <LogoImg
+            src={logoicon}
+            alt="Logo"
+            onClick={goMain}
+            />
             <Box 
               component="form" 
               onSubmit={handleSubmit} 
