@@ -6,6 +6,8 @@ import com.ssafy.chuanione.domain.member.exception.TokenNotFoundException;
 import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -26,6 +28,7 @@ public class EmailTokenService {
 
     private final EmailTokenRepository emailTokenRepository;
     private final JavaMailSender emailSender;
+    private final ResourceLoader resourceLoader;
 
     //이메일 인증 토큰 생성
     public String createEmailToken(int memberId, String receiverEmail) throws Exception {
@@ -41,13 +44,15 @@ public class EmailTokenService {
         mimeMessage.addRecipients(Message.RecipientType.TO, receiverEmail);
        mimeMessage.setSubject("회원가입 이메일 인증");
 
+//        Resource resource = resourceLoader.getResource("classpath:static/img/email-confirm.jpg");
+//        System.out.println("존재: " + resource.exists());
+//        System.out.println("파일얻기 " + resource.getFile());
+//        System.out.println("파일경로 " + resource.getURI());
+
         String msg = "";
         msg += "<div style='margin:100px;'>";
-        msg+= "<h1> 안녕하세요 ChuAniOne입니다. </h1>";
-        msg += "<br>";
-        msg += "<p> 아래의 링크를 눌러서 메일인증을 완료해주세요. </p>";
-        msg += "<br>";
-        msg += "<a href='http://localhost:8080/confirm-email?token="+emailToken.getId() + "'>링크 인증하기</a>";
+        msg += "<p> <img src='http://localhost:8080/static/img/mail-confirm.jpg'</p>";
+        msg += "<a href='http://localhost:8080/api/v1/member/email-confirm.do?token="+emailToken.getId() + "'>링크 인증하기</a>";
         mimeMessage.setText(msg, "utf-8", "html");
         mimeMessage.setFrom(new InternetAddress("pecommend@gmail.com","ChuAnione"));
 

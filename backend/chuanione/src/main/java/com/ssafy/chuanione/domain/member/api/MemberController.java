@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/member")
@@ -42,10 +43,15 @@ public class MemberController {
         }
 
         TokenDto tokenDto = memberService.doLogin(requestDto);
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Auth", tokenDto.getAccessToken());
         headers.add("Refresh", tokenDto.getRefreshToken());
+
+//        if(!memberService.emailConfirmCheck(requestDto.getEmail())){
+//            headers.setLocation(URI.create("/test"));
+//            System.out.println("test");
+//            return new ResponseEntity<>(tokenDto, headers, HttpStatus.MOVED_PERMANENTLY);
+//        }
 
         return new ResponseEntity<>(tokenDto, headers, HttpStatus.OK);
     }
@@ -66,7 +72,8 @@ public class MemberController {
 
     @GetMapping("/email-confirm.do")
     @ApiOperation(value = "메일 인증")
-    public ResponseEntity<Boolean> confirmEmail(String token){
+    public ResponseEntity<Boolean> confirmEmail(@RequestParam String token){
+        System.out.println("token = " + token);
         return new ResponseEntity<>(emailService.confirmEmail(token), HttpStatus.OK);
     }
 

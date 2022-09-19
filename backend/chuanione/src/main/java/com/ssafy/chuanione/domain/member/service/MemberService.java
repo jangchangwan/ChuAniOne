@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -92,5 +93,9 @@ public class MemberService {
     public MemberResponseDto getMyInfo() {
         System.out.println("토큰 " + SecurityUtil.getCurrentUsername());
         return MemberResponseDto.from(SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new));
+    }
+
+    public boolean emailConfirmCheck(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new).isVerified();
     }
 }
