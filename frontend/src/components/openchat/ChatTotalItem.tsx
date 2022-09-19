@@ -77,16 +77,16 @@ function ChatTotalItem({ chatData }: any): any {
   return (
     <Container>
       <NameHashBox>
-        <Name>{chatData.room_name}</Name>
+        <Name>{chatData.name}</Name>
         <HashTags>
-          { chatData.hashTags.map((hash: string, idx: number) => (
-            <HashTag>#{hash}</HashTag>
-          ))}
+          { chatData.tag1 ? <HashTag># {chatData.tag1}</HashTag> : null }
+          { chatData.tag2 ? <HashTag># {chatData.tag2}</HashTag> : null }
+          { chatData.tag3 ? <HashTag># {chatData.tag3}</HashTag> : null }
         </HashTags>
       </NameHashBox>
       <RoomBox>
         <MemberCountBox>
-          <MemberCount>{chatData.now_num} / {chatData.max_num}</MemberCount>
+          <MemberCount>{chatData.count} / {chatData.max}</MemberCount>
         </MemberCountBox>
         <EnterRoomBox>
           <EnterRoom variant="contained">입장하기</EnterRoom>

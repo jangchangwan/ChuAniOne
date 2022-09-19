@@ -3,6 +3,10 @@ import styled from 'styled-components'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Menu, MenuItem, IconButton } from '@mui/material'
 
+// redux
+import { useDispatch } from 'react-redux'
+import { setChatting } from '../../store/openchatslice'
+import store from '../../store'
 
 const Container = styled.div`
   width: calc(100% - 2rem);
@@ -37,6 +41,7 @@ const Icon = styled(MoreVertIcon)`
 `
 
 function ChatHeader() {
+  const dispatch = useDispatch<typeof store.dispatch>()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
@@ -46,6 +51,11 @@ function ChatHeader() {
 
   const handleClose = () => {
     setAnchorEl(null)
+    closeChat()
+  }
+
+  const closeChat = () => {
+    dispatch(setChatting(true))
   }
 
   return (

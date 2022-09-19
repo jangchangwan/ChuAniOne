@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ChatTotalItem from './ChatTotalItem'
 import Pagination from '@mui/material/Pagination'
+
+// redux
+import { useDispatch } from 'react-redux'
 import { getChatAll } from '../../store/openchatslice'
+import store from '../../store'
 
 const Container = styled.div`
   width: 96%;
@@ -23,6 +27,7 @@ const PageBox = styled.div`
 
 function ChatTotalList() {
   interface RoomData {
+    id: number,
     name: string,
     tag1: string,
     tag2: string,
@@ -33,45 +38,33 @@ function ChatTotalList() {
     count: number, 
   }
   
-  interface Data extends RoomData {
-    pageCnt: number,
-    totalCnt: number,
-    rDto: Partial<Data[]>
-  }
-  
+  const dispatch = useDispatch<typeof store.dispatch>()
 
-  const [ data, setData ] = useState<Partial<RoomData[]>>([])
-
-  const [lastPage, setLastPage] = useState<number>(1)
-  // const value = parseInt(`${data.length / 5}`)
-
+  const [data, setData] = useState<Partial<RoomData[]>>([])
   const [page, setPage] = useState<number>(1)
-  const [showData, setShowData] = useState<Data[]>([])
+  const [lastPage, setLastPage] = useState<number>(1)
 
+  // 초기 데이터 불러오기
   useEffect(() => {
-    const value: any = getChatAll(1)
-    console.log(value)
-    // setData(value.rDto)
-    // if (data.length % 5) {
-    //   setLastPage(value+1)
-    // } else {
-    //   setLastPage(value)
-    // }
+    loadData(1)
   }, [])
   
-  // useEffect(() => {
-  //   getPageData()
-  //   }, [page])
+  // 페이지 변화에 따라 데이터 불러오기
+  useEffect(() => {
+    loadData(page)
+    }, [page])
 
-  // async function getPageData(): Promise<void> {
-    // if(page === lastPage){
-    //   await setShowData(data.slice(5 * (page - 1)))
-    // } else {
-    //   await setShowData(data.slice(5 * (page - 1), 5 * (page - 1) + 5))
-    // }  
-  // }
+  // 데이터 불러오기
+  async function loadData(page: number) {
+    const res = await dispatch(getChatAll(page))
+    if (res.type === "GETCHATALL/fulfilled") {
+      await setLastPage(res.payload.pageCnt)
+      await setData(res.payload.rDto)
+    }
+  } 
 
-  const handlePage = (event: any) => {
+  // 페이지네이션 동작
+  function handlePage(event: any) {
     if (event.target.dataset.testid) {
       if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
         const nowPageInt = page - 1
@@ -89,8 +82,8 @@ function ChatTotalList() {
 
   return (
     <Container>
-      { showData ?
-        ( showData.map((item, idx) => (
+      { data ?
+        ( data.map((item, idx) => (
             <ChatTotalItem chatData={item}/>
           ))
         ) : null
