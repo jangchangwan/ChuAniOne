@@ -8,15 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 //@RequiredArgsConstructor
@@ -98,8 +93,8 @@ public class ChatServiceImpl implements ChatService {
         roomRepository.save(room);
 //        joinUserRepository.insertJoin(room.getId(),member.getId());
         JoinUser joinuser = JoinUser.builder()
-                .room_id(room)
-                .member_id(member)
+                .roomId(room)
+                .memberId(member)
                 .build();
         joinUserRepository.save(joinuser);
         int count = room.getCount();
@@ -211,20 +206,21 @@ public class ChatServiceImpl implements ChatService {
     // 입장중인 리스트 
     @Override
     public Map<String, Object> getMyList(int member_id, int page) {
-        Page<JoinUser> roomPage = joinUserRepository.getMyList(PageRequest.of(page,5), member_id);
+        Page<JoinUser> roomPage = joinUserRepository.findByMemberId(member_id , PageRequest.of(page,5));
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
         List<JoinUser> roomList = roomPage.getContent(); //joinUser에서 가져온 room_id 리스트
 
 
         List<RoomResponseDto> dtoList = new LinkedList<>();
+
         System.out.println("///////////////////////////////////////////");
         for(JoinUser user : roomList){
-            Room room = user.getRoom_id();
+            Room room = user.getRoomId();
 //            System.out.println("room_id");
 //            Room room = roomRepository.findOne(room_id);
             int count = joinUserRepository.countDistinctById(room.getId()); // joinUser의 숫자
-            Room target = Room.builder().count(count).build(); // 업데이트용
+            Room target = Room.builder().count(count).build(); // count 업데이트용
             room.patch(target);
             Member member = room.getAdmin();
             dtoList.add(RoomResponseDto.from(roomRepository.save(room), count, member));
@@ -235,6 +231,7 @@ public class ChatServiceImpl implements ChatService {
         map.put("totalCnt",totalCount);
         map.put("pageCnt",pageCount);
         map.put("rDto",dtoList);
+//        map.put("temp",roomList);
         return map;
     }
 
@@ -246,8 +243,8 @@ public class ChatServiceImpl implements ChatService {
         Room room = roomRepository.findOne(room_id);
         Member member = memberRepository.getReferenceById(member_id);
         JoinUser joinUser = JoinUser.builder()
-                .room_id(room)
-                .member_id(member)
+                .roomId(room)
+                .memberId(member)
                 .build();
         joinUserRepository.save(joinUser);
 

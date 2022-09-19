@@ -22,10 +22,10 @@ public class JoinUser {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="room_id")
-    private Room room_id; //방번호
+    private Room roomId; //방번호
 
     @ManyToOne
     @JoinColumn(name="member_id")
-    private Member member_id; //회원번호
+    private Member memberId; //회원번호
 
 }
