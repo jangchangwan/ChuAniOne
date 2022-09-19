@@ -17,7 +17,7 @@ import Menu from '@mui/material/Menu'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
-import { logout, logoutUser } from '../store/Loginslice'
+import { logout, logoutUser, resetUser } from '../store/Loginslice'
 import initialState from '../store/Loginslice'
 import store from '../store'
 
@@ -72,6 +72,7 @@ function Nav() {
   const dispatch = useDispatch<typeof store.dispatch>()
   // 로그인 유무
   const logincheck = useSelector((state: initialState) => state.login.isLogin)
+  const userId = useSelector((state: initialState) => state.login.userId)
   // 네비게이션바 유무
   const [show, setShow] =useState(false)
   
@@ -80,7 +81,6 @@ function Nav() {
     setUser(event.currentTarget);
   };
   const handleCloseUserMenu = () => {
-    // console.log(setUser);
     setUser(null);
   };
 
@@ -88,15 +88,17 @@ function Nav() {
     dispatch(logout())
      .then(() => navigate('/login')) 
     dispatch(logoutUser())
+    dispatch(resetUser())
   }
   const goMypage = () => {
     navigate('/mypage')
+    
   }
   // 스크롤 내릴시 Nav 배경색 변화
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (window.pageYOffset > 50) {
-        console.log(logincheck);
+        console.log(userId)
         setShow(true);
       } else {
         setShow(false);

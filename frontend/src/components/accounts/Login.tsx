@@ -19,7 +19,7 @@ import KakaoLogin from './KakaoLogin'
 // redux 
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
-import { login, loginUser } from '../../store/Loginslice'
+import { login, loginUser, myinfo } from '../../store/Loginslice'
 import store from '../../store'
 // 화면전환 애니메이션
 import { motion } from 'framer-motion'
@@ -31,7 +31,7 @@ function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch<typeof store.dispatch>()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
@@ -39,13 +39,14 @@ function Login() {
       email: data.get('email'),
       password: data.get('password')
     }
-    dispatch(login(loginDto))
+    await dispatch(login(loginDto))
       .unwrap()
       .then(() =>
         navigate('/')
         
       )
-    dispatch(loginUser())
+    await dispatch(myinfo())
+    await dispatch(loginUser())
   };
 
   return (

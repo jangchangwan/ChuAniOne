@@ -2,6 +2,7 @@ package com.ssafy.chuanione.global.config;
 
 import com.ssafy.chuanione.global.jwt.JwtAccessDeniedHandler;
 import com.ssafy.chuanione.global.jwt.JwtAuthenticationEntryPoint;
+import com.ssafy.chuanione.global.jwt.JwtSecurityConfig;
 import com.ssafy.chuanione.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -78,12 +79,18 @@ public class SecurityConfig {
                 .antMatchers(
                         "/api/v1/**/*.do/**",
                         "/v2/api-docs",
-                        "/v3/api-docs/**",
                         "/swagger-resources",
                         "/swagger-resources/**",
+                        "/configuration/ui",
+                        "/configuration/security",
                         "/swagger-ui.html",
+                        "/webjars/**",
+                        /* swagger v3 */
+                        "/v3/api-docs/**",
                         "/swagger-ui/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider));
         return http.build();
     }
 
