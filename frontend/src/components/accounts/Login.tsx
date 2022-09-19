@@ -17,7 +17,7 @@ import KakaoLogin from './KakaoLogin'
 // redux 
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
-import { login, loginUser, myinfo } from '../../store/Loginslice'
+import { login, myinfo } from '../../store/Loginslice'
 import store from '../../store'
 // 화면전환 애니메이션
 import { motion } from 'framer-motion'
@@ -52,7 +52,6 @@ function Login() {
       ).catch((e) => {
         setLoginFail(true)
       })
-    await dispatch(loginUser())
   };
 
   // 홈으로 가기

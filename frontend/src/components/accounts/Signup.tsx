@@ -247,6 +247,7 @@ function Signup() {
         </Box>
       </Box>
       </Container>
+      
     </motion.div>
   );
 }

@@ -196,9 +196,7 @@ function Nav() {
             {/* 로그인 유무에 따른 변화 */}
             <Grid 
               item md={1}
-              sx={{
-                marginTop: '1rem',
-              }}
+              style = { logincheck ? {marginTop: '0.5rem'} : {marginTop: '1rem',}}
             >
               {
                 logincheck ? 
@@ -240,6 +238,7 @@ function Nav() {
             </Grid>
           </Grid>
         </div>
+        
       }
     </NavContainer>
   );
