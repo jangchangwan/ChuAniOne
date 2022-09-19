@@ -70,4 +70,10 @@ public class MemberController {
         return new ResponseEntity<>(emailService.confirmEmail(token), HttpStatus.OK);
     }
 
+    @GetMapping("/myinfo")
+    @ApiOperation(value = "내 정보 보기")
+    public ResponseEntity<MemberResponseDto> getMyInfo(){
+        return new ResponseEntity<>(memberService.getMyInfo(), HttpStatus.OK);
+    }
+
 }
