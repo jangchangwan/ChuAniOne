@@ -74,7 +74,7 @@ function Nav() {
   const [show, setShow] =useState(false)
   // 네비게이션바 유무
   const [showNav, setShowNav] = useState(false)
-
+  const [showLogo, setShowLogo] = useState(true)
   const [User, setUser] = React.useState<null | HTMLElement>(null)
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setUser(event.currentTarget);
@@ -110,6 +110,7 @@ function Nav() {
     } 
   }, []);
 
+
   useEffect(() => {
     if (window.location.pathname === '/login') {
       setShowNav(true)
@@ -121,6 +122,21 @@ function Nav() {
       setShowNav(false)
     }
   }, [window.location.pathname]);
+
+  useEffect(() => {
+    window.addEventListener("resize", function() {
+      const body = document.querySelector('body')
+      if (body) {
+        const logoWidth = body.getBoundingClientRect().width
+        if (logoWidth > 900) {
+          setShowLogo(true)
+        } else {
+          setShowLogo(false)
+        }
+      }
+    })
+    
+  }, []);
   
   
   // 로그인 , 회원가입, 비밀번호 찾기 인 경우 네비게이션 바 없애기
@@ -136,23 +152,35 @@ function Nav() {
         <div></div>
       :
         <div>
-          <LogoImg
+          {/* <LogoImg
           src={logoicon}
           alt="Logo"
           onClick={goMain}
-          />
+          /> */}
           <Grid 
             container
             >
+            
             <Grid 
-              item xs={1}
+              item xs={0} md={2}
               sx={{
                 marginTop: '1rem'
               }}
-            >
+            > 
+              {
+                showLogo ?
+                <LogoImg
+                src={logoicon}
+                alt="Logo"
+                onClick={goMain}
+                />
+                :
+                <div></div>
+              }
+              
             </Grid>
             <NavGrid 
-              item xs={10}
+              item md={9}
               sx={{
                 marginTop: '1rem'
               }}
@@ -167,7 +195,7 @@ function Nav() {
 
             {/* 로그인 유무에 따른 변화 */}
             <Grid 
-              item xs={1}
+              item md={1}
               sx={{
                 marginTop: '1rem',
               }}
