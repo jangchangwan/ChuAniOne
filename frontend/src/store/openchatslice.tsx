@@ -33,7 +33,6 @@ interface getMyList {
   page: number,
 }
 
-
 // 내 채팅방 목록 조회 :: 구현 후, user_id를 헤더에 보낼 지 결정
 export const getMyChat = createAsyncThunk(
   'GETMYCHAT',
@@ -49,12 +48,11 @@ export const getMyChat = createAsyncThunk(
 )
 
 
-
 // 채팅방 하나 조회
 export const getChatInfo = createAsyncThunk(
   'GETCHATINFO',
-  async ( chat_no: number ): Promise<void> => {
-    await http.get(`chat/room/${chat_no}`)
+  async ( roomId: number ): Promise<void> => {
+    await http.get(`room/room.do/${roomId}`)
       .then((res) => {
         if (res.status === 200) return res
         else {
@@ -124,24 +122,39 @@ export async function searchChat( keyword: string ): Promise<void> {
     })
 }
 
+interface ChatRoom {
+  id: number,
+  name: string,
+  tag1: string,
+  tag2: string,
+  tag3: string,
+  memberId: number,
+  nickname: string,
+  count: number,
+  max: number,
+}
 
 export interface openChatReducerType {
   chatting: boolean,
+  chatRoom: null | Partial<ChatRoom>,
 }
 
 const initialState: openChatReducerType = {
   chatting: false,
+  chatRoom: null,
 }
 
-const openchatSlice:any = createSlice({
+const openchatSlice: any = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    setChattingOpen: (state) => {
+    setChattingOpen: (state, action) => {
       state.chatting = true
+      state.chatRoom = action.payload
     },
     setChattingClose: (state) => {
       state.chatting = false
+      state.chatRoom = null
     },
   },
   extraReducers: {

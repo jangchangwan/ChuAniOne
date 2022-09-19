@@ -24,7 +24,7 @@ const Container = styled.div`
 function ChatRight() {
 
   const opened = useSelector((state: initialState) => state.openchat.chatting)
-
+  
   return (
     <>
       { opened ?

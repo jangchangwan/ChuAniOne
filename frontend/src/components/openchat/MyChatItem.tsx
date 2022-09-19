@@ -6,7 +6,7 @@ import LocalFloristIcon from '@mui/icons-material/LocalFlorist'
 // redux
 import { useSelector, useDispatch } from 'react-redux'
 import initialState from '../../store/Loginslice'
-import { setChattingOpen } from '../../store/openchatslice'
+import { setChattingOpen, getChatInfo } from '../../store/openchatslice'
 import store from '../../store'
 
 const Container = styled.div`
@@ -92,7 +92,7 @@ function MyChatItem({ chatData }: any): any {
   const userId = useSelector((state: initialState) => state.login.userId)
 
   const openChat = () => {
-    dispatch(setChattingOpen(true))
+    dispatch(setChattingOpen(chatData))
   }
 
   return (
