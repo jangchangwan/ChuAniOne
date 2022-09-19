@@ -86,13 +86,13 @@ export const myinfo = createAsyncThunk(
   }
 )
 export interface loginReducerType {
-  userId:string,
+  userId:number,
   isLogin: boolean,
   error: any,
 }
 
 const initialState:loginReducerType = {
-  userId: '',
+  userId: 0,
   isLogin: false,
   error: null,
 }
@@ -102,7 +102,7 @@ const loginSlice:any = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-      state.userId = ''
+      state.userId = 0
     },
     loginUser: (state) => {
       state.isLogin = true
