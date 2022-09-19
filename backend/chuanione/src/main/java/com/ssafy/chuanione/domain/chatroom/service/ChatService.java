@@ -12,14 +12,14 @@ public interface ChatService {
     // 전체 채팅방 리스트 - 페이지네이션
     Map<String, Object> getListAllPage(int page);
     // 채팅방 하나 조회
-    RoomResponseDto getRoom(int room_id);
+    Map<String, Object> getRoom(int room_id);
     // 채팅방 생성 -> roomRequestDto : 멤버id, 방이름, tag 123, 최대인원
     RoomResponseDto insertRoom(RoomRequestDto roomRequestDto);
     // 채팅방 삭제 -> member_id 비교 필요.
     void deleteRoom(int room_id);
-    // 채팅방 수정 RoomResponseDto를 파라미터로?
+    // 채팅방 수정
     RoomResponseDto updateRoom(int id, RoomRequestDto roomRequestDto);
-    // 채팅 받기 -> 필요없을지도
+    // 채팅 받기
     List<ChatResponseDto> getMessages(int room_id, int member_id);
     // 채팅 보내기
     ChatResponseDto sendMessage(ChatRequestDto chatRequestDto);

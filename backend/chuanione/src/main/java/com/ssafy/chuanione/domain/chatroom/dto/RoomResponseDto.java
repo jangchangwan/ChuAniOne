@@ -50,8 +50,8 @@ public class RoomResponseDto {
                 .max(room.getMax())
                 .count(count)
 //                .joinList(joinList)
-                .memberId(member.getId())
-                .nickname(member.getNickname())
+                .memberId(member.getId()) //방장 아이디
+                .nickname(member.getNickname()) //방장 닉네임
                 .build();
     }
 

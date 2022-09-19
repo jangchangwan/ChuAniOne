@@ -27,13 +27,7 @@ public class RoomController {
     @GetMapping("/list.do/{page}")
     @ApiOperation(value = "전체 채팅방 목록 가져오기 / 페이지네이션 1부터시작")
     public ResponseEntity<Map<String,Object>> getListAll(@PathVariable int page) {
-//        List<RoomResponseDto> list = chatService.getListAll();
         Map<String,Object> rooms = chatService.getListAllPage(page-1);
-//        List<RoomResponseDto> rDto = (List<RoomResponseDto>)rooms.get("rDto");
-//        long totalCnt = (long)rooms.get("totalCnt");
-//        long pageCnt = (long)rooms.get("pageCnt");
-//        rooms.put("totalCnt", totalCnt);
-//        rooms.put("pageCnt",pageCnt );
 
         return new ResponseEntity<>(rooms, HttpStatus.OK);
 
@@ -81,9 +75,10 @@ public class RoomController {
     }
 
     @GetMapping("/room.do/{id}")
-    @ApiOperation(value = "채팅방 하나 조회 (id:채팅방)")
-    public ResponseEntity<RoomResponseDto> getRoom(@PathVariable int id) {
-        return new ResponseEntity<>(chatService.getRoom(id), HttpStatus.OK);
+    @ApiOperation(value = "채팅방 하나 조회 + 참가자 목록 (id:채팅방)")
+    public ResponseEntity<Map<String,Object>> getRoom(@PathVariable int id) {
+        Map<String,Object> list = chatService.getRoom(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 

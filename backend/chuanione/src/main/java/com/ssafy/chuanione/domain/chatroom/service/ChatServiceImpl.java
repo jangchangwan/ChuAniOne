@@ -73,15 +73,22 @@ public class ChatServiceImpl implements ChatService {
     
     // 채팅방 하나 조회
     @Override
-    public RoomResponseDto getRoom(int room_id) {
+    public Map<String, Object> getRoom(int room_id) {
         Room room = roomRepository.findOne(room_id);
         int count = joinUserRepository.countDistinctById(room_id); // joinUser의 숫자
+        Member member = room.getAdmin();
+//        참가자 목록
+        List<JoinUser> list = joinUserRepository.findAllByRoom_id(room_id);
+        List<JoinUserResponseDto> dtoList = new LinkedList<>();
+        for(JoinUser user : list){
+            Member member1 = user.getMemberId();
+            dtoList.add(JoinUserResponseDto.from(member1));
+        }
 
-//        Member member = memberRepository.getReferenceById(room.getAdmin());
-        Member member = room.getAdmin(); // 이거맞는지모름
-
-        return RoomResponseDto.from(roomRepository.save(room), count, member);
-//        return null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("mDto",dtoList);
+        map.put("rDto",RoomResponseDto.from(roomRepository.save(room), count, member));
+        return map;
     }
 
     // 채팅방 생성
