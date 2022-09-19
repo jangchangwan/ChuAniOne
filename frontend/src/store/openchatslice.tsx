@@ -137,13 +137,16 @@ const openchatSlice:any = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    setChatting: (state) => {
-      state.chatting = !state.chatting
+    setChattingOpen: (state) => {
+      state.chatting = true
+    },
+    setChattingClose: (state) => {
+      state.chatting = false
     },
   },
   extraReducers: {
   },
 })
 
-export const { setChatting } = openchatSlice.actions
+export const { setChattingOpen, setChattingClose } = openchatSlice.actions
 export default openchatSlice.reducer

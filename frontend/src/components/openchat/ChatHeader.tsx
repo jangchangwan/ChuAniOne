@@ -5,7 +5,7 @@ import { Menu, MenuItem, IconButton } from '@mui/material'
 
 // redux
 import { useDispatch } from 'react-redux'
-import { setChatting } from '../../store/openchatslice'
+import { setChattingClose } from '../../store/openchatslice'
 import store from '../../store'
 
 const Container = styled.div`
@@ -55,7 +55,7 @@ function ChatHeader() {
   }
 
   const closeChat = () => {
-    dispatch(setChatting(true))
+    dispatch(setChattingClose())
   }
 
   return (
