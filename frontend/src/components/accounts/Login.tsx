@@ -8,7 +8,6 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 
 
@@ -23,9 +22,8 @@ import { login, loginUser, myinfo } from '../../store/Loginslice'
 import store from '../../store'
 // 화면전환 애니메이션
 import { motion } from 'framer-motion'
+import BackgroundImg from '../../assets/images/memberBackground.png'
 
-
-const theme = createTheme()
 
 function Login() {
   const navigate = useNavigate()
@@ -41,22 +39,23 @@ function Login() {
     }
     await dispatch(login(loginDto))
       .unwrap()
-      .then(() =>
+      .then(() => {
+        dispatch(myinfo())
         navigate('/')
-        
+        }
       )
-    await dispatch(myinfo())
     await dispatch(loginUser())
   };
 
   return (
     <motion.div
-      initial = {{opacity: 0}}
-      animate = {{opacity: 1}}
-      exit = {{opacity:0}}
-      transition = {{ duration: 0.5}}
     >
-      <ThemeProvider theme={theme}>
+      <div
+        style={{
+          height: '100vh',
+          backgroundImage: `url(${BackgroundImg})`,
+        }}
+      >
         <Container 
           component="main" 
           maxWidth="xs"
@@ -76,11 +75,12 @@ function Login() {
               border: 1,
               borderRadius: '1rem',
               padding: 3,
+              opacity: 0.9,
             }}
           >
 
             <Typography component="h1" variant="h5">
-              Login
+              로그인
             </Typography>
             <Box 
               component="form" 
@@ -156,7 +156,7 @@ function Login() {
             </Box>
           </Box>
         </Container>
-      </ThemeProvider>
+      </div>
     </motion.div>
   );
 }

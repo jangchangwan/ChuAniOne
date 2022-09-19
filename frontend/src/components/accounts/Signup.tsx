@@ -12,7 +12,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-
+import BackgroundImg from '../../assets/images/memberBackground.png'
 // redux
 // import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -72,16 +72,18 @@ function Signup() {
 
   return (
     <motion.div
-      initial = {{opacity: 0}}
-      animate = {{opacity: 1}}
-      exit = {{opacity:0}}
+      style={{
+        height: '100vh',
+        backgroundImage: `url(${BackgroundImg})`,
+      }}
     >
       
       <Container
         component="main" 
         maxWidth="xs"
         sx = {{
-          padding: '3rem'
+          padding: '3rem',
+          
         }}
         >
         <Box
@@ -94,6 +96,8 @@ function Signup() {
             padding: 3,
             border: 1,
             borderRadius: '1rem',
+            backgroundColor: 'white',
+            opacity: 0.9,
           }}
         >
         <Typography component="h1" variant="h5">
