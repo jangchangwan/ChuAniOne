@@ -8,6 +8,7 @@ import com.ssafy.chuanione.domain.member.exception.TokenNotFoundException;
 import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,6 +20,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -31,7 +33,9 @@ public class EmailTokenService {
     private final EmailTokenRepository emailTokenRepository;
     private final JavaMailSender emailSender;
     private final MemberRepository memberRepository;
-    private final ResourceLoader resourceLoader;
+
+    private final String FROM = "pecommend@gmail.com";
+    private final String path = "C:\\Users\\SSAFY\\Desktop\\자료\\특화플젝\\특화플젝\\backend\\chuanione\\src\\main\\resources\\img\\";
 
     //이메일 인증 토큰 생성
     public String createEmailToken(String receiverEmail) throws Exception {
@@ -42,25 +46,21 @@ public class EmailTokenService {
         EmailToken emailToken = EmailToken.createEmailToken(memberId);
         emailTokenRepository.save(emailToken);
 
+        StringBuilder body = new StringBuilder();
+        body.append("<html> <body>");
+        body.append("<p><img src=\"cid:mail-confirm.jpg\" height='700' width='1000'></p>");
+        body.append("<h1><a href='http://localhost:8080/api/v1/member/email-confirm.do?token="+emailToken.getId() + "'>링크 인증하기</a></h1></body></html>");
         //이메일 전송
         MimeMessage mimeMessage = emailSender.createMimeMessage();
-        mimeMessage.addRecipients(Message.RecipientType.TO, receiverEmail);
-        mimeMessage.setSubject("회원가입 이메일 인증");
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        helper.setFrom(new InternetAddress(FROM,"ChuAnione"));
+        helper.setTo(receiverEmail);
+        helper.setSubject("회원가입 이메일 인증");
+        helper.setText(body.toString(), true);
 
-//        Resource resource = resourceLoader.getResource("classpath:static/img/email-confirm.jpg");
-//        System.out.println("존재: " + resource.exists());
-//        System.out.println("파일얻기 " + resource.getFile());
-//        System.out.println("파일경로 " + resource.getURI());
-
-        String msg = "";
-        msg += "<div style='margin:100px;'>";
-        msg += "<p> <img src='http://localhost:8080/static/img/mail-confirm.jpg'</p>";
-        msg += "<a href='http://localhost:8080/api/v1/member/email-confirm.do?token="+emailToken.getId() + "'>링크 인증하기</a>";
-        mimeMessage.setText(msg, "utf-8", "html");
-        mimeMessage.setFrom(new InternetAddress("pecommend@gmail.com","ChuAnione"));
-
+        FileSystemResource file = new FileSystemResource(new File(path + "mail-confirm.jpg"));
+        helper.addInline("mail-confirm.jpg", file);
         emailSender.send(mimeMessage);
-
         return emailToken.getId();
     }
 
