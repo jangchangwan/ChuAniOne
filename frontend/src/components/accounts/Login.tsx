@@ -45,6 +45,7 @@ function Login() {
       email: data.get('email'),
       password: data.get('password')
     }
+    console.log(loginDto)
     await dispatch(login(loginDto))
       .unwrap()
       .then(() => {

@@ -50,12 +50,14 @@ export const signup = createAsyncThunk(
   }
 )
 
+
 // 닉네임 중복 확인
 export const nicknameCheck = createAsyncThunk(
   'NICKNAMECHECK',
   async (nickname:string, {rejectWithValue}) => {
     try{
-      const res = await http.get(`member/check.do/${nickname}`,)
+      // console.log("loginslice", nickname)
+      const res = await http.get(`member/check.do/nickname/${nickname}`,)
       return res
     } catch(err:any) {
       return rejectWithValue(err.response)
@@ -63,6 +65,19 @@ export const nicknameCheck = createAsyncThunk(
   }
 )
 
+// 이메일 중복 확인
+export const emailCheck = createAsyncThunk(
+  'EMAILCHECK',
+  async (email:string, {rejectWithValue}) => {
+    try{
+      console.log(email)
+      const res = await http.get(`member/check.do/email/${email}`)
+      return res
+    } catch(err:any) {
+      return rejectWithValue(err.response)
+    }
+  }
+)
 // 회원정보 받아오기
 export const myinfo = createAsyncThunk(
   'MYINFO',
