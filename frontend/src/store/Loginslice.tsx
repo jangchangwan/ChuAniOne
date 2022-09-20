@@ -86,7 +86,7 @@ export const myinfo = createAsyncThunk(
   }
 )
 export interface loginReducerType {
-  userId:number,
+  userId: number,
   isLogin: boolean,
   error: any,
 }
@@ -117,7 +117,7 @@ const loginSlice:any = createSlice({
         state.isLogin = true
       })
       .addCase(login.rejected, (state) => {
-        state.isLogin = true
+        state.isLogin = false
       })
       .addCase(myinfo.fulfilled, (state, { payload }) =>{
         if (payload) {

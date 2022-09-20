@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react'
 
 // CSS 
 import Button from '@mui/material/Button';
@@ -12,7 +12,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-
+import BackgroundImg from '../../assets/images/memberBackground.png'
 // redux
 // import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -29,7 +29,9 @@ function Signup() {
   const navigate = useNavigate()
   const dispatch = useDispatch<typeof store.dispatch>()
 
-  const emailState = false
+  const [emailState, setEmailState] = useState<boolean>(false)
+
+
   // 회원가입
   const SignUpSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,7 +43,6 @@ function Signup() {
       birthday: data.get('birthday'),
       nickname: data.get('nickname')
     }
-
     dispatch(signup(signupDto))
       .then((res) => {
         console.log(res.type)
@@ -53,35 +54,38 @@ function Signup() {
           navigate('/login')
         }
       })
-    console.log({ 
-      email: data.get('email'),
-      password: data.get('password'),
-      gender: data.get('gender'),
-      birthday: data.get('birthday'),
-      nickname: data.get('nickname')
-    })
   }
   // 이메일인증
-
-
+  const EmailConfirm = () => {
+    setEmailState(true)
+    console.log("이메일 인증")
+  }
+  // 이메일인증번호
+  const EmailConfirmCheck = () => {
+    console.log("이메일 인증번호 체크");
+    
+  }
   // 닉네임 중복체크
   const nicknameConfirm = () => {
-
+    console.log("닉네임 수정");
+    
   }
-  // 비밀번호 체크
+  
 
   return (
     <motion.div
-      initial = {{opacity: 0}}
-      animate = {{opacity: 1}}
-      exit = {{opacity:0}}
+      style={{
+        height: '100vh',
+        backgroundImage: `url(${BackgroundImg})`,
+      }}
     >
       
       <Container
         component="main" 
         maxWidth="xs"
         sx = {{
-          padding: '3rem'
+          padding: '3rem',
+          
         }}
         >
         <Box
@@ -94,6 +98,8 @@ function Signup() {
             padding: 3,
             border: 1,
             borderRadius: '1rem',
+            backgroundColor: 'white',
+            opacity: 0.9,
           }}
         >
         <Typography component="h1" variant="h5">
@@ -123,6 +129,7 @@ function Signup() {
                 type='button'
                 fullWidth
                 variant="contained"
+                onClick={nicknameConfirm}
                 sx={{
                   top: '1.5rem'
                 }}
@@ -149,6 +156,7 @@ function Signup() {
                 type='button'
                 fullWidth
                 variant="contained"
+                onClick={EmailConfirm}
                 sx={{
                   top: '1.5rem'
                 }}
@@ -156,7 +164,7 @@ function Signup() {
             </Grid>
           </Grid>
           {
-            emailState === false
+            emailState
             ? <Grid container spacing={1}>
             <Grid item xs={8}>
               <TextField
@@ -178,6 +186,7 @@ function Signup() {
                 type='button'
                 fullWidth
                 variant="contained"
+                onClick={EmailConfirmCheck}
                 sx={{
                   top: '1.5rem'
                 }}
@@ -243,6 +252,7 @@ function Signup() {
         </Box>
       </Box>
       </Container>
+      
     </motion.div>
   );
 }

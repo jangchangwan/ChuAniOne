@@ -14,7 +14,16 @@ import { NavLink } from "react-router-dom";
 import { motion } from 'framer-motion';
 
 
-const PageIntro = styled.div`
+const PageIntro1 = styled.div`
+  background-color : #FFD1D1;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+`
+const PageIntro2 = styled.div`
+  height: 100vh;
+`
+const PageIntro3 = styled.div`
   height: 100vh;
 `
 
@@ -65,14 +74,15 @@ const PageButton = styled.button`
 
 function Intro() {
   return (
-    <Container maxWidth="xl"
+    <Container
       sx={{
-        padding: '3.5rem'
+        padding: 0,
+        width: '100%'
       }}
     >
       
       {/* 웹사이트 소개 */}
-      <PageIntro>
+      <PageIntro1>
         <Grid container
           sx={{
             paddingTop: '12rem',
@@ -107,9 +117,9 @@ function Intro() {
         
         
 
-      </PageIntro>
+      </PageIntro1>
       {/* 기능소개 */}
-      <PageIntro
+      <PageIntro2
         style={{ height: '220vh'}}
         >
         <Box component='div'
@@ -208,7 +218,7 @@ function Intro() {
             </span> 
           </PageButton>
         </Box>
-      </PageIntro>
+      </PageIntro2>
 
       {/* 팀원소개 */}
       {/* <PageIntro>
