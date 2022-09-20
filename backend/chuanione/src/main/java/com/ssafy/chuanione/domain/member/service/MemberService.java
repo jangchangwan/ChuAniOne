@@ -49,7 +49,6 @@ public class MemberService {
                 .build();
         //가입시 메일 전송
         Member result = memberRepository.save(member);
-        emailTokenService.createEmailToken(result.getEmail());
         return MemberResponseDto.from(result);
     }
 
