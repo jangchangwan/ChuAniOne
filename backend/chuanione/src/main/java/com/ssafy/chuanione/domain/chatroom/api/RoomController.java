@@ -3,6 +3,7 @@ package com.ssafy.chuanione.domain.chatroom.api;
 import com.ssafy.chuanione.domain.chatroom.dto.RoomRequestDto;
 import com.ssafy.chuanione.domain.chatroom.dto.RoomResponseDto;
 import com.ssafy.chuanione.domain.chatroom.service.ChatService;
+import com.ssafy.chuanione.global.util.SecurityUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -84,21 +85,22 @@ public class RoomController {
 
     /* 입 / 퇴장 */
 
-    @PostMapping("/join.do")
-    @ApiOperation(value = "채팅방 입장 ")
-    public ResponseEntity<Integer> enterRoom(@RequestBody @ApiParam(value="memberId, roomId",required = true) Map<String, Integer> map) {
-        int member_id = map.get("memberId");
-        int room_id = map.get("roomId");
-        chatService.enterRoom(room_id,member_id);
+    @PostMapping("/join.do/{id}")
+    @ApiOperation(value = "채팅방 입장 (id:채팅방)")
+    public ResponseEntity<Integer> enterRoom(@PathVariable int id) {
+//        int member_id = map.get("memberId");
+//        int member_id = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail);
+//        int room_id = map.get("roomId");
+        chatService.enterRoom(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/join.do")
-    @ApiOperation(value = "채팅방 퇴장 ")
-    public ResponseEntity<Integer> exitRoom(@RequestBody @ApiParam(value="memberId, roomId",required = true) Map<String, Integer> map) {
-        int member_id = map.get("memberId");
-        int room_id = map.get("roomId");
-        chatService.exitRoom(room_id,member_id);
+    @DeleteMapping("/join.do/{id}")
+    @ApiOperation(value = "채팅방 퇴장 (id:채팅방)")
+    public ResponseEntity<Integer> exitRoom(@PathVariable int id) {
+//        int member_id = map.get("memberId");
+//        int room_id = map.get("roomId");
+        chatService.exitRoom(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

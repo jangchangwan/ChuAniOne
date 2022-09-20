@@ -1,13 +1,10 @@
 package com.ssafy.chuanione.domain.chatroom.dto;
 
-
-import com.ssafy.chuanione.domain.chatroom.domain.JoinUser;
 import com.ssafy.chuanione.domain.chatroom.domain.Room;
 import com.ssafy.chuanione.domain.member.domain.Member;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
-import java.util.List;
 
 @Getter
 @Builder
@@ -32,6 +29,8 @@ public class RoomResponseDto {
     // 현재 참가자 수
     private int count;
 
+//    private boolean isJoined;
+
 //    private List<JoinUser> joinList;
 
 
@@ -52,6 +51,7 @@ public class RoomResponseDto {
 //                .joinList(joinList)
                 .memberId(member.getId()) //방장 아이디
                 .nickname(member.getNickname()) //방장 닉네임
+//                .isJoined()
                 .build();
     }
 

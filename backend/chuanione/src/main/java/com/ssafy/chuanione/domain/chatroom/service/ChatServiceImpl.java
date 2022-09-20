@@ -4,6 +4,8 @@ import com.ssafy.chuanione.domain.chatroom.domain.*;
 import com.ssafy.chuanione.domain.chatroom.dto.*;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.Member;
+import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
+import com.ssafy.chuanione.global.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -244,11 +246,12 @@ public class ChatServiceImpl implements ChatService {
 
     // 채팅방 입장
     @Override
-    public void enterRoom(int room_id, int member_id) {
+    public void enterRoom(int room_id) {
         // member
         // UserEntity user = userRepository.findById(dto.getWriter()).orElseThrow(UserNotFoundException::new);
+        Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         Room room = roomRepository.findOne(room_id);
-        Member member = memberRepository.getReferenceById(member_id);
+//        Member member = memberRepository.getReferenceById(member_id);
         JoinUser joinUser = JoinUser.builder()
                 .roomId(room)
                 .memberId(member)
@@ -259,10 +262,10 @@ public class ChatServiceImpl implements ChatService {
 
     // 채팅방 퇴장
     @Override
-    public void exitRoom(int room_id, int member_id) {
+    public void exitRoom(int room_id) {
 //        joinUserRepository.deleteById(room_id,member_id);
-
-       joinUserRepository.deleteById(room_id,member_id);
+       Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+       joinUserRepository.deleteById(room_id,member.getId());
 
     }
 }
