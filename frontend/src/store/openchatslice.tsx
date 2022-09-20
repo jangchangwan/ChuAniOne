@@ -8,22 +8,26 @@ export const getChatAll = createAsyncThunk(
   async (page: number, { rejectWithValue }) => {
     try { 
       const res = await http.get(`room/list.do/${page}`)
+      console.log(res.data)
       return res.data
     } catch(err) {
       console.log('전체 채팅방 목록 조회 실패', err)
     }
 })
 
-
-// 채팅방 생성
-export const createChat = createAsyncThunk(
-  'CREATECHAT',
-  async (data: any) => {
+interface searchProps {
+  keyword: string,
+  page: number
+}
+// 채팅방 검색 결과
+export const searchChat = createAsyncThunk(
+  'SEARCHCHAT',
+  async ( data: searchProps ) => {
     try {
-      const res = await http.post(`room/room.do`, data)
-      return res.data
+      const res = await http.get(`room/search/search.do/${data.keyword}/page/${data.page}`)
+      return res
     } catch (err) {
-      console.log('방 생성 에러', err)
+      console.log('채팅방 검색 에러', err)
     }
   }
 )
@@ -51,76 +55,91 @@ export const getMyChat = createAsyncThunk(
 // 채팅방 하나 조회
 export const getChatInfo = createAsyncThunk(
   'GETCHATINFO',
-  async ( roomId: number ): Promise<void> => {
-    await http.get(`room/room.do/${roomId}`)
-      .then((res) => {
-        if (res.status === 200) return res
-        else {
-          console.log(res)
-          alert('데이터 전송 실패')
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async ( roomId: number ) => {
+    try {
+      const res = await http.get(`room/room.do/${roomId}`)
+      return res
+    } catch (err) {
+      console.log('채팅방 정보 조회 에러', err)
+    }
   }
 )
 
+// 채팅방 생성
+export const createChat = createAsyncThunk(
+  'CREATECHAT',
+  async (data: any) => {
+    try {
+      const res = await http.post(`room/room.do`, data)
+      return res.data
+    } catch (err) {
+      console.log('방 생성 에러', err)
+    }
+  }
+)
 
 
 // 채팅방 삭제
 export const deleteChat = createAsyncThunk(
   'DELETECHAT',
-  async ( chat_no: number ): Promise<void> => {
-    await http.delete(`chat/room/${chat_no}`)
-      .then((res) => {
-        if (res.status === 200) return res
-        else {
-          console.log(res)
-          alert('데이터 전송 실패')
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async ( roomId: number ) => {
+    try {
+      const res = await http.delete(`room/room.do/${roomId}`)
+      return res
+    } catch (err) {
+      console.log('채팅방 삭제 에러', err)
+    }
   }
 )
-  
 
 
 // 채팅방 수정
 export const updateChat = createAsyncThunk(
   'UPDATECHAT',
-  async ( chat_no: number ): Promise<void> => {
-    await http.patch(`chat/room/${chat_no}`)
-      .then((res) => {
-        if (res.status === 200) return res
-        else {
-          console.log(res)
-          alert('데이터 전송 실패')
-        }
+  async ( data: Partial<ChatRoom> ) => {
+    try {
+      const res = await http.patch(`room/room.do/${data.id}`, {
+        max: data.max,
+        memberId: data.userId,
+        name: data.name,
+        tag1: data.tag1,
+        tag2: data.tag2,
+        tag3: data.tag3,
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      return res
+    } catch (err) {
+      console.log('채팅방 수정 에러', err)
+    }
+  }
+)
+
+// 채팅방 입장
+export const enterRoom = createAsyncThunk(
+  'ENTERROOM',
+  async ( roomId: number ) => {
+    try {
+      const res = await http.post(`room/join.do/${roomId}`)
+      return res
+    } catch (err) {
+      console.log('채팅방 입장 에러', err)
+    }
+  }
+)
+
+// 채팅방 퇴장
+export const leaveRoom = createAsyncThunk(
+  'LEAVEROOM',
+  async ( roomId: number ) => {
+    try {
+      const res = await http.delete(`room/join.do/${roomId}`)
+      return res
+    } catch (err) {
+      console.log('채팅방 퇴장 에러', err)
+    }
   }
 )
 
 
-// 채팅방 검색 결과
-export async function searchChat( keyword: string ): Promise<void> {
-  await http.patch(`chat/search/${keyword}`)
-    .then((res) => {
-      if (res.status === 200) return res
-      else {
-        console.log(res)
-        alert('데이터 전송 실패')
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}
 
 interface ChatRoom {
   id: number,
@@ -132,6 +151,9 @@ interface ChatRoom {
   nickname: string,
   count: number,
   max: number,
+
+  // 채팅방 수정 시에 사용 (추후 삭제)
+  userId: number,
 }
 
 export interface openChatReducerType {
@@ -142,13 +164,14 @@ export interface openChatReducerType {
 const initialState: openChatReducerType = {
   chatting: false,
   chatRoom: null,
-}
+} 
 
 const openchatSlice: any = createSlice({
   name: 'login',
   initialState,
   reducers: {
     setChattingOpen: (state, action) => {
+      console.log(action.payload)
       state.chatting = true
       state.chatRoom = action.payload
     },

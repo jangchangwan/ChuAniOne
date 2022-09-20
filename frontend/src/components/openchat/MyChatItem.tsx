@@ -6,7 +6,7 @@ import LocalFloristIcon from '@mui/icons-material/LocalFlorist'
 // redux
 import { useSelector, useDispatch } from 'react-redux'
 import initialState from '../../store/Loginslice'
-import { setChattingOpen, getChatInfo } from '../../store/openchatslice'
+import { setChattingOpen } from '../../store/openchatslice'
 import store from '../../store'
 
 const Container = styled.div`

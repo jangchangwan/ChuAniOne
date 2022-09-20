@@ -59,7 +59,7 @@ function MyChatList() {
   
     // 데이터 불러오기
     async function loadData(userId: number, page: number) {
-      const res: any = await dispatch(getMyChat({ userId: 1, page }))
+      const res: any = await dispatch(getMyChat({ userId, page }))
       if (res.type === "GETMYCHAT/fulfilled") {
         await setLastPage(res.payload.data.pageCnt)
         await setData(res.payload.data.rDto)
