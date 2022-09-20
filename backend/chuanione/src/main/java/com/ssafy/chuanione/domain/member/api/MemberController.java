@@ -40,9 +40,7 @@ public class MemberController {
     @GetMapping("/email-confirm.do")
     @ApiOperation(value = "메일 인증 확인")
     public ResponseEntity<Boolean> confirmEmail(@RequestParam String token){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("localhost:3000/email-confirm"));
-        return new ResponseEntity<>(emailService.confirmEmail(token), HttpStatus.MOVED_PERMANENTLY);
+        return new ResponseEntity<>(emailService.confirmEmail(token), HttpStatus.OK);
     }
 
     @GetMapping("/email-send.do/{email}")
@@ -61,12 +59,13 @@ public class MemberController {
             throw new InvalidParameterException(result);
         }
         HttpHeaders headers = new HttpHeaders();
-        //아이디 비번 틀렸을 때 예외던짐
+        //아이디 비번 틀렸을 때 예외처리
         TokenDto tokenDto = memberService.doLogin(requestDto);
 
         //메일 인증이 안됐다면 다른곳으로 보낸다.
         if(!memberService.emailConfirmCheck(requestDto.getEmail())){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         headers.add("Auth", tokenDto.getAccessToken());
