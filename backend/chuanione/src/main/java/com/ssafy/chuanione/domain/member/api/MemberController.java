@@ -43,11 +43,11 @@ public class MemberController {
         return new ResponseEntity<>(emailService.confirmEmail(token), HttpStatus.OK);
     }
 
-    @GetMapping("/email-send.do")
+    @GetMapping("/email-send.do/{email}")
     @ApiOperation(value = "인증메일 재발송")
-    public ResponseEntity<String> sendEmail(@RequestParam String email) throws Exception {
+    public ResponseEntity<Boolean> sendEmail(@PathVariable String email) throws Exception {
         emailTokenService.createEmailToken(email);
-        return new ResponseEntity<>("인증메일이 발송되었습니다.", HttpStatus.OK);
+        return new ResponseEntity<>(memberService.emailConfirmCheck(email), HttpStatus.OK);
     }
 
 
@@ -59,25 +59,33 @@ public class MemberController {
             throw new InvalidParameterException(result);
         }
         HttpHeaders headers = new HttpHeaders();
+        //아이디 비번 틀렸을 때 예외처리
+        TokenDto tokenDto = memberService.doLogin(requestDto);
 
         //메일 인증이 안됐다면 다른곳으로 보낸다.
         if(!memberService.emailConfirmCheck(requestDto.getEmail())){
-            headers.setLocation(URI.create("/api/v1/member/email-send.do?email=" + requestDto.getEmail()));
-            return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        TokenDto tokenDto = memberService.doLogin(requestDto);
         headers.add("Auth", tokenDto.getAccessToken());
         headers.add("Refresh", tokenDto.getRefreshToken());
 
         return new ResponseEntity<>(tokenDto, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/check.do/{nickname}")
+    @GetMapping("/check.do/nickname/{nickname}")
     @ApiOperation(value = "닉네임 중복 검사")
     public ResponseEntity<Boolean> checkNickName(@PathVariable String nickname){
         //중복이면 true 아니면 false
         return new ResponseEntity<>(memberService.checkNickName(nickname), HttpStatus.OK);
+    }
+
+    @GetMapping("/check.do/email/{email}")
+    @ApiOperation(value = "이메일 중복 검사")
+    public ResponseEntity<Boolean> checkEmail(@PathVariable String email){
+        //중복이면 true 아니면 false
+        return new ResponseEntity<>(memberService.checkEmail(email), HttpStatus.OK);
     }
 
     @PatchMapping("/update/{id}")
