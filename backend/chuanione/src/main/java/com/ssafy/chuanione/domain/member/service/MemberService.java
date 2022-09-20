@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +49,7 @@ public class MemberService {
                 .build();
         //가입시 메일 전송
         Member result = memberRepository.save(member);
-        emailTokenService.createEmailToken(result.getId(), result.getEmail());
+        emailTokenService.createEmailToken(result.getEmail());
         return MemberResponseDto.from(result);
     }
 
@@ -60,10 +61,10 @@ public class MemberService {
         // CustomUserDetailsService의 loadByUserName 실행
         Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        //SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto tokenDto = tokenProvider.createToken(authentication);
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         //Refresh Token 저장
         Optional<Member> member = memberRepository.findByEmail(authentication.getName());
@@ -92,5 +93,9 @@ public class MemberService {
     public MemberResponseDto getMyInfo() {
         System.out.println("토큰 " + SecurityUtil.getCurrentUsername());
         return MemberResponseDto.from(SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new));
+    }
+
+    public boolean emailConfirmCheck(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new).isVerified();
     }
 }
