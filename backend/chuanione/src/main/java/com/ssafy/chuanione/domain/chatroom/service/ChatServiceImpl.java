@@ -60,17 +60,35 @@ public class ChatServiceImpl implements ChatService {
         long pageCount = roomPage.getTotalPages();;
         List<Room> rooms = roomPage.getContent();
         List<RoomResponseDto> dtoList = new LinkedList<>();
-        for(Room room : rooms){
-            int count = joinUserRepository.countDistinctById(room.getId());
-            Member member = room.getAdmin();
-            dtoList.add(RoomResponseDto.from(room,count,member));
+
+        try {
+            Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(Exception::new);
+            for(Room room : rooms){
+                int count = joinUserRepository.countDistinctById(room.getId());
+                Member member = room.getAdmin();
+                boolean isJoined; // 참가중인지 확인용
+                if( joinUserRepository.countByMemberIdAndRoomId(room.getId(),login.getId()) >=1){
+                    isJoined = true;
+                } else {
+                    isJoined = false;
+                }
+                dtoList.add(RoomResponseDto.temp(room,count,member,isJoined));
+            }
+        }catch (Exception e){ // 위에 login을 받아올때 exception이 났다면 ~
+            boolean isJoined = false;
+            for(Room room : rooms){
+                int count = joinUserRepository.countDistinctById(room.getId());
+                Member member = room.getAdmin();
+                dtoList.add(RoomResponseDto.temp(room,count,member,isJoined));
+            }
+        }finally {
+            Map<String, Object> map = new HashMap<>();
+            map.put("totalCnt",totalCount);
+            map.put("pageCnt",pageCount);
+            map.put("rDto",dtoList);
+            return map;
         }
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("totalCnt",totalCount);
-        map.put("pageCnt",pageCount);
-        map.put("rDto",dtoList);
-        return map;
     }
     
     // 채팅방 하나 조회

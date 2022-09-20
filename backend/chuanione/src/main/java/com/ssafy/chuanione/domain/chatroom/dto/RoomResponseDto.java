@@ -29,13 +29,12 @@ public class RoomResponseDto {
     // 현재 참가자 수
     private int count;
 
-//    private boolean isJoined;
+    private boolean isJoined;
 
 //    private List<JoinUser> joinList;
 
 
-//    public RoomResponseDto(Room room) {
-//    }
+
 
     public static RoomResponseDto from(Room room,  int count, Member member) {
         if (room == null) return null;
@@ -51,7 +50,25 @@ public class RoomResponseDto {
 //                .joinList(joinList)
                 .memberId(member.getId()) //방장 아이디
                 .nickname(member.getNickname()) //방장 닉네임
-//                .isJoined()
+//                .isJoined(isJoined)
+                .build();
+    }
+
+    public static RoomResponseDto temp(Room room,  int count, Member member, boolean isJoined) {
+        if (room == null) return null;
+
+        return RoomResponseDto.builder()
+                .id(room.getId())
+                .name(room.getName())
+                .tag1(room.getTag1())
+                .tag2(room.getTag2())
+                .tag3(room.getTag3())
+                .max(room.getMax())
+                .count(count)
+//                .joinList(joinList)
+                .memberId(member.getId()) //방장 아이디
+                .nickname(member.getNickname()) //방장 닉네임
+                .isJoined(isJoined)
                 .build();
     }
 

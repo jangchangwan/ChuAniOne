@@ -39,4 +39,7 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
     @Query(nativeQuery = true, value ="SELECT * FROM member_room where member_id = :member_id")
     Page<JoinUser> findByMemberId(int member_id, Pageable pageable);
 //    Page<JoinUser> getMyList(Pageable pageable, @Param("member_id")int member_id);
+
+    // 해당 방에 참가중인지 확인용
+    int countByMemberIdAndRoomId(int room_id, int member_id);
 }
