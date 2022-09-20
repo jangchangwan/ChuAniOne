@@ -118,6 +118,8 @@ function Nav() {
       setShowNav(true)
     } else if (window.location.pathname === '/pwd') {
       setShowNav(true)
+    } else if (window.location.pathname === '/EmailCertification') {
+      setShowNav(true)
     } else {
       setShowNav(false)
     }

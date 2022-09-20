@@ -60,6 +60,7 @@ function Login() {
   const goMain = () => {
     navigate('/')
   }
+  
   return (
     <motion.div
     >

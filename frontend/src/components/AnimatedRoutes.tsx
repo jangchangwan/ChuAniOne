@@ -12,6 +12,7 @@ import Signup from './accounts/Signup'
 import OpenChat from './openchat/OpenChat'
 import BigVoca from './bigvoca/Bigvoca'
 import Mypage from './mypage/MyPage'
+import EmailCertification from './accounts/EmailCertification'
 // 애니메이션 라이브러리
 import { AnimatePresence } from 'framer-motion';
 function AnimatedRoutes() {
@@ -30,6 +31,7 @@ function AnimatedRoutes() {
         <Route path="/openchat" element={<OpenChat/>} />
         <Route path="/bigvoca" element={<BigVoca/>} />
         <Route path="/mypage" element={<Mypage/>} />
+        <Route path="/emailCertification" element={<EmailCertification/>} />
       </Routes>
     </AnimatePresence>
     

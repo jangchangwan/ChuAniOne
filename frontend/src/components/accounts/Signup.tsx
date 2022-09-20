@@ -58,13 +58,9 @@ function Signup() {
   // 이메일인증
   const EmailConfirm = () => {
     setEmailState(true)
-    console.log("이메일 인증")
+    console.log("이메일 중복체크")
   }
-  // 이메일인증번호
-  const EmailConfirmCheck = () => {
-    console.log("이메일 인증번호 체크");
-    
-  }
+
   // 닉네임 중복체크
   const nicknameConfirm = () => {
     console.log("닉네임 수정");
@@ -160,41 +156,9 @@ function Signup() {
                 sx={{
                   top: '1.5rem'
                 }}
-              >번호 전송</Button>
+              >중복 체크</Button>
             </Grid>
           </Grid>
-          {
-            emailState
-            ? <Grid container spacing={1}>
-            <Grid item xs={8}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="emailcheck"
-                label="인증번호을 입력해주세요."
-                name="emailcheck"
-                autoComplete="emailcheck"
-                autoFocus
-              />
-            </Grid>
-
-            <Grid 
-              item xs={4}
-              >
-              <Button
-                type='button'
-                fullWidth
-                variant="contained"
-                onClick={EmailConfirmCheck}
-                sx={{
-                  top: '1.5rem'
-                }}
-              >인증 확인</Button>
-            </Grid>
-          </Grid> : null
-          }
-          
           <TextField
             margin="normal"
             required
