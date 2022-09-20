@@ -8,6 +8,7 @@ import com.ssafy.chuanione.domain.member.exception.TokenNotFoundException;
 import io.jsonwebtoken.lang.Assert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -35,6 +36,7 @@ public class EmailTokenService {
     private final MemberRepository memberRepository;
 
     private final String FROM = "pecommend@gmail.com";
+
     private final String path = "C:\\Users\\SSAFY\\Desktop\\자료\\특화플젝\\특화플젝\\backend\\chuanione\\src\\main\\resources\\img\\";
 
     //이메일 인증 토큰 생성
