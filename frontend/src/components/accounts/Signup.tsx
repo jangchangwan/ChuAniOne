@@ -13,6 +13,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import BackgroundImg from '../../assets/images/memberBackground.png'
+
+
+import styled from 'styled-components'
 // redux
 // import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -24,9 +27,18 @@ import store from '../../store'
 import { motion } from 'framer-motion';
 
 
-
-
-
+const ErrorText = styled.span`
+  width: 100%;
+  color: #ff0000;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+`
+const SuccessText = styled.span`
+  width: 100%;
+  color: #009c87;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+`
 
 function Signup() {
   // 필드 유효성검사
@@ -50,14 +62,32 @@ function Signup() {
   const [userGender, setUserGender] = useState('')
   const [userBirthday, setUserBirthday] = useState('')
   
+  // 디플트 에러 메세지 방지
+  const [defaultEmail, setDefaultEmail] = useState(false)
+  const [defaultPwd, setDefaultPwd] = useState(false)
+  const [defaultPwd2, setDefaultPwd2] = useState(false)
+  const [defaultNickname, setDefaultNickname] = useState(false)
+
+  const [confirmNickname, setConfirmNickname] = useState(false)
 
   const navigate = useNavigate()
   const dispatch = useDispatch<typeof store.dispatch>()
 
   // 유효성
-  // 이름 유효성 1~10자
+  // 닉네임 유효성 1~10자
   const validateNickName = (e:any) => {
-    if (e.target.value.length <= 10 && e.target.value.length >= 1){
+    if (e.target.value) {
+      setDefaultNickname(true)
+    } else {
+      setDefaultNickname(false)
+    }
+
+    let regexp = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/
+    if (
+      regexp.test(e.target.value) &&
+      e.target.value.length <= 10 &&
+      e.target.value.length >= 2
+    ){
       setNicknameValid(true)
     }
     else {
@@ -71,13 +101,17 @@ function Signup() {
     // * 0회 이상, + 1회 이상
     // [-_.] - 또는 _ 또는 .
     // ? 없거나 1회
+    if (e.target.value) {
+      setDefaultEmail(true)
+    } else {
+      setDefaultEmail(false)
+    }
+
     let regexp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
     if (regexp.test(e.target.value)) {
       setEmailValid(true)
-      console.log(emailValid);
     } else {
       setEmailValid(false)
-      console.log(emailValid);
     } 
   }
   // 비밀번호 유효성
@@ -86,11 +120,11 @@ function Signup() {
     let patternSpeAtListOne = new RegExp(/[~!@#$%^]+/) // + for at least one
     let patternNumAtListOne = new RegExp(/[0-9]+/) // + for at least one
 
-    // if (e.target.value) {
-    //   setDefaultPwd(true)
-    // } else {
-    //   setDefaultPwd(false)
-    // }
+    if (e.target.value) {
+      setDefaultPwd(true)
+    } else {
+      setDefaultPwd(false)
+    }
 
     if (
       patternEngAtListOne.test(e.target.value) &&
@@ -137,19 +171,14 @@ function Signup() {
 
   // 이메일 중복체크
   const isDuplicateEmail = () => {
-    console.log(userEmail)
     dispatch(emailCheck(userEmail))
       .then((res) => {
         const data:any = res.payload
         if (data) {
           if (data.data === false){
             setisDuplicateEmailChecked(true)
-          } else {
-            alert("중복된 이메일입니다.")
           }
         }
-        
-        
     })
   }
 
@@ -164,13 +193,20 @@ function Signup() {
         if (res.data === false){
           setisDuplicateNicknameChecked(true)
         } else {
-          alert("중복된 닉네임입니다.")
+          setConfirmNickname(true)
         }
     })
   }
   
   // 비밀번호 재확인
-  const samePassword = () => {
+  const samePassword = (e:any) => {
+
+    if (e.target.value) {
+      setDefaultPwd2(true)
+    } else {
+      setDefaultPwd2(false)
+    }
+
     if (
       userPassword === userPassword2
     ) {
@@ -267,7 +303,12 @@ function Signup() {
               >중복 체크</Button>
             </Grid>
           </Grid>
-          
+          {defaultNickname && !nicknameValid ? (
+          <ErrorText>유효하지 않은 닉네임입니다</ErrorText>) : null}
+          {defaultNickname && nicknameValid && !isDuplicateNicknameChecked && confirmNickname ? (
+          <ErrorText>이미 존재하는 닉네임입니다</ErrorText>) : null}
+          {defaultNickname && nicknameValid && isDuplicateNicknameChecked ? <SuccessText>사용가능한 닉네임입니다</SuccessText> : null}
+          {/* 이메일 */}
           <Grid container spacing={1}>
             <Grid item xs={8}>
               <TextField
@@ -300,6 +341,11 @@ function Signup() {
               >중복 체크</Button>
             </Grid>
           </Grid>
+          {defaultEmail && !emailValid ? (
+          <ErrorText>유효하지 않은 이메일입니다.</ErrorText>) : null}
+          {defaultEmail && !isDuplicateEmailChecked && emailValid ? (
+          <ErrorText>이미 존재하는 이메일입니다</ErrorText>) : null}
+          {emailValid && isDuplicateEmailChecked ? <SuccessText>사용가능한 이메일입니다</SuccessText> : null}
           <TextField
             margin="normal"
             required
@@ -315,7 +361,10 @@ function Signup() {
             }}
             value={userPassword}
           />
-
+          {defaultPwd && !pwdValid ? (
+          <ErrorText>유효하지 않은 비밀번호입니다</ErrorText>) : null}
+          {defaultPwd && pwdValid ? (
+          <SuccessText>사용가능한 비밀번호입니다</SuccessText>) : null}
           <TextField
             margin="normal"
             required
@@ -331,47 +380,50 @@ function Signup() {
             }}
             value={userPassword2}
           />
-          
+          {defaultPwd2 && !checkedPwd ? 
+          <ErrorText>비밀번호가 일치하지 않습니다</ErrorText> : null}
+          {defaultPwd2 && checkedPwd ? 
+          <SuccessText>비밀번호가 일치합니다</SuccessText> : null}
 
-            <TextField
-            margin="normal"
-            type="date"
-            required
-            fullWidth
-            name="userBirthday"
-            label="생일을 입력해주세요."
-            id="userBirthday"
-            autoComplete="userBirthday"
-            defaultValue={"2022-10-07"}
-            onChange={(e) => {
-              setUserBirthday(e.target.value)
-            }}
-            />
-            <FormControl
-              sx={{ mt: 1, mb: 1, pl: 1 }}
+          <TextField
+          margin="normal"
+          type="date"
+          required
+          fullWidth
+          name="userBirthday"
+          label="생일을 입력해주세요."
+          id="userBirthday"
+          autoComplete="userBirthday"
+          defaultValue={"2022-10-07"}
+          onChange={(e) => {
+            setUserBirthday(e.target.value)
+          }}
+          />
+          <FormControl
+            sx={{ mt: 1, mb: 1, pl: 1 }}
+          >
+            <FormLabel id="demo-row-radio-buttons-group-label">성별</FormLabel>
+            <RadioGroup
+              aria-required
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="gender"
             >
-              <FormLabel id="demo-row-radio-buttons-group-label">성별</FormLabel>
-              <RadioGroup
-                aria-required
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="gender"
-              >
-                <FormControlLabel 
-                  value="MALE" 
-                  control={<Radio />} 
-                  label="남성" 
-                  onChange={changeGender}
-                  checked={userGender ==="MALE"}
-                />
-                <FormControlLabel 
-                  value="FEMALE" 
-                  control={<Radio />} 
-                  label="여성" 
-                  onChange={changeGender}
-                  checked={userGender ==="FEMALE"}
-                />
-              </RadioGroup>
+              <FormControlLabel 
+                value="MALE" 
+                control={<Radio />} 
+                label="남성" 
+                onChange={changeGender}
+                checked={userGender ==="MALE"}
+              />
+              <FormControlLabel 
+                value="FEMALE" 
+                control={<Radio />} 
+                label="여성" 
+                onChange={changeGender}
+                checked={userGender ==="FEMALE"}
+              />
+            </RadioGroup>
             </FormControl>
             <Button
                 type="submit"
