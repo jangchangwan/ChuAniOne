@@ -108,7 +108,7 @@ function ChatBody() {
   const [isUpdated, setIsUpdated] = useState(' ')
 
   // SockJS 내부의 stomp 가져오기
-  var sockJs = new SockJS('http://localhost:8080/stomp/chat')
+  var sockJs = new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
   var stomp = Stomp.over(sockJs)
   stomp.reconnect_delay = 2000
   var reconnect = 0
@@ -129,8 +129,12 @@ function ChatBody() {
 
   // 메시지 수신
   const recvMsg = (recv: Msg) => {
-    messages.push(recv)
-    setMessages(messages)
+    const val = [
+      ...messages,
+      recv
+    ]
+    setMessages(val)
+    console.log(val)
   }
   
 

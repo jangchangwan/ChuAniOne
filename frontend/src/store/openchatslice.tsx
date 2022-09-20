@@ -19,6 +19,7 @@ interface searchProps {
   keyword: string,
   page: number
 }
+
 // 채팅방 검색 결과
 export const searchChat = createAsyncThunk(
   'SEARCHCHAT',

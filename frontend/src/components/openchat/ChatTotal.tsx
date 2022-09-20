@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search'
 import ChatTotalList from './ChatTotalList'
+
+// redux
+import { useDispatch } from 'react-redux'
+import store from '../../store'
 
 const Container = styled.div`
   width: 80%;
@@ -40,6 +44,8 @@ const SearchIcon1 = styled(SearchIcon)`
 `
 
 function ChatTotal() {
+  const dispatch = useDispatch<typeof store.dispatch>()
+  const [searchText, setSearchText] = useState<string>('')
   return (
     <Container>
       <SearchBox>
@@ -48,7 +54,12 @@ function ChatTotal() {
             "& .MuiOutlinedInput-root.Mui-focused": {
               "& > fieldset": {
               borderColor: "#f37b83"
-          }}}}/>
+          }}}}
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.target.value)
+          }}
+        />
         <SearchIconBox>
           <SearchIcon1/>
         </SearchIconBox>
