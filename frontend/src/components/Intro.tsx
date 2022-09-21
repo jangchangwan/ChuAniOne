@@ -107,39 +107,39 @@ function Intro() {
         width: '100%'
       }}
     >
-      
+
       {/* 웹사이트 소개 */}
       <PageIntro1
-        style={{backgroundImage: `url(${IntroBackground3})`}}
+        style={{ backgroundImage: `url(${IntroBackground3})` }}
       >
         <Grid container
           sx={{
             paddingTop: '19rem',
-            display:'flex',
+            display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            
+
           }}
-          >
+        >
           <Grid item xs={3}>
-          <h1 style={{ fontSize: '3rem'}}>더이상 애니 머 볼지 </h1>
-          <h1 style={{ fontSize: '2rem'}}>고민 하지말고 츄 애니 원!</h1>
-          <h3 style={{ fontSize: '1rem'}}>애니의 세상으로 함께 떠나보자고!</h3>
-          <PageButton>
-            <span>
-              <NavLink to='/' style={{ color:'white', textDecoration : 'none'}}>바로가기</NavLink>
-            </span> 
-          </PageButton>
+            <h1 style={{ fontSize: '3rem' }}>더이상 애니 머 볼지 </h1>
+            <h1 style={{ fontSize: '2rem' }}>고민 하지말고 츄 애니 원!</h1>
+            <h3 style={{ fontSize: '1rem' }}>애니의 세상으로 함께 떠나보자고!</h3>
+            <PageButton>
+              <span>
+                <NavLink to='/' style={{ color: 'white', textDecoration: 'none' }}>바로가기</NavLink>
+              </span>
+            </PageButton>
           </Grid>
           <Grid item xs={1}></Grid>
           <Grid item xs={3}>
-            <iframe 
-              width="640px" 
-              height="350px" 
-              src="https://www.youtube.com/embed/ngQkkMlmzA8" 
-              title="YouTube video player" 
-              frameBorder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            <iframe
+              width="640px"
+              height="350px"
+              src="https://www.youtube.com/embed/ngQkkMlmzA8"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen>
             </iframe>
           </Grid>
@@ -147,7 +147,7 @@ function Intro() {
       </PageIntro1>
       {/* 기능소개 */}
       <PageIntro2
-        >
+      >
         <motion.div
         >
           <Box component='div'
@@ -156,71 +156,71 @@ function Intro() {
               textAlign: 'center'
             }}
           >
-            <h1 style={{ fontSize: '3rem', color: 'white', marginTop: 0, paddingTop: '3rem'}}> Chu Ani One 은</h1>
-            <h1 style={{ fontSize: '3rem', color: 'white', paddingBottom: '3rem'}}> 왜 사용해야 하나요?</h1>
+            <h1 style={{ fontSize: '3rem', color: 'white', marginTop: 0, paddingTop: '3rem' }}> Chu Ani One 은</h1>
+            <h1 style={{ fontSize: '3rem', color: 'white', paddingBottom: '3rem' }}> 왜 사용해야 하나요?</h1>
           </Box>
         </motion.div>
         <Grid container maxWidth="xl"
-          
+
         >
-          <Grid container item xs={8} sx={{ justifyContent: 'end', paddingRight: '2rem'}}>
+          <Grid container item xs={8} sx={{ justifyContent: 'end', paddingRight: '2rem' }}>
             <motion.div
-            style={{ paddingBottom: '2rem'}}
-          > 
-          
-            <Box component='div'
-              sx={{
-                width: '40rem',
-                height: '40rem',
-                backgroundColor: 'white',
-                borderRadius: '2rem',
-                padding : '3rem',
-              }}
+              style={{ paddingBottom: '2rem' }}
             >
-              
-              <h1>누구에게나 딱 맞는 애니 맞춤 추천 서비스</h1>
-              <Typography variant="body2" color="text.secondary">
-                봤던 애니에 리뷰를 달 경우 메인페이지에서 애니메이션을 추천 해드립니다!
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                또한 선호하는 장르에 대한 애니메이션 추천도 따로 해드립니다!
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ paddingBottom: '1rem'}}>
-                흥미가 있는 애니메이션 클릭 시 유사한 애니메이션도 추천해드립니다!
-              </Typography>
-            </Box>
+
+              <Box component='div'
+                sx={{
+                  width: '40rem',
+                  height: '40rem',
+                  backgroundColor: 'white',
+                  borderRadius: '2rem',
+                  padding: '3rem',
+                }}
+              >
+
+                <h1>누구에게나 딱 맞는 애니 맞춤 추천 서비스</h1>
+                <Typography variant="body2" color="text.secondary">
+                  봤던 애니에 리뷰를 달 경우 메인페이지에서 애니메이션을 추천 해드립니다!
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  또한 선호하는 장르에 대한 애니메이션 추천도 따로 해드립니다!
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ paddingBottom: '1rem' }}>
+                  흥미가 있는 애니메이션 클릭 시 유사한 애니메이션도 추천해드립니다!
+                </Typography>
+              </Box>
             </motion.div>
           </Grid>
-          <Grid container item xs={4} sx={{ justifyContent: 'start'}}>
+          <Grid container item xs={4} sx={{ justifyContent: 'start' }}>
             <motion.div
-            style={{ paddingBottom: '2rem'}}
-          >
-            <Box component='div'
-              sx={{
-                width: '30rem',
-                height: '27rem',
-                backgroundColor: '#FFF5E4',
-                borderRadius: '2rem',
-                padding : '3rem',
-              }}
+              style={{ paddingBottom: '2rem' }}
             >
-              
-              <h1 style={{color: '#f5af38'}}>자막 없이도 볼 수 있게 만드는 단어장</h1>
-              <Typography variant="body2" color="#f5c26a">
-                리뷰를 달지 않더라도 전체 애니메이션 기준 총 단어 1000개 추천!!
-              </Typography>
-              <Typography variant="body2" color="#f5c26a">
-                리뷰를 달게 되면 해당 애니메이션 관련 자주 쓰이는 단어 추천!!
-              </Typography>
-              <Typography variant="body2" color="#f5c26a" sx={{ paddingBottom: '1rem'}}>
-                다 외운 단어를 체크시 단어장에서 사라지고 마이페이지에서 공부 가능!
-              </Typography>
-            </Box>
+              <Box component='div'
+                sx={{
+                  width: '30rem',
+                  height: '27rem',
+                  backgroundColor: '#FFF5E4',
+                  borderRadius: '2rem',
+                  padding: '3rem',
+                }}
+              >
+
+                <h1 style={{ color: '#f5af38' }}>자막 없이도 볼 수 있게 만드는 단어장</h1>
+                <Typography variant="body2" color="#f5c26a">
+                  리뷰를 달지 않더라도 전체 애니메이션 기준 총 단어 1000개 추천!!
+                </Typography>
+                <Typography variant="body2" color="#f5c26a">
+                  리뷰를 달게 되면 해당 애니메이션 관련 자주 쓰이는 단어 추천!!
+                </Typography>
+                <Typography variant="body2" color="#f5c26a" sx={{ paddingBottom: '1rem' }}>
+                  다 외운 단어를 체크시 단어장에서 사라지고 마이페이지에서 공부 가능!
+                </Typography>
+              </Box>
             </motion.div>
           </Grid>
-          <Grid container item xs={8} sx={{ justifyContent: 'end', paddingRight: '2rem'}}>
+          <Grid container item xs={8} sx={{ justifyContent: 'end', paddingRight: '2rem' }}>
             <motion.div
-              style={{ paddingBottom: '2rem'}}
+              style={{ paddingBottom: '2rem' }}
             >
               <Box
                 sx={{
@@ -228,10 +228,10 @@ function Intro() {
                   height: '18rem',
                   backgroundColor: '#FFE3E1',
                   borderRadius: '2rem',
-                  padding : '3rem',
+                  padding: '3rem',
 
                 }}>
-                <h1 style={{color: '#db7777'}}>애니 상세보기 다양한 기능 구현!</h1>
+                <h1 style={{ color: '#db7777' }}>애니 상세보기 다양한 기능 구현!</h1>
                 <Typography variant="body2" color="#FF9494">
                   애니에 대한 줄거리 및 상세 정보 확인 가능
                 </Typography>
@@ -247,34 +247,34 @@ function Intro() {
               </Box>
             </motion.div>
           </Grid>
-          <Grid container item xs={4} sx={{ justifyContent: 'start'}}>
+          <Grid container item xs={4} sx={{ justifyContent: 'start' }}>
             <motion.div
-            style={{ paddingBottom: '2rem'}}
-          >
-            <Box component='div'
-              sx={{
-                position: 'relative',
-                top: '-35%',
-                width: '30rem',
-                height: '31rem',
-                backgroundColor: '#E1EFFF',
-                borderRadius: '2rem',
-                padding : '3rem',
-              }}
+              style={{ paddingBottom: '2rem' }}
             >
-              <h1 style={{ color: '#366087'}}>서로 비슷한 취향의 사람과의 오픈채팅</h1>
-              
-              
-              <Typography variant="body2" color="#5D86D1">
-                본인이 원하는 태그를 만들고 방을 생성하여 본인과 취향이 유사한 사람들과 채팅을 할 수 있다.
-              </Typography>
-              <Typography variant="body2" color="#5D86D1">
-                그리고 다양한 글씨체를 지원하여 본인이 원하는 글씨체로 쓰고 볼 수 있다.
-              </Typography>
-              <Typography variant="body2" color="#5D86D1" sx={{ paddingBottom: '1rem'}}>
-                마지막으로 애니메이션 관련 이모티콘도 사용 가능!
-              </Typography>
-            </Box>  
+              <Box component='div'
+                sx={{
+                  position: 'relative',
+                  top: '-35%',
+                  width: '30rem',
+                  height: '31rem',
+                  backgroundColor: '#E1EFFF',
+                  borderRadius: '2rem',
+                  padding: '3rem',
+                }}
+              >
+                <h1 style={{ color: '#366087' }}>서로 비슷한 취향의 사람과의 오픈채팅</h1>
+
+
+                <Typography variant="body2" color="#5D86D1">
+                  본인이 원하는 태그를 만들고 방을 생성하여 본인과 취향이 유사한 사람들과 채팅을 할 수 있다.
+                </Typography>
+                <Typography variant="body2" color="#5D86D1">
+                  그리고 다양한 글씨체를 지원하여 본인이 원하는 글씨체로 쓰고 볼 수 있다.
+                </Typography>
+                <Typography variant="body2" color="#5D86D1" sx={{ paddingBottom: '1rem' }}>
+                  마지막으로 애니메이션 관련 이모티콘도 사용 가능!
+                </Typography>
+              </Box>
             </motion.div>
           </Grid>
         </Grid>
@@ -282,10 +282,10 @@ function Intro() {
 
       {/* 팀원소개 */}
       <PageIntro3
-        style={{backgroundImage:`url(${IntroBackground3})`}}
+        style={{ backgroundImage: `url(${IntroBackground3})` }}
       >
         <h1
-          style={{ 
+          style={{
             fontSize: '3rem',
             marginTop: 0,
             paddingTop: '2rem',
@@ -299,15 +299,15 @@ function Intro() {
             paddingBottom: '2rem'
           }}
         >
-          <Grid container item xs={12} md={6} xl={4} sx={{ 
+          <Grid container item xs={12} md={6} xl={4} sx={{
             justifyContent: 'center',
-            paddingBottom: '5rem' 
+            paddingBottom: '5rem'
           }}>
-            <Card 
-              sx={{ 
+            <Card
+              sx={{
                 maxWidth: 345,
                 textAlign: 'center'
-                
+
               }}>
               <CardMedia
                 component="img"
@@ -326,7 +326,7 @@ function Intro() {
             </Card>
           </Grid>
           <Grid container item xs={12} md={6} xl={4} sx={{ justifyContent: 'center', paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345, textAlign: 'center'  }}>
+            <Card sx={{ maxWidth: 345, textAlign: 'center' }}>
               <CardMedia
                 component="img"
                 height="234"
@@ -362,7 +362,7 @@ function Intro() {
             </Card>
           </Grid>
           <Grid container item xs={12} md={6} xl={4} sx={{ justifyContent: 'center', paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345, textAlign: 'center'  }}>
+            <Card sx={{ maxWidth: 345, textAlign: 'center' }}>
               <CardMedia
                 component="img"
                 height="234"
@@ -380,7 +380,7 @@ function Intro() {
             </Card>
           </Grid>
           <Grid container item xs={12} md={6} xl={4} sx={{ justifyContent: 'center', paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345, textAlign: 'center'  }}>
+            <Card sx={{ maxWidth: 345, textAlign: 'center' }}>
               <CardMedia
                 component="img"
                 height="234"
@@ -398,7 +398,7 @@ function Intro() {
             </Card>
           </Grid>
           <Grid container item xs={12} md={6} xl={4} sx={{ justifyContent: 'center', paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345, textAlign: 'center'  }}>
+            <Card sx={{ maxWidth: 345, textAlign: 'center' }}>
               <CardMedia
                 component="img"
                 height="234"
