@@ -22,6 +22,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 // 모션
 import { motion, useScroll } from 'framer-motion';
+import { textAlign } from '@mui/system';
 
 
 const PageIntro1 = styled.div`
@@ -31,10 +32,14 @@ const PageIntro1 = styled.div`
   padding: 0;
 `
 const PageIntro2 = styled.div`
-  height: 100vh;
+  background-color: #000;
+  height: 100%;
+  width: 100%;
 `
 const PageIntro3 = styled.div`
-  height: 100vh;
+  background-color : #FFD1D1;
+  width: 100%;
+  height: 100%;
 `
 
 const PageButton = styled.button`
@@ -93,27 +98,33 @@ function Intro() {
   //   } 
   // }, []);
   return (
-    <Container
-      sx={{
+    <div
+      style={{
         padding: 0,
+        paddingLeft: 0,
+        paddingRight: 0,
+        margin: 0,
         width: '100%'
       }}
     >
       
       {/* 웹사이트 소개 */}
-      <PageIntro1>
+      <PageIntro1
+        style={{backgroundImage: `url(${IntroBackground3})`}}
+      >
         <Grid container
           sx={{
-            paddingTop: '12rem',
+            paddingTop: '19rem',
             display:'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            
           }}
           >
           <Grid item xs={3}>
-          <h1>더이상 애니 머 볼지 </h1>
-          <h1>고민 하지말고 츄 애니 원!</h1>
-          <h3>애니의 세상으로 함께 떠나보자고</h3>
+          <h1 style={{ fontSize: '3rem'}}>더이상 애니 머 볼지 </h1>
+          <h1 style={{ fontSize: '2rem'}}>고민 하지말고 츄 애니 원!</h1>
+          <h3 style={{ fontSize: '1rem'}}>애니의 세상으로 함께 떠나보자고!</h3>
           <PageButton>
             <span>
               <NavLink to='/' style={{ color:'white', textDecoration : 'none'}}>바로가기</NavLink>
@@ -123,8 +134,8 @@ function Intro() {
           <Grid item xs={1}></Grid>
           <Grid item xs={3}>
             <iframe 
-              width="440px" 
-              height="250px" 
+              width="640px" 
+              height="350px" 
               src="https://www.youtube.com/embed/ngQkkMlmzA8" 
               title="YouTube video player" 
               frameBorder="0" 
@@ -136,116 +147,137 @@ function Intro() {
       </PageIntro1>
       {/* 기능소개 */}
       <PageIntro2
-        style={{ height: '220vh'}}
         >
         <motion.div
         >
           <Box component='div'
             sx={{
               position: 'relative',
-              left: '5%'
+              textAlign: 'center'
             }}
           >
-            <h1> Chu Ani One 은</h1>
-            <h2> 애니 쉽게 접근할 수 있는</h2>
-            <h2> 확실한 웹사이트</h2>
+            <h1 style={{ fontSize: '3rem', color: 'white', marginTop: 0, paddingTop: '3rem'}}> Chu Ani One 은</h1>
+            <h1 style={{ fontSize: '3rem', color: 'white', paddingBottom: '3rem'}}> 왜 사용해야 하나요?</h1>
           </Box>
         </motion.div>
-        
-        <motion.div>
-          <Box component='div'
-            sx={{
-              position: 'relative',
-              right: '-50%',
-              top: '-5%',
-              width: '30rem',
-              height: '30rem',
-              backgroundColor: 'white',
-              borderRadius: '1rem',
-              boxShadow: '0.1rem 0.1rem 0.1rem 0.1rem',
-              padding : '1rem',
-            }}
-          >
-            <img 
-              src={MainImg} 
-              alt="메인 이미지" 
-              style={{
-                width: '30rem',
+        <Grid container maxWidth="xl"
+          
+        >
+          <Grid container item xs={8} sx={{ justifyContent: 'end', paddingRight: '2rem'}}>
+            <motion.div
+            style={{ paddingBottom: '2rem'}}
+          > 
+          
+            <Box component='div'
+              sx={{
+                width: '40rem',
+                height: '40rem',
+                backgroundColor: 'white',
+                borderRadius: '2rem',
+                padding : '3rem',
               }}
-            />
-            <h3>누구에게나 딱 맞는 애니 맞춤 추천 서비스</h3>
-            <p>인간은 인간의 유소년에게서 구할 찾아 이상의 그들에게 불어 있는 운다. 
-              방황하였으며, 별과 오직 살 사라지지 이상의 하는 소리다.이것은 싸인 것이다. 
-              가진 새 끝에 그들은 밥을 그들은 속잎나고, 두기 아니다.</p>
-            <PageButton>
-              <span>
-                <NavLink to='/' style={{ color:'white', textDecoration : 'none'}}>바로가기</NavLink>
-              </span> 
-            </PageButton>
-          </Box>
-        </motion.div>
-        
-        <motion.div>
-          <Box component='div'
-            sx={{
-              position: 'relative',
-              left: '5%',
-              top: '-5%',
-              width: '25rem',
-              height: '29rem',
-              backgroundColor: 'white',
-              borderRadius: '1rem',
-              boxShadow: '0.1rem 0.1rem 0.1rem 0.1rem',
-              padding:'1rem'
-            }}
+            >
+              
+              <h1>누구에게나 딱 맞는 애니 맞춤 추천 서비스</h1>
+              <Typography variant="body2" color="text.secondary">
+                봤던 애니에 리뷰를 달 경우 메인페이지에서 애니메이션을 추천 해드립니다!
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                또한 선호하는 장르에 대한 애니메이션 추천도 따로 해드립니다!
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ paddingBottom: '1rem'}}>
+                흥미가 있는 애니메이션 클릭 시 유사한 애니메이션도 추천해드립니다!
+              </Typography>
+            </Box>
+            </motion.div>
+          </Grid>
+          <Grid container item xs={4} sx={{ justifyContent: 'start'}}>
+            <motion.div
+            style={{ paddingBottom: '2rem'}}
           >
-            <img src={BigvocaImg} alt="빅보카 이미지" style={{
-                width: '25rem',
-              }}/>
-            <h3>자막 없이도 볼 수 있게 만드는 단어장</h3>
-            <p>것은 그들의 갑 낙원을 있음으로써 이상 할지라도 피다. 
-              그림자는 동산에는 인도하겠다는 거친 것이다. 
-              발휘하기 찾아 가는 천자만홍이 할지니, 속에서 모래뿐일 이것을 피어나는 것이다.
-            </p>  
-            <PageButton>
-              <span>
-                <NavLink to='/bigvoca' style={{ color:'white', textDecoration : 'none'}}>바로가기</NavLink>
-              </span> 
-            </PageButton>
-          </Box>
-        </motion.div>
-        
-        <motion.div>
-          <Box component='div'
-            sx={{
-              position: 'relative',
-              right: '-50%',
-              top: '-5%',
-              width: '25rem',
-              height: '31rem',
-              backgroundColor: 'white',
-              borderRadius: '1rem',
-              boxShadow: '0.1rem 0.1rem 0.1rem 0.1rem',
-              padding: '1rem'
-            }}
+            <Box component='div'
+              sx={{
+                width: '30rem',
+                height: '27rem',
+                backgroundColor: '#FFF5E4',
+                borderRadius: '2rem',
+                padding : '3rem',
+              }}
+            >
+              
+              <h1 style={{color: '#f5af38'}}>자막 없이도 볼 수 있게 만드는 단어장</h1>
+              <Typography variant="body2" color="#f5c26a">
+                리뷰를 달지 않더라도 전체 애니메이션 기준 총 단어 1000개 추천!!
+              </Typography>
+              <Typography variant="body2" color="#f5c26a">
+                리뷰를 달게 되면 해당 애니메이션 관련 자주 쓰이는 단어 추천!!
+              </Typography>
+              <Typography variant="body2" color="#f5c26a" sx={{ paddingBottom: '1rem'}}>
+                다 외운 단어를 체크시 단어장에서 사라지고 마이페이지에서 공부 가능!
+              </Typography>
+            </Box>
+            </motion.div>
+          </Grid>
+          <Grid container item xs={8} sx={{ justifyContent: 'end', paddingRight: '2rem'}}>
+            <motion.div
+              style={{ paddingBottom: '2rem'}}
+            >
+              <Box
+                sx={{
+                  width: '40rem',
+                  height: '18rem',
+                  backgroundColor: '#FFE3E1',
+                  borderRadius: '2rem',
+                  padding : '3rem',
+
+                }}>
+                <h1 style={{color: '#db7777'}}>애니 상세보기 다양한 기능 구현!</h1>
+                <Typography variant="body2" color="#FF9494">
+                  애니에 대한 줄거리 및 상세 정보 확인 가능
+                </Typography>
+                <Typography variant="body2" color="#FF9494">
+                  리뷰를 통해 원하는 애니를 선택할 수 있고
+                </Typography>
+                <Typography variant="body2" color="#FF9494">
+                  톡톡을 통해 같은 취향을 가진 사람들과 공감대 형성과
+                </Typography>
+                <Typography variant="body2" color="#FF9494">
+                  애니와 비슷한 작품 추천까지
+                </Typography>
+              </Box>
+            </motion.div>
+          </Grid>
+          <Grid container item xs={4} sx={{ justifyContent: 'start'}}>
+            <motion.div
+            style={{ paddingBottom: '2rem'}}
           >
-            <img src={OpenchatImg} alt="오픈채팅 이미지" style={{
-                width: '25rem',
-              }}/>
-            <h3>서로 비슷한 애니 취향의 사람과의 오픈채팅</h3>
-            <p>
-              인간은 인간의 유소년에게서 구할 찾아 이상의 그들에게 불어 있는 운다. 
-              방황하였으며, 별과 오직 살 사라지지 이상의 하는 소리다.이것은 싸인 것이다. 
-              가진 새 끝에 그들은 밥을 그들은 속잎나고, 두기 아니다.
-            </p>
-            <PageButton>
-              <span>
-                <NavLink to='/openchat' style={{ color:'white', textDecoration : 'none'}}>바로가기</NavLink>
-              </span> 
-            </PageButton>
-          </Box>
-        </motion.div>
-        
+            <Box component='div'
+              sx={{
+                position: 'relative',
+                top: '-35%',
+                width: '30rem',
+                height: '31rem',
+                backgroundColor: '#E1EFFF',
+                borderRadius: '2rem',
+                padding : '3rem',
+              }}
+            >
+              <h1 style={{ color: '#366087'}}>서로 비슷한 취향의 사람과의 오픈채팅</h1>
+              
+              
+              <Typography variant="body2" color="#5D86D1">
+                본인이 원하는 태그를 만들고 방을 생성하여 본인과 취향이 유사한 사람들과 채팅을 할 수 있다.
+              </Typography>
+              <Typography variant="body2" color="#5D86D1">
+                그리고 다양한 글씨체를 지원하여 본인이 원하는 글씨체로 쓰고 볼 수 있다.
+              </Typography>
+              <Typography variant="body2" color="#5D86D1" sx={{ paddingBottom: '1rem'}}>
+                마지막으로 애니메이션 관련 이모티콘도 사용 가능!
+              </Typography>
+            </Box>  
+            </motion.div>
+          </Grid>
+        </Grid>
       </PageIntro2>
 
       {/* 팀원소개 */}
@@ -253,14 +285,30 @@ function Intro() {
         style={{backgroundImage:`url(${IntroBackground3})`}}
       >
         <h1
-          style={{ paddingBottom: '5rem'}}
+          style={{ 
+            fontSize: '3rem',
+            marginTop: 0,
+            paddingTop: '2rem',
+            paddingBottom: '3rem',
+            textAlign: 'center'
+          }}
         >팀원 소개</h1>
 
         <Grid container
-          sx={{paddingBottom: '2rem'}}
+          sx={{
+            paddingBottom: '2rem'
+          }}
         >
-          <Grid item xs={12} md={6} xl={4} sx={{ paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345 }}>
+          <Grid container item xs={12} md={6} xl={4} sx={{ 
+            justifyContent: 'center',
+            paddingBottom: '5rem' 
+          }}>
+            <Card 
+              sx={{ 
+                maxWidth: 345,
+                textAlign: 'center'
+                
+              }}>
               <CardMedia
                 component="img"
                 height="234"
@@ -277,8 +325,8 @@ function Intro() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={6} xl={4} sx={{ paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345 }}>
+          <Grid container item xs={12} md={6} xl={4} sx={{ justifyContent: 'center', paddingBottom: '5rem' }}>
+            <Card sx={{ maxWidth: 345, textAlign: 'center'  }}>
               <CardMedia
                 component="img"
                 height="234"
@@ -295,8 +343,8 @@ function Intro() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={6} xl={4} sx={{ paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345 }}>
+          <Grid container item xs={12} md={6} xl={4} sx={{ justifyContent: 'center', paddingBottom: '5rem' }}>
+            <Card sx={{ maxWidth: 345, textAlign: 'center' }}>
               <CardMedia
                 component="img"
                 height="234"
@@ -313,8 +361,8 @@ function Intro() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={6} xl={4} sx={{ paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345 }}>
+          <Grid container item xs={12} md={6} xl={4} sx={{ justifyContent: 'center', paddingBottom: '5rem' }}>
+            <Card sx={{ maxWidth: 345, textAlign: 'center'  }}>
               <CardMedia
                 component="img"
                 height="234"
@@ -331,8 +379,8 @@ function Intro() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={6} xl={4} sx={{ paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345 }}>
+          <Grid container item xs={12} md={6} xl={4} sx={{ justifyContent: 'center', paddingBottom: '5rem' }}>
+            <Card sx={{ maxWidth: 345, textAlign: 'center'  }}>
               <CardMedia
                 component="img"
                 height="234"
@@ -349,8 +397,8 @@ function Intro() {
               </CardContent>
             </Card>
           </Grid>
-          <Grid item xs={12} md={6} xl={4} sx={{ paddingBottom: '5rem' }}>
-            <Card sx={{ maxWidth: 345 }}>
+          <Grid container item xs={12} md={6} xl={4} sx={{ justifyContent: 'center', paddingBottom: '5rem' }}>
+            <Card sx={{ maxWidth: 345, textAlign: 'center'  }}>
               <CardMedia
                 component="img"
                 height="234"
@@ -369,8 +417,7 @@ function Intro() {
           </Grid>
         </Grid>
       </PageIntro3>
-    </Container>
-    
+    </div>
 
   );
 }
