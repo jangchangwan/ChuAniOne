@@ -17,6 +17,7 @@ import store from '../../store'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import { IPublishParams } from '@stomp/stompjs'
+const StompJs = require('@stomp/stompjs')
 
 
 const Container = styled.div`
@@ -110,9 +111,23 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
   })
   stomp.reconnect_delay = 5000
-  // client.heartbeat.incoming = 0;
+  // stomp.heartbeat.incoming = 0
   // stomp.heartbeatOutgoing = 2000
-  // var reconnect = 0
+  var reconnect = 0
+
+  // const client = new StompJs.Client({
+  //   brokerURL: 'ws://localhost:8080/api/v1/stomp/chat.do',
+  //   connectHeaders: {
+  //     login: 'user',
+  //     passcode: 'password',
+  //   },
+  //   debug: function (str: any) {
+  //     console.log(str);
+  //   },
+  //   reconnectDelay: 5000,
+  //   heartbeatIncoming: 4000,
+  //   heartbeatOutgoing: 4000,
+  // })
 
 
   // 메시지 보내기
@@ -186,7 +201,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
   // connection 맺기
   const connect = () => {
-    stomp.onConnect = function (frame) {
+    stomp.onConnect = function (frame: any) {
       console.log('연결')
       stomp.publish({
         destination: '/pub/chat/enter',
@@ -198,7 +213,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
         headers: { },
       })
 
-      stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message) {
+      stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message: any) {
         console.log(message)
         let recv = JSON.parse(message.body)
         console.log(recv)
@@ -208,7 +223,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     }
     
     
-    stomp.onStompError = function (frame) {
+    stomp.onStompError = function (frame: any) {
       console.log('Broker reported error: ' + frame.headers['message']);
       console.log('Additional details: ' + frame.body);
     }
