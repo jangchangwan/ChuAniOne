@@ -181,6 +181,7 @@ public class ChatServiceImpl implements ChatService {
         LocalDateTime localDateTime = LocalDateTime.now();
         Room room = roomRepository.findOne(chatRequestDto.getRoomId());
         Member member = memberRepository.getReferenceById(chatRequestDto.getMemberId());
+//        System.out.println();
         Chat chat = Chat.builder()
                 .room(room)
                 .sender(member)

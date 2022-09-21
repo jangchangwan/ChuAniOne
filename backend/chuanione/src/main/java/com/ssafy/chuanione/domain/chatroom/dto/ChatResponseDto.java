@@ -44,7 +44,7 @@ public class ChatResponseDto {
                 .memberId(chat.getSender())
                 .memberNickname(member.getNickname())
                 .url("임시값")
-//                .message()
+                .message(chat.getMessage())
                 .sendDate(datetimeToChatTime(chat.getSendDate()))
                 .build();
     }
