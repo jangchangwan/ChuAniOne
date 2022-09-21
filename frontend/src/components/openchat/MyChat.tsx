@@ -41,7 +41,7 @@ const SearchIcon1 = styled(SearchIcon)`
 `
 
 
-function MyChat() {
+function MyChat({ opened, openedRoom,  handleOpened, handleClosed }: any) {
   return (
     <Container>
       <SearchBox>
@@ -55,7 +55,12 @@ function MyChat() {
           <SearchIcon1/>
         </SearchIconBox>
       </SearchBox>
-      <MyChatList />
+      <MyChatList 
+        opened={opened}
+        openedRoom={openedRoom}
+        handleOpened={handleOpened}
+        handleClosed={handleClosed}
+      />
     </Container>
   )
 }

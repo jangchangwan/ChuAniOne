@@ -26,7 +26,7 @@ const PageBox = styled.div`
   left: 0;
 `
 
-function MyChatList() {
+function MyChatList({ opened, openedRoom,  handleOpened, handleClosed }: any) {
   interface RoomData {
     id: number,
     name: string,
@@ -86,7 +86,13 @@ function MyChatList() {
     <Container>
       { data ?
         ( data.map((item, idx) => (
-            <MyChatItem chatData={item}/>
+            <MyChatItem 
+              roomData={item}
+              opened={opened}
+              openedRoom={openedRoom}
+              handleOpened={handleOpened}
+              handleClosed={handleClosed}
+            />
           ))
         ) : null
       }
