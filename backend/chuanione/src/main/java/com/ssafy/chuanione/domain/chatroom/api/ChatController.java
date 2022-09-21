@@ -24,6 +24,7 @@ public class ChatController {
     @MessageMapping(value = "/chat/enter")
 //    @ApiOperation(value = "방 입장 / 경로 - /pub/chat/enter")
     public void enter(ChatRequestDto dto){
+        System.out.println("/chat/enter controller 호출!!!!!!!!!!!!!!!!!!!!!!!");
 //        dto.setMessage(dto.getSender() + "님이 채팅방에 참여하였습니다.");
         List<ChatResponseDto> chats = chatService.getMessages(dto.getRoomId(), dto.getMemberId());
 
@@ -40,6 +41,7 @@ public class ChatController {
     @MessageMapping(value="/chat/message")
 //    @ApiOperation(value = "채팅")
     public void message(ChatRequestDto dto){
+        System.out.println("/chat/message controller 호출!!!!!!!!!!!!!!!!!!!!!!!");
         // 이거 chatResponseDto가 제대로 반환되는지 확인
         ChatResponseDto chatResponseDto = chatService.sendMessage(dto);
 

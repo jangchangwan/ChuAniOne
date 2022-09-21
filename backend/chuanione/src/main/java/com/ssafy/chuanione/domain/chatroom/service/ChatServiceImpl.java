@@ -162,6 +162,7 @@ public class ChatServiceImpl implements ChatService {
     // 채팅 받기 (입장할때 이전 내역들 받아오기)
     @Override
     public List<ChatResponseDto> getMessages(int room_id, int member_id) {
+        System.out.println("/chat/enter service 호출!!!!!!!!!!!!!!!!!!!!!!!");
         List<ChatResponseDto> resList = new ArrayList<>();
 
         List<Chat> list = chatRepository.findAllByRoomId(room_id);
@@ -177,7 +178,7 @@ public class ChatServiceImpl implements ChatService {
     // 채팅 보내기
     @Override
     public ChatResponseDto sendMessage(ChatRequestDto chatRequestDto) {
-
+        System.out.println("/chat/message service 호출!!!!!!!!!!!!!!!!!!!!!!!");
         LocalDateTime localDateTime = LocalDateTime.now();
         Room room = roomRepository.findOne(chatRequestDto.getRoomId());
         Member member = memberRepository.getReferenceById(chatRequestDto.getMemberId());
