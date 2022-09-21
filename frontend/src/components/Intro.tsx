@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
 // 이미지 불러오기
-import BigvocaImg from "../assets/images/bigvoca.png";
-import MainImg from "../assets/images/main.png";
-import OpenchatImg from "../assets/images/openchat.png";
+
 import Member1 from '../assets/images/member1.png'
 import Member2 from '../assets/images/member2.png'
 import Member3 from '../assets/images/member3.png'
 import Member4 from '../assets/images/member4.png'
 import Member5 from '../assets/images/member5.png'
 import Member6 from '../assets/images/member6.png'
-import IntroBackground3 from '../assets/images/introBackground3.png'
 // CSS
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -110,7 +107,6 @@ function Intro() {
 
       {/* 웹사이트 소개 */}
       <PageIntro1
-        style={{ backgroundImage: `url(${IntroBackground3})` }}
       >
         <Grid container
           sx={{
@@ -282,7 +278,6 @@ function Intro() {
 
       {/* 팀원소개 */}
       <PageIntro3
-        style={{ backgroundImage: `url(${IntroBackground3})` }}
       >
         <h1
           style={{
