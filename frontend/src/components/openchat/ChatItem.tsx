@@ -45,12 +45,12 @@ const Time = styled.p`
 `
 
 function ChatItem({ data }: any) {
-
+  console.log(data)
   return (
     data.mine ?
     <Container className="mine">
       <ContentBox className="mine">
-        <Content className="mine">{data.content}</Content>
+        <Content className="mine">{data.message}</Content>
         <Time>{data.time}</Time>
       </ContentBox>
     </Container>
@@ -58,7 +58,7 @@ function ChatItem({ data }: any) {
     <Container>
       <Username>{data.user}</Username>
       <ContentBox>
-        <Content>{data.content}</Content>
+        <Content>{data.message}</Content>
         <Time>{data.time}</Time>
       </ContentBox>
     </Container>

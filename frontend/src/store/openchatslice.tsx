@@ -59,7 +59,7 @@ export const getChatInfo = createAsyncThunk(
   async ( roomId: number ) => {
     try {
       const res = await http.get(`room/room.do/${roomId}`)
-      return res
+      return res.data
     } catch (err) {
       console.log('채팅방 정보 조회 에러', err)
     }
@@ -120,9 +120,15 @@ export const enterRoom = createAsyncThunk(
   async ( roomId: number ) => {
     try {
       const res = await http.post(`room/join.do/${roomId}`)
-      return res
+      console.log(res)
+      if (res.status === 200) {
+        return true
+      } else {
+        return false
+      }
     } catch (err) {
       console.log('채팅방 입장 에러', err)
+      return false
     }
   }
 )

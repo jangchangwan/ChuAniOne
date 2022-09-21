@@ -95,7 +95,6 @@ function ChatTotal() {
 
   // 데이터 불러오기
   async function loadData(page: number) {
-    
     // 검색 키워드가 있을 경우, 검색 목록 가져오기
     if (keyword.trim()) {
       console.log(keyword)
@@ -131,6 +130,7 @@ function ChatTotal() {
       setPage(nowPageInt)
     }
   }
+
   return (
     <Container>
       <SearchBox>
