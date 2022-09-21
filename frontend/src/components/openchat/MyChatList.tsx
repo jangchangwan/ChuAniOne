@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import MyChatItem from './MyChatItem'
 import Pagination from '@mui/material/Pagination'
-import { PaginationItem } from '@mui/material'
+
+// redux
+import { useDispatch } from 'react-redux'
+import { getMyChat } from '../../store/openchatslice'
+import { useSelector } from 'react-redux'
+import initialState from '../../store/Loginslice'
+import store from '../../store'
 
 const Container = styled.div`
   width: 96%;
@@ -21,93 +27,65 @@ const PageBox = styled.div`
 `
 
 function MyChatList() {
-  interface Data {
-    room_name: string,
-    hashTags: string[],
-    now_num: number,
-    max_num: number
+  interface RoomData {
+    id: number,
+    name: string,
+    tag1: string,
+    tag2: string,
+    tag3: string,
+    memberId: number,
+    nickname: string,
+    max: number,
+    count: number, 
   }
 
-  const data: Array<Data> = [{
-    room_name: '소영이의 수다방1',
-    hashTags: [
-      'SSAFY', 'E104', '특화프로젝트'
-    ],
-    now_num: 2,
-    max_num: 4
-  },
-  {
-    room_name: '소영이의 수다방2',
-    hashTags: [
-      'SSAFY', 'E104', '특화프로젝트'
-    ],
-    now_num: 2,
-    max_num: 4
-  },
-  {
-    room_name: '소영이의 수다방3',
-    hashTags: [
-      'SSAFY', 'E104', '특화프로젝트'
-    ],
-    now_num: 2,
-    max_num: 4
-  },
-  {
-    room_name: '소영이의 수다방8',
-    hashTags: [
-      'SSAFY', 'E104', '특화프로젝트'
-    ],
-    now_num: 2,
-    max_num: 4
-  }
-  ]
-
-  const [lastPage, setLastPage] = useState<number>(1)
-  const value = parseInt(`${data.length / 5}`)
   
+  const dispatch = useDispatch<typeof store.dispatch>()
+  const userId = useSelector((state: initialState) => state.login.userId)
+  
+  const [data, setData] = useState<Partial<RoomData[]>>([])
   const [page, setPage] = useState<number>(1)
-  const [showData, setShowData] = useState<Data[]>([])
+  const [lastPage, setLastPage] = useState<number>(1)
 
-  useEffect(() => {
-    if (data.length % 5) {
-      setLastPage(value+1)
-    } else {
-      setLastPage(value)
-    }
-    getPageData()
-  }, [])
+    // 초기 데이터 불러오기
+    useEffect(() => {
+      loadData(userId, page)
+    }, [])
+    
+    // 페이지 변화에 따라 데이터 불러오기
+    useEffect(() => {
+      loadData(userId, page)
+      }, [page])
+  
+    // 데이터 불러오기
+    async function loadData(userId: number, page: number) {
+      const res: any = await dispatch(getMyChat({ userId, page }))
+      if (res.type === "GETMYCHAT/fulfilled") {
+        await setLastPage(res.payload.data.pageCnt)
+        await setData(res.payload.data.rDto)
+      }
+    } 
 
-  useEffect(() => {
-    getPageData()
-    }, [page])
-
-  async function getPageData(): Promise<void> {
-    if(page === lastPage){
-      await setShowData(data.slice(5 * (page - 1)))
-    } else {
-      await setShowData(data.slice(5 * (page - 1), 5 * (page - 1) + 5))
-    }  
-  }
-
-  const handlePage = (event: any) => {
-    if (event.target.dataset.testid) {
-      if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
-        const nowPageInt = page - 1
-        setPage(nowPageInt)
-      } else if (event.target.dataset.testid === "NavigateNextIcon" && page < lastPage) {
-        const nowPageInt = page + 1
+    // 페이지네이션 동작
+    function handlePage(event: any) {
+      if (event.target.dataset.testid) {
+        if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
+          const nowPageInt = page - 1
+          setPage(nowPageInt)
+        } else if (event.target.dataset.testid === "NavigateNextIcon" && page < lastPage) {
+          const nowPageInt = page + 1
+          setPage(nowPageInt)
+        }
+      } else {
+        const nowPageInt = parseInt(event.target.outerText)
         setPage(nowPageInt)
       }
-    } else {
-      const nowPageInt = parseInt(event.target.outerText)
-      setPage(nowPageInt)
     }
-  }
 
   return (
     <Container>
-      { showData ?
-        ( showData.map((item, idx) => (
+      { data ?
+        ( data.map((item, idx) => (
             <MyChatItem chatData={item}/>
           ))
         ) : null

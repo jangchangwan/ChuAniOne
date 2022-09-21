@@ -22,4 +22,4 @@ function OpenChat() {
   )
 }
 
-export default OpenChat;
+export default OpenChat

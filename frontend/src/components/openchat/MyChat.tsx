@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search'
 import MyChatList from './MyChatList'
 
+
 const Container = styled.div`
   width: 80%;
   padding: 0 10%;
@@ -38,7 +39,6 @@ const SearchIcon1 = styled(SearchIcon)`
   padding: 12.5%;
   color: #505050;
 `
-
 
 
 function MyChat() {

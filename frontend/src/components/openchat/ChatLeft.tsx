@@ -67,8 +67,7 @@ function a11yProps(index: number) {
 }
 
 
-
-function ChatLeft() {
+function ChatLeft () {
   const [value, setValue] = useState<number>(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
