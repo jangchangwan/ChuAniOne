@@ -71,7 +71,6 @@ public class SecurityConfig {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
                 // permitAll -> 요청 허용
                 // autenticated -> 인증해야함
                 .and()
@@ -87,6 +86,8 @@ public class SecurityConfig {
                         "/webjars/**",
                         /* swagger v3 */
                         "/v3/api-docs/**",
+                        "/resources/**",
+                        "/img/**",
                         "/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
