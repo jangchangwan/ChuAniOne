@@ -230,6 +230,33 @@ public class ChatServiceImpl implements ChatService {
         return map;
     }
 
+    // 입장중인 리스트에서 검색
+    @Override
+    public Map<String, Object> getJoinSearchList(String keyword, int page) {
+
+        Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        String name = keyword;
+        String tag1 = keyword;
+        String tag2 = keyword;
+        String tag3 = keyword;
+        Page<Room> roomPage = roomRepository.searchJoinRoom(PageRequest.of(page,5),"%"+name+"%", "%"+tag1+"%","%"+tag2+"%","%"+tag3+"%",login.getId());
+        long totalCount = roomPage.getTotalElements();
+        long pageCount = roomPage.getTotalPages();;
+        List<Room> rooms = roomPage.getContent();
+        List<RoomResponseDto> dtoList = new LinkedList<>();
+        for(Room room : rooms){
+            int count = joinUserRepository.countDistinctById(room.getId());
+            Member member = room.getAdmin();
+            dtoList.add(RoomResponseDto.from(room,count,member));
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCnt",totalCount);
+        map.put("pageCnt",pageCount);
+        map.put("rDto",dtoList);
+        return map;
+    }
+
     // 입장중인 리스트 
     @Override
     public Map<String, Object> getMyList(int member_id, int page) {

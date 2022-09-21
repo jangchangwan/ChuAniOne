@@ -48,6 +48,14 @@ public class RoomController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    @GetMapping("/search.do/join/{keyword}/page/{page}")
+    @ApiOperation(value = "참여중인 채팅방에서 검색 목록 가져오기 / page 1부터 시작")
+    public ResponseEntity<Map<String,Object>> getJoinSearchList(@PathVariable String keyword,@PathVariable int page) {
+        Map<String,Object> list = chatService.getJoinSearchList(keyword,page-1);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+
     @PostMapping("/room.do")
     @ApiOperation(value = "채팅방 생성 ")
     public ResponseEntity<RoomResponseDto> insertRoom(@RequestBody RoomRequestDto dto) {
