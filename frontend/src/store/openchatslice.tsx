@@ -164,32 +164,32 @@ interface ChatRoom {
 }
 
 export interface openChatReducerType {
-  chatting: boolean,
-  chatRoom: null | Partial<ChatRoom>,
+  // chatting: boolean,
+  // chatRoom: null | Partial<ChatRoom>,
 }
 
 const initialState: openChatReducerType = {
-  chatting: false,
-  chatRoom: null,
+  // chatting: false,
+  // chatRoom: null,
 } 
 
 const openchatSlice: any = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    setChattingOpen: (state, action) => {
-      console.log(action.payload)
-      state.chatting = true
-      state.chatRoom = action.payload
-    },
-    setChattingClose: (state) => {
-      state.chatting = false
-      state.chatRoom = null
-    },
+    // setChattingOpen: (state, action) => {
+    //   console.log(action.payload)
+    //   state.chatting = true
+    //   state.chatRoom = action.payload
+    // },
+    // setChattingClose: (state) => {
+    //   state.chatting = false
+    //   state.chatRoom = null
+    // },
   },
   extraReducers: {
   },
 })
 
-export const { setChattingOpen, setChattingClose } = openchatSlice.actions
+// export const { setChattingOpen, setChattingClose } = openchatSlice.actions
 export default openchatSlice.reducer

@@ -16,8 +16,7 @@ import store from '../../store'
 // chatting
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
-
-
+import { IPublishParams } from '@stomp/stompjs'
 
 
 const Container = styled.div`
@@ -89,7 +88,7 @@ const SendIcon = styled(IconSend)`
 `
 
 
-function ChatBody() {
+function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   interface Msg {
     roomId: number,
     memberId: number,
@@ -101,30 +100,32 @@ function ChatBody() {
 
   // const dispatch = useDispatch<typeof store.dispatch>()
   const userId = useSelector((state: initialState) => state.login.userId)
-  const room = useSelector((state: openChatReducerType) => state.openchat.chatRoom)
 
   const [sendMessage, setSendMessage] = useState('')
   const [messages, setMessages] = useState<Msg[]>([])
   const [isUpdated, setIsUpdated] = useState(' ')
 
   // SockJS 내부의 stomp 가져오기
-  var sockJs = new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
-  var stomp = Stomp.over(sockJs)
+  var stomp = Stomp.over(function() {
+    return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
+  })
   stomp.reconnect_delay = 5000
+  // client.heartbeat.incoming = 0;
+  // stomp.heartbeatOutgoing = 2000
   // var reconnect = 0
 
 
   // 메시지 보내기
   const sendMsg = () => {
-    console.log(sendMessage)
     if (sendMessage.trim() === '') return
-    
+    console.log(sendMessage)
+
     stomp.publish({
       destination: '/pub/chat/message',
       body: JSON.stringify({
-        roomId: `${room.id}`,
+        roomId: `${openedRoom.id}`,
         memberId: `${userId}`,
-        message: sendMessage,
+        message: `${sendMessage}`,
       }),
       headers: {},
     })
@@ -137,87 +138,92 @@ function ChatBody() {
       recv
     ]
     setMessages(val)
-    console.log(val)
   }
   
 
+  // const connect = () => {
+  //   stomp.connect(
+  //     {},
+  //     function (frame: any) {
+  //       console.log('방번호', room.id)
+
+  //       stomp.subscribe(`/sub/chat/room/${room.id}`, function (message) {
+  //         var recv = JSON.parse(message.body)
+  //         recvMsg(recv)
+
+  //         //시간 차 사용해서 재랜더링 강제로 일으키기
+  //         setTimeout(() => {
+  //           setIsUpdated('')
+  //         }, 200)
+
+  //         // 상대방 메시지 불러오기
+  //         setIsUpdated(' ')
+  //       })
+  //       stomp.send(
+  //         '/pub/chat/enter',
+  //         {},
+  //         JSON.stringify({
+  //           roomId: `${room.id}`,
+  //           memberId: `${userId}`,
+  //           message: '',
+  //         }),
+  //       )
+  //     },
+  //     function (error: any) {
+  //       if (reconnect++ <= 5) {
+  //         setTimeout(function () {
+  //           console.log('connection reconnect')
+  //           stomp = Stomp.over(function() {
+  //             return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
+  //           })
+  //           connect()
+  //         }, 10 * 1000)
+  //       }
+  //     },
+  //   )
+  // }
+
+
   // connection 맺기
   const connect = () => {
-
     stomp.onConnect = function (frame) {
-
+      console.log('연결')
       stomp.publish({
         destination: '/pub/chat/enter',
         body: JSON.stringify({
-          roomId: `${room.id}`,
+          roomId: `${openedRoom.id}`,
           memberId: `${userId}`,
           message: '',
         }),
-        headers: {},
+        headers: { },
       })
 
-      stomp.subscribe(`/sub/chat/room/${room.id}`, function (message) {
+      stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message) {
         console.log(message)
         let recv = JSON.parse(message.body)
         console.log(recv)
         recvMsg(recv)
-        
       })
+
     }
-
-
+    
+    
     stomp.onStompError = function (frame) {
       console.log('Broker reported error: ' + frame.headers['message']);
       console.log('Additional details: ' + frame.body);
     }
-
+    
+    
     stomp.activate()
-
-    // stomp.connect({}, function(frame: any) {
-    //   // 입장 요청
-    //   stomp.publish({
-    //     destination: '/pub/chat/enter',
-    //     body: JSON.stringify({
-    //       roomId: `${room.id}`,
-    //       memberId: `${userId}`,
-    //       message: '',
-    //     }),
-    //     headers: {},
-    //   })
-
-    //   // 메시지 불러오기
-    //   stomp.subscribe(`/sub/chat/room/${room.id}`, function (message) {
-    //     let recv = JSON.parse(message.body)
-    //     console.log(recv)
-    //     recvMsg(recv)
-        
-    //     //시간 차 사용해서 재랜더링 강제로 일으키기
-    //     setTimeout(() => {
-    //       setIsUpdated('')
-    //     }, 200)
-
-    //     // 상대방 메시지 불러오기
-    //     setIsUpdated(' ')
-    //   })
-    // },
-
-
-    // function (error: any) {
-    //     if (reconnect++ <= 5) {
-    //       setTimeout(function () {
-    //         console.log('connection reconnect')
-    //         stomp = Stomp.over(sockJs)
-    //         connect()
-    //       }, 10 * 1000)
-    //     }
-    //   },
-    // )
   }
+
   
 
   useEffect(() => {
-    connect()
-  }, [])
+    if (opened) {
+      connect()
+    }
+  }, [opened])
 
   // 채팅방 스크롤 맨아래로
   const scrollRef = useRef<any>()

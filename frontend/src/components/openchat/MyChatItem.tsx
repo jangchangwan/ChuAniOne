@@ -6,7 +6,7 @@ import LocalFloristIcon from '@mui/icons-material/LocalFlorist'
 // redux
 import { useSelector, useDispatch } from 'react-redux'
 import initialState from '../../store/Loginslice'
-import { setChattingOpen } from '../../store/openchatslice'
+// import { setChattingOpen } from '../../store/openchatslice'
 import store from '../../store'
 
 const Container = styled.div`
@@ -86,33 +86,32 @@ const EnterRoom = styled(Button)`
   background-color: #f37b83 !important;
 `
 
-function MyChatItem({ chatData }: any): any {
-  const dispatch = useDispatch<typeof store.dispatch>()
+function MyChatItem({ roomData, opened, openedRoom,  handleOpened, handleClosed }: any): any {
 
   const userId = useSelector((state: initialState) => state.login.userId)
 
   const openChat = () => {
-    dispatch(setChattingOpen(chatData))
+    handleOpened(roomData)
   }
 
   return (
     <Container>
       <NameHashBox>
         <NameBox>
-          { userId === chatData.memberId ? 
+          { userId === roomData.memberId ? 
             <MineIcon /> : null
           }
-          <Name>{chatData.name}</Name>
+          <Name>{roomData.name}</Name>
         </NameBox>
         <HashTags>
-          { chatData.tag1 ? <HashTag># {chatData.tag1}</HashTag> : null }
-          { chatData.tag2 ? <HashTag># {chatData.tag2}</HashTag> : null }
-          { chatData.tag3 ? <HashTag># {chatData.tag3}</HashTag> : null }
+          { roomData.tag1 ? <HashTag># {roomData.tag1}</HashTag> : null }
+          { roomData.tag2 ? <HashTag># {roomData.tag2}</HashTag> : null }
+          { roomData.tag3 ? <HashTag># {roomData.tag3}</HashTag> : null }
         </HashTags>
       </NameHashBox>
       <RoomBox>
         <MemberCountBox>
-          <MemberCount>{chatData.count} / {chatData.max}</MemberCount>
+          <MemberCount>{roomData.count} / {roomData.max}</MemberCount>
         </MemberCountBox>
         <EnterRoomBox>
           <EnterRoom variant="contained" color="secondary" onClick={openChat}>채팅열기</EnterRoom>

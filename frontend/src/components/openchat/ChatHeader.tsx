@@ -6,7 +6,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 // redux
 import { useDispatch, useSelector } from 'react-redux'
-import { setChattingClose } from '../../store/openchatslice'
 import store from '../../store'
 import initialState from '../../store/openchatslice'
 
@@ -50,7 +49,7 @@ const Icon = styled(MoreVertIcon)`
   color: #333333;
 `
 
-function ChatHeader() {
+function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
   const dispatch = useDispatch<typeof store.dispatch>()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
@@ -66,7 +65,7 @@ function ChatHeader() {
   }
 
   const closeChat = () => {
-    dispatch(setChattingClose())
+    handleClosed()
   }
   
   return (
@@ -74,7 +73,9 @@ function ChatHeader() {
       { chatRoom ?
         <Container>
           <NameBox>
-            <BackIcon onClick={closeChat}/>
+            <BackIcon 
+              onClick={closeChat}
+            />
             <Name>
               {chatRoom.name}
             </Name>

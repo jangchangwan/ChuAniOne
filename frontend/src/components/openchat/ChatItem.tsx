@@ -30,6 +30,7 @@ const ContentBox = styled.div`
 
 const Content = styled.p`
   max-width: 80%;
+  min-height: 1.2rem;
   margin-top: 0.5rem;
   text-align: center;
   background-color: white;
@@ -45,21 +46,21 @@ const Time = styled.p`
 `
 
 function ChatItem({ data }: any) {
-  console.log(data)
+  // console.log(data)
   return (
     data.mine ?
     <Container className="mine">
       <ContentBox className="mine">
         <Content className="mine">{data.message}</Content>
-        <Time>{data.time}</Time>
+        <Time>{data.sendDate}</Time>
       </ContentBox>
     </Container>
     :
     <Container>
-      <Username>{data.user}</Username>
+      <Username>{data.memberNickname}</Username>
       <ContentBox>
         <Content>{data.message}</Content>
-        <Time>{data.time}</Time>
+        <Time>{data.sendDate}</Time>
       </ContentBox>
     </Container>
   )}
