@@ -95,12 +95,17 @@ public class RoomController {
 
     @PostMapping("/join.do/{id}")
     @ApiOperation(value = "채팅방 입장 (id:채팅방)")
-    public ResponseEntity<Integer> enterRoom(@PathVariable int id) {
+    public ResponseEntity<String> enterRoom(@PathVariable int id) {
 //        int member_id = map.get("memberId");
 //        int member_id = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail);
 //        int room_id = map.get("roomId");
-        chatService.enterRoom(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        int temp = chatService.enterRoom(id);
+        if(temp == 1){ // 성공
+            return new ResponseEntity<>("success",HttpStatus.OK);
+        }else if(temp == -1){ // 꽉찼을때
+            return new ResponseEntity<>("full",HttpStatus.OK);
+        }else // 둘다 아니어서 실패하면
+        return new ResponseEntity<>("fail",HttpStatus.OK);
     }
 
     @DeleteMapping("/join.do/{id}")

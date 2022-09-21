@@ -291,18 +291,24 @@ public class ChatServiceImpl implements ChatService {
 
     // 채팅방 입장
     @Override
-    public void enterRoom(int room_id) {
+    public Integer enterRoom(int room_id) {
         // member
         // UserEntity user = userRepository.findById(dto.getWriter()).orElseThrow(UserNotFoundException::new);
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         Room room = roomRepository.findOne(room_id);
-//        Member member = memberRepository.getReferenceById(member_id);
-        JoinUser joinUser = JoinUser.builder()
-                .roomId(room)
-                .memberId(member)
-                .build();
-        joinUserRepository.save(joinUser);
-
+        int max = room.getMax();
+        int count = joinUserRepository.countDistinctById(room.getId());
+        if( max >= count +1){
+            JoinUser joinUser = JoinUser.builder()
+                    .roomId(room)
+                    .memberId(member)
+                    .build();
+            joinUserRepository.save(joinUser);
+            return 1;
+        }else{
+            return -1;
+        }
+//    return 0;
     }
 
     // 채팅방 퇴장
@@ -311,6 +317,11 @@ public class ChatServiceImpl implements ChatService {
 //        joinUserRepository.deleteById(room_id,member_id);
        Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
        joinUserRepository.deleteById(room_id,member.getId());
+       Room room = roomRepository.findOne(room_id);
+       // 만약 방장아이디와 나가려는 사람의 아이디가 같다면 방도 삭제
+        if( room.getAdmin() == member){
+            roomRepository.delete(room);
+        }
 
     }
 }

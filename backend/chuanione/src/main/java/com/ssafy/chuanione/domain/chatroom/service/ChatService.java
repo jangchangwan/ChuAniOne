@@ -30,7 +30,7 @@ public interface ChatService {
     // 입장중인 리스트
     Map<String, Object> getMyList(int member_id, int page);
     // 채팅방 입장
-    void enterRoom(int room_id);
+    Integer enterRoom(int room_id);
     // 채팅방 퇴장
     void exitRoom(int room_id);
 }

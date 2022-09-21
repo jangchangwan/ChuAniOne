@@ -29,7 +29,7 @@ public class ChatController {
 
         if (chats != null) {
             for (ChatResponseDto chatRes : chats) {
-                template.convertAndSend("/sub/chat/room/" + chatRes.getRoomId(), chatRes);
+                template.convertAndSend("/sub/chat/room/" + dto.getRoomId(), chatRes);
                 // db에 저장 안해도되나 ? -> message에서 다 하는듯
             }
         }
@@ -43,6 +43,6 @@ public class ChatController {
         // 이거 chatResponseDto가 제대로 반환되는지 확인
         ChatResponseDto chatResponseDto = chatService.sendMessage(dto);
 
-        template.convertAndSend("/sub/chat/room/" + chatResponseDto.getRoomId(), chatResponseDto);
+        template.convertAndSend("/sub/chat/room/" + dto.getRoomId(), chatResponseDto);
     }
 }
