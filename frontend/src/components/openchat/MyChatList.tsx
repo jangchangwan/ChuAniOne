@@ -52,10 +52,10 @@ function MyChatList({ opened, openedRoom,  handleOpened, handleClosed }: any) {
       loadData(userId, page)
     }, [])
     
-    // 페이지 변화에 따라 데이터 불러오기
-    useEffect(() => {
+    // 3초마다 갱신하기
+    setTimeout(() => {
       loadData(userId, page)
-      }, [page])
+    })
   
     // 데이터 불러오기
     async function loadData(userId: number, page: number) {

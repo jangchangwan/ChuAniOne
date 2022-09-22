@@ -152,7 +152,16 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                방을 떠날 경우, 내 채팅목록에서 삭제됩니다.
+                { openedRoom.memberId !== userId ? 
+                  <>
+                    방을 떠날 경우, 내 채팅목록에서 삭제됩니다.
+                  </>
+                : 
+                  <>
+                    당신은 방장입니다. <br/>
+                    방을 떠날 경우, 현재 계신 채팅방은 삭제됩니다.
+                  </>
+                }
               </DialogContentText>
             </DialogContent>
             <DialogActions>

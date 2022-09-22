@@ -88,10 +88,10 @@ function ChatTotal() {
     loadData(1)
   }, [])
   
-  // 페이지 변화에 따라 데이터 불러오기
-  useEffect(() => {
+  // 3초마다 재랜더링
+  setTimeout(() => {
     loadData(page)
-    }, [page, keyword])
+  }, 3000)
 
   // 데이터 불러오기
   async function loadData(page: number) {
@@ -100,7 +100,7 @@ function ChatTotal() {
       console.log(keyword)
       const res = await dispatch(searchChat({keyword, page}))
       console.log(res)
-      if (res.type === "SEARCHCHAT/fulfilled") {
+      if (res.type === "SEARCHCHAT/fulfilled" && res.payload) {
         await setLastPage(res.payload.pageCnt)
         await setData(res.payload.rDto)
       }
@@ -108,7 +108,7 @@ function ChatTotal() {
 
       // 검색 키워드가 없을 경우, 전체 채팅방 목록 가져오기
       const res = await dispatch(getChatAll(page))
-      if (res.type === "GETCHATALL/fulfilled") {
+      if (res.type === "GETCHATALL/fulfilled" && res.payload) {
         await setLastPage(res.payload.pageCnt)
         await setData(res.payload.rDto)
       }
@@ -154,7 +154,7 @@ function ChatTotal() {
       <ChatTotalList>
         { data ?
           ( data.map((item, idx) => (
-              <ChatTotalItem chatData={item}/>
+              <ChatTotalItem chatData={item} loadData={loadData} page={page}/>
             ))
           ) : null
         }
