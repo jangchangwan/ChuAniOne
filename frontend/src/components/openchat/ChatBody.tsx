@@ -22,7 +22,7 @@ const StompJs = require('@stomp/stompjs')
 
 
 const Container = styled.div`
-  width: 100%;
+  width: 100%;  
   height: 90%;
 `
 
@@ -115,23 +115,24 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   var reconnect = 0
 
   // 메시지 보내기
-  const sendMsg = () => {
+  function sendMsg() {
     if (sendMessage.trim() === '') return
     console.log(sendMessage)
 
     stomp.send('/pub/chat/message', 
-      { 'content-type': 'application/json'},
+      { 'content-type': 'application/json' },
       JSON.stringify({
         roomId: `${openedRoom.id}`,
         memberId: `${userId}`,
         message: `${sendMessage}`,
       }),
-
     )
+    setSendMessage('')
+
   }
 
   // 메시지 수신
-  const recvMsg = (recv: Msg) => {
+  function recvMsg(recv: Msg) {
     const val = [
       ...messages,
       recv
@@ -139,35 +140,42 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     setMessages(val)
   }
 
-
-  // connection 맺기
-  const connect = () => {
-    stomp.connect({}, function() {
-      console.log("STOMP Connection")
+  // 연결 시, 콜백 함수
+  const connect_callback = () => {
+    console.log("STOMP Connection")
       
-      stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message: any) {
-        console.log(message)
-        let recv = JSON.parse(message.body)
-        console.log(recv)
-        recvMsg(recv)
-      })
+    stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message: any) {
+      console.log('subscribe', message)
+      let recv = JSON.parse(message.body)
+      console.log(recv)
+      recvMsg(recv)
 
-      stomp.send('/pub/chat/enter', {}, JSON.stringify({
-        roomId: `${openedRoom.id}`,
-        memberId: `${userId}`,
-        message: '',
-      }),
-      )
-
+      message.ack()
     })
+
+    stomp.send('/pub/chat/enter', {}, JSON.stringify({
+      roomId: `${openedRoom.id}`,
+      memberId: `${userId}`,
+      message: '',
+    }),
+    )
+
   }
 
-  
+
+  const error_callback = (err: any) => {
+    console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
+  } 
+
+  // connection 맺기
+  function connect() {
+    stomp.connect({}, connect_callback, error_callback)
+  }
 
   useEffect(() => {
     if (opened) {
       connect()
-    } 
+    }
   }, [opened])
 
   // 채팅방 스크롤 맨아래로
@@ -192,14 +200,13 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
         <SendInput fullWidth
           placeholder='메시지를 입력하세요'
           value={sendMessage}
-          onChange={(event) => {
+          onChange={(event: any) => {
             if (event.target.value.length <= 1000) 
             setSendMessage(event.target.value)
           }}
-          onKeyPress={(event) => {
+          onKeyPress={(event: any) => {
             if (event.key === 'Enter') {
               sendMsg()
-              setSendMessage('')
             }
           }}
           sx={{
@@ -216,7 +223,6 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
         <SendDiv 
           onClick={() => {
             sendMsg()
-            setSendMessage('')
           }}
         >
           <IconBtn>
