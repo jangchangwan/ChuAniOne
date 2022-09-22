@@ -4,7 +4,7 @@ import React from 'react';
 import Container from '@mui/material/Container';
 import styled from "styled-components";
 import Grid from '@mui/material/Grid';
-
+import ReadBookImg from  '../../assets/images/readbookImg.png'
 // 화면전환 애니메이션
 // import { motion } from 'framer-motion';
 
@@ -12,27 +12,27 @@ import Grid from '@mui/material/Grid';
 import WordList from './WordList';
 
 
-const PageChangeUpDiv = styled.div`
-  position: fixed;
-  z-index: 999;
-  top: -60rem;
-  left: -10rem;
-  height: 300vh;
-  width: 100vh;
-  background-color: #f37b83;
-  transform: rotate(65deg);
-`
+// const PageChangeUpDiv = styled.div`
+//   position: fixed;
+//   z-index: 999;
+//   top: -60rem;
+//   left: -10rem;
+//   height: 300vh;
+//   width: 100vh;
+//   background-color: #f37b83;
+//   transform: rotate(65deg);
+// `
 
-const PageChangeDownDiv = styled.div`
-  position: fixed;
-  z-index: 999;
-  top: 60rem;
-  right: -10rem;
-  height: 300vh;
-  width: 100vh;
-  background-color: #f07b4d;
-  transform: rotate(65deg);
-`
+// const PageChangeDownDiv = styled.div`
+//   position: fixed;
+//   z-index: 999;
+//   top: 60rem;
+//   right: -10rem;
+//   height: 300vh;
+//   width: 100vh;
+//   background-color: #f07b4d;
+//   transform: rotate(65deg);
+// `
 
 const MajorTopic = styled.div`
   font-size: 3rem;
@@ -92,7 +92,7 @@ function Bigvoca() {
       <div>
         <SubTopic>
           <p>30만개의 리뷰와 2355개의 애니 분석을 통해</p>
-          <p>애니 자막의 89%를 이해한다!</p>
+          <p>선호하는 애니 자막의 89%를 이해한다!</p>
         </SubTopic>
       </div>
       {/* </motion.div> */}
@@ -104,7 +104,7 @@ function Bigvoca() {
       <div>
         <Grid container>
           <Grid item xs={5}>
-            이미지
+            <img src={ReadBookImg} style={{ paddingTop: '3rem'}}/>
           </Grid>
           <Grid item xs={7}>
             <WordList></WordList>
