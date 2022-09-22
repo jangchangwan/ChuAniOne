@@ -31,7 +31,7 @@ public class RoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
-    @GetMapping("/list.do/join/{page}")
+    @GetMapping("/list/join/{page}")
     @ApiOperation(value = "참여중인 채팅방 목록 가져오기 / page 1부터 시작")
     public ResponseEntity<Map<String,Object>> getMyList(@PathVariable int page) {
         Map<String,Object> list = chatService.getMyList(page-1);
@@ -45,7 +45,7 @@ public class RoomController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/search.do/join/{keyword}/page/{page}")
+    @GetMapping("/search/join/{keyword}/page/{page}")
     @ApiOperation(value = "참여중인 채팅방에서 검색 목록 가져오기 / page 1부터 시작")
     public ResponseEntity<Map<String,Object>> getJoinSearchList(@PathVariable String keyword,@PathVariable int page) {
         Map<String,Object> list = chatService.getJoinSearchList(keyword,page-1);
@@ -53,7 +53,7 @@ public class RoomController {
     }
 
 
-    @PostMapping("/room.do")
+    @PostMapping("/room")
     @ApiOperation(value = "채팅방 생성 ")
     public ResponseEntity<RoomResponseDto> insertRoom(@RequestBody RoomRequestDto dto) {
         System.out.println("호출");
@@ -63,14 +63,14 @@ public class RoomController {
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @DeleteMapping("/room.do/{id}")
+    @DeleteMapping("/room/{id}")
     @ApiOperation(value = "채팅방 삭제 (id:채팅방)")
     public ResponseEntity<Integer> deleteRoom(@PathVariable int id) {
         chatService.deleteRoom(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("/room.do/{id}")
+    @PatchMapping("/room/{id}")
     @ApiOperation(value = "채팅방 수정 (id:채팅방)")
     public ResponseEntity<RoomResponseDto> updateRoom(@PathVariable int id, @RequestBody RoomRequestDto dto) {
         RoomResponseDto result = chatService.updateRoom(id, dto);
@@ -89,7 +89,7 @@ public class RoomController {
 
     /* 입 / 퇴장 */
 
-    @PostMapping("/join.do/{id}")
+    @PostMapping("/join/{id}")
     @ApiOperation(value = "채팅방 입장 (id:채팅방)")
     public ResponseEntity<String> enterRoom(@PathVariable int id) {
         int temp = chatService.enterRoom(id);
@@ -101,7 +101,7 @@ public class RoomController {
         return new ResponseEntity<>("fail",HttpStatus.OK);
     }
 
-    @DeleteMapping("/join.do/{id}")
+    @DeleteMapping("/join/{id}")
     @ApiOperation(value = "채팅방 퇴장 (id:채팅방)")
     public ResponseEntity<Void> exitRoom(@PathVariable int id) {
         chatService.exitRoom(id);
