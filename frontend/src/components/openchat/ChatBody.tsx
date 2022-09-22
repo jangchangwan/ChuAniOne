@@ -114,13 +114,37 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   stomp.reconnect_delay = 5000
   var reconnect = 0
 
+  // 웹 소켓이 연결될 때까지 실행
+  function waitForConnection(stomp, callback) {
+    setTimeout(
+      function() {
+        if(stomp.state) {
+          callback()
+        } else {
+          waitForConnection(stomp, callback)
+        }
+      }, 1
+    )
+  }
+
   // 메시지 보내기
   function sendMsg() {
     if (sendMessage.trim() === '') return
-    console.log(sendMessage)
+    // console.log(sendMessage)
 
-    stomp.send('/pub/chat/message', 
-      { 'content-type': 'application/json' },
+    // stomp.send('/pub/chat/message', 
+    //   {},
+    //   JSON.stringify({
+    //     roomId: `${openedRoom.id}`,
+    //     memberId: `${userId}`,
+    //     message: `${sendMessage}`,
+    //   }),
+    // )
+    // setSendMessage('')
+
+    waitForConnection(stomp, function() {
+      stomp.send('/pub/chat/message', 
+      {},
       JSON.stringify({
         roomId: `${openedRoom.id}`,
         memberId: `${userId}`,
@@ -128,7 +152,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
       }),
     )
     setSendMessage('')
-
+    })
   }
 
   // 메시지 수신
@@ -153,11 +177,12 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
       message.ack()
     })
 
-    stomp.send('/pub/chat/enter', {}, JSON.stringify({
-      roomId: `${openedRoom.id}`,
-      memberId: `${userId}`,
-      message: '',
-    }),
+    stomp.send('/pub/chat/enter', {}, 
+      JSON.stringify({
+        roomId: `${openedRoom.id}`,
+        memberId: `${userId}`,
+        message: '',
+      }),
     )
 
   }
