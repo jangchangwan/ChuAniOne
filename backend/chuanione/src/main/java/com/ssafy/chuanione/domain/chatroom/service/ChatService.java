@@ -28,7 +28,7 @@ public interface ChatService {
     // 참여중인 채팅방에서 검색 리스트
     Map<String, Object> getJoinSearchList(String keyword, int page);
     // 입장중인 리스트
-    Map<String, Object> getMyList(int member_id, int page);
+    Map<String, Object> getMyList( int page);
     // 채팅방 입장
     Integer enterRoom(int room_id);
     // 채팅방 퇴장

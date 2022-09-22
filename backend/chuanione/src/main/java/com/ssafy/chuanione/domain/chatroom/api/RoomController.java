@@ -31,10 +31,10 @@ public class RoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
-    @GetMapping("/list.do/join/{id}/page/{page}")
-    @ApiOperation(value = "참여중인 채팅방 목록 가져오기 (id:사용자) / page 1부터 시작")
-    public ResponseEntity<Map<String,Object>> getMyList(@PathVariable int id,@PathVariable int page) {
-        Map<String,Object> list = chatService.getMyList(id,page-1);
+    @GetMapping("/list.do/join/{page}")
+    @ApiOperation(value = "참여중인 채팅방 목록 가져오기 / page 1부터 시작")
+    public ResponseEntity<Map<String,Object>> getMyList(@PathVariable int page) {
+        Map<String,Object> list = chatService.getMyList(page-1);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

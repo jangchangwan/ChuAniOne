@@ -270,26 +270,20 @@ public class ChatServiceImpl implements ChatService {
 
     // 입장중인 리스트 
     @Override
-    public Map<String, Object> getMyList(int member_id, int page) {
-        Page<JoinUser> roomPage = joinUserRepository.findByMemberId(member_id , PageRequest.of(page,5));
+    public Map<String, Object> getMyList(int page) {
+        Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        Page<JoinUser> roomPage = joinUserRepository.findByMemberId(login.getId() , PageRequest.of(page,5));
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
         List<JoinUser> roomList = roomPage.getContent(); //joinUser에서 가져온 room_id 리스트
-
-
         List<RoomResponseDto> dtoList = new LinkedList<>();
-
-        System.out.println("///////////////////////////////////////////");
         for(JoinUser user : roomList){
             Room room = user.getRoomId();
-//            System.out.println("room_id");
-//            Room room = roomRepository.findOne(room_id);
             int count = joinUserRepository.countDistinctById(room.getId()); // joinUser의 숫자
             Room target = Room.builder().count(count).build(); // count 업데이트용
             room.patch(target);
             Member member = room.getAdmin();
             dtoList.add(RoomResponseDto.from(roomRepository.save(room), count, member));
-//            dtoList.add(RoomResponseDto.from(room,count,member));
         }
 
         Map<String, Object> map = new HashMap<>();
