@@ -106,4 +106,4 @@ function Review({ recommend }: any): any {
   )
 }
 
-export default Review;
+export default Review

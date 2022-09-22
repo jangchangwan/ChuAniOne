@@ -53,4 +53,4 @@ function SimilarAni({ recommend, }: any): any {
   )
 }
 
-export default SimilarAni;
+export default SimilarAni
