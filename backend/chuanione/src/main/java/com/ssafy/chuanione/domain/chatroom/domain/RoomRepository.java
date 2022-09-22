@@ -32,4 +32,9 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 
     // 검색 리스트
     Page<Room> findByNameLikeOrTag1LikeOrTag2LikeOrTag3Like(Pageable pageable, String name, String tag1, String tag2, String tag3);
+
+    // 입장 중인 리스트에서 검색
+    @Query(value = "select * from room \n" +
+            "where (name like :name or tag1 like :tag1 or tag2 like :tag2 or tag3 like :tag3) and room_id in (select room_id from member_room where member_id = :member_id)", nativeQuery = true)
+    Page<Room> searchJoinRoom(Pageable pageable, String name, String tag1, String tag2, String tag3, int member_id);
 }

@@ -161,6 +161,7 @@ public class ChatServiceImpl implements ChatService {
     // 채팅 받기 (입장할때 이전 내역들 받아오기)
     @Override
     public List<ChatResponseDto> getMessages(int room_id, int member_id) {
+        System.out.println("/chat/enter service 호출!!!!!!!!!!!!!!!!!!!!!!!");
         List<ChatResponseDto> resList = new ArrayList<>();
 
         List<Chat> list = chatRepository.findAllByRoomId(room_id);
@@ -176,10 +177,11 @@ public class ChatServiceImpl implements ChatService {
     // 채팅 보내기
     @Override
     public ChatResponseDto sendMessage(ChatRequestDto chatRequestDto) {
-
+        System.out.println("/chat/message service 호출!!!!!!!!!!!!!!!!!!!!!!!");
         LocalDateTime localDateTime = LocalDateTime.now();
         Room room = roomRepository.findOne(chatRequestDto.getRoomId());
         Member member = memberRepository.getReferenceById(chatRequestDto.getMemberId());
+//        System.out.println();
         Chat chat = Chat.builder()
                 .room(room)
                 .sender(member)
@@ -212,6 +214,33 @@ public class ChatServiceImpl implements ChatService {
         String tag2 = keyword;
         String tag3 = keyword;
         Page<Room> roomPage = roomRepository.findByNameLikeOrTag1LikeOrTag2LikeOrTag3Like(PageRequest.of(page,5),"%"+name+"%", "%"+tag1+"%","%"+tag2+"%","%"+tag3+"%");
+        long totalCount = roomPage.getTotalElements();
+        long pageCount = roomPage.getTotalPages();;
+        List<Room> rooms = roomPage.getContent();
+        List<RoomResponseDto> dtoList = new LinkedList<>();
+        for(Room room : rooms){
+            int count = joinUserRepository.countDistinctById(room.getId());
+            Member member = room.getAdmin();
+            dtoList.add(RoomResponseDto.from(room,count,member));
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCnt",totalCount);
+        map.put("pageCnt",pageCount);
+        map.put("rDto",dtoList);
+        return map;
+    }
+
+    // 입장중인 리스트에서 검색
+    @Override
+    public Map<String, Object> getJoinSearchList(String keyword, int page) {
+
+        Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        String name = keyword;
+        String tag1 = keyword;
+        String tag2 = keyword;
+        String tag3 = keyword;
+        Page<Room> roomPage = roomRepository.searchJoinRoom(PageRequest.of(page,5),"%"+name+"%", "%"+tag1+"%","%"+tag2+"%","%"+tag3+"%",login.getId());
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
         List<Room> rooms = roomPage.getContent();
@@ -263,18 +292,24 @@ public class ChatServiceImpl implements ChatService {
 
     // 채팅방 입장
     @Override
-    public void enterRoom(int room_id) {
+    public Integer enterRoom(int room_id) {
         // member
         // UserEntity user = userRepository.findById(dto.getWriter()).orElseThrow(UserNotFoundException::new);
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         Room room = roomRepository.findOne(room_id);
-//        Member member = memberRepository.getReferenceById(member_id);
-        JoinUser joinUser = JoinUser.builder()
-                .roomId(room)
-                .memberId(member)
-                .build();
-        joinUserRepository.save(joinUser);
-
+        int max = room.getMax();
+        int count = joinUserRepository.countDistinctById(room.getId());
+        if( max >= count +1){
+            JoinUser joinUser = JoinUser.builder()
+                    .roomId(room)
+                    .memberId(member)
+                    .build();
+            joinUserRepository.save(joinUser);
+            return 1;
+        }else{
+            return -1;
+        }
+//    return 0;
     }
 
     // 채팅방 퇴장
@@ -283,6 +318,11 @@ public class ChatServiceImpl implements ChatService {
 //        joinUserRepository.deleteById(room_id,member_id);
        Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
        joinUserRepository.deleteById(room_id,member.getId());
+       Room room = roomRepository.findOne(room_id);
+       // 만약 방장아이디와 나가려는 사람의 아이디가 같다면 방도 삭제
+        if( room.getAdmin() == member){
+            roomRepository.delete(room);
+        }
 
     }
 }

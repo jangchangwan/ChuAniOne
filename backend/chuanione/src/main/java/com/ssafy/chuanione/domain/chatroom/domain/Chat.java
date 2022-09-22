@@ -1,10 +1,7 @@
 package com.ssafy.chuanione.domain.chatroom.domain;
 
 import com.ssafy.chuanione.domain.member.domain.Member;
-import com.sun.istack.NotNull;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -24,7 +21,7 @@ public class Chat {
     @Id
     @GeneratedValue
     @Column(name="chat_id")
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
