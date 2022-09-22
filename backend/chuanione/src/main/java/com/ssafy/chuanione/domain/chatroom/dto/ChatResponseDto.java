@@ -20,13 +20,10 @@ import java.util.Locale;
 @ApiModel(value = "ChatResponseDto", description = "chat 응답 Dto")
 public class ChatResponseDto {
 
-    private Room roomId; //방번호
-
-    private Member memberId; // 보낸사람 아이디
+    private int roomId; //방번호
+    private int memberId; // 보낸사람 아이디
     private String memberNickname; // 보낸사람 닉네임
-
     private String url; //보낸사람 프로필 이미지
-    
     private String message;
     private String sendDate;
 
@@ -40,8 +37,8 @@ public class ChatResponseDto {
         if(chat == null) return null;
 
         return ChatResponseDto.builder()
-                .roomId(chat.getRoom())
-                .memberId(chat.getSender())
+                .roomId(chat.getRoom().getId())
+                .memberId(chat.getSender().getId())
                 .memberNickname(member.getNickname())
                 .url("임시값")
                 .message(chat.getMessage())

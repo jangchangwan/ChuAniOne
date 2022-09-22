@@ -4,6 +4,7 @@ import com.ssafy.chuanione.domain.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,7 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 
     //참가자 삭제
     //room_id 와 member_id 조건걸어야함
+    @Modifying
     @Query(nativeQuery = true, value ="DELETE FROM member_room WHERE room_id = ?1 and member_id = ?2")
     void deleteById(int room_id, int member_id);
 

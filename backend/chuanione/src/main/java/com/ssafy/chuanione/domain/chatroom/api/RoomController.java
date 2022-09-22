@@ -1,5 +1,6 @@
 package com.ssafy.chuanione.domain.chatroom.api;
 
+import com.ssafy.chuanione.domain.chatroom.dto.ChatResponseDto;
 import com.ssafy.chuanione.domain.chatroom.dto.RoomRequestDto;
 import com.ssafy.chuanione.domain.chatroom.dto.RoomResponseDto;
 import com.ssafy.chuanione.domain.chatroom.service.ChatService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,18 +22,13 @@ import java.util.Map;
 @RequestMapping("/api/v1/room")
 public class RoomController {
 
-//    @RequestHeader 헤더에 토큰담아서 보낸다면~
-
-
     private final ChatService chatService;
 
     @GetMapping("/list.do/{page}")
     @ApiOperation(value = "전체 채팅방 목록 가져오기 / 페이지네이션 1부터시작")
     public ResponseEntity<Map<String,Object>> getListAll(@PathVariable int page) {
         Map<String,Object> rooms = chatService.getListAllPage(page-1);
-
         return new ResponseEntity<>(rooms, HttpStatus.OK);
-
     }
 
     @GetMapping("/list.do/join/{id}/page/{page}")
@@ -61,7 +58,6 @@ public class RoomController {
     public ResponseEntity<RoomResponseDto> insertRoom(@RequestBody RoomRequestDto dto) {
         System.out.println("호출");
         RoomResponseDto response = chatService.insertRoom(dto);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
         return (response != null) ?
                 ResponseEntity.status(HttpStatus.OK).body(response) :
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -96,9 +92,6 @@ public class RoomController {
     @PostMapping("/join.do/{id}")
     @ApiOperation(value = "채팅방 입장 (id:채팅방)")
     public ResponseEntity<String> enterRoom(@PathVariable int id) {
-//        int member_id = map.get("memberId");
-//        int member_id = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail);
-//        int room_id = map.get("roomId");
         int temp = chatService.enterRoom(id);
         if(temp == 1){ // 성공
             return new ResponseEntity<>("success",HttpStatus.OK);
@@ -110,12 +103,17 @@ public class RoomController {
 
     @DeleteMapping("/join.do/{id}")
     @ApiOperation(value = "채팅방 퇴장 (id:채팅방)")
-    public ResponseEntity<Integer> exitRoom(@PathVariable int id) {
-//        int member_id = map.get("memberId");
-//        int room_id = map.get("roomId");
+    public ResponseEntity<Void> exitRoom(@PathVariable int id) {
         chatService.exitRoom(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    @GetMapping("/chatlist/{id}")
+    @ApiOperation(value = "채팅방 입장시 이전 채팅 내역 불러오기 (id:채팅방)")
+    public ResponseEntity<List<ChatResponseDto>> getChatList(@PathVariable int id) {
+        List<ChatResponseDto> list = new ArrayList<>();
+        return new ResponseEntity<List<ChatResponseDto>>(list, HttpStatus.OK);
+    }
 
 }
