@@ -6,12 +6,12 @@ import styled from "styled-components"
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import AniDetail from './ani/AniDetail'
-import './Main.css'
+// import './Main.css'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import { MonetizationOn, Opacity } from '@mui/icons-material'
 const Container = styled.div`
   
@@ -185,13 +185,13 @@ function Main() {
 
   return (
     <Container>
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
 
         transition={{ duration: '5' }}
-      >
-        <div className="animation01">
+      > */}
+        {/* <div className="animation01">
           <div></div>
           <div></div>
           <div></div>
@@ -315,7 +315,7 @@ function Main() {
               <span className="line line06"></span>
             </div>
           </div>
-        </div>
+        </div> */}
         {/* <div className='animation08'>
           <div></div>
           <div></div>
@@ -323,13 +323,13 @@ function Main() {
           <div></div>
           <div></div>
       </div> */}
-      </motion.div>
-      <motion.div
+      {/* </motion.div> */}
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
 
         transition={{ duration: '7' }}
-      >
+      > */}
         <Carousel
           navButtonsAlwaysVisible={true}
           NextIcon={<ArrowForwardIosIcon />}
@@ -573,7 +573,7 @@ function Main() {
             </CarouselPaper>
           </CarouselContainer>
         </RecommendContainer>
-      </motion.div>
+      {/* </motion.div> */}
 
     </Container>
   )

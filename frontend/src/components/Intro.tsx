@@ -18,7 +18,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 // 모션
-import { motion, useScroll } from 'framer-motion';
+// import { motion, useScroll } from 'framer-motion';
 import { textAlign } from '@mui/system';
 
 
@@ -144,8 +144,8 @@ function Intro() {
       {/* 기능소개 */}
       <PageIntro2
       >
-        <motion.div
-        >
+        {/* <motion.div
+        > */}
           <Box component='div'
             sx={{
               position: 'relative',
@@ -155,15 +155,15 @@ function Intro() {
             <h1 style={{ fontSize: '3rem', color: 'white', marginTop: 0, paddingTop: '3rem' }}> Chu Ani One 은</h1>
             <h1 style={{ fontSize: '3rem', color: 'white', paddingBottom: '3rem' }}> 왜 사용해야 하나요?</h1>
           </Box>
-        </motion.div>
+        {/* </motion.div> */}
         <Grid container maxWidth="xl"
 
         >
           <Grid container item xs={8} sx={{ justifyContent: 'end', paddingRight: '2rem' }}>
-            <motion.div
-              style={{ paddingBottom: '2rem' }}
-            >
-
+            {/* <motion.div
+              
+            > */}
+            <div style={{ paddingBottom: '2rem' }}>
               <Box component='div'
                 sx={{
                   width: '40rem',
@@ -185,12 +185,14 @@ function Intro() {
                   흥미가 있는 애니메이션 클릭 시 유사한 애니메이션도 추천해드립니다!
                 </Typography>
               </Box>
-            </motion.div>
+            {/* </motion.div> */}
+            </div>
           </Grid>
           <Grid container item xs={4} sx={{ justifyContent: 'start' }}>
-            <motion.div
+            <div style={{ paddingBottom: '2rem' }}>
+            {/* <motion.div
               style={{ paddingBottom: '2rem' }}
-            >
+            > */}
               <Box component='div'
                 sx={{
                   width: '30rem',
@@ -212,12 +214,14 @@ function Intro() {
                   다 외운 단어를 체크시 단어장에서 사라지고 마이페이지에서 공부 가능!
                 </Typography>
               </Box>
-            </motion.div>
+            </div>
+            {/* </motion.div> */}
           </Grid>
           <Grid container item xs={8} sx={{ justifyContent: 'end', paddingRight: '2rem' }}>
-            <motion.div
+            <div style={{ paddingBottom: '2rem' }}>
+            {/* <motion.div
               style={{ paddingBottom: '2rem' }}
-            >
+            > */}
               <Box
                 sx={{
                   width: '40rem',
@@ -241,12 +245,14 @@ function Intro() {
                   애니와 비슷한 작품 추천까지
                 </Typography>
               </Box>
-            </motion.div>
+            </div>
+            {/* </motion.div> */}
           </Grid>
           <Grid container item xs={4} sx={{ justifyContent: 'start' }}>
-            <motion.div
+            <div style={{ paddingBottom: '2rem' }}>
+            {/* <motion.div
               style={{ paddingBottom: '2rem' }}
-            >
+            > */}
               <Box component='div'
                 sx={{
                   position: 'relative',
@@ -271,7 +277,8 @@ function Intro() {
                   마지막으로 애니메이션 관련 이모티콘도 사용 가능!
                 </Typography>
               </Box>
-            </motion.div>
+            </div>
+            {/* </motion.div> */}
           </Grid>
         </Grid>
       </PageIntro2>
