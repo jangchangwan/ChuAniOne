@@ -15,12 +15,12 @@ import Mypage from './mypage/MyPage'
 import EmailCertification from './accounts/EmailCertification'
 import EmailVerificationCompleted from './accounts/EmailVerificationCompleted'
 // 애니메이션 라이브러리
-// import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 function AnimatedRoutes() {
 
   const location = useLocation();
   return (
-    // <AnimatePresence>
+    <AnimatePresence>
       <Routes location={location} key={location.pathname}>
         {/* 여기에 링크 추가 */}
         <Route path="/" element={<Main />} />
@@ -35,7 +35,7 @@ function AnimatedRoutes() {
         <Route path="/emailCertification" element={<EmailCertification />} />
         <Route path="/emailVerificationCompleted" element={<EmailVerificationCompleted />} />
       </Routes>
-    // </AnimatePresence>
+    </AnimatePresence>
 
   )
 }
