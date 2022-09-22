@@ -1,13 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Menu, MenuItem, IconButton } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 // redux
 import { useDispatch, useSelector } from 'react-redux'
 import store from '../../store'
-import initialState from '../../store/openchatslice'
+import initialState from '../../store/Loginslice'
+import { leaveRoom } from '../../store/openchatslice'
 
 const Container = styled.div`
   width: calc(100% - 2rem);
@@ -50,10 +57,15 @@ const Icon = styled(MoreVertIcon)`
 `
 
 function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
+
   const dispatch = useDispatch<typeof store.dispatch>()
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const userId = useSelector((state: initialState) => (state.login.userId))
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [leaveConfirm, setLeaveConfirm] = useState<boolean>(false)
   const open = Boolean(anchorEl)
 
+  // 더보기: Modal
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
@@ -62,7 +74,24 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
     setAnchorEl(null)
   }
 
+  // 채팅방 닫기
   const closeChat = () => {
+    handleClosed()
+  }
+
+  // 채팅방 퇴장하기: Confirm Modal
+  const openConfirm = () => {
+    setLeaveConfirm(true)
+  }
+
+  const closeConfirm = () => {
+    setLeaveConfirm(false)
+  }
+
+  // 채팅방 퇴장
+  const leave = () => {
+    dispatch(leaveRoom(openedRoom.id))
+    closeConfirm()
     handleClosed()
   }
   
@@ -88,6 +117,7 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
           >
             <Icon />
           </IconBox>
+
           <Menu
             id="basic-menu"
             anchorEl={anchorEl}
@@ -106,9 +136,30 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
             <MenuItem onClick={() => {
               handleClose()
-              closeChat()
+              openConfirm() 
               }}>퇴장하기</MenuItem>
           </Menu>
+
+          <Dialog
+            open={leaveConfirm}
+            onClose={closeConfirm}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"정말 떠나시겠습니까?"}
+            </DialogTitle>
+
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                방을 떠날 경우, 내 채팅목록에서 삭제됩니다.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={leave}>떠나기</Button>
+              <Button onClick={closeConfirm} autoFocus>머무르기</Button>
+            </DialogActions>
+          </Dialog>
         </Container>
       : null }
     </>

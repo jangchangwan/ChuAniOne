@@ -120,7 +120,6 @@ export const enterRoom = createAsyncThunk(
   async ( roomId: number ) => {
     try {
       const res = await http.post(`room/join.do/${roomId}`)
-      console.log(res)
       if (res.status === 200) {
         return true
       } else {
@@ -138,6 +137,9 @@ export const leaveRoom = createAsyncThunk(
   'LEAVEROOM',
   async ( roomId: number ) => {
     try {
+      // const accessToken = localStorage.getItem("access-Token")
+      // http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
       const res = await http.delete(`room/join.do/${roomId}`)
       return res
     } catch (err) {
