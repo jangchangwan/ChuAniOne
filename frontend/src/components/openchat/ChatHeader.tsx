@@ -54,8 +54,6 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
-  const chatRoom = useSelector((state: initialState) => state.openchat.chatRoom)
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
@@ -70,14 +68,14 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
   
   return (
     <>
-      { chatRoom ?
+      { openedRoom ?
         <Container>
           <NameBox>
             <BackIcon 
               onClick={closeChat}
             />
             <Name>
-              {chatRoom.name}
+              {openedRoom.name}
             </Name>
           </NameBox>
 

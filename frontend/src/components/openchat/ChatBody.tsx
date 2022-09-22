@@ -17,6 +17,7 @@ import store from '../../store'
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
 import { IPublishParams } from '@stomp/stompjs'
+import { SettingsInputComponent } from '@mui/icons-material'
 const StompJs = require('@stomp/stompjs')
 
 
@@ -111,39 +112,22 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
   })
   stomp.reconnect_delay = 5000
-  // stomp.heartbeat.incoming = 0
-  // stomp.heartbeatOutgoing = 2000
   var reconnect = 0
-
-  // const client = new StompJs.Client({
-  //   brokerURL: 'ws://localhost:8080/api/v1/stomp/chat.do',
-  //   connectHeaders: {
-  //     login: 'user',
-  //     passcode: 'password',
-  //   },
-  //   debug: function (str: any) {
-  //     console.log(str);
-  //   },
-  //   reconnectDelay: 5000,
-  //   heartbeatIncoming: 4000,
-  //   heartbeatOutgoing: 4000,
-  // })
-
 
   // 메시지 보내기
   const sendMsg = () => {
     if (sendMessage.trim() === '') return
     console.log(sendMessage)
 
-    stomp.publish({
-      destination: '/pub/chat/message',
-      body: JSON.stringify({
+    stomp.send('/pub/chat/message', 
+      { 'content-type': 'application/json'},
+      JSON.stringify({
         roomId: `${openedRoom.id}`,
         memberId: `${userId}`,
         message: `${sendMessage}`,
       }),
-      headers: {},
-    })
+
+    )
   }
 
   // 메시지 수신
@@ -154,65 +138,13 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     ]
     setMessages(val)
   }
-  
-
-  // const connect = () => {
-  //   stomp.connect(
-  //     {},
-  //     function (frame: any) {
-  //       console.log('방번호', room.id)
-
-  //       stomp.subscribe(`/sub/chat/room/${room.id}`, function (message) {
-  //         var recv = JSON.parse(message.body)
-  //         recvMsg(recv)
-
-  //         //시간 차 사용해서 재랜더링 강제로 일으키기
-  //         setTimeout(() => {
-  //           setIsUpdated('')
-  //         }, 200)
-
-  //         // 상대방 메시지 불러오기
-  //         setIsUpdated(' ')
-  //       })
-  //       stomp.send(
-  //         '/pub/chat/enter',
-  //         {},
-  //         JSON.stringify({
-  //           roomId: `${room.id}`,
-  //           memberId: `${userId}`,
-  //           message: '',
-  //         }),
-  //       )
-  //     },
-  //     function (error: any) {
-  //       if (reconnect++ <= 5) {
-  //         setTimeout(function () {
-  //           console.log('connection reconnect')
-  //           stomp = Stomp.over(function() {
-  //             return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
-  //           })
-  //           connect()
-  //         }, 10 * 1000)
-  //       }
-  //     },
-  //   )
-  // }
 
 
   // connection 맺기
   const connect = () => {
-    stomp.onConnect = function (frame: any) {
-      console.log('연결')
-      stomp.publish({
-        destination: '/pub/chat/enter',
-        body: JSON.stringify({
-          roomId: `${openedRoom.id}`,
-          memberId: `${userId}`,
-          message: '',
-        }),
-        headers: { },
-      })
-
+    stomp.connect({}, function() {
+      console.log("STOMP Connection")
+      
       stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message: any) {
         console.log(message)
         let recv = JSON.parse(message.body)
@@ -220,16 +152,14 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
         recvMsg(recv)
       })
 
-    }
-    
-    
-    stomp.onStompError = function (frame: any) {
-      console.log('Broker reported error: ' + frame.headers['message']);
-      console.log('Additional details: ' + frame.body);
-    }
-    
-    
-    stomp.activate()
+      stomp.send('/pub/chat/enter', {}, JSON.stringify({
+        roomId: `${openedRoom.id}`,
+        memberId: `${userId}`,
+        message: '',
+      }),
+      )
+
+    })
   }
 
   
@@ -237,7 +167,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   useEffect(() => {
     if (opened) {
       connect()
-    }
+    } 
   }, [opened])
 
   // 채팅방 스크롤 맨아래로
