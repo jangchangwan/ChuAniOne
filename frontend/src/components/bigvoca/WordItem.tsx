@@ -44,7 +44,7 @@ function textToSpeech(word: string): void {
 
 
 
-function WordItem() {
+function WordItem({ vocaData }) {
   const [checked, setChecked] = React.useState(false)
 
   const checkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,12 +66,12 @@ function WordItem() {
       {/* 일본어 */}
       <Grid item xs={3}>
         <Checkbox color='secondary' onChange={checkChange} id='word' />
-        <label htmlFor="word" style={checked ? { textDecoration: 'line-through' } : { textDecoration: 'none' }}>こんにちは</label>
+        <label htmlFor="word" style={checked ? { textDecoration: 'line-through' } : { textDecoration: 'none' }}>{vocaData.japanese}</label>
       </Grid>
       <Grid item xs={2}>
         <Button
           onClick={() => {
-            textToSpeech('こんにちは')
+            textToSpeech(`${vocaData.japanese}`)
           }}
           sx={{
             padding: '0',
@@ -89,7 +89,7 @@ function WordItem() {
       <Grid
         item xs={5}
       >
-        <KoreaWordItem>안녕</KoreaWordItem>
+        <KoreaWordItem>{vocaData.korean}</KoreaWordItem>
       </Grid>
     </Grid>
   );
