@@ -43,7 +43,7 @@ export const getMyChat = createAsyncThunk(
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
 
-      const res = await http.get(`room/list.do/join/${page}`)
+      const res = await http.get(`room/list/join/${page}`)
       return res
     } catch (err) {
       console.log('내 채팅방 목록 에러', err)
@@ -93,7 +93,7 @@ export const createChat = createAsyncThunk(
   'CREATECHAT',
   async (data: any) => {
     try {
-      const res = await http.post(`room/room.do`, data)
+      const res = await http.post(`room/room`, data)
       return res.data
     } catch (err) {
       console.log('방 생성 에러', err)
@@ -110,7 +110,7 @@ export const deleteChat = createAsyncThunk(
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
       
-      const res = await http.delete(`room/room.do/${roomId}`)
+      const res = await http.delete(`room/room/${roomId}`)
       return res
     } catch (err) {
       console.log('채팅방 삭제 에러', err)
@@ -127,7 +127,7 @@ export const updateChat = createAsyncThunk(
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
       
-      const res = await http.patch(`room/room.do/${data.id}`, {
+      const res = await http.patch(`room/room/${data.id}`, {
         max: data.max,
         memberId: data.userId,
         name: data.name,
@@ -150,7 +150,7 @@ export const enterRoom = createAsyncThunk(
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
 
-      const res = await http.post(`room/join.do/${roomId}`)
+      const res = await http.post(`room/join/${roomId}`)
       if (res.status === 200) {
         return true
       } else {
@@ -171,7 +171,7 @@ export const leaveRoom = createAsyncThunk(
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
 
-      const res = await http.delete(`room/join.do/${roomId}`)
+      const res = await http.delete(`room/join/${roomId}`)
       return res
     } catch (err) {
       console.log('채팅방 퇴장 에러', err)
