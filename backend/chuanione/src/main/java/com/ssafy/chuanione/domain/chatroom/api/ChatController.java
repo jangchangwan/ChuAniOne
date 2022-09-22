@@ -21,12 +21,12 @@ public class ChatController {
     private final ChatService chatService;
 
     //"/pub/chat/enter"
-    @MessageMapping(value = "/chat/enter")
-    public void enter(ChatRequestDto dto){
-        System.out.println("/chat/enter controller 호출!!!!!!!!!!!!!!!!!!!!!!!");
-        ChatResponseDto chatResponseDto = chatService.enterMessage(dto);
-        template.convertAndSend("/sub/chat/room/" + dto.getRoomId(), chatResponseDto);
-    }
+//    @MessageMapping(value = "/chat/enter")
+//    public void enter(ChatRequestDto dto){
+//        System.out.println("/chat/enter controller 호출!!!!!!!!!!!!!!!!!!!!!!!");
+//        ChatResponseDto chatResponseDto = chatService.enterMessage(dto);
+//        template.convertAndSend("/sub/chat/room/" + dto.getRoomId(), chatResponseDto);
+//    }
 
     @MessageMapping(value="/chat/message")
     public void message(ChatRequestDto dto){

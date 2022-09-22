@@ -34,7 +34,7 @@ public interface ChatService {
     // 채팅방 퇴장
     void exitRoom(int room_id);
     // @@ 님이 입장했습니다~
-    ChatResponseDto enterMessage(ChatRequestDto chatRequestDto);
+//    ChatResponseDto enterMessage(ChatRequestDto chatRequestDto);
     // 채팅방 들어갈때마다 이전 채팅 내역 불러오기
     List<ChatResponseDto> getChatList(int room_id);
 }

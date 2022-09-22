@@ -202,22 +202,21 @@ public class ChatServiceImpl implements ChatService {
         return ChatResponseDto.from(chat, member);
     }
 
-    // @@ 님이 입장했습니다~
-    @Override
-    public ChatResponseDto enterMessage(ChatRequestDto chatRequestDto){
-        LocalDateTime localDateTime = LocalDateTime.now();
-        Room room = roomRepository.findOne(chatRequestDto.getRoomId());
-        Member member = memberRepository.getReferenceById(chatRequestDto.getMemberId());
-        Chat chat = Chat.builder()
-                .room(room)
-                .sender(member)
-                .message(member.getNickname()+"님이 채팅방에 참여하였습니다.")
-                .sendDate(localDateTime)
-                .build();
-        chat = chatRepository.save(chat);
-        return ChatResponseDto.from(chat, member);
-
-    }
+//    // @@ 님이 입장했습니다~
+//    @Override
+//    public ChatResponseDto enterMessage(ChatRequestDto chatRequestDto){
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//        Room room = roomRepository.findOne(chatRequestDto.getRoomId());
+//        Member member = memberRepository.getReferenceById(chatRequestDto.getMemberId());
+//        Chat chat = Chat.builder()
+//                .room(room)
+//                .sender(member)
+//                .message(member.getNickname()+"님이 채팅방에 참여하였습니다.")
+//                .sendDate(localDateTime)
+//                .build();
+//        chat = chatRepository.save(chat);
+//        return ChatResponseDto.enter(chat, member);
+//    }
 
     // 채팅방 들어갈때마다 이전 채팅 내역 불러오기
     public List<ChatResponseDto> getChatList(int room_id){
