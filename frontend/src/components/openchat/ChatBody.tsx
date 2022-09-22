@@ -111,24 +111,27 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   var stomp = Stomp.over(function() {
     return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
   })
-  stomp.reconnect_delay = 5000
-  var reconnect = 0
+  stomp.reconnect_delay = 1000
+  // var reconnect = 0
 
 
   // 메시지 보내기
   function sendMsg() {
     if (sendMessage.trim() === '') return
-    console.log(sendMessage)
+    const value = sendMessage
 
     stomp.send('/pub/chat/message', 
       {},
       JSON.stringify({
         roomId: `${openedRoom.id}`,
         memberId: `${userId}`,
-        message: `${sendMessage}`,
+        message: `${value}`,
       }),
     )
+
     setSendMessage('')
+
+
 
 
     // stomp.publish({
