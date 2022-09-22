@@ -6,6 +6,7 @@ import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.Member;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.global.util.SecurityUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,21 +21,19 @@ import java.util.*;
 //@Transactional
 @Slf4j
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class ChatServiceImpl implements ChatService {
 
-    //     private final CommentRepository commentRepository;
-    @Autowired
-    private ChatRepository chatRepository;
 
-    @Autowired
-    private JoinUserRepository joinUserRepository;
+    private final ChatRepository chatRepository;
 
-    @Autowired
-    private RoomRepository roomRepository;
+    private final JoinUserRepository joinUserRepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final RoomRepository roomRepository;
+
+    private final MemberRepository memberRepository;
+
 
 //    // 전체 채팅방 리스트
 //    @Override
