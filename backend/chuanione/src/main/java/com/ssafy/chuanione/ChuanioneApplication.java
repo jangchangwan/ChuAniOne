@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 @EnableJpaAuditing
 public class ChuanioneApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(ChuanioneApplication.class, args);
 	}
