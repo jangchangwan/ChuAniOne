@@ -118,14 +118,12 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   // 메시지 보내기
   function sendMsg() {
     if (sendMessage.trim() === '') return
-    const value = sendMessage
-
     stomp.send('/pub/chat/message', 
       {},
       JSON.stringify({
         roomId: `${openedRoom.id}`,
         memberId: `${userId}`,
-        message: `${value}`,
+        message: `${sendMessage}`,
       }),
     )
 
@@ -158,16 +156,17 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   // 연결 시, 콜백 함수
   const connect_callback = () => {
     console.log("STOMP Connection")
-      
+    
     stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message: any) {
       console.log('subscribe', message)
       let recv = JSON.parse(message.body)
-      console.log(recv)
+      console.log('recv', recv)
       recvMsg(recv)
 
       message.ack()
     })
 
+    // 입장용
     stomp.send('/pub/chat/enter', {}, 
       JSON.stringify({
         roomId: `${openedRoom.id}`,
@@ -189,18 +188,16 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   }
 
   useEffect(() => {
-    if (openedRoom) {
-      stomp.disconnect()
-      connect()
-    }
-  }, [openedRoom])
+    connect()
+  }, [sendMessage])
 
   // 채팅방 스크롤 맨아래로
   const scrollRef = useRef<any>()
 
   useEffect(() => {
     scrollRef.current.scrollIntoView({ behavior: 'smooth' })
-  })
+    connect()
+  }, [])
 
 
   return (
