@@ -8,7 +8,6 @@ export const getChatAll = createAsyncThunk(
   async (page: number, { rejectWithValue }) => {
     try { 
       const res = await http.get(`room/list.do/${page}`)
-      console.log(res)
       return res.data
     } catch(err) {
       console.log('전체 채팅방 목록 조회 실패', err)
@@ -24,7 +23,6 @@ interface searchProps {
 export const searchChat = createAsyncThunk(
   'SEARCHCHAT',
   async ( data: searchProps ) => {
-    console.log(data)
     try {
       const res = await http.get(`room/search.do/${data.keyword}/page/${data.page}`)
       return res.data
