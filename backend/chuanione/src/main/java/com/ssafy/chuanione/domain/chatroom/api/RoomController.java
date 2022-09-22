@@ -112,8 +112,8 @@ public class RoomController {
     @GetMapping("/chatlist/{id}")
     @ApiOperation(value = "채팅방 입장시 이전 채팅 내역 불러오기 (id:채팅방)")
     public ResponseEntity<List<ChatResponseDto>> getChatList(@PathVariable int id) {
-        List<ChatResponseDto> list = new ArrayList<>();
-        return new ResponseEntity<List<ChatResponseDto>>(list, HttpStatus.OK);
+        List<ChatResponseDto> list = chatService.getChatList(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 }
