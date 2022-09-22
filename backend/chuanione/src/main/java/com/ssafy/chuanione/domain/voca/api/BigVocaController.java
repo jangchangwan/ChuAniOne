@@ -10,9 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,9 +30,24 @@ public class BigVocaController {
 
     ////////////////////////////////////////////////////////////////////////////// Test용 (회원 인증 필요 없게)
     @GetMapping("/list.do")
-    @ApiOperation(value = "단어 전체 목록 테스트")
+    @ApiOperation(value = "단어 전체 목록 테스트용 / 회원인증필요X")
     public ResponseEntity<List<BigVocaResponseDto>> getListTest(@PageableDefault(size = 8) @SortDefault(sort = "frequency", direction = Sort.Direction.DESC) Pageable pageable) {
         // 한 페이지에 8개씩, 첫 페이지의 인덱스: 0
         return new ResponseEntity<>(vocaService.getList(pageable), HttpStatus.OK);
+    }
+
+
+    @PostMapping("/check/{id}")
+    @ApiOperation(value = "단어 체크 (id:단어)")
+    public ResponseEntity<Void> insertMyVoca(@PathVariable int id) {
+        vocaService.insertMyVoca(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/delete/{id}")
+    @ApiOperation(value = "단어 체크 삭제 (id:단어)")
+    public ResponseEntity<Void> deleteMyVoca(@PathVariable int id) {
+        vocaService.deleteMyVoca(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
