@@ -118,7 +118,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   function waitForConnection(stomp, callback) {
     setTimeout(
       function() {
-        if(stomp.state) {
+        if(stomp.ws) {
           callback()
         } else {
           waitForConnection(stomp, callback)
@@ -198,10 +198,11 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   }
 
   useEffect(() => {
-    if (opened) {
+    if (openedRoom) {
+      stomp.disconnect()
       connect()
     }
-  }, [opened])
+  }, [openedRoom])
 
   // 채팅방 스크롤 맨아래로
   const scrollRef = useRef<any>()
