@@ -11,5 +11,12 @@ public interface BigVocaService {
 
     // 빅보카 전체 단어(1000개)
     List<BigVocaResponseDto> getList(Pageable pageable) ;
+    
+    
+    //단어 체크
+    void insertMyVoca(int id);
+    //단어 체크 삭제
+    void deleteMyVoca(int id);
+
 
 }
