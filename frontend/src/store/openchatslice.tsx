@@ -42,11 +42,24 @@ export const getMyChat = createAsyncThunk(
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
 
       const res = await http.get(`room/list/join/${page}`)
-      return res
+      return res.data
     } catch (err) {
       console.log('내 채팅방 목록 에러', err)
     }
     
+  }
+)
+
+// 내 채팅방 검색 결과
+export const searchMyChat = createAsyncThunk(
+  'SEARCHMYCHAT',
+  async ( data: searchProps ) => {
+    try {
+      const res = await http.get(`room/search/join/${data.keyword}/page/${data.page}`)
+      return res.data
+    } catch (err) {
+      console.log('내 채팅방 검색 에러', err)
+    }
   }
 )
 

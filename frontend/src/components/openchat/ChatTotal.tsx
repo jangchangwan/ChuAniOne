@@ -86,29 +86,21 @@ function ChatTotal() {
   // 초기 데이터 불러오기
   useEffect(() => {
     loadData(1)
-  }, [])
-  
-  // 3초마다 재랜더링
-  setTimeout(() => {
-    loadData(page)
-  }, 3000)
+  }, [keyword, page])
 
   // 데이터 불러오기
   async function loadData(page: number) {
     // 검색 키워드가 있을 경우, 검색 목록 가져오기
     if (keyword.trim()) {
-      console.log(keyword)
       const res = await dispatch(searchChat({keyword, page}))
-      console.log(res)
-      if (res.type === "SEARCHCHAT/fulfilled" && res.payload) {
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
         await setLastPage(res.payload.pageCnt)
         await setData(res.payload.rDto)
       }
     } else {
-
       // 검색 키워드가 없을 경우, 전체 채팅방 목록 가져오기
       const res = await dispatch(getChatAll(page))
-      if (res.type === "GETCHATALL/fulfilled" && res.payload) {
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
         await setLastPage(res.payload.pageCnt)
         await setData(res.payload.rDto)
       }
