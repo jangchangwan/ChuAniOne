@@ -319,16 +319,17 @@ public class ChatServiceImpl implements ChatService {
     // 채팅방 퇴장
     @Override
     public void exitRoom(int room_id) {
-//        joinUserRepository.deleteById(room_id,member_id);
        Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
        joinUserRepository.deleteById(room_id,member.getId());
-       Room room = roomRepository.findOne(room_id);
-       // 만약 방장아이디와 나가려는 사람의 아이디가 같다면 방도 삭제
+       Room room = roomRepository.findById(room_id).orElse(null);
+       // 만약 방장아이디와 나가려는 사람의 아이디가 같다면 참가자와 방도 삭제
         if( room.getAdmin() == member){
+            List<JoinUser> list = joinUserRepository.findAllByRoom_id(room_id);
+            for (JoinUser join : list) {
+                joinUserRepository.delete(join);
+            }
             roomRepository.delete(room);
         }
-
     }
-
 
 }

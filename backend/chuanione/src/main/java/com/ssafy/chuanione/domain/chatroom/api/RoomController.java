@@ -63,12 +63,12 @@ public class RoomController {
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @DeleteMapping("/room/{id}")
-    @ApiOperation(value = "채팅방 삭제 (id:채팅방)")
-    public ResponseEntity<Integer> deleteRoom(@PathVariable int id) {
-        chatService.deleteRoom(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @DeleteMapping("/room/{id}")
+//    @ApiOperation(value = "채팅방 삭제 (id:채팅방)")
+//    public ResponseEntity<Integer> deleteRoom(@PathVariable int id) {
+//        chatService.deleteRoom(id);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @PatchMapping("/room/{id}")
     @ApiOperation(value = "채팅방 수정 (id:채팅방)")
@@ -102,7 +102,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/join/{id}")
-    @ApiOperation(value = "채팅방 퇴장 (id:채팅방)")
+    @ApiOperation(value = "채팅방 퇴장 (id:채팅방) / 방장이라면 방 삭제 ")
     public ResponseEntity<Void> exitRoom(@PathVariable int id) {
         chatService.exitRoom(id);
         return new ResponseEntity<>(HttpStatus.OK);
