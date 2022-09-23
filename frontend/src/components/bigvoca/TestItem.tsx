@@ -5,7 +5,6 @@ import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import Button from '@mui/material/Button'
-import styled from "styled-components";
 
 
 function textToSpeech(word: string): void {
@@ -46,26 +45,30 @@ function TestItem() {
   return (
     <Grid
       container
+      // sx={checked ? {backgroundColor: '#B7C4CF'} : {backgroundColor: 'white'}}
       sx={{
         display: "flex",
         backgroundColor: 'white',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: `1rem`,
+        boxShadow: `0.5px 0.5px 0.5px 0.5px black`,
+        padding: '0.5rem'
       }}
     >
       {/* 일본어 */}
-        <Grid xs={1}></Grid>
-        <Grid xs={5}
+        <Grid xs={2}></Grid>
+        <Grid xs={4}
         >
           <label htmlFor="word" style={checked ? { textDecoration: 'line-through' } : { textDecoration: 'none' }}>遅い</label>
         </Grid>
         <Grid xs={6}>
           <Checkbox color='secondary' onChange={checkChange} id='word' />
         </Grid>
-        <Grid xs={1}></Grid>
-        <Grid xs={5}>
+        <Grid xs={2}></Grid>
+        <Grid xs={4}>
           <div>느려</div>
         </Grid>
-        <Grid xs={6}>
+        <Grid xs={6} alignItems="flex-end">
           <Button
             onClick={() => {
               textToSpeech('遅い')

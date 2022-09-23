@@ -1,5 +1,6 @@
 import http from '../api/axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { isCatchClause } from 'typescript'
 
 
 export const getVocaList = createAsyncThunk(
@@ -14,33 +15,30 @@ export const getVocaList = createAsyncThunk(
   }
 )
 
-export const insertMyVoca = ( id:Number ) => {
-  http.post(`voca/${id}`)
-  .then((response) =>{
-    if (response.status === 201) return response.data
-    else {
-      console.log(response);
-      alert('단어 추가 실패')
+export const insertMyVoca = createAsyncThunk(
+  'INSERTMYVOCA',
+  async (id:number, {rejectWithValue}) => {
+    try {
+      const res = await http.post(`voca/check/${id}`)
+      return res
+    } catch (err:any) {
+      return rejectWithValue(err.response)
     }
-  })
-  .catch((error) => {
-    console.log(error)
-  })
-}
+  }
+)
 
-export const deleteMyVoca = ( id:Number ) => {
-  http.delete(`voca/${id}`)
-  .then((response) =>{
-    if (response.status === 200) return response.data
-    else {
-      console.log(response);
-      alert('단어 삭제 실패')
+export const deleteMyVoca = createAsyncThunk(
+  'DELETEMYVOCA',
+  async (id:number, {rejectWithValue}) => {
+    try {
+      const res = await http.post(`voca/delete/${id}`)
+      return res
+    } catch (err:any) {
+      return rejectWithValue(err.response)
     }
-  })
-  .catch((error) => {
-    console.log(error)
-  })
-}
+  }
+)
+
 
 export interface openChatReducerType {
   words: [],

@@ -256,7 +256,7 @@ function Signup() {
             border: 1,
             borderRadius: '1rem',
             backgroundColor: 'white',
-            opacity: 0.9,
+            opacity: 0.95,
           }}
         >
         <Typography component="h1" variant="h5">

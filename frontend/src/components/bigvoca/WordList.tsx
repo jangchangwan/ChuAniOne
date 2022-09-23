@@ -6,7 +6,6 @@ import { getVocaList } from '../../store/bigvocaslice'
 import { useDispatch } from "react-redux"
 import store from '../../store'
 import BackgroundImg from  '../../assets/images/wordBackgroundImg.png'
-import BackgroundImg2 from  '../../assets/images/introBackground3.png'
 import Container from '@mui/material/Container'
 // import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -14,12 +13,7 @@ import styled from "styled-components";
 import Pagination from '@mui/material/Pagination'
 
 const ItemGrid = styled(Grid)`
-  background-color : white;
 
-  margin: 0.75rem !important;
-  padding: 0.5rem;
-  border-radius: 1rem;
-  box-shadow: 0.5px 0.5px 0.5px 0.5px black;
 `
 function WordList() {
   const dispatch = useDispatch<typeof store.dispatch>()
@@ -37,7 +31,7 @@ function WordList() {
       })
   }, [])
   return (
-    <Container sx={{ width:'1000px', height:'580px', backgroundImage: `url(${BackgroundImg2})`}} >
+    <Container sx={{ width:'1000px', height:'580px', backgroundImage: `url(${BackgroundImg})`}} >
       { vocaList ?
           ( vocaList.map((item, idx) => (
               <WordItem key={idx} vocaData={item}/>
@@ -54,6 +48,7 @@ function WordList() {
           // >추천해드릴 단어가 없네요</Box>
           // TEST
           <Grid container
+            spacing={3}
             sx={{
               display: 'flex',
               justifyContent: 'center',

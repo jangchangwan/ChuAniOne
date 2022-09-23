@@ -7,6 +7,9 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import Button from '@mui/material/Button'
 import styled from "styled-components";
 
+import { insertMyVoca, deleteMyVoca } from '../../store/bigvocaslice'
+import { useDispatch } from "react-redux"
+import store from '../../store'
 
 const KoreaWordItem = styled.div`
   height: 3rem;
@@ -21,6 +24,7 @@ const KoreaWordItem = styled.div`
 
 
 function textToSpeech(word: string): void {
+  
   // 크롬만 지원 가능
   if (typeof SpeechSynthesisUtterance === "undefined" || typeof window.speechSynthesis === "undefined") {
     alert("이 브라우저는 음성 합성을 지원하지 않습니다.")
@@ -29,7 +33,7 @@ function textToSpeech(word: string): void {
   // 읽고 있는 경우 멈추기
   window.speechSynthesis.cancel()
 
-
+  
   const speechMsg = new SpeechSynthesisUtterance()
   console.log(window.speechSynthesis.getVoices());
 
@@ -45,12 +49,17 @@ function textToSpeech(word: string): void {
 
 
 function WordItem({ vocaData }) {
+  const dispatch = useDispatch<typeof store.dispatch>()
   const [checked, setChecked] = React.useState(false)
 
   const checkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-    console.log(checked);
 
+    if (checked) {
+      dispatch(deleteMyVoca(vocaData.vocaId))
+    } else {
+      dispatch(insertMyVoca(vocaData.vocaId))
+    }
+    setChecked(event.target.checked);
   };
 
 
@@ -69,6 +78,7 @@ function WordItem({ vocaData }) {
         <label htmlFor="word" style={checked ? { textDecoration: 'line-through' } : { textDecoration: 'none' }}>{vocaData.japanese}</label>
       </Grid>
       <Grid item xs={2}>
+        {/* 버튼삭제 아이콘만 남기기 */}
         <Button
           onClick={() => {
             textToSpeech(`${vocaData.japanese}`)
