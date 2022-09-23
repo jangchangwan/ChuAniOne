@@ -1,5 +1,6 @@
 package com.ssafy.chuanione.domain.voca.api;
 
+import com.ssafy.chuanione.domain.voca.domain.MemorizeVoca;
 import com.ssafy.chuanione.domain.voca.dto.BigVocaResponseDto;
 import com.ssafy.chuanione.domain.voca.service.BigVocaService;
 import io.swagger.annotations.ApiOperation;
@@ -39,9 +40,8 @@ public class BigVocaController {
 
     @PostMapping("/check/{id}")
     @ApiOperation(value = "단어 체크 (id:단어)")
-    public ResponseEntity<Void> insertMyVoca(@PathVariable int id) {
-        vocaService.insertMyVoca(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<MemorizeVoca> insertMyVoca(@PathVariable int id) {
+        return new ResponseEntity<>(vocaService.insertMyVoca(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -40,14 +40,14 @@ public class BigVocaServiceImpl implements BigVocaService{
     }
 
     //단어 체크
-    public void insertMyVoca(int id){
+    public MemorizeVoca insertMyVoca(int id){
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        BigVoca bigVoca = bigVocaRepository.getReferenceById(id);
+        BigVoca bigVoca = bigVocaRepository.findById(id).orElse(null);
         MemorizeVoca memorizeVoca =MemorizeVoca.builder()
                 .memberId(member)
                 .vocaId(bigVoca)
                 .build();
-        memorizeVocaRepository.save(memorizeVoca);
+        return memorizeVocaRepository.save(memorizeVoca);
 
     }
     //단어 체크 삭제
