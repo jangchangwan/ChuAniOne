@@ -11,5 +11,5 @@ import javax.transaction.Transactional;
 public interface MemorizeVocaRepository extends JpaRepository<MemorizeVoca, Integer> {
 
     // 멤버 아이디와 보카 아이디로 하나 찾기 ( 삭제용 )
-    MemorizeVoca findByMember_idAndAndVoca_id(int member_id, int voca_id);
+    MemorizeVoca findByMemberIdAndVocaId(int member_id, int voca_id);
 }
