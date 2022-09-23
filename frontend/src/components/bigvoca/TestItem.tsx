@@ -36,7 +36,7 @@ function TestItem() {
 
   const checkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-    console.log(checked);
+    
 
   };
 

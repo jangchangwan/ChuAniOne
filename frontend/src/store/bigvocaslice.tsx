@@ -19,7 +19,11 @@ export const insertMyVoca = createAsyncThunk(
   'INSERTMYVOCA',
   async (id:number, {rejectWithValue}) => {
     try {
+      const accessToken =localStorage.getItem("access-Token");
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       const res = await http.post(`voca/check/${id}`)
+      console.log(res);
+      
       return res
     } catch (err:any) {
       return rejectWithValue(err.response)
@@ -31,7 +35,11 @@ export const deleteMyVoca = createAsyncThunk(
   'DELETEMYVOCA',
   async (id:number, {rejectWithValue}) => {
     try {
-      const res = await http.post(`voca/delete/${id}`)
+      const accessToken =localStorage.getItem("access-Token");
+      console.log(id);
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      const res = await http.delete(`voca/delete/${id}`)
+      console.log(res);
       return res
     } catch (err:any) {
       return rejectWithValue(err.response)
