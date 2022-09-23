@@ -113,23 +113,6 @@ export const createChat = createAsyncThunk(
 )
 
 
-// 채팅방 삭제
-export const deleteChat = createAsyncThunk(
-  'DELETECHAT',
-  async ( roomId: number ) => {
-    try {
-      const accessToken = localStorage.getItem("access-Token")
-      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
-      
-      const res = await http.delete(`room/room/${roomId}`)
-      return res
-    } catch (err) {
-      console.log('채팅방 삭제 에러', err)
-    }
-  }
-)
-
-
 // 채팅방 수정
 export const updateChat = createAsyncThunk(
   'UPDATECHAT',
@@ -137,17 +120,23 @@ export const updateChat = createAsyncThunk(
     try {
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
-      
+
       const res = await http.patch(`room/room/${data.id}`, {
         max: data.max,
-        memberId: data.userId,
+        memberId: data.memberId,
         name: data.name,
         tag1: data.tag1,
         tag2: data.tag2,
         tag3: data.tag3,
       })
-      return res
+      
+      if (res.status === 200) {
+        return true
+      } else {
+        return false
+      }
     } catch (err) {
+      return false
       console.log('채팅방 수정 에러', err)
     }
   }
@@ -208,28 +197,15 @@ interface ChatRoom {
 }
 
 export interface openChatReducerType {
-  // chatting: boolean,
-  // chatRoom: null | Partial<ChatRoom>,
 }
 
 const initialState: openChatReducerType = {
-  // chatting: false,
-  // chatRoom: null,
 } 
 
 const openchatSlice: any = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    // setChattingOpen: (state, action) => {
-    //   console.log(action.payload)
-    //   state.chatting = true
-    //   state.chatRoom = action.payload
-    // },
-    // setChattingClose: (state) => {
-    //   state.chatting = false
-    //   state.chatRoom = null
-    // },
   },
   extraReducers: {
   },

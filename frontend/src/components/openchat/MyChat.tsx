@@ -7,7 +7,7 @@ import Pagination from '@mui/material/Pagination'
 
 // redux
 import { useDispatch } from 'react-redux'
-import { getMyChat, searchMyChat } from '../../store/openchatslice'
+import { getChatInfo, getMyChat, searchMyChat } from '../../store/openchatslice'
 import { useSelector } from 'react-redux'
 import initialState from '../../store/Loginslice'
 import store from '../../store'
@@ -86,11 +86,24 @@ function MyChat({ opened, openedRoom,  handleOpened, handleClosed }: any) {
   const [page, setPage] = useState<number>(1)
   const [lastPage, setLastPage] = useState<number>(1)
   
+  const [roomInfo, setRoomInfo] = useState<any>()
+  const [change, setChange] = useState<boolean>(false)
+
+  setTimeout(async () => {
+    if (openedRoom) {
+      const res = await dispatch(getChatInfo(openedRoom.id))
+
+      if (res.payload !== roomInfo) {
+        setRoomInfo(res.payload)
+        setChange(!change)
+      }
+    }
+  }, 3000)
 
     // 초기 데이터 불러오기
     useEffect(() => {
       loadData(page)
-    }, [keyword, page])
+    }, [keyword, page, change])
     
     // 데이터 불러오기
     async function loadData(page: number) {
@@ -101,7 +114,6 @@ function MyChat({ opened, openedRoom,  handleOpened, handleClosed }: any) {
           await setLastPage(res.payload.pageCnt)
           await setData(res.payload.rDto)
         }
-        console.log('검색')
 
       } else {
         const res = await dispatch(getMyChat(page))
@@ -109,7 +121,6 @@ function MyChat({ opened, openedRoom,  handleOpened, handleClosed }: any) {
           await setLastPage(res.payload.pageCnt)
           await setData(res.payload.rDto)
         }
-        console.log('전체')
       }
     } 
 
