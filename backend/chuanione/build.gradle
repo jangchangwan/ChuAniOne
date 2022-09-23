@@ -45,6 +45,10 @@ dependencies {
 
 	//mail
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	//mongodb
+//	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb' // 몽고db단독사용할때?
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive' //다른 db와 함께 사용할때 ?
 }
 
 tasks.named('test') {
