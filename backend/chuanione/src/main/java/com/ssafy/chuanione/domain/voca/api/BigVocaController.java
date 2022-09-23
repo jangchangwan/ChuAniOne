@@ -44,7 +44,7 @@ public class BigVocaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "단어 체크 삭제 (id:단어)")
     public ResponseEntity<Void> deleteMyVoca(@PathVariable int id) {
         vocaService.deleteMyVoca(id);
