@@ -42,7 +42,7 @@ public class BigVocaServiceImpl implements BigVocaService{
     //단어 체크
     public void insertMyVoca(int id){
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        BigVoca bigVoca = bigVocaRepository.getReferenceById(id);
+        BigVoca bigVoca = bigVocaRepository.findById(id).orElse(null);
         MemorizeVoca memorizeVoca =MemorizeVoca.builder()
                 .memberId(member)
                 .vocaId(bigVoca)
@@ -53,7 +53,8 @@ public class BigVocaServiceImpl implements BigVocaService{
     //단어 체크 삭제
     public void deleteMyVoca(int id){
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        MemorizeVoca memorizeVoca = memorizeVocaRepository.findByMemberIdAndVocaId(member.getId(),id);
+        BigVoca bigVoca = bigVocaRepository.findById(id).orElse(null);
+        MemorizeVoca memorizeVoca = memorizeVocaRepository.findByMemberIdAndVocaId(member,bigVoca);
         memorizeVocaRepository.delete(memorizeVoca);
     }
 
