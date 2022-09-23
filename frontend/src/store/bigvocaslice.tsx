@@ -1,13 +1,14 @@
 import http from '../api/axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { isCatchClause } from 'typescript'
 
 
 export const getVocaList = createAsyncThunk(
   'GETVOCALIST',
-  async (arg, {rejectWithValue}) => {
+  async (page:number, {rejectWithValue}) => {
     try {
-      const res = await http.get('voca/list.do')
+      const accessToken =localStorage.getItem("access-Token");
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      const res = await http.get('voca', {params : {page: page}})
       return res
     } catch(error:any) {
       return rejectWithValue(error.response)

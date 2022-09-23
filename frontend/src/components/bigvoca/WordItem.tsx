@@ -4,24 +4,19 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import Button from '@mui/material/Button'
-import styled from "styled-components";
 
 import { insertMyVoca, deleteMyVoca } from '../../store/bigvocaslice'
 import { useDispatch } from "react-redux"
 import store from '../../store'
+import styled from 'styled-components';
 
-const KoreaWordItem = styled.div`
-  height: 3rem;
+const WordItemGrid = styled(Grid)`
+  display: flex;
+  align-items: center;
+  border-radius: 1rem;
+  box-shadow: 0.5px 0.5px 0.5px 0.5px black;
   padding: 0.5rem;
-  padding-left: 1rem; 
-  margin-left: 1rem;
-  border-width: 0 0 0 0.2rem ;
-  border-style: solid;
-  display : flex;
-  align-items : center;
 `
-
 
 function textToSpeech(word: string): void {
   
@@ -65,43 +60,50 @@ function WordItem({ vocaData }) {
 
 
   return (
-    <Grid
+    <WordItemGrid
       container
-      sx={{
-        display: "flex",
-        alignItems: 'center',
-      }}
+      sx={checked ? {backgroundColor: '#CFD2CF'} : {backgroundColor: 'white'}}
+
     >
       {/* 일본어 */}
-      <Grid item xs={3}>
-        <Checkbox color='secondary' onChange={checkChange} id='word' />
-        <label htmlFor="word" style={checked ? { textDecoration: 'line-through' } : { textDecoration: 'none' }}>{vocaData.japanese}</label>
-      </Grid>
-      <Grid item xs={2}>
-        {/* 버튼삭제 아이콘만 남기기 */}
-        <Button
-          onClick={() => {
-            textToSpeech(`${vocaData.japanese}`)
-          }}
-          sx={{
-            padding: '0',
-            height: '2rem',
-            width: '2rem',
-            border: '1px solid',
-            boxShadow: '1px 1px 1px 1px black'
-          }}
+        <Grid xs={1}></Grid>
+        <Grid xs={1}>
+          <VolumeUpIcon 
+            sx={checked ? 
+              {
+                color: '#535453',
+                paddingTop: '0.5rem'
+              } : {
+                color: '#FA9494',
+                paddingTop: '0.5rem'
+              }}
+              onClick={() => {
+              textToSpeech(vocaData.japanese)
+              }} 
+            />
+        </Grid>
+        <Grid xs={3}
         >
-          <VolumeUpIcon />
-        </Button>
-      </Grid>
+          <label htmlFor="word" >{vocaData.japanese}</label>
+        </Grid>
+        <Grid xs={5}
+        >
+          <p>({vocaData.pronunciation})</p>
+        </Grid>
+        <Grid xs={2}>
+          <Checkbox color='default' onChange={checkChange} id='word' 
+            sx={{ 
+              paddingBottom: '1rem',
+              paddingLeft: '2rem'
+          }}
+          />
+        </Grid>
+        <Grid xs={2}></Grid>
+        <Grid xs={10}>
+          <div>{vocaData.korean}</div>
+        </Grid>
 
-      {/* 한국어 */}
-      <Grid
-        item xs={5}
-      >
-        <KoreaWordItem>{vocaData.korean}</KoreaWordItem>
-      </Grid>
-    </Grid>
+    </WordItemGrid>
   );
 }
 
