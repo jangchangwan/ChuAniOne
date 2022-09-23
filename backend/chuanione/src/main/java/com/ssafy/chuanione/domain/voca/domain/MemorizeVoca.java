@@ -22,11 +22,11 @@ public class MemorizeVoca {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member_id;
+    private Member memberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voca_id")
-    private BigVoca voca_id;
+    private BigVoca vocaId;
 }
 
 
