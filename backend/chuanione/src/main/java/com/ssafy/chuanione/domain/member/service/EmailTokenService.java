@@ -15,6 +15,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
@@ -37,9 +38,10 @@ public class EmailTokenService {
 
     private final String FROM = "pecommend@gmail.com";
 
-    private final String path = "C:\\Users\\SSAFY\\Desktop\\자료\\특화플젝\\특화플젝\\backend\\chuanione\\src\\main\\resources\\img\\";
+    private final String path = System.getProperty("user.dir") + File.separator + "chuanione" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "img" + File.separator;
 
     //이메일 인증 토큰 생성
+    @Async
     public String createEmailToken(String receiverEmail) throws Exception {
         Assert.hasText(receiverEmail, "receiverEmail은 필수입니다.");
         System.out.println("receiver: " + receiverEmail);
