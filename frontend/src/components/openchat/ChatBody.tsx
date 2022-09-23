@@ -182,6 +182,8 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   useEffect(() => {
     connect()
   }, [sendMessage])
+  
+  console.log(messages)
 
   // 방 바뀔때마다 메시지 새로 불러오기
   useEffect(() => {
