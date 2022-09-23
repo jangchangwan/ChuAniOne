@@ -1,6 +1,7 @@
 {
   "name": "clone-code",
   "version": "0.1.0",
+  "proxy": "http://boot_chu:8080",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
