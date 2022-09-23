@@ -1,9 +1,7 @@
 import { NavLink } from "react-router-dom"
 import styled from "styled-components"
-// import logoicon from '../assets/images/Logo.png'
-// import logo1 from '../assets/images/logo1.png'
 import logoicon from '../assets/images/logo2.png'
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
@@ -36,7 +34,7 @@ const NavContainer = styled.div`
 // 로고 이미지
 const LogoImg = styled.img`
   position: fixed;
-  left: 0;
+  left: 0.5%;
   top: -6%;
   width: 10rem;
   height: auto;
@@ -72,10 +70,11 @@ function Nav() {
   const dispatch = useDispatch<typeof store.dispatch>()
   // 로그인 유무
   const logincheck = useSelector((state: initialState) => state.login.isLogin)
-  const userId = useSelector((state: initialState) => state.login.userId)
+  // 네비게이션바 위치
+  const [show, setShow] = useState(false)
   // 네비게이션바 유무
-  const [show, setShow] =useState(false)
-  
+  const [showNav, setShowNav] = useState(false)
+  const [showLogo, setShowLogo] = useState(true)
   const [User, setUser] = React.useState<null | HTMLElement>(null)
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setUser(event.currentTarget);
@@ -86,114 +85,163 @@ function Nav() {
 
   const gologout = () => {
     dispatch(logout())
-     .then(() => navigate('/login')) 
+      .then(() => navigate('/login'))
     dispatch(logoutUser())
     dispatch(resetUser())
   }
   const goMypage = () => {
     navigate('/mypage')
-    
+
+  }
+  const goMain = () => {
+    navigate('/')
   }
   // 스크롤 내릴시 Nav 배경색 변화
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (window.pageYOffset > 50) {
-        console.log(userId)
         setShow(true);
       } else {
         setShow(false);
       }
     });
     return () => {
-      window.removeEventListener('scroll', () => {});
+      window.removeEventListener('scroll', () => { });
     }
   }, []);
-  
-  
+
+
+  useEffect(() => {
+    if (window.location.pathname === '/login') {
+      setShowNav(true)
+    } else if (window.location.pathname === '/signup') {
+      setShowNav(true)
+    } else if (window.location.pathname === '/pwd') {
+      setShowNav(true)
+    } else if (window.location.pathname === '/EmailCertification') {
+      setShowNav(true)
+    } else {
+      setShowNav(false)
+    }
+  }, [window.location.pathname]);
+
+  useEffect(() => {
+    window.addEventListener("resize", function () {
+      const body = document.querySelector('body')
+      if (body) {
+        const logoWidth = body.getBoundingClientRect().width
+        if (logoWidth > 900) {
+          setShowLogo(true)
+        } else {
+          setShowLogo(false)
+        }
+      }
+    })
+
+  }, []);
+
+
   // 로그인 , 회원가입, 비밀번호 찾기 인 경우 네비게이션 바 없애기
   // if (window.location.pathname === '/login') return null;
   // else if (window.location.pathname === '/signup') return null;
   // else if (window.location.pathname === '/pwd') return null;
 
   return (
-    <NavContainer style={ show ? { backgroundColor: '#f37b83'}  : {backgroundColor: 'transparent'}} >
-      <LogoImg
-        src={logoicon}
-        alt="Logo"
-        onClick={() => window.location.reload()}
-      />
-      <Grid 
-        container
-        >
-        <Grid 
-          item xs={1}
-          sx={{
-            marginTop: '1rem'
-          }}
-        >
-        </Grid>
-        <NavGrid 
-          item xs={10}
-          sx={{
-            marginTop: '1rem'
-          }}
-        >
-          <Navhref className='test' style={ show ? { color: 'white'}  : {color: 'black'}} to="/">메인</Navhref>
-          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/intro">소개</Navhref>
-          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/search">검색</Navhref>
-          
-          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/openchat">오픈채팅</Navhref>
-          <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/bigvoca">빅보카</Navhref>
-        </NavGrid>
+    <NavContainer style={show ? { backgroundColor: '#f37b83' } : { backgroundColor: 'transparent' }} >
 
-        {/* 로그인 유무에 따른 변화 */}
-        <Grid 
-          item xs={1}
-          sx={{
-            marginTop: '1rem',
-          }}
-        >
-          {
-            logincheck ? 
-            <Box sx={{ flexGrow: 0, textAlign: 'center' }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, paddingBottom: '0.5rem'}}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={User}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(User)}
-                onClose={handleCloseUserMenu}
-              >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" onClick={goMypage}>마이페이지</Typography>
-
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" onClick={gologout}>로그아웃</Typography>
-              </MenuItem>
-                
-              </Menu>
-            </Box>
+      {
+        showNav ?
+          <div></div>
           :
-            <Navhref style={ show ? { color: 'white'}  : {color: 'black'}} to="/login">로그인</Navhref>
-          }
-        </Grid>
-      </Grid>
-      
-      
+          <div>
+            {/* <LogoImg
+          src={logoicon}
+          alt="Logo"
+          onClick={goMain}
+          /> */}
+            <Grid
+              container
+            >
+
+              <Grid
+                item xs={0} md={2}
+                sx={{
+                  marginTop: '1rem'
+                }}
+              >
+                {
+                  showLogo ?
+                    <LogoImg
+                      src={logoicon}
+                      alt="Logo"
+                      onClick={goMain}
+                    />
+                    :
+                    <div></div>
+                }
+
+              </Grid>
+              <NavGrid
+                item md={9}
+                sx={{
+                  marginTop: '1rem'
+                }}
+              >
+                <Navhref className='test' style={show ? { color: 'white' } : { color: 'black' }} to="/">메인</Navhref>
+                <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/intro">소개</Navhref>
+                <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/search">검색</Navhref>
+
+                <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/openchat">오픈채팅</Navhref>
+                <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/bigvoca">빅보카</Navhref>
+              </NavGrid>
+
+              {/* 로그인 유무에 따른 변화 */}
+              <Grid
+                item md={1}
+                style={logincheck ? { marginTop: '0.5rem' } : { marginTop: '1rem', }}
+              >
+                {
+                  logincheck ?
+                    <Box sx={{ flexGrow: 0, textAlign: 'center' }}>
+                      <Tooltip title="Open settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, paddingBottom: '0.5rem' }}>
+                          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                        sx={{ mt: '45px' }}
+                        id="menu-appbar"
+                        anchorEl={User}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        open={Boolean(User)}
+                        onClose={handleCloseUserMenu}
+                      >
+                        <MenuItem onClick={handleCloseUserMenu}>
+                          <Typography textAlign="center" onClick={goMypage}>마이페이지</Typography>
+
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseUserMenu}>
+                          <Typography textAlign="center" onClick={gologout}>로그아웃</Typography>
+                        </MenuItem>
+
+                      </Menu>
+                    </Box>
+                    :
+                    <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/login">로그인</Navhref>
+                }
+              </Grid>
+            </Grid>
+          </div>
+
+      }
     </NavContainer>
   );
 }

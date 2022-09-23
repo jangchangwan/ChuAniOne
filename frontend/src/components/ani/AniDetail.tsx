@@ -184,7 +184,7 @@ function AniDetail({ recommend, }: any): any {
         : null
       }
     </Container>
-  );
+  )
 }
 
-export default AniDetail;
+export default AniDetail

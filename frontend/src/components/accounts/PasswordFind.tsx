@@ -7,24 +7,25 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-
+import BackgroundImg from '../../assets/images/memberBackground.png'
 // 화면전환 애니메이션
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 
 function PasswordFind() {
     let emailState = false;
     return (
-      <motion.div
-      initial = {{opacity: 0}}
-      animate = {{opacity: 1}}
-      exit = {{opacity:0}}
-      transition = {{ duration: 0.5}}
-      >
+      // <motion.div
+        
+      // >
+      <div style={{
+          height: '100vh',
+          backgroundImage: `url(${BackgroundImg})`,
+        }}>
         <Container 
           component="main" 
           maxWidth="xs"
           sx = {{
-            padding: '3rem'
+            padding: '10.5rem'
           }}
         >
           <CssBaseline />
@@ -39,6 +40,7 @@ function PasswordFind() {
               border: 1,
               borderRadius: '1rem',
               padding: 3,
+              opacity: 0.9,
             }}
           >
 
@@ -141,7 +143,8 @@ function PasswordFind() {
             </Box>
           </Box>
         </Container>
-      </motion.div>
+      </div>
+
     );
 }
 

@@ -51,7 +51,7 @@ function ReviewItem() {
         너무너무 재밌어요 !
       </ReviewText>
     </Container>
-  );
+  )
 }
 
-export default ReviewItem;
+export default ReviewItem

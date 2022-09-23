@@ -2,7 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Menu, MenuItem, IconButton } from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
+// redux
+import { useDispatch, useSelector } from 'react-redux'
+import store from '../../store'
+import initialState from '../../store/openchatslice'
 
 const Container = styled.div`
   width: calc(100% - 2rem);
@@ -17,6 +22,14 @@ const Container = styled.div`
 `
 
 const NameBox = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const BackIcon = styled(ArrowBackIcon)`
+  height: 100%;
+  color: #333333;
+  margin-right: 0.5rem;
 `
 
 const Name = styled.h3`
@@ -36,7 +49,8 @@ const Icon = styled(MoreVertIcon)`
   color: #333333;
 `
 
-function ChatHeader() {
+function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
+  const dispatch = useDispatch<typeof store.dispatch>()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
@@ -48,37 +62,56 @@ function ChatHeader() {
     setAnchorEl(null)
   }
 
+  const closeChat = () => {
+    handleClosed()
+  }
+  
   return (
-    <Container>
-      <NameBox>
-        <Name>
-          에에에에에 ~ 츄애니원 !
-        </Name>
-      </NameBox>
+    <>
+      { openedRoom ?
+        <Container>
+          <NameBox>
+            <BackIcon 
+              onClick={closeChat}
+            />
+            <Name>
+              {openedRoom.name}
+            </Name>
+          </NameBox>
 
-      <IconBox
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        <Icon />
-      </IconBox>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleClose}>방 정보</MenuItem>
-        <MenuItem onClick={handleClose}>닫기</MenuItem>
-        <MenuItem onClick={handleClose}>퇴장하기</MenuItem>
-      </Menu>
-    </Container>
+          <IconBox
+            id="basic-button"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+          >
+            <Icon />
+          </IconBox>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem onClick={handleClose}>방 정보</MenuItem>
+            
+            <MenuItem onClick={() => {
+              handleClose()
+              closeChat()
+              }}>닫기</MenuItem>
+
+            <MenuItem onClick={() => {
+              handleClose()
+              closeChat()
+              }}>퇴장하기</MenuItem>
+          </Menu>
+        </Container>
+      : null }
+    </>
   )
 }
 

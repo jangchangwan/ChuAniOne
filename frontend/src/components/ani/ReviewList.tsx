@@ -15,7 +15,7 @@ function ReviewList() {
       <ReviewItem/>
       <ReviewItem/>
     </Container>
-  );
+  )
 }
 
-export default ReviewList;
+export default ReviewList
