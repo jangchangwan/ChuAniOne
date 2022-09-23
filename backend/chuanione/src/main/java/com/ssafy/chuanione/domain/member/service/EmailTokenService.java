@@ -50,7 +50,7 @@ public class EmailTokenService {
 
         StringBuilder body = new StringBuilder();
         body.append("<html> <body>");
-        body.append("<p><img src=\"cid:mail-confirm.jpg\" height='700' width='1000'></p>");
+//        body.append("<p><img src=\"cid:mail-confirm.jpg\" height='700' width='1000'></p>");
         body.append("<h1><a href='http://localhost:8080/api/v1/member/email-confirm.do?token="+emailToken.getId() + "'>링크 인증하기</a></h1></body></html>");
         //이메일 전송
         MimeMessage mimeMessage = emailSender.createMimeMessage();
@@ -60,8 +60,8 @@ public class EmailTokenService {
         helper.setSubject("회원가입 이메일 인증");
         helper.setText(body.toString(), true);
 
-        FileSystemResource file = new FileSystemResource(new File(path + "mail-confirm.jpg"));
-        helper.addInline("mail-confirm.jpg", file);
+//        FileSystemResource file = new FileSystemResource(new File(path + "mail-confirm.jpg"));
+//        helper.addInline("mail-confirm.jpg", file);
         emailSender.send(mimeMessage);
         return emailToken.getId();
     }
