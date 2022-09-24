@@ -25,7 +25,7 @@ function PasswordFind() {
           component="main" 
           maxWidth="xs"
           sx = {{
-            padding: '10.5rem'
+            padding: '5.5rem'
           }}
         >
           <CssBaseline />
