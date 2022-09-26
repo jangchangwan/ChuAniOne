@@ -29,13 +29,13 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
-//	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 // chatroom
 	implementation 'org.webjars:sockjs-client:1.0.2'
 	implementation 'org.webjars:stomp-websocket:2.3.3'
-
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	// security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	// validation
@@ -52,6 +52,7 @@ dependencies {
 	//mail
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
-tasks.named('test') {
-	useJUnitPlatform()
-}
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
+//
