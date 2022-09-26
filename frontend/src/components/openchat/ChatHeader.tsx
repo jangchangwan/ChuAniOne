@@ -29,7 +29,7 @@ const Container = styled.div`
   height: calc(10% - 1rem);
   padding: 0.5rem 1rem;
   background-color: #f37b83;
-  border-radius: 1.8rem 1.8rem 0 0;
+  border-radius: 1rem 1rem 0 0;
 
   display: flex;
   align-items: center;
@@ -47,11 +47,10 @@ const BackIcon = styled(ArrowBackIcon)`
   margin-right: 0.5rem;
 `
 
+
 const Name = styled.h3`
   color: #333333;
 `
-
-
 
 const IconBox = styled(IconButton)`
   height: 100%;
