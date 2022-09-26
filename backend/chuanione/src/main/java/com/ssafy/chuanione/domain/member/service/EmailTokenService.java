@@ -38,7 +38,7 @@ public class EmailTokenService {
 
     private final String FROM = "pecommend@gmail.com";
 
-    private final String path = System.getProperty("user.dir") + File.separator + "chuanione" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "img" + File.separator;
+    private final String path = System.getProperty("user.dir") + File.separator + "backend" + File.separator +"chuanione" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "img" + File.separator;
 
     //이메일 인증 토큰 생성
     @Async
