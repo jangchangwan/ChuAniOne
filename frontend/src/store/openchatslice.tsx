@@ -104,10 +104,20 @@ export const createChat = createAsyncThunk(
   'CREATECHAT',
   async (data: any) => {
     try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
       const res = await http.post(`room/room`, data)
-      return res.data
+
+      if (res.status === 200) {
+        return res.data
+      } else {
+        console.log('방 생성 에러', res)
+        return false
+      }
     } catch (err) {
       console.log('방 생성 에러', err)
+      return false
     }
   }
 )

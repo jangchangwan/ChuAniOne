@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { TextField, Snackbar } from '@mui/material'
-import { Cancel } from '@mui/icons-material'
+import { Cancel, Recommend } from '@mui/icons-material'
 import { createChat } from '../../store/openchatslice'
 import Alert from '@mui/material/Alert'
 import store from '../../store'
+import { useFetcher } from 'react-router-dom'
 
 const Container = styled.div`
   width: calc(80% - 2rem);
@@ -212,9 +213,18 @@ function MakeChat() {
       await room.hashtags.map((hash, idx) => (
         data[`tag${idx+1}`] = hash
       ))
-      const val = await dispatch(createChat(data))
-      console.log(val)
-      if (val.type === "CREATECHAT/fulfilled") {
+
+      if (room.hashtags.length < 3) {
+        let i = room.hashtags.length
+        
+        for (i ; i < 3; i ++) {
+          data[`tag${i+1}`] = ''
+        }
+      }
+
+      const res = await dispatch(createChat(data))
+      
+      if (res.type === "CREATECHAT/fulfilled" && res.payload) {
         await setOpenSuccess(true)
         await setRoom({
           name: null,
