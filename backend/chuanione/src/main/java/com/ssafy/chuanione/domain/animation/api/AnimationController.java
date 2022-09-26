@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -22,12 +23,20 @@ public class AnimationController {
     private final AnimationService animationService;
 
 
-    @GetMapping("/list.do")
+    @GetMapping("/list.do/{page}")
     @ApiOperation(value = "전체목록/ 테스트용")
-    public ResponseEntity<List<Animation>> getListAll() {
-        System.out.println("test");
-        List<Animation> list = animationService.getListAll();
+    public ResponseEntity<Map<String,Object>> getListAll(@PathVariable int page) {
+//        System.out.println("test");
+        Map<String, Object> list= animationService.getListAll(page-1);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+
+//    @GetMapping("/detail.do/{id}")
+//    @ApiOperation(value = "애니메이션 상세조회 (id:애니메이션)")
+//    public ResponseEntity<Animation> getListAll(@PathVariable int id) {
+//
+//        return new ResponseEntity<>(list, HttpStatus.OK);
+//    }
 
 }
