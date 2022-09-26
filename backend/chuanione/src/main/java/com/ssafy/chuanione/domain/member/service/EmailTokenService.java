@@ -37,7 +37,8 @@ public class EmailTokenService {
     private final MemberRepository memberRepository;
 
     private final String FROM = "pecommend@gmail.com";
-    private final String path = "/home/ubuntu/chuanione/S07P22E104/backend/chuanione/src/main/resources/img/";
+    @Value("${part4.file.path}")
+    private final String path;
 
     //이메일 인증 토큰 생성
     @Async
