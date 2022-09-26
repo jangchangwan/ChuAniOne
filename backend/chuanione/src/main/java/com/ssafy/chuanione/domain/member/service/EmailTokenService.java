@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Random;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,8 +38,9 @@ public class EmailTokenService {
     private final MemberRepository memberRepository;
 
     private final String FROM = "pecommend@gmail.com";
+    public static final StringBuilder ePw = new StringBuilder();
 
-    private final String path = System.getProperty("user.dir") + File.separator + "chuanione" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "img" + File.separator;
+    private final String path = System.getProperty("user.dir") + File.separator + "backend" + File.separator + "chuanione" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "img" + File.separator;
 
     //이메일 인증 토큰 생성
     @Async
@@ -75,5 +77,59 @@ public class EmailTokenService {
 
         // 토큰이 없다면 예외 발생
         return emailToken.orElseThrow(TokenNotFoundException::new);
+    }
+
+    public String changePasswordMessage(String to) throws Exception{
+        MimeMessage message = emailSender.createMimeMessage();
+        ePw.setLength(0);
+        ePw.append(createKey());
+
+        message.addRecipients(Message.RecipientType.TO, to);//보내는 대상
+        message.setSubject("ChuAniOne 새로운 비밀번호");//제목
+
+        String msgg="";
+        msgg+= "<div style='margin:100px;'>";
+        msgg+= "<h1> 안녕하세요 ChuAniOne입니다. </h1>";
+        msgg+= "<br>";
+        msgg+= "<p>비밀번호가 아래와 같이 변경되었습니다.<p>";
+        msgg+= "<br>";
+        msgg+= "<p>로그인 후 새로운 비밀번호로 변경해주십시오.<p>";
+        msgg+= "<br>";
+        msgg+= "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg+= "<h3 style='color:blue;'>새 비밀번호입니다.</h3>";
+        msgg+= "<div style='font-size:130%'>";
+        msgg+= "CODE : <strong>";
+        msgg+= ePw.toString()+"</strong><div><br/> ";
+        msgg+= "</div>";
+        message.setText(msgg, "utf-8", "html");//내용
+        message.setFrom(new InternetAddress("pecommend@gmail.com","ChuaniOne"));//보내는 사람
+
+        emailSender.send(message);
+        return ePw.toString();
+    }
+
+    public String createKey() {
+        StringBuffer key = new StringBuffer();
+        Random rnd = new Random();
+
+        for (int i = 0; i < 8; i++) { // 인증코드 8자리
+            int index = rnd.nextInt(3); // 0~2 까지 랜덤
+
+            switch (index) {
+                case 0:
+                    key.append((char) ((int) (rnd.nextInt(26)) + 97));
+                    //  a~z  (ex. 1+97=98 => (char)98 = 'b')
+                    break;
+                case 1:
+                    key.append((char) ((int) (rnd.nextInt(26)) + 65));
+                    //  A~Z
+                    break;
+                case 2:
+                    key.append((rnd.nextInt(10)));
+                    // 0~9
+                    break;
+            }
+        }
+        return key.toString();
     }
 }
