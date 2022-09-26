@@ -89,13 +89,38 @@ export const myinfo = createAsyncThunk(
         return res
       } else {
         console.log('실패',res)
-      }
-      
+      } 
     } catch(err:any) {
       return rejectWithValue(err.response)
     }
-    
   }
+)
+
+// 회원 정보 변경
+export const changeUserInfo = createAsyncThunk(
+  'CHANGEUSERINFO',
+  async (userDto:any, {rejectWithValue}) => {
+    try {
+      if ( userDto ) {
+        const memberDto = {
+          introduction: userDto.introduction,
+          nickname: userDto.nickName,
+          password: userDto.password,
+          profile: userDto.profile,
+  
+        } 
+        const accessToken =localStorage.getItem("access-Token")
+        http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+        const res = await http.patch(`member/update/${userDto.id}`, memberDto)
+        if (res.status === 200) {
+          console.log('성공')
+        } else console.log('실패');
+      }
+    } catch (err:any) {
+      return rejectWithValue(err.response)
+    }
+  }
+
 )
 export interface loginReducerType {
   userId: number,

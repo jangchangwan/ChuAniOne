@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import Grid from '@mui/material/Grid'
-import profileicon from '../../assets/images/kakao_icon.png' // 임시로 사진 가져옴
 import badgeicon1 from '../../assets/images/google_icon.png' // 임시로 사진 가져옴
 import badgeicon2 from '../../assets/images/kakao_icon.png' // 임시로 사진 가져옴
 import badgeicon3 from '../../assets/images/Logo.png' // 임시로 사진 가져옴
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MyAniChart   from "./MyAniChart";
 
+
+import { useDispatch } from "react-redux"
+import { myinfo, nicknameCheck, changeUserInfo } from '../../store/Loginslice'
+import store from '../../store'
 // MUI
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -108,17 +111,42 @@ const BadgeImg = styled.img`
   /* margin: 2rem; */
   filter: drop-shadow(5px 5px 5px #000); // 배경 짤라야 온전하게 그림자 적용 가능
 `
-
+const ErrorText = styled.span`
+  width: 100%;
+  color: #ff0000;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+`
+const SuccessText = styled.span`
+  width: 100%;
+  color: #009c87;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+`
 
 function MyLeft() {
+  const dispatch = useDispatch<typeof store.dispatch>()
+
+  // 개인정보수정 모달 열고 닫기
   const [open, setOpen] = React.useState(false);
-  // interface MyInfo {
-  //   img: string,
-  //   exp: number,
-  //   nickname: string,
-  //   introduction: string,
-  //   badge: string,
-  // }
+  
+  // 회원 정보
+  const [nickName, setNickName] = useState('')
+  const [introduction, setIntroduction] = useState('')
+  const [profileImg, setProfileImg] = useState('')
+  const [password, setPassword] = useState('')
+  const [userId, setUserId] = useState('')
+  // 유효성검사
+  const [nicknameValid, setNicknameValid] = useState(true)
+  const [pwdValid, setPwdValid] = useState(true)
+
+  // 디폴트 에러 메세지 방지
+  const [defaultPwd, setDefaultPwd] = useState(false)
+  const [defaultNickname, setDefaultNickname] = useState(false)
+  const [confirmNickname, setConfirmNickname] = useState(false)
+  // 닉네임 중복체크
+  // t: 사용가능, f: 사용불가능
+  const [isDuplicateNicknameChecked, setisDuplicateNicknameChecked] = useState(false)
 
   const exp:number = 370
   const tier:any = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']
@@ -128,24 +156,114 @@ function MyLeft() {
   const imgArrId:any = [1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2] // 12개
 
 
-  // 
+  // 비밀번호 유효성 검사
+  const validatePwd = (e:any) => {
+    let patternEngAtListOne = new RegExp(/[a-zA-Z]+/) // + for at least one
+    let patternSpeAtListOne = new RegExp(/[~!@#$%^]+/) // + for at least one
+    let patternNumAtListOne = new RegExp(/[0-9]+/) // + for at least one
+
+    if (e.target.value) {
+      setDefaultPwd(true)
+    } else {
+      setDefaultPwd(false)
+    }
+
+    if (
+      patternEngAtListOne.test(e.target.value) &&
+      patternSpeAtListOne.test(e.target.value) &&
+      patternNumAtListOne.test(e.target.value) &&
+      e.target.value.length >= 8 &&
+      e.target.value.length <= 15
+    ) {
+      setPwdValid(true)
+    } else {
+      setPwdValid(false)
+    }
+  }
+  // 닉네임 유효성 검사
+  const validateNickName = (e:any) => {
+    if (e.target.value) {
+      setDefaultNickname(true)
+    } else {
+      setDefaultNickname(false)
+    }
+
+    let regexp = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/
+    if (
+      regexp.test(e.target.value) &&
+      e.target.value.length <= 10 &&
+      e.target.value.length >= 2
+    ){
+      setNicknameValid(true)
+    }
+    else {
+      setNicknameValid(false)
+    } 
+  }
+  // 닉네임 중복체크
+  const isDuplicateNickname = () => {
+    console.log(nickName);
+    
+    dispatch(nicknameCheck(nickName))
+      .unwrap()
+      .then((res) => {
+        console.log(res.data);
+        if (res.data === false){
+          setisDuplicateNicknameChecked(true)
+        } else {
+          setConfirmNickname(true)
+        }
+    })
+  }
+  
+  // 개인정보수정 창열기
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  // 개인정보수정 창닫기
   const handleClose = () => {
     setOpen(false);
   };
 
+  // 개인정보수정
+  const changeInfo = (event:any) => {
+    const changeDto = {
+      introduction: introduction,
+      nickname: nickName,
+      password: password,
+      profile: profileImg,
+      id: userId,
+    }
+    
+    dispatch(changeUserInfo(changeDto))
+    
+    setOpen(false)
+  }
+
+  // 회원정보 받아오기
+  useEffect(() => {
+    dispatch(myinfo())
+      .then((response:any) => {
+        const data = response.payload.data
+        console.log(data);
+        setNickName(data.nickname)
+        setIntroduction(data.introduction)
+        setUserId(data.memberId)
+      }).catch((e) => {
+        console.log(e);
+        
+      })
+  },[])
 
   return (
     <div>
       {/* 프로필사진, 경험치, 닉네임, 소개, 벳지 가져오기 */}
       <ProfileContainer>
-        <ProfileImg src={profileicon}></ProfileImg>
+        <ProfileImg src={profileImg} alt="프로필사진"></ProfileImg>
         <ProfileContainerBox>
           <ProfileContainerLv>
-            <p style={{ margin : '0'}}>{mytier}({myexp})   닉네임</p>
+            <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
             <MoreVertIcon
               type='button'
               onClick={handleClickOpen}
@@ -167,15 +285,42 @@ function MyLeft() {
                   <img src="https://newsimg.sedaily.com/2022/07/10/268GU9UQSV_3.jpeg" alt="프로필사진" style={{ height: '10rem', width:'auto'}}/>
                 </div>
                 <Button>이미지 선택</Button>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="ninkname"
-                  label="닉네임을 입력해주세요"
-                  type="nickname"
-                  fullWidth
-                  variant="standard"
-                />
+                <Grid container spacing={1}>
+                  <Grid item xs={8}>
+                    <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="nickName"
+                    label="닉네임를 입력해주세요."
+                    id="nickName"
+                    autoComplete="nickName"
+                    onBlur={(e) => {validateNickName(e)}}
+                    onChange={(e) => {
+                      setNickName(e.target.value)
+                      if (isDuplicateNicknameChecked) { setisDuplicateNicknameChecked(false) }
+                    }}
+                    autoFocus
+                    value={nickName}
+                  />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Button
+                      type='button'
+                      fullWidth
+                      variant="contained"
+                      onClick={isDuplicateNickname}
+                      sx={{
+                        top: '1.5rem'
+                      }}
+                    >중복 체크</Button>
+                  </Grid>
+                </Grid>
+                {defaultNickname && !nicknameValid ? (
+                <ErrorText>유효하지 않은 닉네임입니다</ErrorText>) : null}
+                {defaultNickname && nicknameValid && !isDuplicateNicknameChecked && confirmNickname ? (
+                <ErrorText>이미 존재하는 닉네임입니다</ErrorText>) : null}
+                {defaultNickname && nicknameValid && isDuplicateNicknameChecked ? <SuccessText>사용가능한 닉네임입니다</SuccessText> : null}
                 <TextField
                   autoFocus
                   margin="dense"
@@ -184,20 +329,28 @@ function MyLeft() {
                   type="myintro"
                   fullWidth
                   variant="standard"
+                  onChange={(e) => {
+                    setIntroduction(e.target.value)
+                  }}
+                  value={introduction}
                 />
                 <TextField
                   autoFocus
                   margin="dense"
-                  id="ninkname"
-                  label="닉네임을 입력해주세요"
-                  type="nickname"
+                  id="password"
+                  label="비밀번호을 입력해주세요"
+                  type="password"
                   fullWidth
                   variant="standard"
+                  onChange={(e) => {
+                    setPassword(e.target.value)
+                  }}
+                  value={password}
                 />
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>취소</Button>
-                <Button onClick={handleClose}>변경</Button>
+                <Button onClick={changeInfo}>변경</Button>
               </DialogActions>
             </Dialog>
           </ProfileContainerLv>
@@ -213,7 +366,7 @@ function MyLeft() {
       </ProfileContainer>
       {/* <IntroductonBox style={{ color:"#f37b83" }}> */}
       <IntroductonBox>
-        안녕하세요 아이자와 소영입니다! #도리벤 좋아함 암튼 자기소개 100자 간단 하 게 . . .... 잠오는ing 많관부 바이루
+        {introduction}
       </IntroductonBox>
       <Grid container>
         <Grid item xs={2} xl={1.5} alignSelf="center">
