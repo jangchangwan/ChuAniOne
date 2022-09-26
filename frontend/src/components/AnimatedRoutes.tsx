@@ -14,6 +14,8 @@ import BigVoca from './bigvoca/Bigvoca'
 import Mypage from './mypage/MyPage'
 import EmailCertification from './accounts/EmailCertification'
 import EmailVerificationCompleted from './accounts/EmailVerificationCompleted'
+import NotFound from './NotFound'
+
 // 애니메이션 라이브러리
 import { AnimatePresence } from 'framer-motion';
 function AnimatedRoutes() {
@@ -34,6 +36,7 @@ function AnimatedRoutes() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/emailCertification" element={<EmailCertification />} />
         <Route path="/emailVerificationCompleted" element={<EmailVerificationCompleted />} />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </AnimatePresence>
 
