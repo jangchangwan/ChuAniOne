@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/member")
@@ -93,9 +94,10 @@ public class MemberController {
 
     @PatchMapping("/findPw.do")
     @ApiOperation(value = "비밀번호 찾기")
-    public ResponseEntity<String> findPw(@RequestParam String email){
+    public ResponseEntity<String> findPw(@RequestBody Map<String, String> map){
+        String email = map.get("email");
         try{
-            if(!memberService.checkEmail(email))
+            if(!memberService.checkEmail(email) || !memberService.checkBirth(map.get("birthday")))
                 throw new MemberNotFoundException();
             String newPw = emailTokenService.changePasswordMessage(email);
             memberService.changePw(email, passwordEncoder.encode(newPw));
