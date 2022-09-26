@@ -32,7 +32,7 @@ function AnimatedRoutes() {
     const path = window.location.pathname
     if (logincheck === false) {
       if (path === '/openchat' || path === '/bigvoca' || path === '/mypage'){
-        navigate('/login')
+        navigate('/*')
       }
     }
   }, [window.location.pathname]);
@@ -43,7 +43,7 @@ function AnimatedRoutes() {
     const path = window.location.pathname
     if (logincheck === true) {
       if (path === '/pwd' || path === '/login' || path === '/signup' || path === '/emailCertification'){
-        navigate('/')
+        navigate('/*')
       }
     }
   }, [window.location.pathname]);
