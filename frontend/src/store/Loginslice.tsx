@@ -36,7 +36,6 @@ export const logout = createAsyncThunk(
   },
 )
 
-
 // 회원가입
 export const signup = createAsyncThunk(
   'SIGNUP',
@@ -55,7 +54,21 @@ export const nicknameCheck = createAsyncThunk(
   'NICKNAMECHECK',
   async (nickname:string, {rejectWithValue}) => {
     try{
-      const res = await http.get(`member/check.do/${nickname}`,)
+      // console.log("loginslice", nickname)
+      const res = await http.get(`member/check.do/nickname/${nickname}`,)
+      return res
+    } catch(err:any) {
+      return rejectWithValue(err.response)
+    }
+  }
+)
+
+// 이메일 중복 확인
+export const emailCheck = createAsyncThunk(
+  'EMAILCHECK',
+  async (email:string, {rejectWithValue}) => {
+    try{
+      const res = await http.get(`member/check.do/email/${email}`)
       return res
     } catch(err:any) {
       return rejectWithValue(err.response)
@@ -78,7 +91,6 @@ export const myinfo = createAsyncThunk(
         console.log('실패',res)
       }
       
-
     } catch(err:any) {
       return rejectWithValue(err.response)
     }
@@ -86,13 +98,13 @@ export const myinfo = createAsyncThunk(
   }
 )
 export interface loginReducerType {
-  userId:string,
+  userId: number,
   isLogin: boolean,
   error: any,
 }
 
 const initialState:loginReducerType = {
-  userId: '',
+  userId: 0,
   isLogin: false,
   error: null,
 }
@@ -102,7 +114,7 @@ const loginSlice:any = createSlice({
   initialState,
   reducers: {
     resetUser: (state) => {
-      state.userId = ''
+      state.userId = 0
     },
     loginUser: (state) => {
       state.isLogin = true
@@ -117,7 +129,7 @@ const loginSlice:any = createSlice({
         state.isLogin = true
       })
       .addCase(login.rejected, (state) => {
-        state.isLogin = true
+        state.isLogin = false
       })
       .addCase(myinfo.fulfilled, (state, { payload }) =>{
         if (payload) {

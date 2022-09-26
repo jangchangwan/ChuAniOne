@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 // MUI
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -6,12 +6,10 @@ import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-
-
-
+import Alert from '@mui/material/Alert'
+import logoicon from '../../assets/images/logo2.png'
+import Snackbar from '@mui/material/Snackbar'
 // 하위 컴포넌트
 import GoogleLogin from './GoogleLogin'
 import KakaoLogin from './KakaoLogin'
@@ -19,18 +17,26 @@ import KakaoLogin from './KakaoLogin'
 // redux 
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
-import { login, loginUser, myinfo } from '../../store/Loginslice'
+import { login, myinfo } from '../../store/Loginslice'
 import store from '../../store'
 // 화면전환 애니메이션
 import { motion } from 'framer-motion'
+import BackgroundImg from '../../assets/images/memberBackground.png'
 
-
-const theme = createTheme()
+import styled from "styled-components"
+const LogoImg = styled.img`
+  width: 10rem;
+  height: auto;
+  object-fit: contain;
+  background-color: 'transparent';
+`
 
 function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch<typeof store.dispatch>()
+  const [LoginFail, setLoginFail] = useState<boolean>(false)
 
+  // 로그인
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -39,29 +45,37 @@ function Login() {
       email: data.get('email'),
       password: data.get('password')
     }
+    console.log(loginDto)
     await dispatch(login(loginDto))
       .unwrap()
-      .then(() =>
+      .then(() => {
+        dispatch(myinfo())
         navigate('/')
-        
-      )
-    await dispatch(myinfo())
-    await dispatch(loginUser())
+        }
+      ).catch((e) => {
+        setLoginFail(true)
+      })
   };
 
+  // 홈으로 가기
+  const goMain = () => {
+    navigate('/')
+  }
+  
   return (
     <motion.div
-      initial = {{opacity: 0}}
-      animate = {{opacity: 1}}
-      exit = {{opacity:0}}
-      transition = {{ duration: 0.5}}
     >
-      <ThemeProvider theme={theme}>
+      <div
+        style={{
+          height: '100vh',
+          backgroundImage: `url(${BackgroundImg})`,
+        }}
+      >
         <Container 
           component="main" 
           maxWidth="xs"
           sx = {{
-            padding: '3rem'
+            padding: '6rem'
           }}
           >
           <CssBaseline />
@@ -76,12 +90,14 @@ function Login() {
               border: 1,
               borderRadius: '1rem',
               padding: 3,
+              opacity: 0.9,
             }}
           >
-
-            <Typography component="h1" variant="h5">
-              Login
-            </Typography>
+            <LogoImg
+            src={logoicon}
+            alt="Logo"
+            onClick={goMain}
+            />
             <Box 
               component="form" 
               onSubmit={handleSubmit} 
@@ -156,7 +172,14 @@ function Login() {
             </Box>
           </Box>
         </Container>
-      </ThemeProvider>
+      </div>
+      <Snackbar open={LoginFail} autoHideDuration={3000} onClose={() => setLoginFail(!LoginFail)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+        <Alert severity="error" sx={{ width: '100%' }}>
+          로그인에 실패하였습니다 😥
+        </Alert>
+      </Snackbar>
     </motion.div>
   );
 }
