@@ -23,20 +23,20 @@ function AnimatedRoutes() {
     <AnimatePresence>
       <Routes location={location} key={location.pathname}>
         {/* 여기에 링크 추가 */}
-        <Route path="/" element={<Main/>} />
-        <Route path="/intro" element={<Intro/>} />
-        <Route path="/pwd" element={<PasswordFind/>} />
-        <Route path="/search" element={<Search/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/signup" element={<Signup/>} />
-        <Route path="/openchat" element={<OpenChat/>} />
-        <Route path="/bigvoca" element={<BigVoca/>} />
-        <Route path="/mypage" element={<Mypage/>} />
-        <Route path="/emailCertification" element={<EmailCertification/>} />
-        <Route path="/emailVerificationCompleted" element={<EmailVerificationCompleted/>} />
+        <Route path="/" element={<Main />} />
+        <Route path="/intro" element={<Intro />} />
+        <Route path="/pwd" element={<PasswordFind />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/openchat" element={<OpenChat />} />
+        <Route path="/bigvoca" element={<BigVoca />} />
+        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/emailCertification" element={<EmailCertification />} />
+        <Route path="/emailVerificationCompleted" element={<EmailVerificationCompleted />} />
       </Routes>
     </AnimatePresence>
-    
+
   )
 }
 

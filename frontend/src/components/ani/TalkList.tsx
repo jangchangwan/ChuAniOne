@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import TalkItem from './TalkItem';
+import TalkItem from './TalkItem'
 
 const Container = styled.div`
 `

@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { TextField, Snackbar } from '@mui/material'
 import { Cancel } from '@mui/icons-material'
 import { createChat } from '../../store/openchatslice'
 import Alert from '@mui/material/Alert'
+import store from '../../store'
 
 const Container = styled.div`
   width: calc(80% - 2rem);
@@ -130,26 +132,34 @@ function MakeChat() {
   interface Room {
     name: string | null,
     hashtags: string[],
-    member: number,
+    max: number,
   }
 
+  const dispatch = useDispatch<typeof store.dispatch>()
+
+  // 방 정보
   const [room, setRoom] = useState<Room>({
     name: null,
     hashtags: [],
-    member: 2,
+    max: 2,
   })
 
+  // 이름, 해시태그 입력값
   const [name, setName] = useState<string>('')
   const [hash, setHash] = useState<string>('')
+  
+  // 해시태그 삭제 버튼 표시 여부
   const [deleteHash, setDeleteHash] = useState<any>({
     0: false,
     1: false,
     2: false
-  })
+  }) 
 
+  // 방 생성 결과 알림
   const [openSuccess, setOpenSuccess] = useState<boolean>(false)
   const [openFail, setOpenFail] = useState<boolean>(false)
 
+  // 방 제목 세팅
   function getName(e: any): void {
     setName(name.trim())
     setRoom({
@@ -157,6 +167,7 @@ function MakeChat() {
     })
   }
 
+  // 해시태그 추가
   function addHash(): void {
     if (room.hashtags.length < 3) {
       // room에 hashtag 추가
@@ -171,6 +182,7 @@ function MakeChat() {
     }
   }
 
+  // 해시태그 삭제
   function removeHash(hashtag: string, idx: number): void {
     const hashs = room.hashtags.filter(function(data) {
       return data !== hashtag
@@ -180,6 +192,7 @@ function MakeChat() {
       hashtags: hashs,
     })
 
+    // X 아이콘 순서대로 재배치
     let change = { ...deleteHash }
     for (var i = idx; i < 2; i++) {
       change[i] = change[i + 1]
@@ -188,24 +201,31 @@ function MakeChat() {
     setDeleteHash(change)
   }
 
+  // 방 생성하기
   async function createRoom() {
     if (room.name) {
       const data: any = {
-        max: room.member,
+        max: room.max,
         name: room.name,
         memberId: 1,
       }
       await room.hashtags.map((hash, idx) => (
         data[`tag${idx+1}`] = hash
       ))
-      await createChat(data, setOpenSuccess, setOpenFail)
-      await setRoom({
-        name: null,
-        hashtags: [],
-        member: 2,
-      })
-      await setName('')
-      await setHash('')
+      const val = await dispatch(createChat(data))
+      console.log(val)
+      if (val.type === "CREATECHAT/fulfilled") {
+        await setOpenSuccess(true)
+        await setRoom({
+          name: null,
+          hashtags: [],
+          max: 2,
+        })
+        await setName('')
+        await setHash('')
+      } else {
+        setOpenFail(true)
+      }
     } else {
       setOpenFail(true)
     }
@@ -271,8 +291,8 @@ function MakeChat() {
           <Name>최대 인원 수</Name>
           <InputField type="number" InputProps={{ inputProps: { min: 2, max: 5 } }}
             inputProps={{ inputMode: 'numeric', pattern: '[2-5]*' }}
-            variant="outlined" fullWidth value={room.member}
-            onChange={(e) => setRoom({...room, member: parseInt(e.target.value)})}
+            variant="outlined" fullWidth value={room.max}
+            onChange={(e) => setRoom({...room, max: parseInt(e.target.value)})}
             sx={{
               "& .MuiOutlinedInput-root.Mui-focused": {
                 "& > fieldset": {

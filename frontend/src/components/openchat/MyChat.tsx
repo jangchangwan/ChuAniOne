@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search'
 import MyChatList from './MyChatList'
 
+
 const Container = styled.div`
   width: 80%;
   padding: 0 10%;
@@ -40,8 +41,7 @@ const SearchIcon1 = styled(SearchIcon)`
 `
 
 
-
-function MyChat() {
+function MyChat({ opened, openedRoom,  handleOpened, handleClosed }: any) {
   return (
     <Container>
       <SearchBox>
@@ -55,7 +55,12 @@ function MyChat() {
           <SearchIcon1/>
         </SearchIconBox>
       </SearchBox>
-      <MyChatList />
+      <MyChatList 
+        opened={opened}
+        openedRoom={openedRoom}
+        handleOpened={handleOpened}
+        handleClosed={handleClosed}
+      />
     </Container>
   )
 }

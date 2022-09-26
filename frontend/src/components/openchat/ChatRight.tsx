@@ -17,12 +17,29 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-function ChatRight() {
+function ChatRight({ opened, openedRoom, handleOpened, handleClosed }: any) {
+  
   return (
-    <Container>
-      <ChatHeader/>
-      <ChatBody/>
-    </Container>
+    <>
+      { opened ?
+        <Container>
+          <ChatHeader 
+            opened={opened} 
+            openedRoom={openedRoom} 
+            handleOpened={handleOpened} 
+            handleClosed={handleClosed}
+          />
+          <ChatBody
+            opened={opened} 
+            openedRoom={openedRoom} 
+            handleOpened={handleOpened} 
+            handleClosed={handleClosed}
+          />
+        </Container>
+      : 
+        null
+      }
+    </>
   )
 }
 

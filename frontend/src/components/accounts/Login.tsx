@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux"
 import { login, myinfo } from '../../store/Loginslice'
 import store from '../../store'
 // 화면전환 애니메이션
-import { motion } from 'framer-motion'
+// import { motion } from 'framer-motion'
 import BackgroundImg from '../../assets/images/memberBackground.png'
 
 import styled from "styled-components"
@@ -63,8 +63,9 @@ function Login() {
   }
   
   return (
-    <motion.div
-    >
+    // <motion.div
+    // >
+    <div>
       <div
         style={{
           height: '100vh',
@@ -75,14 +76,14 @@ function Login() {
           component="main" 
           maxWidth="xs"
           sx = {{
-            padding: '6rem'
+            padding: '3.5rem'
           }}
           >
           <CssBaseline />
           <Box
             boxShadow={2}
             sx={{
-              marginTop: 8,
+              marginTop: 5,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -180,7 +181,8 @@ function Login() {
           로그인에 실패하였습니다 😥
         </Alert>
       </Snackbar>
-    </motion.div>
+    </div>
+    // </motion.div>
   );
 }
 

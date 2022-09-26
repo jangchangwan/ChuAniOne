@@ -24,7 +24,7 @@ import { signup, nicknameCheck, emailCheck } from '../../store/Loginslice'
 import store from '../../store'
 
 // 화면전환 애니메이션
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 
 
 const ErrorText = styled.span`
@@ -233,13 +233,10 @@ function Signup() {
   ) { btnDisabled = false }
 
   return (
-    <motion.div
-      style={{
+    <div style={{
         height: '100vh',
         backgroundImage: `url(${BackgroundImg})`,
-      }}
-    >
-      
+      }}>
       <Container
         component="main" 
         maxWidth="xs"
@@ -259,7 +256,7 @@ function Signup() {
             border: 1,
             borderRadius: '1rem',
             backgroundColor: 'white',
-            opacity: 0.9,
+            opacity: 0.95,
           }}
         >
         <Typography component="h1" variant="h5">
@@ -438,7 +435,8 @@ function Signup() {
       </Box>
       </Container>
       
-    </motion.div>
+    
+    </div>
   );
 }
 

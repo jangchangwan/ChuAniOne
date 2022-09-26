@@ -9,22 +9,23 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import BackgroundImg from '../../assets/images/memberBackground.png'
 // 화면전환 애니메이션
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 
 function PasswordFind() {
     let emailState = false;
     return (
-      <motion.div
-        style={{
+      // <motion.div
+        
+      // >
+      <div style={{
           height: '100vh',
           backgroundImage: `url(${BackgroundImg})`,
-        }}
-      >
+        }}>
         <Container 
           component="main" 
           maxWidth="xs"
           sx = {{
-            padding: '10.5rem'
+            padding: '5.5rem'
           }}
         >
           <CssBaseline />
@@ -142,7 +143,8 @@ function PasswordFind() {
             </Box>
           </Box>
         </Container>
-      </motion.div>
+      </div>
+
     );
 }
 

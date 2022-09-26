@@ -54,7 +54,7 @@ export const nicknameCheck = createAsyncThunk(
   'NICKNAMECHECK',
   async (nickname:string, {rejectWithValue}) => {
     try{
-      // console.log("loginslice", nickname)
+      console.log("loginslice", nickname)
       const res = await http.get(`member/check.do/nickname/${nickname}`,)
       return res
     } catch(err:any) {
