@@ -1,10 +1,7 @@
 package com.ssafy.chuanione.domain.member.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -14,6 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @Getter
+@ToString
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,4 +54,6 @@ public class Member {
             this.nickname = member.getNickname();
         }
     }
+
+    public void changePw(String pw){this.password = pw;}
 }
