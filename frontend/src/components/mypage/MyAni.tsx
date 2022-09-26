@@ -1,10 +1,11 @@
 import React from 'react'
+import MyAniList from './MyAniList';
 
 
 function MyAni() {
   return (
     <div>
-      <h1>MyAni</h1>
+      <MyAniList></MyAniList>
     </div>
   );
 }

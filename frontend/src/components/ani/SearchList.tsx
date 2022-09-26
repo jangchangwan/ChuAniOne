@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Grid, Paper, Box } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import SearchItem from './SearchItem'
 import Pagination from '@mui/material/Pagination'
 
@@ -10,9 +10,12 @@ const Container = styled.div`
 `
 
 const TopBox = styled.div`
+  margin: 0 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 `
 
 const NumberBox = styled.div`
@@ -34,7 +37,7 @@ const NumberTextIn = styled.h2`
 function SearchList() {
 
   const num: number = 1234
-  const value: number = parseInt(`${num / 20}`)
+  const value: number = parseInt(`${num / 12}`)
   const [lastPage, setLastPage] = useState<number>(value)
   
   useEffect(() => {
@@ -49,7 +52,7 @@ function SearchList() {
 
   function getCounts() {
     const value: number[] = []
-    for (let i=0; i<20; i++) {
+    for (let i=0; i<12; i++) {
       value.push(i)
     }
     setCounts(value)
@@ -67,13 +70,14 @@ function SearchList() {
           <Pagination count={lastPage} defaultPage={1} 
             boundaryCount={1}
             size="large" sx={{margin: 2}} 
-            showLastButton showFirstButton/>
+            // showLastButton showFirstButton
+          />
       </TopBox>
 
       <Box sx={{ width: '100%' }}>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid container spacing={5} sx={{ display: 'flex', justifyContent: 'center' }}>
           { counts.map((val, i) => (
-            <Grid item xs={12} sm={4} md={3}>
+            <Grid item xs="auto" sm="auto" md="auto">
               <SearchItem />
             </Grid>
           ))}

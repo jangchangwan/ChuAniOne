@@ -77,8 +77,13 @@ public class MemberService {
         return tokenDto;
     }
 
-    public Boolean checkNickName(String nickname) {
+    public boolean checkNickName(String nickname) {
         Optional<Member> member = memberRepository.findByNickname(nickname);
+        return member.isPresent();
+    }
+
+    public boolean checkEmail(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
         return member.isPresent();
     }
 

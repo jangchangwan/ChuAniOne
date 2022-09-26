@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
+import initialState from '../../store/Loginslice'
 
 const Container = styled.div`
   width: 100%;
@@ -30,6 +32,7 @@ const ContentBox = styled.div`
 
 const Content = styled.p`
   max-width: 80%;
+  min-height: 1.2rem;
   margin-top: 0.5rem;
   text-align: center;
   background-color: white;
@@ -45,21 +48,21 @@ const Time = styled.p`
 `
 
 function ChatItem({ data }: any) {
-
+  const userId = useSelector((state: initialState) => (state.login.userId))
   return (
-    data.mine ?
+    data.memberId === userId ?
     <Container className="mine">
       <ContentBox className="mine">
-        <Content className="mine">{data.content}</Content>
-        <Time>{data.time}</Time>
+        <Content className="mine">{data.message}</Content>
+        <Time>{data.sendDate}</Time>
       </ContentBox>
     </Container>
     :
     <Container>
-      <Username>{data.user}</Username>
+      <Username>{data.memberNickname}</Username>
       <ContentBox>
-        <Content>{data.content}</Content>
-        <Time>{data.time}</Time>
+        <Content>{data.message}</Content>
+        <Time>{data.sendDate}</Time>
       </ContentBox>
     </Container>
   )}
