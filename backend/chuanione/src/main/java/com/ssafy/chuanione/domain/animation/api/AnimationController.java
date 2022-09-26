@@ -32,11 +32,17 @@ public class AnimationController {
     }
 
 
-//    @GetMapping("/detail.do/{id}")
-//    @ApiOperation(value = "애니메이션 상세조회 (id:애니메이션)")
-//    public ResponseEntity<Animation> getListAll(@PathVariable int id) {
-//
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }
+    @GetMapping("/detail.do/{id}")
+    @ApiOperation(value = "애니메이션 상세조회 (id:애니메이션)")
+    public ResponseEntity<Animation> getDetail(@PathVariable int id) {
+        return new ResponseEntity<>(animationService.getDetail(id), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/relation.do/{id}")
+    @ApiOperation(value = "비슷한 작품 조회 (id:애니메이션)")
+    public ResponseEntity<Animation> getAniRelation(@PathVariable int id) {
+        return new ResponseEntity<>(animationService.getDetail(id), HttpStatus.OK);
+    }
 
 }

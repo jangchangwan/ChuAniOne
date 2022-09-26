@@ -9,9 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,6 +30,22 @@ public class AnimationServiceImpl implements AnimationService {
         map.put("pageCnt",pageCount);
         map.put("rDto",anis);
         return map;
+    }
+
+    public Animation getDetail(int id){
+//        Optional<Animation> ani = animationRepository.getAnimationBy_id(id);
+        Animation temp = animationRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        return temp;
+    }
+
+    public List<Animation> getAniRelation(int id){
+        // 비슷한 작품 id 얻어오기
+        List<Integer> nums = animationRepositor;
+        List<Animation> list = new ArrayList<>();
+        for (int num : nums) {
+            list.add(animationRepository.findById(id).orElseThrow(IllegalArgumentException::new));
+        }
+       return list;
     }
 
 }

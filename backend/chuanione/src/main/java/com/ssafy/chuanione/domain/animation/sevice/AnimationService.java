@@ -7,4 +7,6 @@ import java.util.Map;
 
 public interface AnimationService {
     Map<String, Object> getListAll(int page);
+    Animation getDetail(int id);
+    List<Animation> getAniRelation(int id);
 }
