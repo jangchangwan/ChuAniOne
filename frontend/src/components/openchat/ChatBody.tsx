@@ -10,16 +10,12 @@ import IconPhoto from '@mui/icons-material/AddPhotoAlternate'
 // redux
 import { useSelector, useDispatch } from 'react-redux'
 import initialState from '../../store/Loginslice'
-import openChatReducerType from '../../store/openchatslice'
 import store from '../../store'
+import { getChatList } from '../../store/openchatslice'
 
 // chatting
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
-import { IPublishParams } from '@stomp/stompjs'
-import { SettingsInputComponent } from '@mui/icons-material'
-const StompJs = require('@stomp/stompjs')
-
 
 const Container = styled.div`
   width: 100%;  
@@ -100,7 +96,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     sendDate: string,
   }
 
-  // const dispatch = useDispatch<typeof store.dispatch>()
+  const dispatch = useDispatch<typeof store.dispatch>()
   const userId = useSelector((state: initialState) => state.login.userId)
 
   const [sendMessage, setSendMessage] = useState('')
@@ -111,24 +107,23 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   var stomp = Stomp.over(function() {
     return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
   })
-  stomp.reconnect_delay = 5000
-  var reconnect = 0
+  // stomp.reconnect_delay = 10000
 
   // 메시지 보내기
   function sendMsg() {
     if (sendMessage.trim() === '') return
-    console.log(sendMessage)
-
+    console.log('보낸다', sendMessage)
+    
     stomp.send('/pub/chat/message', 
-      { 'content-type': 'application/json' },
+      {},
       JSON.stringify({
         roomId: `${openedRoom.id}`,
         memberId: `${userId}`,
         message: `${sendMessage}`,
       }),
     )
-    setSendMessage('')
 
+    setSendMessage('')
   }
 
   // 메시지 수신
@@ -143,27 +138,31 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   // 연결 시, 콜백 함수
   const connect_callback = () => {
     console.log("STOMP Connection")
-      
+    
     stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message: any) {
-      console.log('subscribe', message)
-      let recv = JSON.parse(message.body)
-      console.log(recv)
-      recvMsg(recv)
-
+      // console.log('subscribe', message)
+      // let recv = JSON.parse(message.body)
+      // console.log('recv', recv)
+      // recvMsg(recv)
+      getChattings()
       message.ack()
     })
 
-    stomp.send('/pub/chat/enter', {}, JSON.stringify({
-      roomId: `${openedRoom.id}`,
-      memberId: `${userId}`,
-      message: '',
-    }),
+    // 입장용
+    stomp.send('/pub/chat/enter', {}, 
+      JSON.stringify({
+        roomId: `${openedRoom.id}`,
+        memberId: `${userId}`,
+        message: '',
+      }),
     )
 
   }
 
 
+
   const error_callback = (err: any) => {
+
     console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
   } 
 
@@ -172,18 +171,29 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     stomp.connect({}, connect_callback, error_callback)
   }
 
-  useEffect(() => {
-    if (opened) {
-      connect()
+  // 채팅 기록 불러오기
+  async function getChattings () {
+    const res: any = await dispatch(getChatList(openedRoom.id))
+    if (res.meta.requestStatus === "fulfilled") {
+      setMessages(res.payload)
     }
-  }, [opened])
+  }
 
-  // 채팅방 스크롤 맨아래로
+  useEffect(() => {
+    connect()
+  }, [sendMessage])
+
+  // 방 바뀔때마다 메시지 새로 불러오기
+  useEffect(() => {
+    connect()
+    getChattings()
+  }, [openedRoom])
+
   const scrollRef = useRef<any>()
 
   useEffect(() => {
     scrollRef.current.scrollIntoView({ behavior: 'smooth' })
-  })
+  }, [messages])
 
 
   return (

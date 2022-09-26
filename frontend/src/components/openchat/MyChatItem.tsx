@@ -4,10 +4,8 @@ import Button from '@mui/material/Button'
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist'
 
 // redux
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import initialState from '../../store/Loginslice'
-// import { setChattingOpen } from '../../store/openchatslice'
-import store from '../../store'
 
 const Container = styled.div`
   width: 100%;
@@ -19,6 +17,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: #333333;
 `
 
 const NameHashBox = styled.div`
@@ -30,8 +29,9 @@ const NameHashBox = styled.div`
   justify-content: space-evenly;
 `
 const NameBox = styled.div`
+  height: 70%;
   display: flex;
-  text-align: center;
+  align-items: center;
 `
 
 const MineIcon = styled(LocalFloristIcon)`
@@ -39,13 +39,24 @@ const MineIcon = styled(LocalFloristIcon)`
   color: #FFAFAF;
 `
 const Name = styled.p`
-  font-size: 1.3rem;
-  margin: 0;
+  font-size: 1.4rem;
   font-weight: bold;
+  margin: 0;
+`
+
+const CrownText = styled.p`
+  margin: 0;
+  background-color: #FFC0C2;
+  border-radius: 1rem;
+  margin-right: 0.5rem;
 `
 
 const HashTags = styled.div`
+  height: 60%;
   width: 100%;
+  display: flex;
+  text-align: center;
+  align-items: center;
 `
 
 const HashTag = styled.span`
@@ -99,7 +110,10 @@ function MyChatItem({ roomData, opened, openedRoom,  handleOpened, handleClosed 
       <NameHashBox>
         <NameBox>
           { userId === roomData.memberId ? 
-            <MineIcon /> : null
+              <CrownText>
+                방장
+              </CrownText>
+            : null
           }
           <Name>{roomData.name}</Name>
         </NameBox>
