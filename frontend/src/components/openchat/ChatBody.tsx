@@ -193,7 +193,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
   useEffect(() => {
     scrollRef.current.scrollIntoView({ behavior: 'smooth' })
-  }, [])
+  }, [messages])
 
 
   return (
