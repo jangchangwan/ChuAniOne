@@ -4,6 +4,11 @@ import { Grid, Box } from '@mui/material'
 import SearchItem from './SearchItem'
 import Pagination from '@mui/material/Pagination'
 
+// redux
+import { useDispatch } from 'react-redux'
+import { getAniAll } from '../../store/anislice'
+import store from '../../store'
+
 const Container = styled.div`
   width: calc(80% - 3rem);
   padding: 1rem 1.5rem;
@@ -34,28 +39,46 @@ const NumberTextIn = styled.h2`
 `
 
 
-function SearchList() {
+function SearchList({ keyword }) {
 
-  const num: number = 1234
-  const value: number = parseInt(`${num / 12}`)
-  const [lastPage, setLastPage] = useState<number>(value)
+  const dispatch = useDispatch<typeof store.dispatch>()
+
+  const [data, setData] = useState<any>([])
+  const [page, setPage] = useState<number>(1)
+  const [total, setTotal] = useState<number>(0)
+  const [lastPage, setLastPage] = useState<number>(1)
   
   useEffect(() => {
-    if (num % 40) setLastPage(value+1)
+    loadData(1)
   }, [])
 
-  const [counts, setCounts] = useState<number[]>([])
 
-  useEffect(() => {
-    getCounts()
-  })
+  // 데이터 불러오기
+  async function loadData(page: number) {
+    const res = await dispatch(getAniAll(page))
 
-  function getCounts() {
-    const value: number[] = []
-    for (let i=0; i<12; i++) {
-      value.push(i)
+    if (res.meta.requestStatus === "fulfilled") {
+      setLastPage(res.payload.pageCnt)
+      setData(res.payload.rDto)
+      setTotal(res.payload.totalCnt)
+    } 
+  } 
+  
+
+  // 페이지네이션 동작
+  function handlePage(event: any) {
+    if (event.target.dataset.testid) {
+      if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
+        const nowPageInt = page - 1
+        setPage(nowPageInt)
+      } else if (event.target.dataset.testid === "NavigateNextIcon" && page < lastPage) {
+        const nowPageInt = page + 1
+        setPage(nowPageInt)
+      }
+    } else {
+      const nowPageInt = parseInt(event.target.outerText)
+      setPage(nowPageInt)
     }
-    setCounts(value)
   }
 
   return (
@@ -63,22 +86,23 @@ function SearchList() {
       <TopBox>
         <NumberBox>
           <NumberTextOut>총 </NumberTextOut> 
-          <NumberTextIn> "{num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}"</NumberTextIn>
+          <NumberTextIn> "{total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}"</NumberTextIn>
           <NumberTextOut>개의 작품</NumberTextOut>
         </NumberBox>
 
           <Pagination count={lastPage} defaultPage={1} 
             boundaryCount={1}
             size="large" sx={{margin: 2}} 
+            onChange={(e) => handlePage(e)}
             // showLastButton showFirstButton
           />
       </TopBox>
 
       <Box sx={{ width: '100%' }}>
-        <Grid container spacing={5} sx={{ display: 'flex', justifyContent: 'center' }}>
-          { counts.map((val, i) => (
-            <Grid item xs="auto" sm="auto" md="auto">
-              <SearchItem />
+        <Grid container columnSpacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+          { data.map((ani, i) => (
+            <Grid item xs={12} sm={6} md={3}>
+              <SearchItem ani={ani}/>
             </Grid>
           ))}
         </Grid>
