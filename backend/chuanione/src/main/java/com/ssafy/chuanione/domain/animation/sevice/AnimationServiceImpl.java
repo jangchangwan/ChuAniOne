@@ -43,13 +43,16 @@ public class AnimationServiceImpl implements AnimationService {
         return ani;
     }
 
-    public List<Animation> getAniRelation(int id){
+    public List<AnimationResponseDto> getAniRelation(int id){
         // 비슷한 작품 id 얻어오기
-//        List<Integer> nums = animationRepositor;
-        List<Animation> list = new ArrayList<>();
-//        for (int num : nums) {
-//            list.add(animationRepository.findById(id).orElseThrow(IllegalArgumentException::new));
-//        }
+        Animation animation = animationRepository.getRelationBy_id(id);
+        List<Integer> nums = animation.getRelated();
+        List<AnimationResponseDto> list = new ArrayList<>();
+        for (int num  : nums) {
+//            int num = animation.getAni_id();
+            Animation ani = animationRepository.getAnimationBy_id(num);
+            list.add(AnimationResponseDto.from(ani));
+        }
        return list;
     }
 

@@ -37,6 +37,7 @@ public class Animation {
     private String production;
     private String series_id;
     private List<String> tags;
+    private List<Integer> related; //연관애니메이션 id
 
 }
 
