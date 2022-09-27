@@ -97,6 +97,25 @@ export const myinfo = createAsyncThunk(
     
   }
 )
+
+// 비밀번호 찾기
+export const findPWD = createAsyncThunk(
+  'FINDPWD',
+  async (userDto:any, {rejectWithValue}) => {
+    try{
+      const res = await http.patch('member/findPw.do', userDto)
+      if (res.status === 200) {
+        console.log('성공', res)
+      } else {
+        console.log('실패', res);
+      }
+      return res
+    } catch(err:any){
+      return rejectWithValue(err.response)
+    }
+  }
+)
+
 export interface loginReducerType {
   userId: number,
   isLogin: boolean,
