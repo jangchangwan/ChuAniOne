@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Builder
@@ -16,7 +17,7 @@ public class AnimationResponseDto {
     
     // 아이디, 이미지, 이름, 19금여부
     private int ani_id;
-    private List<String> images;
+    private Map<Integer,Map<String,String>> images;
     private String img;
     private boolean is_adult;
     private String name;

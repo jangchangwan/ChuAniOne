@@ -1,5 +1,6 @@
 package com.ssafy.chuanione.domain.animation.domain;
 
+import io.swagger.models.auth.In;
 import lombok.*;
 import org.bson.json.JsonObject;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -24,20 +25,20 @@ public class Animation {
     @Field("id")
     private int ani_id;
     private String air_year_quarter;
-    private List<String> author;
+    private Map<Integer,String> author;
     private Double avg_rating; // float?
     private String content;
     private String content_rating;
-    private List<String> genres;
+    private Map<Integer,String> genres;
     private Map<String,String> highlight_video;
-    private List<String> images;
+    private Map<Integer,Map<String,String>> images;
     private String img;
     private boolean is_adult;
     private boolean is_ending;
     private String name;
     private String production;
-    private String series_id;
-    private List<String> tags;
+    private Integer series_id;
+    private Map<Integer,String> tags;
     private List<Integer> related; //연관애니메이션 id
 
 }
