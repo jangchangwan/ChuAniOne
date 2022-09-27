@@ -99,7 +99,7 @@ public class ChatServiceImpl implements ChatService {
 //        Member member = memberRepository.findById(roomRequestDto.getWriter()).orElseThrow(UserNotFoundException::new);
         Member member = memberRepository.getReferenceById(roomRequestDto.getMemberId());
         Room room = roomRequestDto.toEntity(roomRequestDto, member);
-        roomRepository.save(room);
+        Room result = roomRepository.save(room);
 //        joinUserRepository.insertJoin(room.getId(),member.getId());
         JoinUser joinuser = JoinUser.builder()
                 .roomId(room)
@@ -107,7 +107,7 @@ public class ChatServiceImpl implements ChatService {
                 .build();
         joinUserRepository.save(joinuser);
         int count = room.getCount();
-        return RoomResponseDto.from(room, count, member);
+        return RoomResponseDto.from(result, count, member);
     }
 
     // 채팅방 수정
