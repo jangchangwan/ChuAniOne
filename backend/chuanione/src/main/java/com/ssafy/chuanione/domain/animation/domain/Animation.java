@@ -31,6 +31,7 @@ public class Animation {
     private List<String> genres;
     private Map<String,String> highlight_video;
     private List<String> images;
+    private String img;
     private boolean is_adult;
     private boolean is_ending;
     private String name;

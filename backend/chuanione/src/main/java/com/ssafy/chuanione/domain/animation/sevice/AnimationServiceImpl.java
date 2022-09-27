@@ -5,6 +5,7 @@ import com.ssafy.chuanione.domain.animation.dao.AnimationTypeRepository;
 import com.ssafy.chuanione.domain.animation.domain.Animation;
 import com.ssafy.chuanione.domain.animation.domain.AnimationType;
 import com.ssafy.chuanione.domain.animation.dto.AnimationResponseDto;
+import com.ssafy.chuanione.domain.animation.dto.AnimationSearchRequestDto;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.Member;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
@@ -66,6 +67,27 @@ public class AnimationServiceImpl implements AnimationService {
             list.add(AnimationResponseDto.from(ani));
         }
        return list;
+    }
+
+    @Override
+    public Map<String, Object> getSearchList(int page, AnimationSearchRequestDto dto) {
+        List<String> genres = dto.getGenres();
+        String keyword = dto.getKeyword();
+        List<String> tags = dto.getTags();
+//        Page<Animation> roomPage = animationRepository.findSearch(PageRequest.of(page,12), genres.get(0), genres.get(1), genres.get(2), tags.get(0), tags.get(1), tags.get(2), keyword);
+        Page<Animation> roomPage = animationRepository.findSearch(genres,tags,keyword,PageRequest.of(page,12));
+        long totalCount = roomPage.getTotalElements();
+        long pageCount = roomPage.getTotalPages();;
+        List<Animation> anis = roomPage.getContent();
+        List<AnimationResponseDto> dtoList = new ArrayList<>();
+        for (Animation ani : anis){
+            dtoList.add(AnimationResponseDto.from(ani));
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCnt",totalCount);
+        map.put("pageCnt",pageCount);
+        map.put("rDto",dtoList);
+        return map;
     }
 
     @Override

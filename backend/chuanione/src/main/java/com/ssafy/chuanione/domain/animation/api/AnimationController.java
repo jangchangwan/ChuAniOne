@@ -2,6 +2,7 @@ package com.ssafy.chuanione.domain.animation.api;
 
 import com.ssafy.chuanione.domain.animation.domain.Animation;
 import com.ssafy.chuanione.domain.animation.dto.AnimationResponseDto;
+import com.ssafy.chuanione.domain.animation.dto.AnimationSearchRequestDto;
 import com.ssafy.chuanione.domain.animation.sevice.AnimationService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -41,11 +42,11 @@ public class AnimationController {
         return new ResponseEntity<>(animationService.getAniRelation(id), HttpStatus.OK);
     }
 
-    @GetMapping("/search.do/{page}")
+    @PostMapping("/search.do/{page}")
     @ApiOperation(value = "애니메이션 카테고리 & 검색 조회 / 미완성!!")
-    public ResponseEntity<Map<String,Object>> getSearchList(@PathVariable int page) {
+    public ResponseEntity<Map<String,Object>> getSearchList(@PathVariable int page, @RequestBody AnimationSearchRequestDto dto) {
 //        System.out.println("test");
-        Map<String, Object> list= animationService.getListAll(page-1);
+        Map<String, Object> list= animationService.getSearchList(page-1,dto);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
