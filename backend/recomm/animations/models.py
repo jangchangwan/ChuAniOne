@@ -1,7 +1,7 @@
 from djongo import models
 
 
-# 애니메이션 번호
+# 애니 정보
 class Animation(models.Model):
     # 애니 번호
     id = models.IntegerField(primary_key=True, blank=False, unique=True)
