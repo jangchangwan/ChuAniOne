@@ -96,7 +96,6 @@ export const myinfo = createAsyncThunk(
   }
 )
 
-<<<<<<< HEAD
 // 회원 정보 변경
 export const changeUserInfo = createAsyncThunk(
   'CHANGEUSERINFO',
@@ -121,9 +120,8 @@ export const changeUserInfo = createAsyncThunk(
       return rejectWithValue(err.response)
     }
   }
-
 )
-=======
+
 // 비밀번호 찾기
 export const findPWD = createAsyncThunk(
   'FINDPWD',
@@ -142,7 +140,7 @@ export const findPWD = createAsyncThunk(
   }
 )
 
->>>>>>> be6b3c61f2c27f3824857f38d21855ae47ae0bec
+
 export interface loginReducerType {
   userId: number,
   isLogin: boolean,

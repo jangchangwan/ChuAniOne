@@ -19,7 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // 프로필 사진, 닉네임, 경험치 관련
 const ProfileContainer = styled.div`
   display: flex;
@@ -260,7 +260,20 @@ function MyLeft() {
     <div>
       {/* 프로필사진, 경험치, 닉네임, 소개, 벳지 가져오기 */}
       <ProfileContainer>
-        <ProfileImg src={profileImg} alt="프로필사진"></ProfileImg>
+        {
+          profileImg ?
+          <ProfileImg src={profileImg} alt="프로필사진"></ProfileImg>
+          :
+          <AccountCircleIcon 
+            sx={{
+            fontSize: '4rem',
+            margin: `0 1rem 0 0`,
+            width: `4rem`,
+            display: `flex`,
+            justifyContent: `center`, 
+            alignItems: `center`}}/>
+        }
+        
         <ProfileContainerBox>
           <ProfileContainerLv>
             <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
@@ -282,7 +295,19 @@ function MyLeft() {
                 </DialogContentText>
                 <hr />
                 <div style={{ justifyContent: 'center'}}>
-                  <img src="https://newsimg.sedaily.com/2022/07/10/268GU9UQSV_3.jpeg" alt="프로필사진" style={{ height: '10rem', width:'auto'}}/>
+                  {
+                    profileImg ?
+                    <img src={profileImg} alt="프로필사진" style={{ height: '10rem', width:'auto'}}/>
+                    :
+                    <AccountCircleIcon 
+                      sx={{
+                      fontSize: '10rem',
+                      marginLeft: '4.5rem',
+                      display: `flex`,
+                      justifyContent: `center`, 
+                      alignItems: `center`}}/>
+                  }
+                  
                 </div>
                 <Button>이미지 선택</Button>
                 <Grid container spacing={1}>
@@ -340,6 +365,7 @@ function MyLeft() {
                   id="password"
                   label="비밀번호을 입력해주세요"
                   type="password"
+                  onBlur={validatePwd}
                   fullWidth
                   variant="standard"
                   onChange={(e) => {
@@ -347,6 +373,10 @@ function MyLeft() {
                   }}
                   value={password}
                 />
+                {defaultPwd && !pwdValid ? (
+                <ErrorText>유효하지 않은 비밀번호입니다</ErrorText>) : null}
+                {defaultPwd && pwdValid ? (
+                <SuccessText>사용가능한 비밀번호입니다</SuccessText>) : null}
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>취소</Button>

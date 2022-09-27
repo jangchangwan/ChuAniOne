@@ -150,7 +150,7 @@ function Signup() {
       gender: data.get('gender'),
       nickname: data.get('userNickname'),
       password: data.get('userPassword'),
-      introduction: "오소이!",
+      introduction: "안녕하세요!" + data.get('userNickname') + "입니다.",
       
     }
     console.log(signupDto);

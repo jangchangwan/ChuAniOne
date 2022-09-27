@@ -10,12 +10,12 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // redux
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
-import { logout, logoutUser, resetUser } from '../store/Loginslice'
+import { logout, logoutUser, resetUser, myinfo } from '../store/Loginslice'
 import initialState from '../store/Loginslice'
 import store from '../store'
 
@@ -70,6 +70,7 @@ function Nav() {
   const dispatch = useDispatch<typeof store.dispatch>()
   // 로그인 유무
   const logincheck = useSelector((state: initialState) => state.login.isLogin)
+  const [profileImg, setProfileImg] = useState('')
   // 네비게이션바 위치
   const [show, setShow] = useState(false)
   // 네비게이션바 유무
@@ -82,17 +83,33 @@ function Nav() {
   const handleCloseUserMenu = () => {
     setUser(null);
   };
+  // // 회원정보 받아오기
+  // useEffect(() => {
+  //   dispatch(myinfo())
+  //     .then((response:any) => {
+  //       const data = response.payload.data
 
+  //     }).catch((e) => {
+  //       console.log(e);
+        
+  //     })
+  // },[])
+  // 로그아웃
   const gologout = () => {
+    
     dispatch(logout())
-      .then(() => navigate('/login'))
-    dispatch(logoutUser())
-    dispatch(resetUser())
+      .then(() => {
+        dispatch(logoutUser())
+        dispatch(resetUser())
+        navigate('/login')
+      }  
+    )
   }
+  // 마이페이지 이동
   const goMypage = () => {
     navigate('/mypage')
-
   }
+  // 메인으로 이동
   const goMain = () => {
     navigate('/')
   }
@@ -110,7 +127,7 @@ function Nav() {
     }
   }, []);
 
-
+  // 네브바 감지
   useEffect(() => {
     if (window.location.pathname === '/intro') {
       setShowNav(false)
@@ -130,7 +147,7 @@ function Nav() {
 
     
   }, [window.location.pathname]);
-
+  // 너비시 변환
   useEffect(() => {
     window.addEventListener("resize", function () {
       const body = document.querySelector('body')
@@ -207,7 +224,15 @@ function Nav() {
                     <Box sx={{ flexGrow: 0, textAlign: 'center' }}>
                       <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, paddingBottom: '0.5rem' }}>
-                          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                          {
+                          profileImg ?
+                          <img src={profileImg} alt="프로필사진" style={{ width:'1rem', height: '1rem'}}/>
+                          :
+                          <AccountCircleIcon 
+                            sx={{ 
+                              fontSize: '3rem',
+                          }}/>
+                          }
                         </IconButton>
                       </Tooltip>
                       <Menu
