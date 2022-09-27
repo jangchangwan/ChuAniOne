@@ -7,6 +7,8 @@ import { createChat } from '../../store/openchatslice'
 import Alert from '@mui/material/Alert'
 import store from '../../store'
 import { useFetcher } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import initialState from '../../store/Loginslice'
 
 const Container = styled.div`
   width: calc(80% - 2rem);
@@ -137,6 +139,7 @@ function MakeChat() {
   }
 
   const dispatch = useDispatch<typeof store.dispatch>()
+  const userId = useSelector((state: initialState) => (state.login.userId))
 
   // 방 정보
   const [room, setRoom] = useState<Room>({
@@ -208,19 +211,21 @@ function MakeChat() {
       const data: any = {
         max: room.max,
         name: room.name,
-        memberId: 1,
+        memberId: userId,
       }
       await room.hashtags.map((hash, idx) => (
         data[`tag${idx+1}`] = hash
       ))
 
-      if (room.hashtags.length < 3) {
-        let i = room.hashtags.length
+      // if (room.hashtags.length < 3) {
+      //   let i = room.hashtags.length
         
-        for (i ; i < 3; i ++) {
-          data[`tag${i+1}`] = ''
-        }
-      }
+      //   for (i ; i < 3; i ++) {
+      //     data[`tag${i+1}`] = ''
+      //   }
+      // }
+      
+      console.log(data)
 
       const res = await dispatch(createChat(data))
       
