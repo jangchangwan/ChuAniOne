@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '@mui/material/Button'
+import LocalFloristIcon from '@mui/icons-material/LocalFlorist'
+
+// redux
+import { useSelector, useDispatch } from 'react-redux'
+import initialState from '../../store/Loginslice'
+// import { setChattingOpen } from '../../store/openchatslice'
+import store from '../../store'
 
 const Container = styled.div`
   width: 100%;
@@ -22,7 +29,15 @@ const NameHashBox = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
 `
+const NameBox = styled.div`
+  display: flex;
+  text-align: center;
+`
 
+const MineIcon = styled(LocalFloristIcon)`
+  height: 100%;
+  color: #FFAFAF;
+`
 const Name = styled.p`
   font-size: 1.3rem;
   margin: 0;
@@ -71,23 +86,35 @@ const EnterRoom = styled(Button)`
   background-color: #f37b83 !important;
 `
 
-function MyChatItem({ chatData }: any): any {
+function MyChatItem({ roomData, opened, openedRoom,  handleOpened, handleClosed }: any): any {
+
+  const userId = useSelector((state: initialState) => state.login.userId)
+
+  const openChat = () => {
+    handleOpened(roomData)
+  }
+
   return (
     <Container>
       <NameHashBox>
-        <Name>{chatData.room_name}</Name>
+        <NameBox>
+          { userId === roomData.memberId ? 
+            <MineIcon /> : null
+          }
+          <Name>{roomData.name}</Name>
+        </NameBox>
         <HashTags>
-          { chatData.hashTags.map((hash: string, idx: number) => (
-            <HashTag>#{hash}</HashTag>
-          ))}
+          { roomData.tag1 ? <HashTag># {roomData.tag1}</HashTag> : null }
+          { roomData.tag2 ? <HashTag># {roomData.tag2}</HashTag> : null }
+          { roomData.tag3 ? <HashTag># {roomData.tag3}</HashTag> : null }
         </HashTags>
       </NameHashBox>
       <RoomBox>
         <MemberCountBox>
-          <MemberCount>{chatData.now_num} / {chatData.max_num}</MemberCount>
+          <MemberCount>{roomData.count} / {roomData.max}</MemberCount>
         </MemberCountBox>
         <EnterRoomBox>
-          <EnterRoom variant="contained" color="secondary">입장하기</EnterRoom>
+          <EnterRoom variant="contained" color="secondary" onClick={openChat}>채팅열기</EnterRoom>
         </EnterRoomBox>
       </RoomBox>
     </Container>

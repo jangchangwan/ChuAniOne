@@ -2,47 +2,52 @@ import http from '../api/axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 
-export const getList = () => {
-  http.get('voca')
-    .then((response) =>{
-      if (response.status === 200) return response.data
-      else {
-        console.log(response);
-        alert('단어 리스트 조회 실패')
-      }
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-};
-
-export const insertMyVoca = ( id:Number ) => {
-  http.post(`voca/${id}`)
-  .then((response) =>{
-    if (response.status === 201) return response.data
-    else {
-      console.log(response);
-      alert('단어 추가 실패')
+export const getVocaList = createAsyncThunk(
+  'GETVOCALIST',
+  async (page:number, {rejectWithValue}) => {
+    try {
+      const accessToken =localStorage.getItem("access-Token");
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      const res = await http.get('voca', {params : {page: page}})
+      return res
+    } catch(error:any) {
+      return rejectWithValue(error.response)
     }
-  })
-  .catch((error) => {
-    console.log(error)
-  })
-}
+  }
+)
 
-export const deleteMyVoca = ( id:Number ) => {
-  http.delete(`voca/${id}`)
-  .then((response) =>{
-    if (response.status === 200) return response.data
-    else {
-      console.log(response);
-      alert('단어 삭제 실패')
+export const insertMyVoca = createAsyncThunk(
+  'INSERTMYVOCA',
+  async (id:number, {rejectWithValue}) => {
+    try {
+      const accessToken =localStorage.getItem("access-Token");
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      const res = await http.post(`voca/check/${id}`)
+      console.log(res);
+      
+      return res
+    } catch (err:any) {
+      return rejectWithValue(err.response)
     }
-  })
-  .catch((error) => {
-    console.log(error)
-  })
-}
+  }
+)
+
+export const deleteMyVoca = createAsyncThunk(
+  'DELETEMYVOCA',
+  async (id:number, {rejectWithValue}) => {
+    try {
+      const accessToken =localStorage.getItem("access-Token");
+      console.log(id);
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      const res = await http.delete(`voca/delete/${id}`)
+      console.log(res);
+      return res
+    } catch (err:any) {
+      return rejectWithValue(err.response)
+    }
+  }
+)
+
 
 export interface openChatReducerType {
   words: [],

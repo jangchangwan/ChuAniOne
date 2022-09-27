@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import ChatLeft from './ChatLeft'
 import ChatRight from './ChatRight'
@@ -13,13 +13,37 @@ const Container = styled.div`
   align-items: center;
 `
 
-function OpenChat() {
+
+function OpenChat() { 
+  const [opened, setOpened] = useState<boolean>(false)
+  const [openedRoom, setOpenedRoom] = useState<any>()
+
+  const handleOpened = ( room: any ) => {
+    setOpened(true)
+    setOpenedRoom(room)
+  }
+
+  const handleClosed = ( ) => {
+    setOpened(false)
+    setOpenedRoom(null)
+  }
+
   return (
     <Container>
-      <ChatLeft />
-      <ChatRight />
+      <ChatLeft 
+        opened={opened} 
+        openedRoom={openedRoom}
+        handleOpened={handleOpened}
+        handleClosed={handleClosed}
+      />
+      <ChatRight 
+        opened={opened} 
+        openedRoom={openedRoom} 
+        handleOpened={handleOpened} 
+        handleClosed={handleClosed}
+      />
     </Container>
   )
 }
 
-export default OpenChat;
+export default OpenChat

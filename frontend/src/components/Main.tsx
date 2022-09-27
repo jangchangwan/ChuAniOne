@@ -131,7 +131,7 @@ function Main() {
   const handleOpenDetail = () => setOpenDetail(true)
   const handleCloseDetail = () => setOpenDetail(false)
 
-  useEffect(()=> {
+  useEffect(() => {
     getAni()
   }, [])
 
@@ -185,396 +185,396 @@ function Main() {
 
   return (
     <Container>
-    <motion.div
-      initial = {{ opacity: 1}}
-      animate = {{ opacity: 0}}
-      
-      transition = {{ duration: '5'}}
-    >
-      <div className="animation01">
+      <motion.div
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+
+        transition={{ duration: '5' }}
+      >
+        <div className="animation01">
           <div></div>
           <div></div>
           <div></div>
           <div></div>
           <div></div>
-      </div>
-      <div className="animation02">
+        </div>
+        <div className="animation02">
           <div></div>
           <div></div>
-      </div>
-      <div className="animation03">
+        </div>
+        <div className="animation03">
           <div className="circle">
-              <div className="circle_element01"></div>
+            <div className="circle_element01"></div>
           </div>
           <div className="circle">
-              <div className="circle_element02"></div>
+            <div className="circle_element02"></div>
           </div>
           <div className="circle">
-              <div className="circle_element03"></div>
+            <div className="circle_element03"></div>
           </div>
           <div className="animation04">
-              <div className="line_wrapper line_wrapper01">
-                  <span className="line line01"></span>
+            <div className="line_wrapper line_wrapper01">
+              <span className="line line01"></span>
+            </div>
+            <div className="rotate45">
+              <div className="line_wrapper line_wrapper02">
+                <span className="line line02"></span>
               </div>
-              <div className="rotate45">
-                  <div className="line_wrapper line_wrapper02">
-                      <span className="line line02"></span>
-                  </div>
+            </div>
+            <div className="line_wrapper line_wrapper03">
+              <span className="line line03"></span>
+            </div>
+            <div className="rotate135">
+              <div className="line_wrapper line_wrapper04">
+                <span className="line line04"></span>
               </div>
-              <div className="line_wrapper line_wrapper03">
-                  <span className="line line03"></span>
+            </div>
+            <div className="line_wrapper line_wrapper05">
+              <span className="line line05"></span>
+            </div>
+            <div className="rotate-135">
+              <div className="line_wrapper line_wrapper06">
+                <span className="line line06"></span>
               </div>
-              <div className="rotate135">
-                  <div className="line_wrapper line_wrapper04">
-                      <span className="line line04"></span>
-                  </div>
+            </div>
+            <div className="line_wrapper line_wrapper07">
+              <span className="line line07"></span>
+            </div>
+            <div className="rotate-45">
+              <div className="line_wrapper line_wrapper08">
+                <span className="line line08"></span>
               </div>
-              <div className="line_wrapper line_wrapper05">
-                  <span className="line line05"></span>
-              </div>
-              <div className="rotate-135">
-                  <div className="line_wrapper line_wrapper06">
-                      <span className="line line06"></span>
-                  </div>
-              </div>
-              <div className="line_wrapper line_wrapper07">
-                  <span className="line line07"></span>
-              </div>
-              <div className="rotate-45">
-                  <div className="line_wrapper line_wrapper08">
-                      <span className="line line08"></span>
-                  </div>
-              </div>
+            </div>
           </div>
           <div className="animation05">
-              <div className="double_wrapper02 green02">
-                  <div className="double_wrapper01 green01">
-                      <div className="double_block green00"></div>
-                  </div>
+            <div className="double_wrapper02 green02">
+              <div className="double_wrapper01 green01">
+                <div className="double_block green00"></div>
               </div>
-              <div className="double_wrapper02 navy02">
-                  <div className="double_wrapper01 navy01">
-                      <div className="double_block navy00"></div>
-                  </div>
+            </div>
+            <div className="double_wrapper02 navy02">
+              <div className="double_wrapper01 navy01">
+                <div className="double_block navy00"></div>
               </div>
-              <div className="double_wrapper02 yellow02">
-                  <div className="double_wrapper01 yellow01">
-                      <div className="double_block yellow00"></div>
-                  </div>
+            </div>
+            <div className="double_wrapper02 yellow02">
+              <div className="double_wrapper01 yellow01">
+                <div className="double_block yellow00"></div>
               </div>
-              <div className="double_wrapper02 blue02">
-                  <div className="double_wrapper01 blue01">
-                      <div className="double_block blue00"></div>
-                  </div>
+            </div>
+            <div className="double_wrapper02 blue02">
+              <div className="double_wrapper01 blue01">
+                <div className="double_block blue00"></div>
               </div>
-              <div className="double_wrapper02 red02">
-                  <div className="double_wrapper01 red01">
-                      <div className="double_block red00"></div>
-                  </div>
+            </div>
+            <div className="double_wrapper02 red02">
+              <div className="double_wrapper01 red01">
+                <div className="double_block red00"></div>
               </div>
+            </div>
           </div>
-      </div>
-      <div className="animation06">
+        </div>
+        <div className="animation06">
           <div className="rhombus05">
-              <div className="rhombus04">
-                  <div className="rhombus03">
-                      <div className="rhombus02">
-                          <div className="rhombus01"></div>
-                      </div>
-                  </div>
+            <div className="rhombus04">
+              <div className="rhombus03">
+                <div className="rhombus02">
+                  <div className="rhombus01"></div>
+                </div>
               </div>
+            </div>
           </div>
-      </div>
-      <div className="animation07">
+        </div>
+        <div className="animation07">
           <div className="circle">
-              <div className="circle_element01"></div>
+            <div className="circle_element01"></div>
           </div>
           <div className="line_wrapper line_wrapper01">
-              <span className="line line01"></span>
+            <span className="line line01"></span>
           </div>
           <div className="rotate60">
-              <div className="line_wrapper line_wrapper02">
-                  <span className="line line02"></span>
-              </div>
+            <div className="line_wrapper line_wrapper02">
+              <span className="line line02"></span>
+            </div>
           </div>
           <div className="rotate120">
-              <div className="line_wrapper line_wrapper03">
-                  <span className="line line03"></span>
-              </div>
+            <div className="line_wrapper line_wrapper03">
+              <span className="line line03"></span>
+            </div>
           </div>
           <div className="line_wrapper line_wrapper04">
-              <span className="line line04"></span>
+            <span className="line line04"></span>
           </div>
           <div className="rotate-120">
-              <div className="line_wrapper line_wrapper05">
-                  <span className="line line05"></span>
-              </div>
+            <div className="line_wrapper line_wrapper05">
+              <span className="line line05"></span>
+            </div>
           </div>
           <div className="rotate-60">
-              <div className="line_wrapper line_wrapper06">
-                  <span className="line line06"></span>
-              </div>
+            <div className="line_wrapper line_wrapper06">
+              <span className="line line06"></span>
+            </div>
           </div>
-      </div>
-      {/* <div className='animation08'>
+        </div>
+        {/* <div className='animation08'>
           <div></div>
           <div></div>
           <div></div>
           <div></div>
           <div></div>
       </div> */}
-    </motion.div>
-    <motion.div 
-      initial = {{ opacity: 0}}
-      animate = {{ opacity: 1}}
-      
-      transition = {{ duration: '7'}}
-    >
-      <Carousel
-        navButtonsAlwaysVisible={true}
-        NextIcon={<ArrowForwardIosIcon/>}
-        PrevIcon={<ArrowBackIosNewIcon/>}
-        fullHeightHover={false}
-        navButtonsProps={{          // Change the colors and radius of the actual buttons. THIS STYLES BOTH BUTTONS
-          style: {
-            background: 'none',
-          }
-        }}
-        animation={"slide"}
-        interval={6000}
-        duration={1000}
-        // swipe={true}
-        IndicatorIcon={<HorizontalRuleIcon fontSize='large'/>}
-        indicatorIconButtonProps={{
-          style: {
-            color: '#e9b7ba'       // 3
-          }
-        }}
-        activeIndicatorIconButtonProps={{
-          style: {
-            color: "#f37b83"
-          }
-        }}
-        indicatorContainerProps={{
-          style: {
-            // marginTop: '50px', // 5
-            textAlign: 'center' // 4
-          }
-        }}
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+
+        transition={{ duration: '7' }}
       >
-        { carouselImg.map((item: string, idx: number) => (
-          <CarouselPaper elevation={0}>
-            <CarouselImg src={item}/>
-            <CarouselImgIn src={carouselImgIn[idx]} className="inImage"/>
-          </CarouselPaper>
-        ))}
-      </Carousel>
-      
-      { recommend ? 
-        <Modal
-          open={openDetail}
-          onClose={handleCloseDetail}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
+        <Carousel
+          navButtonsAlwaysVisible={true}
+          NextIcon={<ArrowForwardIosIcon />}
+          PrevIcon={<ArrowBackIosNewIcon />}
+          fullHeightHover={false}
+          navButtonsProps={{          // Change the colors and radius of the actual buttons. THIS STYLES BOTH BUTTONS
+            style: {
+              background: 'none',
+            }
+          }}
+          animation={"slide"}
+          interval={6000}
+          duration={1000}
+          // swipe={true}
+          IndicatorIcon={<HorizontalRuleIcon fontSize='large' />}
+          indicatorIconButtonProps={{
+            style: {
+              color: '#e9b7ba'       // 3
+            }
+          }}
+          activeIndicatorIconButtonProps={{
+            style: {
+              color: "#f37b83"
+            }
+          }}
+          indicatorContainerProps={{
+            style: {
+              // marginTop: '50px', // 5
+              textAlign: 'center' // 4
+            }
+          }}
         >
-          <Box sx={styleBoxDetail}>
-            <AniDetail recommend={recommend}/>
-          </Box>
-        </Modal> : null
-      }
+          {carouselImg.map((item: string, idx: number) => (
+            <CarouselPaper elevation={0}>
+              <CarouselImg src={item} />
+              <CarouselImgIn src={carouselImgIn[idx]} className="inImage" />
+            </CarouselPaper>
+          ))}
+        </Carousel>
 
-      <RecommendContainer>
-        <RecommendTitle>당신을 위한 추천 !</RecommendTitle>
-        <CarouselContainer indicators={false}>
-          <CarouselPaper elevation={0}>
-            <RecommendBox onClick={handleOpenDetail}>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
+        {recommend ?
+          <Modal
+            open={openDetail}
+            onClose={handleCloseDetail}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={styleBoxDetail}>
+              <AniDetail recommend={recommend} />
+            </Box>
+          </Modal> : null
+        }
 
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-          </CarouselPaper>
+        <RecommendContainer>
+          <RecommendTitle>당신을 위한 추천 !</RecommendTitle>
+          <CarouselContainer indicators={false}>
+            <CarouselPaper elevation={0}>
+              <RecommendBox onClick={handleOpenDetail}>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
 
-          <CarouselPaper elevation={0}>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-          </CarouselPaper>
-        </CarouselContainer>
-      </RecommendContainer>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+            </CarouselPaper>
 
-      <RecommendContainer>
-        <RecommendTitle>이번 추천은 ?!</RecommendTitle>
-        <CarouselContainer indicators={false}>
-          <CarouselPaper elevation={0}>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-          </CarouselPaper>
+            <CarouselPaper elevation={0}>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+            </CarouselPaper>
+          </CarouselContainer>
+        </RecommendContainer>
 
-          <CarouselPaper elevation={0}>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-            <RecommendBox>
-              <RecommendImgBox>
-                <RecommendImg src={recommend.img}/>
-              </RecommendImgBox>
-              <RecommendName>{recommend.name}</RecommendName>
-            </RecommendBox>
-          </CarouselPaper>
-        </CarouselContainer>
-      </RecommendContainer>
-    </motion.div>
-      
+        <RecommendContainer>
+          <RecommendTitle>이번 추천은 ?!</RecommendTitle>
+          <CarouselContainer indicators={false}>
+            <CarouselPaper elevation={0}>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+            </CarouselPaper>
+
+            <CarouselPaper elevation={0}>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+              <RecommendBox>
+                <RecommendImgBox>
+                  <RecommendImg src={recommend.img} />
+                </RecommendImgBox>
+                <RecommendName>{recommend.name}</RecommendName>
+              </RecommendBox>
+            </CarouselPaper>
+          </CarouselContainer>
+        </RecommendContainer>
+      </motion.div>
+
     </Container>
   )
 }
