@@ -107,12 +107,13 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
   var stomp = Stomp.over(function() {
     return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
   })
-  // stomp.reconnect_delay = 10000
+  // stomp.reconnect_delay = 1000
 
   // 메시지 보내기
   function sendMsg() {
     if (sendMessage.trim() === '') return
     console.log('보낸다', sendMessage)
+    connect()
     
     stomp.send('/pub/chat/message', 
       {},
@@ -126,27 +127,9 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     setSendMessage('')
   }
 
-  // 메시지 수신
-  function recvMsg(recv: Msg) {
-    const val = [
-      ...messages,
-      recv
-    ]
-    setMessages(val)
-  }
-
   // 연결 시, 콜백 함수
   const connect_callback = () => {
     console.log("STOMP Connection")
-    
-    stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message: any) {
-      // console.log('subscribe', message)
-      // let recv = JSON.parse(message.body)
-      // console.log('recv', recv)
-      // recvMsg(recv)
-      getChattings()
-      message.ack()
-    })
 
     // 입장용
     stomp.send('/pub/chat/enter', {}, 
@@ -157,12 +140,21 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
       }),
     )
 
+        
+    stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message: any) {
+      // console.log('subscribe', message)
+      // let recv = JSON.parse(message.body)
+      // console.log('recv', recv)
+      // recvMsg(recv)
+      getChattings()
+      message.ack()
+    })
+
   }
 
 
 
   const error_callback = (err: any) => {
-
     console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
   } 
 
@@ -185,10 +177,13 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
   // 방 바뀔때마다 메시지 새로 불러오기
   useEffect(() => {
-    stomp.disconnect()
     connect()
     getChattings()
   }, [openedRoom])
+
+  useEffect(() => {
+    connect()
+  }, [])
 
   const scrollRef = useRef<any>()
 

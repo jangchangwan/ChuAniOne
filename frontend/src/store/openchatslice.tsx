@@ -55,6 +55,9 @@ export const searchMyChat = createAsyncThunk(
   'SEARCHMYCHAT',
   async ( data: searchProps ) => {
     try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+      
       const res = await http.get(`room/search/join/${data.keyword}/page/${data.page}`)
       return res.data
     } catch (err) {
