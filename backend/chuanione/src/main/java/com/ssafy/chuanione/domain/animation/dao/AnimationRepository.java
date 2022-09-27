@@ -16,7 +16,7 @@ public interface AnimationRepository extends MongoRepository<Animation, Integer>
     Page<Animation> findAll(Pageable pageable);
 
     @Query("{id:?0}")
-    Optional<Animation> getAnimationBy_id(int id);
+    Animation getAnimationBy_id(int id);
 
 
 }

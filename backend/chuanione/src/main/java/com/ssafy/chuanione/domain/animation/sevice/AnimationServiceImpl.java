@@ -38,9 +38,9 @@ public class AnimationServiceImpl implements AnimationService {
     }
 
     public Animation getDetail(int id){
-//        Optional<Animation> ani = animationRepository.getAnimationBy_id(id);
-        Animation temp = animationRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        return temp;
+        Animation ani = animationRepository.getAnimationBy_id(id);
+//        Animation temp = animationRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        return ani;
     }
 
     public List<Animation> getAniRelation(int id){
