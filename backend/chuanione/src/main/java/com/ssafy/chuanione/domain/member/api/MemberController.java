@@ -2,6 +2,7 @@ package com.ssafy.chuanione.domain.member.api;
 
 
 import com.ssafy.chuanione.domain.member.dto.*;
+import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.domain.member.exception.TokenNotFoundException;
 import com.ssafy.chuanione.domain.member.service.EmailService;
 import com.ssafy.chuanione.domain.member.service.EmailTokenService;
@@ -12,12 +13,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/member")
@@ -27,6 +30,7 @@ public class MemberController {
     private final MemberService memberService;
     private final EmailService emailService;
     private final EmailTokenService emailTokenService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup.do")
     @ApiOperation(value = "회원 가입")
@@ -87,6 +91,27 @@ public class MemberController {
         //중복이면 true 아니면 false
         return new ResponseEntity<>(memberService.checkEmail(email), HttpStatus.OK);
     }
+
+    @PatchMapping("/findPw.do")
+    @ApiOperation(value = "비밀번호 찾기")
+    public ResponseEntity<String> findPw(@RequestBody Map<String, String> map){
+        String email = map.get("email");
+        try{
+            if(!memberService.checkEmail(email) || !memberService.checkBirth(map.get("birthday")))
+                throw new MemberNotFoundException();
+            String newPw = emailTokenService.changePasswordMessage(email);
+            memberService.changePw(email, passwordEncoder.encode(newPw));
+
+            return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+        }catch (MemberNotFoundException e){
+            e.printStackTrace();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("FAIL", HttpStatus.NO_CONTENT);
+    }
+
 
     @PatchMapping("/update/{id}")
     @ApiOperation(value = "회원 정보 수정")

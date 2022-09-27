@@ -54,4 +54,6 @@ public class Member {
             this.nickname = member.getNickname();
         }
     }
+
+    public void changePw(String pw){this.password = pw;}
 }

@@ -87,6 +87,21 @@ public class MemberService {
         return member.isPresent();
     }
 
+    public boolean checkBirth(String birth){
+        Optional<Member> member = memberRepository.findByBirthday(birth);
+        return member.isPresent();
+    }
+
+    public void changePw(String email, String newPw){
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        if(member.isPresent()){
+            member.get().changePw(newPw);
+            return;
+        }
+        throw new MemberNotFoundException();
+    }
+
     public void updateMember(int id, UpdateRequestDto requestDto) {
         Member member = requestDto.toEntity();
         Member target = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
