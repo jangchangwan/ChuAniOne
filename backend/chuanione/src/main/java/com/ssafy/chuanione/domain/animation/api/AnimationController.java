@@ -49,28 +49,56 @@ public class AnimationController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    ///////////////////////////
+
     @PostMapping("/like/{id}")
-    @ApiOperation(value = "애니메이션 좋아요 (id:애니메이션)/ 미완성!!")
+    @ApiOperation(value = "애니메이션 좋아요 등록 (id:애니메이션)")
     public ResponseEntity<Void> addAniLike(@PathVariable int id) {
+        animationService.addAniLike(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/dislike/{id}")
-    @ApiOperation(value = "애니메이션 싫어요 (id:애니메이션)/ 미완성!!")
+    @ApiOperation(value = "애니메이션 싫어요 등록 (id:애니메이션)")
     public ResponseEntity<Void> addAniDisLike(@PathVariable int id) {
+        animationService.addAniDisLike(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/choice/{id}")
-    @ApiOperation(value = "애니메이션 찜 (id:애니메이션)/ 미완성!!")
+    @ApiOperation(value = "애니메이션 찜 등록 (id:애니메이션)")
     public ResponseEntity<Void> addAniChoice(@PathVariable int id) {
+        animationService.addAniChoice(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/about.do/{id}")
-    @ApiOperation(value = "해당 애니메이션 찜&좋아요&싫어요 여부 (id:애니메이션)/ 미완성!! / 나중에 .do 없애기")
-    public ResponseEntity<Void> getAboutAni(@PathVariable int id) {
+    @DeleteMapping("/like/{id}")
+    @ApiOperation(value = "애니메이션 좋아요 삭제 (id:애니메이션)")
+    public ResponseEntity<Void> deleteAniLike(@PathVariable int id) {
+        animationService.deleteAniLike(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/dislike/{id}")
+    @ApiOperation(value = "애니메이션 싫어요 삭제 (id:애니메이션)")
+    public ResponseEntity<Void> deleteAniDisLike(@PathVariable int id) {
+        animationService.deleteAniDisLike(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/choice/{id}")
+    @ApiOperation(value = "애니메이션 찜 삭제 (id:애니메이션)")
+    public ResponseEntity<Void> deleteAniChoice(@PathVariable int id) {
+        animationService.deleteAniChoice(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //////////////////////
+
+    @GetMapping("/about.do/{id}")
+    @ApiOperation(value = "해당 애니메이션 찜&좋아요&싫어요 여부 (id:애니메이션) / 시청여부는 확인X")
+    public ResponseEntity<Map<String,Boolean>> getAboutAni(@PathVariable int id) {
+        return new ResponseEntity<>(animationService.getAboutAni(id),HttpStatus.OK);
     }
 
 }
