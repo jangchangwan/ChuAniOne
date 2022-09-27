@@ -112,16 +112,20 @@ function Nav() {
 
 
   useEffect(() => {
-    if (window.location.pathname === '/login') {
-      setShowNav(true)
-    } else if (window.location.pathname === '/signup') {
-      setShowNav(true)
-    } else if (window.location.pathname === '/pwd') {
-      setShowNav(true)
-    } else if (window.location.pathname === '/EmailCertification') {
-      setShowNav(true)
-    } else {
+    if (window.location.pathname === '/intro') {
       setShowNav(false)
+    } else if (window.location.pathname === '/search') {
+      setShowNav(false)
+    } else if (window.location.pathname === '/openchat') {
+      setShowNav(false)
+    } else if (window.location.pathname === '/bigvoca') {
+      setShowNav(false)
+    } else if (window.location.pathname === '/mypage') {
+      setShowNav(false)
+    } else if (window.location.pathname === '/') {
+      setShowNav(false)
+    } else {
+      setShowNav(true)
     }
 
     
@@ -141,12 +145,6 @@ function Nav() {
     })
 
   }, []);
-
-
-  // 로그인 , 회원가입, 비밀번호 찾기 인 경우 네비게이션 바 없애기
-  // if (window.location.pathname === '/login') return null;
-  // else if (window.location.pathname === '/signup') return null;
-  // else if (window.location.pathname === '/pwd') return null;
 
   return (
     <NavContainer style={show ? { backgroundColor: '#f37b83' } : { backgroundColor: 'transparent' }} >
