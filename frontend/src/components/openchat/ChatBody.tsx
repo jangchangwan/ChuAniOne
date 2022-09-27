@@ -185,6 +185,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
   // 방 바뀔때마다 메시지 새로 불러오기
   useEffect(() => {
+    stomp.disconnect()
     connect()
     getChattings()
   }, [openedRoom])

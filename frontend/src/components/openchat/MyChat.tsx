@@ -89,16 +89,16 @@ function MyChat({ opened, openedRoom,  handleOpened, handleClosed }: any) {
   const [roomInfo, setRoomInfo] = useState<any>()
   const [change, setChange] = useState<boolean>(false)
 
-  setTimeout(async () => {
-    if (openedRoom) {
-      const res = await dispatch(getChatInfo(openedRoom.id))
+  // setTimeout(async () => {
+  //   if (openedRoom) {
+  //     const res = await dispatch(getChatInfo(openedRoom.id))
 
-      if (res.payload !== roomInfo) {
-        setRoomInfo(res.payload)
-        setChange(!change)
-      }
-    }
-  }, 3000)
+  //     if (res.payload !== roomInfo) {
+  //       setRoomInfo(res.payload)
+  //       setChange(!change)
+  //     }
+  //   }
+  // }, 3000)
 
     // 초기 데이터 불러오기
     useEffect(() => {

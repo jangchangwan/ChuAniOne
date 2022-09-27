@@ -216,14 +216,6 @@ function MakeChat() {
       await room.hashtags.map((hash, idx) => (
         data[`tag${idx+1}`] = hash
       ))
-
-      // if (room.hashtags.length < 3) {
-      //   let i = room.hashtags.length
-        
-      //   for (i ; i < 3; i ++) {
-      //     data[`tag${i+1}`] = ''
-      //   }
-      // }
       
       console.log(data)
 
