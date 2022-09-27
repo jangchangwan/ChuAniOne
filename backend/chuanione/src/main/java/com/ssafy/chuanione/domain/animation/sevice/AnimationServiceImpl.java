@@ -2,6 +2,7 @@ package com.ssafy.chuanione.domain.animation.sevice;
 
 import com.ssafy.chuanione.domain.animation.dao.AnimationRepository;
 import com.ssafy.chuanione.domain.animation.domain.Animation;
+import com.ssafy.chuanione.domain.animation.dto.AnimationResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,10 +26,14 @@ public class AnimationServiceImpl implements AnimationService {
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
         List<Animation> anis = roomPage.getContent();
+        List<AnimationResponseDto> dtoList = new ArrayList<>();
+        for (Animation ani : anis){
+            dtoList.add(AnimationResponseDto.from(ani));
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("totalCnt",totalCount);
         map.put("pageCnt",pageCount);
-        map.put("rDto",anis);
+        map.put("rDto",dtoList);
         return map;
     }
 
@@ -40,11 +45,11 @@ public class AnimationServiceImpl implements AnimationService {
 
     public List<Animation> getAniRelation(int id){
         // 비슷한 작품 id 얻어오기
-        List<Integer> nums = animationRepositor;
+//        List<Integer> nums = animationRepositor;
         List<Animation> list = new ArrayList<>();
-        for (int num : nums) {
-            list.add(animationRepository.findById(id).orElseThrow(IllegalArgumentException::new));
-        }
+//        for (int num : nums) {
+//            list.add(animationRepository.findById(id).orElseThrow(IllegalArgumentException::new));
+//        }
        return list;
     }
 

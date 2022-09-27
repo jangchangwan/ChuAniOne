@@ -4,6 +4,7 @@ import lombok.*;
 import org.bson.json.JsonObject;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class Animation {
     @Id
     private String _id;
-    @Column(name = "id")
+    @Field("id")
     private int ani_id;
     private String air_year_quarter;
     private List<String> author;
