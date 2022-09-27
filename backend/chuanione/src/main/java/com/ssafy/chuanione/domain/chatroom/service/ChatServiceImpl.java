@@ -107,7 +107,7 @@ public class ChatServiceImpl implements ChatService {
                 .build();
         joinUserRepository.save(joinuser);
         int count = room.getCount();
-        return RoomResponseDto.from(result, count, member);
+        return RoomResponseDto.from(room, count, member);
     }
 
     // 채팅방 수정
@@ -303,17 +303,22 @@ public class ChatServiceImpl implements ChatService {
         Room room = roomRepository.findOne(room_id);
         int max = room.getMax();
         int count = joinUserRepository.countDistinctById(room.getId());
-        if( max >= count +1){
-            JoinUser joinUser = JoinUser.builder()
-                    .roomId(room)
-                    .memberId(member)
-                    .build();
-            joinUserRepository.save(joinUser);
-            return 1;
-        }else{
-            return -1;
+        // 만약 이미 들어가있는 사람이면 0 리턴
+        int already = joinUserRepository.countByMemberIdAndRoomId(room_id,member.getId());
+        if(already>=1){
+            return 0;
+        }else {
+            if (max >= count + 1) {
+                JoinUser joinUser = JoinUser.builder()
+                        .roomId(room)
+                        .memberId(member)
+                        .build();
+                joinUserRepository.save(joinUser);
+                return 1;
+            } else {
+                return -1;
+            }
         }
-//    return 0;
     }
 
     // 채팅방 퇴장

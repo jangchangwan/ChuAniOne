@@ -97,7 +97,7 @@ public class RoomController {
             return new ResponseEntity<>("success",HttpStatus.OK);
         }else if(temp == -1){ // 꽉찼을때
             return new ResponseEntity<>("full",HttpStatus.OK);
-        }else // 둘다 아니어서 실패하면
+        }else // 둘다 아니어서 실패하면 (이미들어가있거나 그 외 오류)
         return new ResponseEntity<>("fail",HttpStatus.OK);
     }
 
