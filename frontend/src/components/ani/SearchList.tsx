@@ -12,14 +12,17 @@ import store from '../../store'
 const Container = styled.div`
   width: calc(80% - 3rem);
   padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const TopBox = styled.div`
+  width: 90%;
   margin: 0 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  align-items: center;
   flex-wrap: wrap;
 `
 
@@ -49,8 +52,8 @@ function SearchList({ keyword }) {
   const [lastPage, setLastPage] = useState<number>(1)
   
   useEffect(() => {
-    loadData(1)
-  }, [])
+    loadData(page)
+  }, [page, keyword])
 
 
   // 데이터 불러오기
@@ -67,6 +70,11 @@ function SearchList({ keyword }) {
 
   // 페이지네이션 동작
   function handlePage(event: any) {
+    if (event.target.innerText) {
+      const nowPageInt = parseInt(event.target.innerText)
+      setPage(nowPageInt)
+    }
+    console.log(event)
     if (event.target.dataset.testid) {
       if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
         const nowPageInt = page - 1
@@ -90,16 +98,18 @@ function SearchList({ keyword }) {
           <NumberTextOut>개의 작품</NumberTextOut>
         </NumberBox>
 
-          <Pagination count={lastPage} defaultPage={1} 
+          <Pagination 
+            count={lastPage} 
+            defaultPage={1} 
             boundaryCount={1}
-            size="large" sx={{margin: 2}} 
+            size="large" 
+            sx={{margin: 2}} 
             onChange={(e) => handlePage(e)}
-            // showLastButton showFirstButton
           />
       </TopBox>
 
-      <Box sx={{ width: '100%' }}>
-        <Grid container columnSpacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ width: '92%' }}>
+        <Grid container columnSpacing={2} >
           { data.map((ani, i) => (
             <Grid item xs={12} sm={6} md={3}>
               <SearchItem ani={ani}/>

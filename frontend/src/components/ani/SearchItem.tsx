@@ -14,6 +14,8 @@ const ImgBox = styled.div`
 const Img = styled.img`
   width: 100%;
   height: 100%;
+  object-fit: cover;
+
 `
 
 const Name = styled.p`
@@ -28,13 +30,14 @@ function SearchItem({ ani }) {
   const data = {
     id: ani.ani_id,
     name: ani.name,
-    image: JSON.parse(ani.images[0]).img_url
+    img: ani.images[0].img_url,
+    is_adult: ani._adult,
   }
 
   return (
     <Container>
       <ImgBox>
-        <Img src={data.image}/>
+        <Img src={data.img}/>
       </ImgBox>
       <Name>{data.name}</Name>
     </Container>
