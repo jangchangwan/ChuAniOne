@@ -32,10 +32,7 @@ const Genre = styled.span`
   margin-right: 0.5rem;
 `
 
-function Info({ aniId }) {
-  
-  
-  
+function Info({ data }: any) {
   return (
     <Container>
       <Content>{ data.content_rating }</Content>
