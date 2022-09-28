@@ -16,6 +16,32 @@ export const getAniAll = createAsyncThunk(
   }
 )
 
+interface SearchProps {
+  genres: string[],
+  keyword: string,
+  tags: string[],
+  page: number
+}
+
+// 애니메이션 검색 & 필터 (페이지네이션)
+export const searchAni = createAsyncThunk(
+  'SEARCHANI',
+  async ( data: SearchProps , { rejectWithValue}) => {
+    try {
+      const dto: any = {
+        genres: data.genres,
+        keyword: data.keyword,
+        tags: data.tags
+      }
+      const res = await http.post(`animation/search.do/${data.page}`, dto)
+      console.log(res)
+      return res.data
+    } catch(err) {
+      console.log('검색 에러', err)
+    }
+  }
+)
+
 // 애니메이션 정보 조회
 export const getAni = createAsyncThunk(
   'GETANI',
@@ -99,7 +125,7 @@ export const postDislike = createAsyncThunk(
     try {
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
-      
+
       const res = await http.post(`animation/dislike/${id}`)
       if (res.status === 200) return true
       else {
