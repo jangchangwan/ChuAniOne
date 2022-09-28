@@ -32,19 +32,20 @@ const Genre = styled.span`
   margin-right: 0.5rem;
 `
 
-function Info() {
+function Info({ aniId }) {
+  
+  
+  
   return (
     <Container>
-      {/* <Content>{ recommend.content_rating }</Content> */}
-      {/* <ContentBold>제작</ContentBold>
-      <Content>{recommend.production}</Content>
+      <Content>{ data.content_rating }</Content>
       <Genres>
-        { recommend.genres.map((genre: string, idx: number) => (
+        { data.genres.map((genre: string, idx: number) => (
           <Genre>{genre}</Genre>
         ))}
       </Genres>
       <Title>줄거리</Title>
-      <Content>{recommend.content}</Content> */}
+      <Content>{data.content}</Content>
     </Container>
   )
 }

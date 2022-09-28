@@ -74,7 +74,7 @@ function SearchList({ keyword }) {
       const nowPageInt = parseInt(event.target.innerText)
       setPage(nowPageInt)
     }
-    console.log(event)
+
     if (event.target.dataset.testid) {
       if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
         const nowPageInt = page - 1

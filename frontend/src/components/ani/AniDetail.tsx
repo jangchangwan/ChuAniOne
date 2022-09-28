@@ -205,6 +205,7 @@ function AniDetail({ aniId }: any): any {
 
   async function loadData() {
     const res = await dispatch(getAni(aniId))
+    console.log(res.payload)
     if (res.meta.requestStatus === "fulfilled") {
       setData(res.payload)
     }
@@ -257,23 +258,25 @@ function AniDetail({ aniId }: any): any {
         </Tabs>
       </Box>
 
-      <TabBox>
-        <TabPanel value={value} index={0}>
-          <Info />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Review />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <SimilarAni />
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          <Talk />
-        </TabPanel>
-        {/* <TabPanel value={value} index={4}>
-          <Books />
-        </TabPanel>  */}
-      </TabBox>
+      { data ?
+        <TabBox>
+          <TabPanel value={value} index={0}>
+            <Info data={data}/>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Review aniId={data.ani_id}/>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <SimilarAni />
+          </TabPanel>
+          <TabPanel value={value} index={3}>
+            <Talk />
+          </TabPanel>
+          {/* <TabPanel value={value} index={4}>
+            <Books />
+          </TabPanel>  */}
+        </TabBox>
+      : null }
     </Container>
   )
 }
