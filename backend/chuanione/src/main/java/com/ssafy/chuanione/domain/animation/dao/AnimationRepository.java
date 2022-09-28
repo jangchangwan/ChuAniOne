@@ -18,17 +18,15 @@ public interface AnimationRepository extends MongoRepository<Animation, Integer>
 
     Page<Animation> findAll(Pageable pageable);
 
-//    "$in"
-//{"genres" : {"$in": ["판타지", "로맨스"]}}
-     @Query(value = " { $and : { genres : { $in : ?0 } }, { tags : { $in : ?1 } }, { name : { $regex: ?2 , $option : i} } }" )
+     @Query(value = " { '$and' : [{ 'genres' : { '$in' : ?0 } }, { 'tags' : { '$in' : ?1 } }, { 'name' : { $regex : ?2 } }] }" )
      Page<Animation> findSearch(String[] genres, String[] tags, String keyword, Pageable pageable);
-//    @Query(value = " { name : { $regex: ?0, $options: i} } ")
-//    Page<Animation> findSearch(String keyword, Pageable pageable); // 이거 됨
-//    @Query(value = "{ genres : { $in: [?1, ?2, ?3] }, tags: { $in : [?4,?5,?6] } , keyword: ?7 }")
-//    Page<Animation> findSearch(Pageable pageable, String genre1,String genre2,String genre3,String tag1,String tag2, String tag3, String keyword);
-//@Query(value = " {$and : [ { genres : { $in : ?0 } }, {tags : { $in: ?1 }}, {keyword : { $regex: ?2, $options: i} } ]}")
-//Page<Animation> findSearch(Collection genres, Collection tags, String keyword, Pageable pageable);
 
+    @Query(value = " { '$and' : [{ 'genres' : { '$in' : ?0 } }, { 'name' : { $regex : ?1 } }] }" )
+    Page<Animation> findSearchA(String[] genres,  String keyword, Pageable pageable);
+    @Query(value = " { '$and' : [ { 'tags' : { '$in' : ?0 } }, { 'name' : { $regex : ?1 } }] }" )
+    Page<Animation> findSearchB(String[] tags, String keyword, Pageable pageable);
+    @Query(value = " { '$and' : [{ 'name' : { $regex : ?0 } }] }" )
+    Page<Animation> findSearchAB( String keyword, Pageable pageable);
 
 
     @Query(value = "{id:?0}")

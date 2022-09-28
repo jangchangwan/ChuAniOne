@@ -43,7 +43,7 @@ public class AnimationController {
     }
 
     @PostMapping("/search.do/{page}")
-    @ApiOperation(value = "애니메이션 카테고리 & 검색 조회 / 미완성!!")
+    @ApiOperation(value = "애니메이션 카테고리 & 검색 조회")
     public ResponseEntity<Map<String,Object>> getSearchList(@PathVariable int page, @RequestBody AnimationSearchRequestDto dto) {
 //        System.out.println("test");
         Map<String, Object> list= animationService.getSearchList(page-1,dto);
@@ -96,7 +96,7 @@ public class AnimationController {
 
     //////////////////////
 
-    @GetMapping("/about.do/{id}")
+    @GetMapping("/about/{id}")
     @ApiOperation(value = "해당 애니메이션 찜&좋아요&싫어요 여부 (id:애니메이션) / 시청여부는 확인X")
     public ResponseEntity<Map<String,Boolean>> getAboutAni(@PathVariable int id) {
         return new ResponseEntity<>(animationService.getAboutAni(id),HttpStatus.OK);

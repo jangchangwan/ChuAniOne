@@ -71,22 +71,33 @@ public class AnimationServiceImpl implements AnimationService {
 
     @Override
     public Map<String, Object> getSearchList(int page, AnimationSearchRequestDto dto) {
-       String[] genres = dto.getGenres();
+        String[] genres = dto.getGenres();
         String keyword = dto.getKeyword();
-       String[] tags = dto.getTags();
-        System.out.println("genres");
-        for (int i = 0; i < genres.length; i++) {
-            System.out.println("genres"+i+":"+genres[i]);
+        String[] tags = dto.getTags();
+        Page<Animation> roomPage=animationRepository.findAll(PageRequest.of(page,12));
+        if( genres.length ==0 && tags.length ==0 ){
+            roomPage = animationRepository.findSearchAB(keyword,PageRequest.of(page,12));
+        }else if ( genres.length ==0 ) {
+            roomPage = animationRepository.findSearchB(tags,keyword,PageRequest.of(page,12));
+        } else if(tags.length ==0){
+            roomPage = animationRepository.findSearchA(genres,keyword,PageRequest.of(page,12));
+        } else {
+            roomPage = animationRepository.findSearch(genres,tags,keyword,PageRequest.of(page,12));
         }
-        System.out.println("tags");
-        for (int i = 0; i < tags.length; i++) {
-            System.out.println("tags"+i+":"+tags[i]);
-        }
-        System.out.println("keyword");
-        System.out.println("keyword :"+keyword);
+
+
+//        System.out.println("genres");
+//        for (int i = 0; i < genres.length; i++) {
+//            System.out.println("genres"+i+":"+genres[i]);
+//        }
+//        System.out.println("tags");
+//        for (int i = 0; i < tags.length; i++) {
+//            System.out.println("tags"+i+":"+tags[i]);
+//        }
+//        System.out.println("keyword");
+//        System.out.println("keyword :"+keyword);
 
 //        Page<Animation> roomPage = animationRepository.findSearch(PageRequest.of(page,12), genres.get(0), genres.get(1), genres.get(2), tags.get(0), tags.get(1), tags.get(2), keyword);
-        Page<Animation> roomPage = animationRepository.findSearch(genres,tags,keyword,PageRequest.of(page,12));
 //        Page<Animation> roomPage = animationRepository.findSearch(genres,PageRequest.of(page,12));
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
@@ -98,7 +109,7 @@ public class AnimationServiceImpl implements AnimationService {
         Map<String, Object> map = new HashMap<>();
         map.put("totalCnt",totalCount);
         map.put("pageCnt",pageCount);
-        map.put("rDto",dtoList);
+        map.put("rDto", anis);
         return map;
     }
 
