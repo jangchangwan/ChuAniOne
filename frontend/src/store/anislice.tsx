@@ -97,6 +97,9 @@ export const postDislike = createAsyncThunk(
   'POSTDISLIKE',
   async (id: number, { rejectWithValue }) => {
     try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+      
       const res = await http.post(`animation/dislike/${id}`)
       if (res.status === 200) return true
       else {
@@ -117,6 +120,9 @@ export const deleteDislike = createAsyncThunk(
   'DELETEDISLIKE',
   async (id: number, { rejectWithValue }) => {
     try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
       const res = await http.delete(`animation/dislike/${id}`)
       if (res.status === 200) return true
       else {
@@ -130,6 +136,50 @@ export const deleteDislike = createAsyncThunk(
     }
   }
 )
+
+// 찜 등록
+export const postChoice = createAsyncThunk (
+  'POSTCHOICE',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
+      const res = await http.post(`animation/choice/${id}`)
+      if (res.status === 200) return true
+      else {
+        console.log('post choice error', res)
+        return false
+      }
+    } catch (err) {
+      console.log('post choice error', err)
+      return false
+    }
+  }
+)
+
+
+// 찜 삭제
+export const deleteChoice = createAsyncThunk (
+  'DELETECHOICE',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
+      const res = await http.delete(`animation/choice/${id}`)
+      if (res.status === 200) return true
+      else {
+        console.log('delete choice error', res)
+        return false
+      }
+    } catch (err) {
+      console.log('delete choice error', err)
+      return false
+    }
+  }
+)
+
 
 // 비슷한 애니메이션 조회
 export const getSimilar = createAsyncThunk(

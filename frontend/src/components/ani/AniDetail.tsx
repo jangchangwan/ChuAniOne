@@ -17,7 +17,7 @@ import Talk from './Talk'
 // redux
 import { useDispatch } from 'react-redux'
 import store from '../../store'
-import { getAni, getTaste, postLike, deleteLike, deleteDislike, postDislike } from '../../store/anislice'
+import { getAni, getTaste, postLike, deleteLike, deleteDislike, postDislike, deleteChoice, postChoice } from '../../store/anislice'
 
 const Container = styled.div`
   width: 100%;
@@ -261,6 +261,22 @@ function AniDetail({ aniId }: any): any {
     }
   }
 
+  // 찜
+  async function handleChoice () {
+    if (choice) {
+      const res = await dispatch(deleteChoice(aniId))
+
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
+        setChoice(!choice)
+      }
+    } else {
+      const res = await dispatch(postChoice(aniId))
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
+        setChoice(!choice)
+      }
+    }
+  }
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
@@ -279,7 +295,7 @@ function AniDetail({ aniId }: any): any {
                 <IconBtn onClick={handleDislike}>
                   { dislike ?  <ThumbDownAlt /> : <ThumbDownOffAlt /> }
                 </IconBtn>
-                <IconBtn>
+                <IconBtn onClick={handleChoice}>
                   { choice ? <DownloadDone/ > : <Add /> }
                 </IconBtn>
               </ButtonDiv>
