@@ -37,3 +37,13 @@ INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,4);
 INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,5);
 INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (2,5);
 INSERT INTO MEMBER_ROOM (member_id,room_id) VALUES (1,6);
+
+
+-- talk talk
+INSERT INTO talktalk (talktalk_id, animation_id, content, date, image, member_id) VALUES (1,1,'test', CURRENT_TIMESTAMP,'testurl',1);
+INSERT INTO talktalk (talktalk_id, animation_id, content, date, image, member_id) VALUES (2,1,'테스트', CURRENT_TIMESTAMP,'testurl',2);
+INSERT INTO talktalk (talktalk_id, animation_id, content, date, image, member_id) VALUES (3,1,'테테스트', CURRENT_TIMESTAMP,'testurl',3);
+INSERT INTO talktalk (talktalk_id, animation_id, content, date, image, member_id) VALUES (4,1,'테테테테테테테테테스트테테테테테테테테테스트테테테테테테테테테스트테테테테테테테테테스트', CURRENT_TIMESTAMP,'testurl',4);
+INSERT INTO talktalk (talktalk_id, animation_id, content, date, image, member_id) VALUES (5,2,'test222', CURRENT_TIMESTAMP,'testurl',2);
+INSERT INTO talktalk (talktalk_id, animation_id, content, date, image, member_id) VALUES (6,3,'test333', CURRENT_TIMESTAMP,'testurl',3);
+INSERT INTO talktalk (talktalk_id, animation_id, content, date, image, member_id) VALUES (7,4,'test444', CURRENT_TIMESTAMP,'testurl',4);
