@@ -6,7 +6,7 @@ import Pagination from '@mui/material/Pagination'
 
 // redux
 import { useDispatch } from 'react-redux'
-import { getAniAll } from '../../store/anislice'
+import { searchAni } from '../../store/anislice'
 import store from '../../store'
 
 const Container = styled.div`
@@ -42,7 +42,16 @@ const NumberTextIn = styled.h2`
 `
 
 
-function SearchList({ keyword }) {
+function SearchList({ 
+    keyword, 
+    genres,
+    tags,
+    changeKeyword,
+    addGenres,
+    removeGenres,
+    addTags,
+    removeTags,
+  }) {
 
   const dispatch = useDispatch<typeof store.dispatch>()
 
@@ -52,13 +61,15 @@ function SearchList({ keyword }) {
   const [lastPage, setLastPage] = useState<number>(1)
   
   useEffect(() => {
-    loadData(page)
-  }, [page, keyword])
+    loadData()
+  }, [page, keyword, genres, tags])
 
 
   // 데이터 불러오기
-  async function loadData(page: number) {
-    const res = await dispatch(getAniAll(page))
+  async function loadData() {
+    const res = await dispatch(searchAni({
+      page, keyword, tags, genres
+    }))
 
     if (res.meta.requestStatus === "fulfilled") {
       setLastPage(res.payload.pageCnt)
