@@ -50,6 +50,13 @@ const SearchIcon1 = styled(SearchIcon)`
   color: #505050;
 `
 
+const FilterContainer = styled.div`
+  & + & {
+    margin-top: 1rem;
+    border-top: 1px solid #333333;
+  }
+`
+
 const NameBox = styled.div`
   width: 100%;
   display: flex;
@@ -59,6 +66,9 @@ const NameBox = styled.div`
 
 const FilterName = styled.p`
   font-weight: bold;
+  /* background-color: #f37b83; */
+  border-radius: 1rem;
+  padding: 0.2rem 0.5rem;
 `
 
 const IconBox = styled(IconButton)`
@@ -89,8 +99,28 @@ const Check = styled(Checkbox)`
   }
 `
 
-function SearchFilter() {
-  const [ showMoreFilter, setShowMoreFilter ] = useState<boolean>(false)
+function SearchFilter({ changeKeyword }) {
+  const [ showMoreGenre, setShowMoreGenre ] = useState<boolean>(false)
+  const [ showMoreTag, setShowMoreTag ] = useState<boolean>(false)
+  const genres = [
+    '드라마', '로맨스', '개그', '공포', 'SF', '모험', '무협', '범죄', '스릴러',
+    '스포츠', '아동', '시대물', '아이돌', '액션', '음식', '음악', '이세계', '재난',
+    '치유', '하렘', '판타지', '일상', '미스터리', '추리','BL', 'GL 백합', '성인'
+  ]
+
+  const tags = [
+    '가족', '감동', '게임', '동물', '동양풍', '두뇌싸움', '로봇', '루프물', 
+    '마법소녀', '먼치킨', '무거움', '배틀', '뱀파이어', '복수', '삼각관계', '서양풍',
+    '선생님', '성장', '슬픔', '시간여행', '역하렘', '연예인', '열혈', '오타쿠', 
+    '요괴 및 괴물', '육아', '정치', '좀비', '주체적 여성', '짝사랑', '철학', '퇴마', '학교'
+  ]
+
+  const [search, setSearch] = useState<string>('')
+
+  const searchKeyword = () => {
+    setSearch(search.trim())
+    changeKeyword(search.trim())
+  }
 
   return (
     <Container>
@@ -100,35 +130,50 @@ function SearchFilter() {
             "& .MuiOutlinedInput-root.Mui-focused": {
               "& > fieldset": {
               borderColor: "#f37b83"
-          }}}}/>
+          }}}}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onBlur={searchKeyword}
+        />
         <SearchIconBox>
           <SearchIcon1/>
         </SearchIconBox>
       </SearchBox>
+      
+      <FilterContainer>
+        <NameBox>
+          <FilterName>장르</FilterName>
+          <IconBox onClick={() => {setShowMoreGenre(!showMoreGenre)}}>
+            { showMoreGenre ? <MoreCloseIcon /> : <MoreIcon/> }
+          </IconBox>
+        </NameBox>
 
-      <NameBox>
-        <FilterName>장르</FilterName>
-        <IconBox onClick={() => {setShowMoreFilter(!showMoreFilter)}}>
-          { showMoreFilter ? <MoreCloseIcon /> : <MoreIcon/> }
-        </IconBox>
-      </NameBox>
+        <FilterBox>
+          { genres.map((genre, idx) => (
+            idx < 8 ? 
+              <Filter control={<Check />} label={genre} />
+            : (showMoreGenre ? <Filter control={<Check />} label={genre} /> : null)
+          ))}
+        </FilterBox>
+      </FilterContainer>
 
-      <FilterBox>
-        <Filter control={<Check />} label="미스터리" />
-        <Filter control={<Check />} label="로맨스" />
-        <Filter control={<Check />} label="로맨스" />
-        <Filter control={<Check />} label="로맨스" />
-        <Filter control={<Check />} label="로맨스" />
-        <Filter control={<Check />} label="로맨스" />
-        { showMoreFilter ? 
-          <>
-            <Filter control={<Check />} label="로맨스" />
-            <Filter control={<Check />} label="로맨스" />
-            <Filter control={<Check />} label="로맨스" />
-            <Filter control={<Check />} label="로맨스" />
-          </> : null
-        }
-      </FilterBox>
+      <FilterContainer>
+        <NameBox>
+          <FilterName>태그</FilterName>
+          <IconBox onClick={() => {setShowMoreTag(!showMoreTag)}}>
+            { showMoreTag ? <MoreCloseIcon /> : <MoreIcon/> }
+          </IconBox>
+        </NameBox>
+
+        <FilterBox>
+          { tags.map((tag, idx) => (
+            idx < 8 ? 
+              <Filter control={<Check />} label={tag} />
+            : (showMoreTag ? <Filter control={<Check />} label={tag} /> : null)
+          ))}
+        </FilterBox>
+      </FilterContainer>
+
     </Container>
   )
 }
