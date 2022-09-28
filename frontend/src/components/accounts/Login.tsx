@@ -76,14 +76,14 @@ function Login() {
           component="main" 
           maxWidth="xs"
           sx = {{
-            padding: '6rem'
+            padding: '3.5rem'
           }}
           >
           <CssBaseline />
           <Box
             boxShadow={2}
             sx={{
-              marginTop: 8,
+              marginTop: 5,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',

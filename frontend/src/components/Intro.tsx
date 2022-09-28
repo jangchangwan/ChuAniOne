@@ -7,9 +7,9 @@ import Member3 from '../assets/images/member3.png'
 import Member4 from '../assets/images/member4.png'
 import Member5 from '../assets/images/member5.png'
 import Member6 from '../assets/images/member6.png'
+import IntroImg1 from '../assets/images/introImg.png'
 // CSS
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
@@ -18,17 +18,16 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 // 모션
-import { motion, useScroll } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 
 const PageIntro1 = styled.div`
-  background-color : #FFD1D1;
   width: 100%;
   height: 100vh;
   padding: 0;
 `
 const PageIntro2 = styled.div`
-  background-color: #000;
+  background-color: #E3B55D;
   height: 100%;
   width: 100%;
 `
@@ -106,6 +105,7 @@ function Intro() {
 
       {/* 웹사이트 소개 */}
       <PageIntro1
+        style={{ backgroundImage: `url(${IntroImg1})`}}
       >
         <Grid container
           sx={{
@@ -276,6 +276,7 @@ function Intro() {
 
       {/* 팀원소개 */}
       <PageIntro3
+        style={{ backgroundImage: `url(${IntroImg1})`}}
       >
         <h1
           style={{

@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
+import initialState from '../../store/Loginslice'
 
 const Container = styled.div`
   width: 100%;
@@ -46,9 +48,9 @@ const Time = styled.p`
 `
 
 function ChatItem({ data }: any) {
-  // console.log(data)
+  const userId = useSelector((state: initialState) => (state.login.userId))
   return (
-    data.mine ?
+    data.memberId === userId ?
     <Container className="mine">
       <ContentBox className="mine">
         <Content className="mine">{data.message}</Content>
