@@ -1,0 +1,55 @@
+version: "3.7"
+
+services:
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./frontend/build:/usr/share/nginx/html
+      - /var/nginx/log:/log
+      - /home/ubuntu/docker-volume/ssl:/var/www/html
+    container_name: nginx_chu
+    depends_on:
+      - spring-boot
+
+  react:
+    image: node:12-alpine
+    command: sh -c "npm ci && npm run build"
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    container_name: react_chu
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: master
+      MYSQL_DATABASE: chuanione
+      MYSQL_PASSWORD: rnlaufdmlzkfskf!
+      MYSQL_ROOT_PASSWORD: emforhsqhftbvj
+      TZ: Asia/Seoul
+    volumes:
+      - "./db_data:/var/lib/mysql"
+    ports:
+      - "3303:3306"
+    container_name: mysql_chu
+
+  spring-boot:
+    build:
+      context: ./backend/chuanione
+      dockerfile: Dockerfile
+    image: boot_chu
+    volumes:
+      - "./backend/chuanione/src/main/resources/img:/img"
+    ports:
+      - "8080:8080"
+    container_name: boot_chu
+    restart: always
+    depends_on:
+      - db
