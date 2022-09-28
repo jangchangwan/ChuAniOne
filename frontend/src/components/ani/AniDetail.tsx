@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import Player from 'react-player'
 import Tabs from '@mui/material/Tabs'
@@ -12,7 +12,12 @@ import Info from './Info'
 import Review from './Review'
 import SimilarAni from './SimilarAni'
 import Talk from './Talk'
-import Books from './Books'
+// import Books from './Books'
+
+// redux
+import { useDispatch } from 'react-redux'
+import store from '../../store'
+import { getAni } from '../../store/anislice'
 
 const Container = styled.div`
   width: 100%;
@@ -51,11 +56,26 @@ const AniName = styled.h1`
 
 const ButtonDiv = styled.div`
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
 `
 
 const IconBtn = styled(IconButton)`
   
+`
+
+const InfoDiv = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const InfoName = styled.p`
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+  color: white;
+`
+
+const InfoText = styled.p`
+  color: white;
 `
 
 
@@ -137,7 +157,34 @@ function a11yProps(index: number) {
 
 
 
-function AniDetail({ recommend, }: any): any {
+
+function AniDetail({ aniId }: any): any {
+  interface Images {
+    option_name: string,
+    img_url: string,
+    crop_ratio: string,
+  }
+  interface Data extends Images {
+    air_year_quarter: string,
+    ani_id: number,
+    author: string[],
+    avg_rating: number,
+    content: string,
+    content_rating: string,
+    genres: string[],
+    highlight_video: {
+      dash_url: string,
+    },
+    images: Images[],
+    img: string,
+    name: string,
+    production: string,
+    related: number[],
+    _adult: boolean,
+    _ending: boolean,
+    _id: string,
+  }
+  
   const videoAttrs = {
     playing: true,
     muted: true,
@@ -145,8 +192,21 @@ function AniDetail({ recommend, }: any): any {
     width: '100%',
     height: 'auto',
   }
+  
+  const dispatch = useDispatch<typeof store.dispatch>()
+  const [value, setValue] = useState<number>(0)
+  const [data, setData] = useState<Data | null>(null)
 
-  const [value, setValue] = useState<number>(0);
+  useEffect(() => {
+    loadData()
+  }, [])
+
+  async function loadData() {
+    const res = await dispatch(getAni(aniId))
+    if (res.meta.requestStatus === "fulfilled") {
+      setData(res.payload)
+    }
+  }
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -154,10 +214,10 @@ function AniDetail({ recommend, }: any): any {
 
   return (
     <Container>
-      {recommend ?
+      { data ?
         <TopBox>
           <AniInfo>
-            <AniName>{recommend.name}</AniName>
+            <AniName>{data.name}</AniName>
             <ButtonDiv>
               <IconBtn>
                 <ThumbUpOffAlt />
@@ -169,43 +229,45 @@ function AniDetail({ recommend, }: any): any {
                 <Add />
               </IconBtn>
             </ButtonDiv>
+            <InfoDiv>
+              <InfoName>제작</InfoName>
+              <InfoText>{data.production}</InfoText>
+            </InfoDiv>
           </AniInfo>
           <VideoBox>
-            <Player url={recommend.highlight_video.dash_url} {...videoAttrs}/>
+            <Player url={data.highlight_video.dash_url} {...videoAttrs}/>
           </VideoBox>
-        </TopBox> : null
-      }
+        </TopBox>
 
+        : null
+      }
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary">
           <Tab label="상세정보" {...a11yProps(0)} />
           <Tab label="리뷰" {...a11yProps(1)} />
           <Tab label="비슷한 작품" {...a11yProps(2)} />
           <Tab label="톡톡" {...a11yProps(3)} />
-          <Tab label="도서" {...a11yProps(4)} />
+          {/* <Tab label="도서" {...a11yProps(4)} /> */}
         </Tabs>
       </Box>
 
-      { recommend ? 
-        <TabBox>
-          <TabPanel value={value} index={0}>
-            <Info recommend={recommend}/>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Review recommend={recommend}/>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <SimilarAni recommend={recommend}/>
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            <Talk recommend={recommend}/>
-          </TabPanel>
-          <TabPanel value={value} index={4}>
-            <Books recommend={recommend}/>
-          </TabPanel> 
-        </TabBox>
-        : null
-      }
+      <TabBox>
+        <TabPanel value={value} index={0}>
+          <Info />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Review />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <SimilarAni />
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <Talk />
+        </TabPanel>
+        {/* <TabPanel value={value} index={4}>
+          <Books />
+        </TabPanel>  */}
+      </TabBox>
     </Container>
   )
 }

@@ -32,11 +32,11 @@ const Genre = styled.span`
   margin-right: 0.5rem;
 `
 
-function Info({ recommend, }: any): any {
+function Info() {
   return (
     <Container>
       {/* <Content>{ recommend.content_rating }</Content> */}
-      <ContentBold>제작</ContentBold>
+      {/* <ContentBold>제작</ContentBold>
       <Content>{recommend.production}</Content>
       <Genres>
         { recommend.genres.map((genre: string, idx: number) => (
@@ -44,7 +44,7 @@ function Info({ recommend, }: any): any {
         ))}
       </Genres>
       <Title>줄거리</Title>
-      <Content>{recommend.content}</Content>
+      <Content>{recommend.content}</Content> */}
     </Container>
   )
 }

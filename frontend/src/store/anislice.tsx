@@ -16,6 +16,21 @@ export const getAniAll = createAsyncThunk(
   }
 )
 
+// 애니메이션 정보 조회
+export const getAni = createAsyncThunk(
+  'GETANI',
+  async(id: number, { rejectWithValue }) => {
+    try {
+      const res = await http.get(`animation/detail.do/${id}`)
+      if (res.status === 200) return res.data
+      else console.log('애니정보 조회 에러', res)
+    } catch(err) {
+      console.log('애니정보 조회 에러', err)
+    }
+
+  }
+
+)
 
 
 export interface openChatReducerType {
