@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2f134365a8c73a9b07ff896d10bb735c268a8145
 HELP.md
 .gradle
 build/
@@ -205,4 +209,9 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
+<<<<<<< HEAD
 # End of https://www.toptal.com/developers/gitignore/api/gradle,java,intellij
+=======
+# End of https://www.toptal.com/developers/gitignore/api/gradle,java,intellij
+
+>>>>>>> 2f134365a8c73a9b07ff896d10bb735c268a8145

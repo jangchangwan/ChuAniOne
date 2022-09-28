@@ -1,6 +1,7 @@
 {
   "name": "clone-code",
   "version": "0.1.0",
+  "proxy": "http://j7e104.p.ssafy.io",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",

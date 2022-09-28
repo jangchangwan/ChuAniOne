@@ -18,18 +18,24 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.webjars:webjars-locator-core'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
+//	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+// chatroom
+	implementation 'org.webjars:sockjs-client:1.0.2'
+	implementation 'org.webjars:stomp-websocket:2.3.3'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	// security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	// validation
@@ -45,8 +51,19 @@ dependencies {
 
 	//mail
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	//mongodb
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb' // 몽고db단독사용할때?
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive' //다른 db와 함께 사용할때 ?
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+
+// tasks.named('test') {
+// 	useJUnitPlatform()
+// }
+
+// bootRun {
+// 	String activeProfile = System.properties['spring.profiles.active']
+// 	systemProperty "spring.profiles.active", activeProfile
+// }
+

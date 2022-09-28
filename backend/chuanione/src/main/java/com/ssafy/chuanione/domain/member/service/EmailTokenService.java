@@ -38,9 +38,9 @@ public class EmailTokenService {
     private final MemberRepository memberRepository;
 
     private final String FROM = "pecommend@gmail.com";
-    public static final StringBuilder ePw = new StringBuilder();
 
-    private final String path = System.getProperty("user.dir") + File.separator + "backend" + File.separator + "chuanione" + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "img" + File.separator;
+    private final String path = File.separator + "img" + File.separator;
+
 
     //이메일 인증 토큰 생성
     @Async
@@ -55,7 +55,7 @@ public class EmailTokenService {
         StringBuilder body = new StringBuilder();
         body.append("<html> <body>");
         body.append("<p><img src=\"cid:mail-confirm.jpg\" height='700' width='1000'></p>");
-        body.append("<h1><a href='http://localhost:8080/api/v1/member/email-confirm.do?token="+emailToken.getId() + "'>링크 인증하기</a></h1></body></html>");
+        body.append("<h1><a href='http://j7e104.p.ssafy.io/api/v1/member/email-confirm.do?token="+emailToken.getId() + "'>링크 인증하기</a></h1></body></html>");
         //이메일 전송
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
