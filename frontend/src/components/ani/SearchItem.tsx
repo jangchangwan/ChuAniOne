@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import Modal from '@mui/material/Modal'
+import Box from '@mui/material/Box'
+import AniDetail from './AniDetail'
 
 const Container = styled.div`
   width: 100%;
@@ -26,6 +29,20 @@ const Name = styled.p`
   font-size: 1.1rem;
 `
 
+const styleBoxDetail = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '50%',
+  height: '90%',
+  bgcolor: 'background.paper',
+  borderRadius: '0.3rem',
+  border: 'none',
+  boxShadow: 24,
+}
+
+
 function SearchItem({ ani }) {
   const data = {
     id: ani.ani_id,
@@ -34,12 +51,37 @@ function SearchItem({ ani }) {
     is_adult: ani._adult,
   }
 
+  const [showDetail, setShowDetail] = useState<boolean>(false)
+
+  const handleOpenDetail = () => {
+    setShowDetail(true)
+  }
+
+  const handleCloseDetail = () => {
+    setShowDetail(false)
+  }
+
   return (
     <Container>
-      <ImgBox>
+      <ImgBox onClick={handleOpenDetail}>
         <Img src={data.img}/>
       </ImgBox>
-      <Name>{data.name}</Name>
+      <Name  onClick={handleOpenDetail}>{data.name}</Name>
+
+      { showDetail ?
+        <Modal
+          open={showDetail}
+          onClose={handleCloseDetail}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={styleBoxDetail}>
+            <AniDetail aniId={data.id}/>
+          </Box>
+        </Modal>
+        : null
+      }
+
     </Container>
   )
 }
