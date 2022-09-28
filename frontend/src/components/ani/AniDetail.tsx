@@ -5,6 +5,8 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { IconButton } from '@mui/material'
+import { ThumbDownAlt, ThumbDownOffAlt, ThumbUpAlt, ThumbUpOffAlt, DownloadDone, Add } from '@mui/icons-material'
 
 import Info from './Info'
 import Review from './Review'
@@ -35,7 +37,7 @@ const AniInfo = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 35%;
+  width: 40%;
   height: 90%;
   padding: 1rem;
   display: flex;
@@ -47,9 +49,19 @@ const AniName = styled.h1`
   color: white;
 `
 
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const IconBtn = styled(IconButton)`
+  
+`
+
+
 const VideoBox = styled.div`
   overflow: hidden;
-  width: 60%;
+  width: 50%;
   border-radius: 3rem;
   margin: 0.5rem;
   border: 1rem inset #f37b83;
@@ -57,7 +69,7 @@ const VideoBox = styled.div`
 
 const TabBox = styled.div`
   width: 100%;
-  height: 42%;
+  height: 45%;
   /* background-color: aqua; */
   overflow-y: auto;
 
@@ -146,6 +158,17 @@ function AniDetail({ recommend, }: any): any {
         <TopBox>
           <AniInfo>
             <AniName>{recommend.name}</AniName>
+            <ButtonDiv>
+              <IconBtn>
+                <ThumbUpOffAlt />
+              </IconBtn>
+              <IconBtn>
+                <ThumbDownOffAlt />
+              </IconBtn>
+              <IconBtn>
+                <Add />
+              </IconBtn>
+            </ButtonDiv>
           </AniInfo>
           <VideoBox>
             <Player url={recommend.highlight_video.dash_url} {...videoAttrs}/>
