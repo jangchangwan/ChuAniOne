@@ -70,12 +70,14 @@ const InfoDiv = styled.div`
 
 const InfoName = styled.p`
   font-size: 1.1rem;
+  margin: 0;
   margin-right: 0.5rem;
   color: white;
 `
 
 const InfoText = styled.p`
   color: white;
+  margin: 0;
 `
 
 
@@ -232,6 +234,10 @@ function AniDetail({ aniId }: any): any {
             <InfoDiv>
               <InfoName>제작</InfoName>
               <InfoText>{data.production}</InfoText>
+            </InfoDiv>
+            <InfoDiv>
+              <InfoName>출시</InfoName>
+              <InfoText>{data.air_year_quarter}</InfoText>
             </InfoDiv>
           </AniInfo>
           <VideoBox>
