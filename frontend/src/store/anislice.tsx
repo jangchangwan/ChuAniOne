@@ -11,7 +11,7 @@ export const getAniAll = createAsyncThunk(
       if (res.status === 200) return res.data
       else console.log('전체 애니목록 조회 에러', res)
     } catch (err) {
-      console.log('전체 애니목록 조회 에러', err)
+      console.log('전체 애니목록 조회 에러', rejectWithValue)
     }
   }
 )
@@ -25,7 +25,69 @@ export const getAni = createAsyncThunk(
       if (res.status === 200) return res.data
       else console.log('애니정보 조회 에러', res)
     } catch(err) {
-      console.log('애니정보 조회 에러', err)
+      console.log('애니정보 조회 에러', rejectWithValue)
+    }
+  }
+)
+
+
+// 찜 & 좋아요 & 싫어요 조회
+export const getTaste = createAsyncThunk(
+  'GETTASTE',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
+      const res = await http.get(`animation/about/${id}`)
+      if (res.status === 200) return res.data
+      else console.log('찜 & 좋아요 & 싫어요 에러', res)
+
+    } catch(err) {
+      console.log('찜 & 좋아요 & 싫어요 에러', rejectWithValue)
+    }
+  }
+)
+
+// 좋아요 등록
+export const postLike = createAsyncThunk(
+  'POSTLIKE',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
+      const res = await http.post(`animation/like/${id}`)
+
+      if (res.status === 200) return true
+      else {
+        console.log('postLike error', res)
+        return false
+      }
+    } catch(err) {
+      console.log('postLike error', rejectWithValue)
+      return false
+    }
+  }
+)
+
+// 좋아요 삭제
+export const deleteLike = createAsyncThunk(
+  'POSTLIKE',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
+      const res = await http.delete(`animation/like/${id}`)
+      if (res.status === 200) return true
+      else {
+        console.log('postLike error', res)
+        return false
+      }
+    } catch(err) {
+      console.log('postLike error', rejectWithValue)
+      return false
     }
   }
 )

@@ -6,7 +6,7 @@ import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { IconButton } from '@mui/material'
-import { ThumbDownAlt, ThumbDownOffAlt, ThumbUpAlt, ThumbUpOffAlt, DownloadDone, Add } from '@mui/icons-material'
+import { ThumbDownAlt, ThumbDownOffAlt, ThumbUpAlt, ThumbUpOffAlt, DownloadDone, Add, RestartAlt } from '@mui/icons-material'
 
 import Info from './Info'
 import Review from './Review'
@@ -17,7 +17,7 @@ import Talk from './Talk'
 // redux
 import { useDispatch } from 'react-redux'
 import store from '../../store'
-import { getAni } from '../../store/anislice'
+import { getAni, getTaste, postLike, deleteLike } from '../../store/anislice'
 
 const Container = styled.div`
   width: 100%;
@@ -198,21 +198,51 @@ function AniDetail({ aniId }: any): any {
   const dispatch = useDispatch<typeof store.dispatch>()
   const [value, setValue] = useState<number>(0)
   const [data, setData] = useState<Data | null>(null)
+  const [like, setLike] = useState<boolean>(false)
+  const [dislike, setDislike] = useState<boolean>(false)
+  const [choice, setChoice] = useState<boolean>(false)
 
   useEffect(() => {
     loadData()
-  }, [])
+    loadTaste()
+  }, [aniId])
 
   async function loadData() {
-    const res = await dispatch(getAni(aniId))
-    console.log(res.payload)
-    if (res.meta.requestStatus === "fulfilled") {
-      setData(res.payload)
+    const resAni = await dispatch(getAni(aniId))
+
+    if (resAni.meta.requestStatus === "fulfilled") {
+      setData(resAni.payload)
+    }
+  }
+
+  async function loadTaste() {
+    const resTaste = await dispatch(getTaste(aniId))
+
+    if (resTaste.meta.requestStatus === "fulfilled") {
+      setLike(resTaste.payload.like)
+      setDislike(resTaste.payload.dislike)
+      setChoice(resTaste.payload.choice)
     }
   }
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
+  }
+
+  async function handleLike () {
+    if (like) {
+      const res = await dispatch(deleteLike(aniId))
+
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
+        setLike(!like)
+      }
+    } else {
+      const res = await dispatch(postLike(aniId))
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
+        setLike(!like)
+      }
+    }
+
   }
 
   return (
@@ -221,17 +251,19 @@ function AniDetail({ aniId }: any): any {
         <TopBox>
           <AniInfo>
             <AniName>{data.name}</AniName>
-            <ButtonDiv>
-              <IconBtn>
-                <ThumbUpOffAlt />
-              </IconBtn>
-              <IconBtn>
-                <ThumbDownOffAlt />
-              </IconBtn>
-              <IconBtn>
-                <Add />
-              </IconBtn>
-            </ButtonDiv>
+
+              <ButtonDiv>
+                <IconBtn onClick={handleLike}>
+                  { like ? <ThumbUpAlt /> : <ThumbUpOffAlt /> }
+                </IconBtn>
+                <IconBtn>
+                  { dislike ?  <ThumbDownAlt /> : <ThumbDownOffAlt /> }
+                </IconBtn>
+                <IconBtn>
+                  { choice ? <DownloadDone/ > : <Add /> }
+                </IconBtn>
+              </ButtonDiv>
+
             <InfoDiv>
               <InfoName>제작</InfoName>
               <InfoText>{data.production}</InfoText>
