@@ -71,11 +71,23 @@ public class AnimationServiceImpl implements AnimationService {
 
     @Override
     public Map<String, Object> getSearchList(int page, AnimationSearchRequestDto dto) {
-        List<String> genres = dto.getGenres();
+       String[] genres = dto.getGenres();
         String keyword = dto.getKeyword();
-        List<String> tags = dto.getTags();
+       String[] tags = dto.getTags();
+        System.out.println("genres");
+        for (int i = 0; i < genres.length; i++) {
+            System.out.println("genres"+i+":"+genres[i]);
+        }
+        System.out.println("tags");
+        for (int i = 0; i < tags.length; i++) {
+            System.out.println("tags"+i+":"+tags[i]);
+        }
+        System.out.println("keyword");
+        System.out.println("keyword :"+keyword);
+
 //        Page<Animation> roomPage = animationRepository.findSearch(PageRequest.of(page,12), genres.get(0), genres.get(1), genres.get(2), tags.get(0), tags.get(1), tags.get(2), keyword);
         Page<Animation> roomPage = animationRepository.findSearch(genres,tags,keyword,PageRequest.of(page,12));
+//        Page<Animation> roomPage = animationRepository.findSearch(genres,PageRequest.of(page,12));
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
         List<Animation> anis = roomPage.getContent();

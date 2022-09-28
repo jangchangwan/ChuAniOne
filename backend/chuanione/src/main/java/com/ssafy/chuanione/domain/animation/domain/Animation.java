@@ -29,7 +29,7 @@ public class Animation {
     private Double avg_rating; // float?
     private String content;
     private String content_rating;
-    private Map<Integer,String> genres;
+    private List<String> genres;
     private Map<String,String> highlight_video;
     private Map<Integer,Map<String,String>> images;
     private String img;
@@ -38,7 +38,7 @@ public class Animation {
     private String name;
     private String production;
     private Integer series_id;
-    private Map<Integer,String> tags;
+    private List<String> tags;
     private List<Integer> related; //연관애니메이션 id
 
 }
