@@ -39,6 +39,7 @@ public class EmailTokenService {
     private final String FROM = "pecommend@gmail.com";
     private final String path = File.separator + "img" + File.separator;
 
+
     //이메일 인증 토큰 생성
     @Async
     public String createEmailToken(String receiverEmail) throws Exception {

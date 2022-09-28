@@ -86,29 +86,21 @@ function ChatTotal() {
   // 초기 데이터 불러오기
   useEffect(() => {
     loadData(1)
-  }, [])
-  
-  // 페이지 변화에 따라 데이터 불러오기
-  useEffect(() => {
-    loadData(page)
-    }, [page, keyword])
+  }, [keyword, page])
 
   // 데이터 불러오기
   async function loadData(page: number) {
     // 검색 키워드가 있을 경우, 검색 목록 가져오기
     if (keyword.trim()) {
-      console.log(keyword)
       const res = await dispatch(searchChat({keyword, page}))
-      console.log(res)
-      if (res.type === "SEARCHCHAT/fulfilled") {
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
         await setLastPage(res.payload.pageCnt)
         await setData(res.payload.rDto)
       }
     } else {
-
       // 검색 키워드가 없을 경우, 전체 채팅방 목록 가져오기
       const res = await dispatch(getChatAll(page))
-      if (res.type === "GETCHATALL/fulfilled") {
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
         await setLastPage(res.payload.pageCnt)
         await setData(res.payload.rDto)
       }
@@ -154,7 +146,7 @@ function ChatTotal() {
       <ChatTotalList>
         { data ?
           ( data.map((item, idx) => (
-              <ChatTotalItem chatData={item}/>
+              <ChatTotalItem chatData={item} loadData={loadData} page={page}/>
             ))
           ) : null
         }

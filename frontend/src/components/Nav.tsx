@@ -123,6 +123,8 @@ function Nav() {
     } else {
       setShowNav(false)
     }
+
+    
   }, [window.location.pathname]);
 
   useEffect(() => {
@@ -154,11 +156,6 @@ function Nav() {
           <div></div>
           :
           <div>
-            {/* <LogoImg
-          src={logoicon}
-          alt="Logo"
-          onClick={goMain}
-          /> */}
             <Grid
               container
             >
@@ -190,9 +187,16 @@ function Nav() {
                 <Navhref className='test' style={show ? { color: 'white' } : { color: 'black' }} to="/">메인</Navhref>
                 <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/intro">소개</Navhref>
                 <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/search">검색</Navhref>
-
-                <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/openchat">오픈채팅</Navhref>
-                <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/bigvoca">빅보카</Navhref>
+                {
+                  logincheck ?
+                  <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/openchat">오픈채팅</Navhref>
+                  : null
+                }
+                {
+                  logincheck ?
+                  <Navhref style={show ? { color: 'white' } : { color: 'black' }} to="/bigvoca">빅보카</Navhref>
+                  : null
+                }
               </NavGrid>
 
               {/* 로그인 유무에 따른 변화 */}

@@ -10,8 +10,7 @@ const Container = styled.div`
   padding: 0;
   margin: 7.5% 3rem;
   background-color: #FCE2DB;
-  border-radius: 2rem;
-  outline: 0.35rem solid #f37b83;
+  border-radius: 1rem;
 
   display: flex;
   flex-direction: column;

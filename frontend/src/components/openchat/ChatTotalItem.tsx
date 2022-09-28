@@ -87,7 +87,7 @@ interface User {
   profile: string,
 }
 
-function ChatTotalItem({ chatData }: any): any {
+function ChatTotalItem({ chatData, loadData, page }: any): any {
   const dispatch = useDispatch<typeof store.dispatch>()
   const userId = useSelector((state: initialState) => (state.login.userId))
 
@@ -118,6 +118,7 @@ function ChatTotalItem({ chatData }: any): any {
         if (res.payload) {
           // 3-1-1. 입장 성공 알림
           setOpenSuccess(true)
+          loadData(page)
         } else {
           // 3-1-2. 입장 실패 알림
           setOpenFail(true)
