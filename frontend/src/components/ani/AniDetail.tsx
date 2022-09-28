@@ -267,7 +267,7 @@ function AniDetail({ aniId }: any): any {
             <Review aniId={data.ani_id}/>
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <SimilarAni />
+            <SimilarAni aniId={data.ani_id}/>
           </TabPanel>
           <TabPanel value={value} index={3}>
             <Talk />

@@ -27,11 +27,23 @@ export const getAni = createAsyncThunk(
     } catch(err) {
       console.log('애니정보 조회 에러', err)
     }
-
   }
-
 )
 
+
+// 비슷한 애니메이션 조회
+export const getSimilar = createAsyncThunk(
+  'GETSIMILAR',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const res = await http.get(`animation/relation.do/${id}`)
+      if (res.status === 200) return res.data
+      else console.log('비슷한 애니메이션 에러', res)
+    } catch (err) {
+      console.log('비슷한 애니메이션 에러', err)
+    }
+  }
+)
 
 export interface openChatReducerType {
   error: any,
