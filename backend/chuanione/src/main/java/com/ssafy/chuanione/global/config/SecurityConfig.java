@@ -1,6 +1,5 @@
 package com.ssafy.chuanione.global.config;
 
-
 import com.ssafy.chuanione.global.jwt.JwtAccessDeniedHandler;
 import com.ssafy.chuanione.global.jwt.JwtAuthenticationEntryPoint;
 import com.ssafy.chuanione.global.jwt.JwtSecurityConfig;
