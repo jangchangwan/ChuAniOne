@@ -61,17 +61,18 @@ const ReviewTitle = styled.p`
 `
 
 
-function Review({ recommend }: any): any {
-  const [myStar, setMyStar] = useState<number>(3);
+function Review({ aniId }) {
+  // const [myStar, setMyStar] = useState<number>(3);
 
-  const getStar = (event: any): void => {
-    // console.log(event)
-    setMyStar(event.target.value)
-  }
+  // const getStar = (event: any): void => {
+  //   // console.log(event)
+  //   setMyStar(event.target.value)
+  // }
 
   return (
     <Container>
-      <StarContainer>
+      Review
+      {/* <StarContainer>
         <StarBox>
           <StarTitle>내 별점</StarTitle>
           <StarText>{myStar}</StarText>
@@ -101,7 +102,7 @@ function Review({ recommend }: any): any {
       </StarContainer>
       <ReviewInput id="outlined-basic" placeholder="이 작품에 대한 리뷰를 작성해보세요 !" variant="outlined" multiline rows={3}/>
         <ReviewTitle>리뷰</ReviewTitle>
-      <ReviewList/>
+      <ReviewList/> */}
     </Container>
   )
 }

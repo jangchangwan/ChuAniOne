@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import SearchList from './SearchList'
 import SearchFilter from './SearchFilter'
@@ -14,10 +14,16 @@ const Container = styled.div`
 `
 
 function AniSearch() {
+  const [keyword, setKeyword] = useState<string>('')
+
+  const changeKeyword = (value: string) => {
+    setKeyword(value)
+  }
+
   return (
     <Container>
-      <SearchFilter />
-      <SearchList />
+      <SearchFilter changeKeyword={changeKeyword}/>
+      <SearchList keyword={keyword}/>
     </Container>
   )
 }
