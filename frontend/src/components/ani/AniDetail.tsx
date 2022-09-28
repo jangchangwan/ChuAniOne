@@ -17,7 +17,7 @@ import Talk from './Talk'
 // redux
 import { useDispatch } from 'react-redux'
 import store from '../../store'
-import { getAni, getTaste, postLike, deleteLike } from '../../store/anislice'
+import { getAni, getTaste, postLike, deleteLike, deleteDislike, postDislike } from '../../store/anislice'
 
 const Container = styled.div`
   width: 100%;
@@ -196,6 +196,7 @@ function AniDetail({ aniId }: any): any {
   }
   
   const dispatch = useDispatch<typeof store.dispatch>()
+
   const [value, setValue] = useState<number>(0)
   const [data, setData] = useState<Data | null>(null)
   const [like, setLike] = useState<boolean>(false)
@@ -215,6 +216,7 @@ function AniDetail({ aniId }: any): any {
     }
   }
 
+  // 좋아요 & 싫어요 & 찜 불러오기
   async function loadTaste() {
     const resTaste = await dispatch(getTaste(aniId))
 
@@ -225,10 +227,9 @@ function AniDetail({ aniId }: any): any {
     }
   }
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-  }
 
+
+  // 좋아요
   async function handleLike () {
     if (like) {
       const res = await dispatch(deleteLike(aniId))
@@ -242,7 +243,26 @@ function AniDetail({ aniId }: any): any {
         setLike(!like)
       }
     }
+  }
 
+  // 싫어요
+  async function handleDislike () {
+    if (dislike) {
+      const res = await dispatch(deleteDislike(aniId))
+
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
+        setDislike(!dislike)
+      }
+    } else {
+      const res = await dispatch(postDislike(aniId))
+      if (res.meta.requestStatus === "fulfilled" && res.payload) {
+        setDislike(!dislike)
+      }
+    }
+  }
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue)
   }
 
   return (
@@ -256,7 +276,7 @@ function AniDetail({ aniId }: any): any {
                 <IconBtn onClick={handleLike}>
                   { like ? <ThumbUpAlt /> : <ThumbUpOffAlt /> }
                 </IconBtn>
-                <IconBtn>
+                <IconBtn onClick={handleDislike}>
                   { dislike ?  <ThumbDownAlt /> : <ThumbDownOffAlt /> }
                 </IconBtn>
                 <IconBtn>

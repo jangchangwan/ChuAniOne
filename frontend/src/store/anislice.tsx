@@ -11,7 +11,7 @@ export const getAniAll = createAsyncThunk(
       if (res.status === 200) return res.data
       else console.log('전체 애니목록 조회 에러', res)
     } catch (err) {
-      console.log('전체 애니목록 조회 에러', rejectWithValue)
+      console.log('전체 애니목록 조회 에러', err)
     }
   }
 )
@@ -25,7 +25,7 @@ export const getAni = createAsyncThunk(
       if (res.status === 200) return res.data
       else console.log('애니정보 조회 에러', res)
     } catch(err) {
-      console.log('애니정보 조회 에러', rejectWithValue)
+      console.log('애니정보 조회 에러', err)
     }
   }
 )
@@ -44,7 +44,7 @@ export const getTaste = createAsyncThunk(
       else console.log('찜 & 좋아요 & 싫어요 에러', res)
 
     } catch(err) {
-      console.log('찜 & 좋아요 & 싫어요 에러', rejectWithValue)
+      console.log('찜 & 좋아요 & 싫어요 에러', err)
     }
   }
 )
@@ -65,7 +65,7 @@ export const postLike = createAsyncThunk(
         return false
       }
     } catch(err) {
-      console.log('postLike error', rejectWithValue)
+      console.log('postLike error', err)
       return false
     }
   }
@@ -73,7 +73,7 @@ export const postLike = createAsyncThunk(
 
 // 좋아요 삭제
 export const deleteLike = createAsyncThunk(
-  'POSTLIKE',
+  'DELETELIKE',
   async (id: number, { rejectWithValue }) => {
     try {
       const accessToken = localStorage.getItem("access-Token")
@@ -86,12 +86,50 @@ export const deleteLike = createAsyncThunk(
         return false
       }
     } catch(err) {
-      console.log('postLike error', rejectWithValue)
+      console.log('postLike error', err)
       return false
     }
   }
 )
 
+// 싫어요 등록
+export const postDislike = createAsyncThunk(
+  'POSTDISLIKE',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const res = await http.post(`animation/dislike/${id}`)
+      if (res.status === 200) return true
+      else {
+        console.log('post dislike error', res)
+        return false
+      }
+    } catch (err) {
+      console.log('post dislike error', err)
+      return false
+      // return rejectWithValue(err.response)
+    }
+  }
+)
+
+
+// 싫어요 삭제
+export const deleteDislike = createAsyncThunk(
+  'DELETEDISLIKE',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const res = await http.delete(`animation/dislike/${id}`)
+      if (res.status === 200) return true
+      else {
+        console.log('delete dislike error', res)
+        return false
+      }
+    } catch (err) {
+      console.log('delete dislike error', err)
+      return false
+      // return rejectWithValue(err.response)
+    }
+  }
+)
 
 // 비슷한 애니메이션 조회
 export const getSimilar = createAsyncThunk(
