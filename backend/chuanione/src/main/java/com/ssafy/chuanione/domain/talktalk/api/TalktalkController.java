@@ -28,7 +28,7 @@ public class TalktalkController {
     @PostMapping("/insert/{id}")
     @ApiOperation(value = "톡톡 작성 (id:애니메이션)")
     public ResponseEntity<TalktalkResponseDto> insertTalk(@RequestBody TalktalkRequestDto dto, @PathVariable int id) {
-        return new ResponseEntity<>(talktalkService.insertTalk(dto, id),HttpStatus.CREATED);
+        return new ResponseEntity<>(talktalkService.insertTalk(dto, id), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}/{tid}")
