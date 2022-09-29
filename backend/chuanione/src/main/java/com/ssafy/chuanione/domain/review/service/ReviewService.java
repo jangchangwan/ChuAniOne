@@ -12,6 +12,7 @@ public interface ReviewService {
     ReviewResponseDto insertReview(ReviewRequestDto dto, int id);
     ReviewResponseDto updateReview(ReviewRequestDto dto, int id);
     void deleteReview(int id);
+    Object getMyReview(int id);
 
 
 }

@@ -12,4 +12,5 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     List<Review> findByAnimationId(int animation_id);
+    Review findByAnimationIdAndMemberId(int animation_id, int member_id);
 }

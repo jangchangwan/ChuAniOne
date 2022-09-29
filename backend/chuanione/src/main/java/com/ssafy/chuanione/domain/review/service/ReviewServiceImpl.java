@@ -78,4 +78,13 @@ public class ReviewServiceImpl implements ReviewService{
             reviewRepository.delete(review);
         }
     }
+
+    @Override
+    public Object getMyReview(int id) {
+        Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        Review review = reviewRepository.findByAnimationIdAndMemberId(id, login.getId());
+        if(review == null) return "NO";
+        else
+        return ReviewResponseDto.from(review);
+    }
 }

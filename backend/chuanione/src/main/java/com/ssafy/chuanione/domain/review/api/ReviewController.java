@@ -45,6 +45,11 @@ public class ReviewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/my/{id}")
+    @ApiOperation(value = "리뷰 자기꺼 조회 (id:애니메이션) / NO 리턴되면 작성한 리뷰가 없는것")
+    public ResponseEntity<Object> getMyReview(@PathVariable int id) {
+        return new ResponseEntity<>(reviewService.getMyReview(id), HttpStatus.OK);
+    }
 
 
 
