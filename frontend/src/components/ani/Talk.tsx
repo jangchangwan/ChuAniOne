@@ -4,11 +4,13 @@ import TextField from '@mui/material/TextField'
 import TalkList from './TalkList'
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
+import { IconButton } from '@mui/material'
 
 // redux
 import { useDispatch } from 'react-redux'
 import store from '../../store'
-import { createTalk, getTalk } from '../../store/anislice'
+import { createTalk, getTalk, deleteTalk } from '../../store/anislice'
 
 const Container = styled.div`
   width: 90%;
@@ -20,9 +22,20 @@ const Container = styled.div`
   justify-content: center;
 `
 
+const TalkCountBox = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 const TalkCount = styled.p`
-  margin-top: 0;
+  margin: 0;
   font-weight: bold;
+`
+
+const RenewBtn = styled(IconButton)`
+`
+
+const RenewIcon = styled(AutorenewIcon)`
 `
 
 const SendTalk = styled.div`
@@ -49,7 +62,7 @@ function Talk({ aniId }) {
   interface Data {
     animation: number,
     content: string,
-    date: string,
+    date: number[],
     id: number,
     image: string,
     writer_id: number,
@@ -65,7 +78,7 @@ function Talk({ aniId }) {
   async function loadData() {
     const res = await dispatch(getTalk(aniId))
     if (res.meta.requestStatus === "fulfilled") {
-      setData(res.payload.talkList)
+      setData(res.payload.talkList.reverse())
       setCnt(res.payload.totalCnt)
     }
   }
@@ -86,23 +99,36 @@ function Talk({ aniId }) {
     } 
   }
 
+  // 톡톡 삭제하기
+  async function delTalk(tid) {
+    const res = await dispatch(deleteTalk({ id: aniId, tid }))
+    if (res.payload) loadData()
+    console.log(res)
+  }
+
   useEffect(() => {
     loadData()
   }, [aniId])
 
   return (
     <Container>
-      <TalkCount>{cnt}개의 Talk</TalkCount>
+      <TalkCountBox>
+        <TalkCount>{cnt}개의 Talk</TalkCount>
+        <RenewBtn onClick={loadData}><RenewIcon/></RenewBtn>
+      </TalkCountBox>
 
       <SendTalk>
         <TalkInput 
           id="outlined-basic" 
-          placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
+          placeholder="이 작품에 대해 자유롭게 이야기해보세요 !" 
           value={writeTalk}
           onChange={(e) => setWriteTalk(e.target.value)}
-          onKeyUp={(e) => {
-            if (e.code === "Enter") sendTalk()
+          onKeyPress={(e) => {
+            console.log(e)
+            if (e.code === "Enter" && !e.shiftKey) sendTalk()
           }}
+          multiline
+          rows={2}
           variant="outlined"
           sx={{
             "& .MuiOutlinedInput-root.Mui-focused": {
@@ -111,12 +137,12 @@ function Talk({ aniId }) {
           }}}}
         />
         <BtnDiv>
-          <Btn onClick={sendTalk}>
+          <Btn type="button" onClick={sendTalk}>
             등록
           </Btn>
         </BtnDiv>
       </SendTalk>
-      <TalkList data={data} />
+      <TalkList data={data} delTalk={delTalk}/>
     </Container>
   )
 }

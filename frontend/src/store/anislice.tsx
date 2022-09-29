@@ -252,7 +252,6 @@ export const createTalk = createAsyncThunk(
   'CREATETALK',
   async (data: WriteProps, { rejectWithValue }) => {
     try {
-      console.log(data)
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
 
@@ -260,7 +259,7 @@ export const createTalk = createAsyncThunk(
         content: data.content,
         image: data.image,
       })
-      
+
       if (res.status === 200) return true
       else {
         console.log('톡톡 작성 에러', res)
@@ -284,8 +283,8 @@ export const deleteTalk = createAsyncThunk(
     try {
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
-
-      const res = await http.post(`talk/insert/${data.id}/${data.tid}`)
+      console.log(data)
+      const res = await http.delete(`talk/delete/${data.id}/${data.tid}`)
       if (res.status === 200) return true
       else {
         console.log('톡톡 삭제 에러', res)
@@ -298,27 +297,20 @@ export const deleteTalk = createAsyncThunk(
 )
 
 export interface openChatReducerType {
-  error: any,
-  anilist: []
 }
 
 const initialState:openChatReducerType = {
-  error: null,
-  anilist: []
 }
 
 const anislice:any = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    resetanilist: (state) => {
-      state.anilist = []
-    },
   },
   extraReducers: {
 
   },
 })
 
-export const { resetanilist } = anislice.actions
+export const {  } = anislice.actions
 export default anislice.reducer
