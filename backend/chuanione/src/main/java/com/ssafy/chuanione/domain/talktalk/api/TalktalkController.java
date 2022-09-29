@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class TalktalkController {
 
     @GetMapping("/list.do/{id}")
     @ApiOperation(value = "톡톡 전체 조회 (id:애니메이션)")
-    public ResponseEntity<List<TalktalkResponseDto>> getList(@PathVariable int id) {
+    public ResponseEntity<Map<String,Object>> getList(@PathVariable int id) {
         return new ResponseEntity<>(talktalkService.getList(id),HttpStatus.OK);
     }
 
@@ -32,7 +33,7 @@ public class TalktalkController {
 
     @DeleteMapping("/delete/{id}/{tid}")
     @ApiOperation(value = "톡톡 삭제 (id:애니메이션), (tid:톡톡)")
-    public ResponseEntity<Void> deleteTalk(@PathVariable int id,@PathVariable int tid) {
+    public ResponseEntity<Void> deleteTalk(@PathVariable int id, @PathVariable int tid) {
         talktalkService.deleteTalk(id, tid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
