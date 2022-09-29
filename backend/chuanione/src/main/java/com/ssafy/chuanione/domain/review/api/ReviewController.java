@@ -27,8 +27,8 @@ public class ReviewController {
     }
 
     @PostMapping("/insert/{id}")
-    @ApiOperation(value = "리뷰 작성 (id:애니메이션)")
-    public ResponseEntity<ReviewResponseDto> insertReview(@RequestBody ReviewRequestDto reviewRequestDto, @PathVariable int id) {
+    @ApiOperation(value = "리뷰 작성 (id:애니메이션) / NO 리턴되면 이미 작성된 리뷰가 있음")
+    public ResponseEntity<Object> insertReview(@RequestBody ReviewRequestDto reviewRequestDto, @PathVariable int id) {
         return new ResponseEntity<>(reviewService.insertReview(reviewRequestDto, id),HttpStatus.OK);
     }
 

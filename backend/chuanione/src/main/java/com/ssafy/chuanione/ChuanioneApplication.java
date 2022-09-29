@@ -1,6 +1,7 @@
 package com.ssafy.chuanione;
 
 import com.ssafy.chuanione.domain.animation.dao.AnimationRepository;
+import com.ssafy.chuanione.domain.review.dao.ReviewMongoRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -12,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @SpringBootApplication
 @EnableJpaAuditing
-@EnableMongoRepositories(basePackageClasses = AnimationRepository.class)
+@EnableMongoRepositories(basePackageClasses = {AnimationRepository.class, ReviewMongoRepository.class})
 public class ChuanioneApplication {
 
 	public static void main(String[] args) {

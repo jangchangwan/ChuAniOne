@@ -9,7 +9,7 @@ import java.util.Map;
 public interface ReviewService {
 
     Map<String,Object> getList(int id);
-    ReviewResponseDto insertReview(ReviewRequestDto dto, int id);
+    Object insertReview(ReviewRequestDto dto, int id);
     ReviewResponseDto updateReview(ReviewRequestDto dto, int id);
     void deleteReview(int id);
     Object getMyReview(int id);
