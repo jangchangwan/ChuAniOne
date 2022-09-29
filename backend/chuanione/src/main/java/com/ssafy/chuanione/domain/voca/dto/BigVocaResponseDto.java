@@ -19,7 +19,7 @@ public class BigVocaResponseDto {
         if(voca == null) return null;
 
         return BigVocaResponseDto.builder()
-                .voca_id(voca.getId())
+                .voca_id(voca.getVoca_id())
                 .japanese(voca.getJapanese())
                 .pronunciation(voca.getPronunciation())
                 .korean(voca.getKorean())
@@ -30,7 +30,7 @@ public class BigVocaResponseDto {
         if(voca == null) return null;
 
         return BigVocaResponseDto.builder()
-                .voca_id(voca.getVocaId())
+                .voca_id(voca.getVoca_id())
                 .japanese(voca.getJapanese())
                 .pronunciation(voca.getPronunciation())
                 .korean(voca.getKorean())

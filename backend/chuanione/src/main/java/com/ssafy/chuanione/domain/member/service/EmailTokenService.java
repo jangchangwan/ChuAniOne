@@ -38,7 +38,7 @@ public class EmailTokenService {
     private final MemberRepository memberRepository;
 
     private final String FROM = "pecommend@gmail.com";
-
+    public static final StringBuilder ePw = new StringBuilder();
     private final String path = File.separator + "img" + File.separator;
 
 
