@@ -21,9 +21,10 @@ const NavContainer = styled.div`
 const NavLogoImg = styled.img`
   position: fixed;
   left: 1.5rem;
-  top: -6rem;
+  top: 1.5rem;
   width: 18rem;
   cursor: pointer;
+  overflow: hidden;
 `
 
 //채팅목록 불러오기
