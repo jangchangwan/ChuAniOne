@@ -1,10 +1,14 @@
 import styled from "styled-components"
 import React, { useState, useEffect } from 'react'
-import MenuIcon from '@mui/icons-material/Menu';
-import IconButton from '@mui/material/IconButton';
-// 모션
+
+// MUI
+import MenuIcon from '@mui/icons-material/Menu'
+import IconButton from '@mui/material/IconButton'
+
 import { useNavigate } from 'react-router-dom'
-// Nav 전체 틀
+
+import LogoImg from '../assets/images/logo2.png'
+
 const NavContainer = styled.div`
   position: fixed;
   top: 0;
@@ -14,6 +18,14 @@ const NavContainer = styled.div`
   align-items: center;
 `
 
+const NavLogoImg = styled.img`
+  position: fixed;
+  left: 1.5rem;
+  top: -6rem;
+  width: 18rem;
+  cursor: pointer;
+`
+
 //채팅목록 불러오기
 
 
@@ -21,6 +33,12 @@ function Nav() {
   const navigate = useNavigate()
   const [showNav, setShowNav] = useState(false)
 
+  // 메인으로 이동
+  const GoMain = () => {
+    navigate('/')
+  }
+
+  // 네브바 오픈
   const NavOpen = () => {
     navigate('/navPage')
   }
@@ -42,9 +60,20 @@ function Nav() {
     } else {
       setShowNav(true)
     }  
-  }, [window.location.pathname]);
+  }, [window.location.pathname])
+
   return (
+    
     <NavContainer>
+      {
+        showNav ?
+        null
+        : 
+        <NavLogoImg 
+        onClick={GoMain}
+        src={LogoImg}/>
+      }
+      
       {
         showNav ?
         null

@@ -16,6 +16,7 @@ import { motion } from 'framer-motion';
 // 이미지
 import NavImgLeft from '../assets/images/navImg1.png'
 import NavImgRight from '../assets/images/navImg2.png'
+import NavImgRight2 from '../assets/images/navImage3.png'
 
 // MUI
 import CloseIcon from '@mui/icons-material/Close'
@@ -79,7 +80,7 @@ function NavPage() {
         initial={{ y: -1500 }}
         animate={{ y: 0 }}
         exit={{ display: 'none' }}
-        transition={{ duration: '1.5' }}
+        transition={{ duration: '1' }}
         style={{
           position: 'relative',
           left: '0%',
@@ -91,7 +92,7 @@ function NavPage() {
         <motion.div
           initial= {{ opacity:0}}
           animate={{ opacity:1 }}
-          transition={{ delay: 1.5}}
+          transition={{ delay: 1}}
           style={{
             display:'flex',
             flexDirection: 'column',
@@ -133,7 +134,8 @@ function NavPage() {
               style={{
                 color: 'white',
                 fontWeight: '700',
-                marginLeft: '2rem'
+                marginLeft: '2rem',
+                cursor: 'pointer'
               }}
             >로그아웃</div>
             : null
@@ -145,7 +147,7 @@ function NavPage() {
         initial={{ y: 1500 }}
         animate={{ y: 0 }}
         exit={{ display: 'none' }}
-        transition={{ duration: '1.5' }}
+        transition={{ duration: '1' }}
         style={{
           position: 'relative',
           height: '100vh',
@@ -154,9 +156,14 @@ function NavPage() {
         }}
       >
         <motion.div
-          initial= {{ opacity:0}}
-          animate={{ opacity:1 }}
-          transition={{ delay: 1.5}}
+          initial= {{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1}}
+          style={{
+            height: '100%',
+            backgroundImage: `url(${NavImgRight2})`,
+            objectFit: 'cover'
+          }}
         >
           <IconButton
           onClick={NavClose}
