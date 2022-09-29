@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MyPageServiceImpl {
+public class MyPageServiceImpl implements MyPageService {
 
     private final MemberRepository memberRepository;
     private final AnimationTypeRepository aniTypeRepository;
@@ -63,6 +63,30 @@ public class MyPageServiceImpl {
         return result;
     }
 
+    // 시청한 애니 더보기
+    public Map<String, Object> getWatchAni(int memberId, Pageable page){
+        // 시청한 애니 아이디
+        List<AnimationType> watchIds = aniTypeRepository.findAllByMemberId_IdAndTypeOrderByIdDesc(memberId, 4);
+        // 각 리스트로 받아옴
+        return getAniTypeList("watch", watchIds, page);
+    }
+
+    // 좋아요한 애니 더보기
+    public Map<String, Object> getLikeAni(int memberId, Pageable page){
+        // 시청한 애니 아이디
+        List<AnimationType> likeIds = aniTypeRepository.findAllByMemberId_IdAndTypeOrderByIdDesc(memberId, 1);
+        // 각 리스트로 받아옴
+        return getAniTypeList("like", likeIds, page);
+    }
+
+    // 찜한 애니 더보기
+    public Map<String, Object> getWishAni(int memberId, Pageable page){
+        // 찜한 애니 아이디
+        List<AnimationType> wishIds = aniTypeRepository.findAllByMemberId_IdAndTypeOrderByIdDesc(memberId, 3);
+        // 각 리스트로 받아옴
+        return getAniTypeList("wish", wishIds, page);
+    }
+
     // 리뷰
 
     // 보카 내역
@@ -80,6 +104,17 @@ public class MyPageServiceImpl {
 
     // 경험치 history
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // 중복 코드 묶음(애니메이션 목록, 총 갯수 반환)
+    public Map<String, Object> getAniTypeList(String type, List<AnimationType> ids, Pageable page){
+        Page<Animation> aniPage = animationRepository.findAllByQuery(getAnimationId(ids), page);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put(type, aniPage.stream().map(AnimationResponseDto::from).collect(Collectors.toList()));
+        result.put("totalCnt", aniPage.getTotalElements());
+
+        return result;
+    }
 
     // 타입별 애니메이션 아이디 얻기
     public int[] getAnimationId(List<AnimationType> myAniList){
