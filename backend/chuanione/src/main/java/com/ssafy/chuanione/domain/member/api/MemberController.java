@@ -1,15 +1,22 @@
 package com.ssafy.chuanione.domain.member.api;
 
 
+import com.ssafy.chuanione.domain.animation.domain.AnimationType;
+import com.ssafy.chuanione.domain.animation.dto.AnimationTypeResponseDto;
 import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
-import com.ssafy.chuanione.domain.member.exception.TokenNotFoundException;
 import com.ssafy.chuanione.domain.member.service.EmailService;
 import com.ssafy.chuanione.domain.member.service.EmailTokenService;
-import com.ssafy.chuanione.domain.member.service.MemberService;
+import com.ssafy.chuanione.domain.member.service.MemberServiceImpl;
+import com.ssafy.chuanione.domain.member.service.MyInfoServiceImpl;
+import com.ssafy.chuanione.domain.voca.dto.BigVocaResponseDto;
 import com.ssafy.chuanione.global.error.exception.InvalidParameterException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,10 +33,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberService memberService;
+    private final MemberServiceImpl memberService;
     private final EmailService emailService;
     private final EmailTokenService emailTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final MyInfoServiceImpl myInfoService;
 
     @PostMapping("/signup.do")
     @ApiOperation(value = "회원 가입")
@@ -126,4 +133,16 @@ public class MemberController {
         return new ResponseEntity<>(memberService.getMyInfo(), HttpStatus.OK);
     }
 
+    @GetMapping("/ani/{id}")
+    @ApiOperation(value = "애니 기록")
+    public ResponseEntity<AnimationTypeResponseDto> getMyAni(){
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+    @GetMapping("/voca/{id}")
+    @ApiOperation(value = "내 단어 목록")
+    public ResponseEntity<List<BigVocaResponseDto>> getMyVoca(@PathVariable int id, @PageableDefault(size = 8) Pageable pageable) {
+        // 한 페이지에 8개씩, 첫 페이지의 인덱스: 0
+        return new ResponseEntity<>(myInfoService.getMyVoca(id, pageable), HttpStatus.OK);
+    }
 }
