@@ -338,7 +338,7 @@ function AniDetail({ aniId }: any): any {
             <SimilarAni aniId={data.ani_id}/>
           </TabPanel>
           <TabPanel value={value} index={3}>
-            <Talk />
+            <Talk aniId={data.ani_id}/>
           </TabPanel>
           {/* <TabPanel value={value} index={4}>
             <Books />

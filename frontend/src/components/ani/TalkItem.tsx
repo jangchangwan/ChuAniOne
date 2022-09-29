@@ -33,8 +33,7 @@ const UserContent = styled.p`
   margin: 0;
 `
 
-function TalkItem({recommend, mine}: any): any {
-  console.log(mine)
+function TalkItem({ item, mine }: any): any {
   
   useEffect(() => {
     setMine()
