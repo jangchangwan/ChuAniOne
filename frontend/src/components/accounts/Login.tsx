@@ -10,6 +10,8 @@ import Container from '@mui/material/Container'
 import Alert from '@mui/material/Alert'
 import logoicon from '../../assets/images/logo2.png'
 import Snackbar from '@mui/material/Snackbar'
+import styled from "styled-components"
+
 // 하위 컴포넌트
 import GoogleLogin from './GoogleLogin'
 import KakaoLogin from './KakaoLogin'
@@ -19,16 +21,24 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
 import { login, myinfo } from '../../store/Loginslice'
 import store from '../../store'
+
 // 화면전환 애니메이션
 // import { motion } from 'framer-motion'
-import BackgroundImg from '../../assets/images/memberBackground.png'
 
-import styled from "styled-components"
+// Image
+import BackgroundImg from '../../assets/images/memberBackground.png'
+import { Height } from '@mui/icons-material'
+
+
+
+
 const LogoImg = styled.img`
-  width: 10rem;
+  padding: 2rem;
+  width: 15rem;
   height: auto;
   object-fit: contain;
   background-color: 'transparent';
+  cursor: pointer;
 `
 
 function Login() {
@@ -76,14 +86,16 @@ function Login() {
           component="main" 
           maxWidth="xs"
           sx = {{
-            padding: '3.5rem'
+            padding: '3.5rem',
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
           }}
           >
           <CssBaseline />
           <Box
             boxShadow={2}
             sx={{
-              marginTop: 5,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -127,7 +139,6 @@ function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-
               <Button
                 type="submit"
                 fullWidth
@@ -156,7 +167,7 @@ function Login() {
                   <Link 
                     href="/pwd" 
                     variant="body2">
-                    비밀번호 찾기
+                    비밀번호를 잊으셨나요?
                   </Link>
                 </Grid>
               </Grid>
