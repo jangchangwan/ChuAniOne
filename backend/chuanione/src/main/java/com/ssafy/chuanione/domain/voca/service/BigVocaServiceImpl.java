@@ -45,7 +45,7 @@ public class BigVocaServiceImpl implements BigVocaService{
         BigVoca bigVoca = bigVocaRepository.findById(id).orElse(null);
         MemorizeVoca memorizeVoca =MemorizeVoca.builder()
                 .memberId(member)
-                .voca_id(bigVoca)
+                .vocaId(bigVoca)
                 .build();
         return memorizeVocaRepository.save(memorizeVoca);
 

@@ -7,17 +7,13 @@ import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.DuplicateEmailException;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.global.jwt.TokenProvider;
-import com.ssafy.chuanione.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -31,6 +27,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final EmailTokenService emailTokenService;
+
     public MemberResponseDto doSignUp(SignUpRequestDto requestDto) throws Exception {
         // Login id/pw로 AuthenticationToken 생성
         if(memberRepository.findByEmail(requestDto.getEmail()).orElse(null) != null){
@@ -110,12 +107,8 @@ public class MemberService {
         return;
     }
 
-    public MemberResponseDto getMyInfo() {
-        System.out.println("토큰 " + SecurityUtil.getCurrentUsername());
-        return MemberResponseDto.from(SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new));
-    }
-
     public boolean emailConfirmCheck(String email) {
         return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new).isVerified();
     }
+
 }
