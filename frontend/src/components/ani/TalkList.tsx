@@ -2,19 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 import TalkItem from './TalkItem'
 
+
+
 const Container = styled.div`
 `
 
 
-function TalkList({recommend}: any): any {
+function TalkList({ data, delTalk }: any): any {
+
   return (
     <Container>
-      <TalkItem recommend={recommend} mine={true}/>
-      <TalkItem recommend={recommend}/>
-      <TalkItem recommend={recommend}/>
-      <TalkItem recommend={recommend}/>
+      { data.map((item, idx) => (
+        <TalkItem data={item} delTalk={delTalk}/>
+      ))}
     </Container>
-  );
+  )
 }
 
 export default TalkList
