@@ -67,6 +67,7 @@ const NameBox = styled.div`
 
 const FilterName = styled.p`
   font-weight: bold;
+  cursor: default;
   /* background-color: #f37b83; */
   border-radius: 1rem;
   padding: 0.2rem 0.5rem;
