@@ -15,6 +15,7 @@ services:
     container_name: nginx_chu
     depends_on:
       - spring-boot
+      - react
 
   react:
     image: node:12-alpine
