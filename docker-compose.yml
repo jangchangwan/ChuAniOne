@@ -9,7 +9,7 @@ services:
       - 443:443
     volumes:
       - /home/ubuntu/nginx:/etc/nginx/conf.d
-      - ./build:/usr/share/nginx/html
+      #- ./frontend/build:/usr/share/nginx/html
       - /var/nginx/log:/log
       - /home/ubuntu/docker-volume/ssl:/var/www/html
     container_name: nginx_chu
@@ -24,6 +24,7 @@ services:
       - "3000:3000"
     working_dir: /app
     volumes:
+      - ./frontend/build:/usr/share/nginx/html
       - ./frontend:/app
     container_name: react_chu
 
