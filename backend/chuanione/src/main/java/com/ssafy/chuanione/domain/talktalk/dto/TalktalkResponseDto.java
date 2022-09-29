@@ -18,7 +18,8 @@ public class TalktalkResponseDto {
     private String content;
     private String image; //url
     private LocalDateTime date;
-    private Integer writer; //작성자
+    private Integer writer_id; //작성자
+    private String writer_name; //작성자 닉네임
     private Integer animation;
 
 
@@ -30,7 +31,8 @@ public class TalktalkResponseDto {
                 .content(talk.getContent())
                 .image(talk.getImage())
                 .date(talk.getDate())
-                .writer(talk.getWriter().getId())
+                .writer_id(talk.getWriter().getId())
+                .writer_name(talk.getWriter().getNickname())
                 .animation(talk.getAnimation())
                 .build();
     }

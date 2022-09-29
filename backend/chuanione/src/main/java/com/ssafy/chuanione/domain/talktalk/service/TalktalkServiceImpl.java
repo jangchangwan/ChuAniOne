@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,8 @@ public class TalktalkServiceImpl implements TalktalkService {
     }
     public TalktalkResponseDto insertTalk(TalktalkRequestDto dto, int id){
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        Talktalk talk = dto.toEntity(dto,login, id);
+        LocalDateTime localDateTime = LocalDateTime.now(); //현재시간
+        Talktalk talk = dto.toEntity(dto,login, id, localDateTime);
         talktalkRepository.save(talk);
         return TalktalkResponseDto.from(talk);
     }
