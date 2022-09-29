@@ -1,6 +1,7 @@
 package com.ssafy.chuanione.domain.member.api;
 
 
+import com.ssafy.chuanione.domain.animation.dto.AnimationResponseDto;
 import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.domain.member.service.EmailService;
@@ -11,7 +12,9 @@ import com.ssafy.chuanione.global.error.exception.InvalidParameterException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -127,12 +130,30 @@ public class MemberController {
         return new ResponseEntity<>(myPageService.getMyInfo(), HttpStatus.OK);
     }
 
-//    @GetMapping("/ani/{id}")
-//    @ApiOperation(value = "애니 기록")
-//    public ResponseEntity<MyAniDto> getMyAni(){
-//
-//        return new ResponseEntity<>(null, HttpStatus.OK);
-//    }
+    @GetMapping("/ani/{id}")
+    @ApiOperation(value = "애니 내역(좋아요, 찜, 시청) - 메인")
+    public ResponseEntity<Map<String, Object>> getMyAni(@PathVariable int id){
+        System.out.println("[MemberController]");
+        return new ResponseEntity<>(myPageService.getMyAni(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/ani/like/{id}")
+    @ApiOperation(value = "좋아요한 애니 목록 전체")
+    public ResponseEntity<Map<String, Object>> getLikeAni(@PathVariable int id, @PageableDefault(size = 14) @SortDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page){
+        return new ResponseEntity<>(myPageService.getLikeAni(id, page), HttpStatus.OK);
+    }
+
+    @GetMapping("/ani/watch/{id}")
+    @ApiOperation(value = "시청한 애니 목록 전체")
+    public ResponseEntity<Map<String, Object>> getWatchAni(@PathVariable int id, @PageableDefault(size = 14) @SortDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page){
+        return new ResponseEntity<>(myPageService.getWatchAni(id, page), HttpStatus.OK);
+    }
+
+    @GetMapping("/ani/wish/{id}")
+    @ApiOperation(value = "찜한 애니 목록 전체")
+    public ResponseEntity<Map<String, Object>> getWishAni(@PathVariable int id, @PageableDefault(size = 14) @SortDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page){
+        return new ResponseEntity<>(myPageService.getWishAni(id, page), HttpStatus.OK);
+    }
 
     @GetMapping("/voca/{id}")
     @ApiOperation(value = "내 단어 목록 (id: 회원 번호)")
