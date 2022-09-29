@@ -12,29 +12,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/reivew")
+@RequestMapping("/api/v1/review")
 public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/list.do/{id}")
     @ApiOperation(value = "리뷰 전체 조회 (id:애니메이션)")
-    public ResponseEntity<List<ReviewResponseDto>> getList(@PathVariable int id) {
+    public ResponseEntity<Map<String, Object>> getList(@PathVariable int id) {
         return new ResponseEntity<>(reviewService.getList(id), HttpStatus.OK);
     }
 
     @PostMapping("/insert/{id}")
     @ApiOperation(value = "리뷰 작성 (id:애니메이션)")
-    public ResponseEntity<ReviewResponseDto> insertReview(@RequestBody ReviewRequestDto dto, @PathVariable int id) {
-        return new ResponseEntity<>(reviewService.insertReview(dto, id),HttpStatus.OK);
+    public ResponseEntity<ReviewResponseDto> insertReview(@RequestBody ReviewRequestDto reviewRequestDto, @PathVariable int id) {
+        return new ResponseEntity<>(reviewService.insertReview(reviewRequestDto, id),HttpStatus.OK);
     }
 
-    @PatchMapping("/insert/{id}")
+    @PatchMapping("/update/{id}")
     @ApiOperation(value = "리뷰 수정 (id:리뷰)")
-    public ResponseEntity<ReviewResponseDto> updateReview(@RequestBody ReviewRequestDto dto, @PathVariable int id) {
-        return new ResponseEntity<>(reviewService.updateReview(dto, id),HttpStatus.OK);
+    public ResponseEntity<ReviewResponseDto> updateReview(@RequestBody ReviewRequestDto reviewRequestDto, @PathVariable int id) {
+        return new ResponseEntity<>(reviewService.updateReview(reviewRequestDto, id),HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

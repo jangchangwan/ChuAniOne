@@ -11,5 +11,5 @@ import java.util.List;
 @Transactional
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    List<Review> findByAnimation(int animation);
+    List<Review> findByAnimationId(int animation_id);
 }

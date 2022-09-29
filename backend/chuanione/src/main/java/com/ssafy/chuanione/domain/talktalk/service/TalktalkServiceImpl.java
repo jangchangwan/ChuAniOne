@@ -27,20 +27,13 @@ public class TalktalkServiceImpl implements TalktalkService {
     private final TalktalkRepository talktalkRepository;
     private final MemberRepository memberRepository;
 
-    public Map<String,Object> getList(){
+    public List<TalktalkResponseDto> getList(){
         List<Talktalk> list = talktalkRepository.findAll();
         List<TalktalkResponseDto> resList = new ArrayList<>();
-        double
         for(Talktalk talk : list){
             resList.add(TalktalkResponseDto.from(talk));
         }
-        int count = list.size(); // 해당 애니메이션의 리뷰 전체 개수
-        double rating = 0.0; // 평점
-        Map<String, Object> map = new HashMap<>();
-        map.put("rating",rating);
-        map.put("count", count);
-        map.put("reviewList",resList);
-        return map;
+        return resList;
 
     }
     public TalktalkResponseDto insertTalk(TalktalkRequestDto dto){
