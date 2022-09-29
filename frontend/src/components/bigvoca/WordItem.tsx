@@ -72,10 +72,12 @@ function WordItem({ vocaData }) {
             sx={checked ? 
               {
                 color: '#535453',
-                paddingTop: '0.5rem'
+                paddingTop: '0.5rem',
+                cursor: 'pointer'
               } : {
                 color: '#FA9494',
-                paddingTop: '0.5rem'
+                paddingTop: '0.5rem',
+                cursor: 'pointer'
               }}
               onClick={() => {
               textToSpeech(vocaData.japanese)

@@ -257,7 +257,11 @@ function MyLeft() {
   },[])
 
   return (
-    <div>
+    <div
+      style={{
+        paddingTop: '3rem'
+      }}
+    >
       {/* 프로필사진, 경험치, 닉네임, 소개, 벳지 가져오기 */}
       <ProfileContainer>
         {
