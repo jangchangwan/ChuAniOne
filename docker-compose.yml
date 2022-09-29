@@ -48,7 +48,7 @@ services:
       dockerfile: Dockerfile
     image: boot_chu
     volumes:
-      - "./backend/chuanione/src/main/resources/img:/img"
+      - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/chuanione/src/main/resources/img:/img
     ports:
       - "8080:8080"
     container_name: boot_chu
