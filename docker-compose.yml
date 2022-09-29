@@ -54,7 +54,7 @@ services:
     restart: always
     depends_on:
       - db
-      -
+
   django:
     build:
       context: ./backend/recomm
