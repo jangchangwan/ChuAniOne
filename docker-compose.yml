@@ -9,7 +9,7 @@ services:
       - 443:443
     volumes:
       - /home/ubuntu/nginx:/etc/nginx/conf.d
-      - ./frontend/build:/usr/share/nginx/html
+      - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/frontend/build:/usr/share/nginx/html
       - /var/nginx/log:/log
       - /home/ubuntu/docker-volume/ssl:/var/www/html
     container_name: nginx_chu
@@ -17,16 +17,15 @@ services:
       - spring-boot
 
 
-#  react:
-#    image: node:12-alpine
-#    command: sh -c "npm ci && npm run build"
-#    ports:
-#      - "3000:3000"
-#    working_dir: /app
-#    volumes:
-#      - ./frontend/build:/usr/share/nginx/html
-#      - ./frontend:/app
-#    container_name: react_chu
+  react:
+    image: node:12-alpine
+    command: sh -c "npm ci && npm run build"
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    container_name: react_chu
 
   db:
     image: mysql:5.7
@@ -48,7 +47,7 @@ services:
       dockerfile: Dockerfile
     image: boot_chu
     volumes:
-      - "./backend/chuanione/src/main/resources/img:/img"
+      - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/chuanione/src/main/resources/img:/img
     ports:
       - "8080:8080"
     container_name: boot_chu
