@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { IconButton } from '@mui/material'
+
 
 
 const Container = styled.div`
@@ -25,35 +27,41 @@ const TalkBox = styled.div`
 `
 
 const UserName = styled.p`
-  font-weight: bold;
   margin: 0;
+
+  &.mine {
+    display: none;
+  }
 `
 
 const UserContent = styled.p`
   margin: 0;
 `
 
-function TalkItem({ item, mine }: any): any {
+function TalkItem({ data, mine }: any): any {
   
   useEffect(() => {
     setMine()
+    console.log(data)
   }, [])
 
   async function setMine(): Promise<void> {
     const container = await document.querySelector('.container')
     const talkbox = await document.querySelector('.talkBox')
+    const name = await document.querySelector('.name')
 
-    if (mine && container && talkbox) {
+    if (mine && container && talkbox && name) {
       await container.classList.add("mine")
       await talkbox.classList.add("mine")
+      await name.classList.add("mine")
     }
   }
 
   return (
     <Container className="container">
       <TalkBox className="talkBox">
-        <UserName>User</UserName>
-        <UserContent>어머나 세상에</UserContent>
+        <UserName className="name">{data.writer_name}</UserName>
+        <UserContent>{data.content}</UserContent>
       </TalkBox>
     </Container>
   )

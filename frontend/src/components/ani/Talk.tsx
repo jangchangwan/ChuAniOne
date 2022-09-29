@@ -52,7 +52,8 @@ function Talk({ aniId }) {
     date: string,
     id: number,
     image: string,
-    writer: number
+    writer_id: number,
+    writer_name: string,
   }
 
   const dispatch = useDispatch<typeof store.dispatch>()
