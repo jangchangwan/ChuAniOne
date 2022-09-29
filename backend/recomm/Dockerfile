@@ -4,5 +4,5 @@ RUN apt-get update && pip install --upgrade pip
 
 WORKDIR /app
 
-ADD ./requirements.txt  /app/
+ADD ./recomm/requirements.txt  /app/
 RUN pip install -r requirements.txt
