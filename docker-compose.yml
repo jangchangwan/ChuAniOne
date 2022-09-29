@@ -19,7 +19,7 @@ services:
 
   react:
     image: node:12-alpine
-#    command: sh -c "npm ci && npm run build"
+    command: sh -c "npm ci && npm run build"
     ports:
       - "3000:3000"
     working_dir: /app
