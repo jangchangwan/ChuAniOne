@@ -283,7 +283,7 @@ export const deleteTalk = createAsyncThunk(
     try {
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
-      console.log(data)
+
       const res = await http.delete(`talk/delete/${data.id}/${data.tid}`)
       if (res.status === 200) return true
       else {

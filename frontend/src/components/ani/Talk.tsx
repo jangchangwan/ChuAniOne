@@ -103,7 +103,6 @@ function Talk({ aniId }) {
   async function delTalk(tid) {
     const res = await dispatch(deleteTalk({ id: aniId, tid }))
     if (res.payload) loadData()
-    console.log(res)
   }
 
   useEffect(() => {
