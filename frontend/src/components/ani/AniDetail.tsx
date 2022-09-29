@@ -92,24 +92,26 @@ const VideoBox = styled.div`
 const TabBox = styled.div`
   width: 100%;
   height: 45%;
-  /* background-color: aqua; */
   overflow-y: auto;
+  scrollbar-color: #d4aa70 #e4e4e4;
+  scrollbar-width: thin;
 
   ::-webkit-scrollbar {
-    /* background-color: ; */
-    width: 0.5rem;
+    width: 0.8rem;
     border-radius: 0.3rem;
   }
 
   ::-webkit-scrollbar-thumb {
-    border-radius: 0.3rem;
+    border-radius: 100px;
+    border: 6px solid rgba(0, 0, 0, 0.158);
+    border-left: 0;
+    border-right: 0;
     background-color: #f37b83;
-    height: 30%;
-    box-shadow: inset 0px 0px 3px white;
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #ffcdce;
+    background-color: #e4e4e4;
+    border-radius: 100px;
     box-shadow: inset 0px 0px 3px white;
   }
 `
