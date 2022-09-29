@@ -29,7 +29,6 @@ const Container = styled.div`
 
 const DeleteDiv = styled.div`
   display: none;
-
 `
 
 const Deletebtn = styled(IconButton)`
@@ -104,12 +103,11 @@ function TalkItem({ data, delTalk }: any): any {
   return (
     userId === data.writer_id ?
       <Container className="mine">
-
-        <DeleteDiv className="delete" onClick={() => delTalk(data.id)}>
-          <Deletebtn>
-            <DeleteIcon />
-          </Deletebtn>
-        </DeleteDiv>
+          <DeleteDiv className="delete" onClick={() => delTalk(data.id)}>
+            <Deletebtn>
+              <DeleteIcon />
+            </Deletebtn>
+          </DeleteDiv>
 
         <UserContent className="mine">{data.content}</UserContent>
         <Time>{time}</Time>

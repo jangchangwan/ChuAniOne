@@ -7,11 +7,14 @@ import AniDetail from './AniDetail'
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  cursor: pointer;
 `
 
 const ImgBox = styled.div`
   width: 100%;
   height: 80%;
+  border-radius: 0.4rem;
+  overflow: hidden;
 `
 
 const Img = styled.img`
@@ -19,6 +22,11 @@ const Img = styled.img`
   height: 100%;
   object-fit: cover;
 
+  transition: all 0.2s linear;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 `
 
 const Name = styled.p`
