@@ -16,6 +16,7 @@ import { motion } from 'framer-motion';
 // 이미지
 import NavImgLeft from '../assets/images/navImg1.png'
 import NavImgRight from '../assets/images/navImg2.png'
+import NavImgRight2 from '../assets/images/navImage3.png'
 
 // MUI
 import CloseIcon from '@mui/icons-material/Close'
@@ -91,7 +92,7 @@ function NavPage() {
         <motion.div
           initial= {{ opacity:0}}
           animate={{ opacity:1 }}
-          transition={{ delay: 1.5}}
+          transition={{ delay: 1}}
           style={{
             display:'flex',
             flexDirection: 'column',
@@ -157,7 +158,12 @@ function NavPage() {
         <motion.div
           initial= {{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5}}
+          transition={{ delay: 1}}
+          style={{
+            height: '100%',
+            backgroundImage: `url(${NavImgRight2})`,
+            objectFit: 'cover'
+          }}
         >
           <IconButton
           onClick={NavClose}
