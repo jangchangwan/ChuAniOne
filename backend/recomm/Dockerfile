@@ -4,5 +4,7 @@ RUN apt-get update && pip install --upgrade pip
 
 WORKDIR /app
 
-ADD ./recomm/requirements.txt  /app/
+RUN ls
+
+ADD backend/recomm/requirements.txt  /app/
 RUN pip install -r requirements.txt
