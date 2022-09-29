@@ -12,12 +12,13 @@ import IconButton from '@mui/material/IconButton'
 
 const Container = styled.div`
   position: sticky;
-  /* height: calc(100vh - 3.5rem - 4rem); */
+  min-height: calc(100vh - 3.5rem - 4rem);
   background-color: #f8ebed;
   padding: 2rem 1rem;
   width: calc(20% - 2rem);
   /* border: 2px solid #f37b83; */
   /* border-radius: 2rem; */
+  /* min-height: 100vh; */
 `
 
 const SearchBox = styled.div`
@@ -99,27 +100,58 @@ const Check = styled(Checkbox)`
   }
 `
 
-function SearchFilter({ changeKeyword }) {
+function SearchFilter({ 
+    keyword, 
+    genres,
+    tags,
+    changeKeyword,
+    addGenres,
+    removeGenres,
+    addTags,
+    removeTags,
+  }) {
+
   const [ showMoreGenre, setShowMoreGenre ] = useState<boolean>(false)
   const [ showMoreTag, setShowMoreTag ] = useState<boolean>(false)
-  const genres = [
+  const genres_value = [
     '드라마', '로맨스', '개그', '공포', 'SF', '모험', '무협', '범죄', '스릴러',
     '스포츠', '아동', '시대물', '아이돌', '액션', '음식', '음악', '이세계', '재난',
     '치유', '하렘', '판타지', '일상', '미스터리', '추리','BL', 'GL 백합', '성인'
   ]
 
-  const tags = [
+  const tags_value = [
     '가족', '감동', '게임', '동물', '동양풍', '두뇌싸움', '로봇', '루프물', 
     '마법소녀', '먼치킨', '무거움', '배틀', '뱀파이어', '복수', '삼각관계', '서양풍',
     '선생님', '성장', '슬픔', '시간여행', '역하렘', '연예인', '열혈', '오타쿠', 
     '요괴 및 괴물', '육아', '정치', '좀비', '주체적 여성', '짝사랑', '철학', '퇴마', '학교'
   ]
 
+  // 키워드 변경
   const [search, setSearch] = useState<string>('')
 
-  const searchKeyword = () => {
-    setSearch(search.trim())
-    changeKeyword(search.trim())
+  const searchKeyword = (e) => {
+    // setSearch(search.trim())
+    changeKeyword(e.target.value.trim())
+  }
+
+  // 장르 필터링
+  const getGenres = (e) => {
+    console.log(e.target.checked, e.target.labels[0].innerText)
+    if (e.target.checked) {
+      addGenres(e.target.labels[0].innerText)
+    } else {
+      removeGenres(e.target.labels[0].innerText)
+    }
+  }
+
+  // 태그 필터링
+  const getTags = (e) => {
+    console.log(e.target.checked, e.target.labels[0].innerText)
+    if (e.target.checked) {
+      addTags(e.target.labels[0].innerText)
+    } else {
+      removeTags(e.target.labels[0].innerText)
+    }
   }
 
   return (
@@ -132,7 +164,10 @@ function SearchFilter({ changeKeyword }) {
               borderColor: "#f37b83"
           }}}}
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => { 
+            setSearch(e.target.value)
+            searchKeyword(e)
+          }}
           onBlur={searchKeyword}
         />
         <SearchIconBox>
@@ -149,10 +184,23 @@ function SearchFilter({ changeKeyword }) {
         </NameBox>
 
         <FilterBox>
-          { genres.map((genre, idx) => (
+          { genres_value.map((genre, idx) => (
             idx < 8 ? 
-              <Filter control={<Check />} label={genre} />
-            : (showMoreGenre ? <Filter control={<Check />} label={genre} /> : null)
+              <Filter 
+                control={<Check />} label={genre} 
+                onChange={(e) => {
+                  getGenres(e)
+                }}
+              />
+            : 
+            (showMoreGenre ? 
+              <Filter 
+                control={<Check />} label={genre} 
+                onChange={(e) => {
+                  getGenres(e)
+                }}
+              /> : null)
+          
           ))}
         </FilterBox>
       </FilterContainer>
@@ -166,10 +214,10 @@ function SearchFilter({ changeKeyword }) {
         </NameBox>
 
         <FilterBox>
-          { tags.map((tag, idx) => (
+          { tags_value.map((tag, idx) => (
             idx < 8 ? 
-              <Filter control={<Check />} label={tag} />
-            : (showMoreTag ? <Filter control={<Check />} label={tag} /> : null)
+              <Filter control={<Check />} label={tag} onClick={(e) => getTags(e)}/>
+            : (showMoreTag ? <Filter control={<Check />} label={tag} onClick={(e) => getTags(e)}/> : null)
           ))}
         </FilterBox>
       </FilterContainer>
