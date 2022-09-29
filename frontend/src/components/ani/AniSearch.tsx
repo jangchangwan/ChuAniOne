@@ -15,15 +15,56 @@ const Container = styled.div`
 
 function AniSearch() {
   const [keyword, setKeyword] = useState<string>('')
+  const [genres, setGenres] = useState<string[]>([])
+  const [tags, setTags] = useState<string[]>([])
 
+  // 검색어 변경
   const changeKeyword = (value: string) => {
     setKeyword(value)
   }
 
+  // 장르 필터링
+  const addGenres = (value: string) => {
+    setGenres([...genres, value])
+  }
+
+  const removeGenres = (value: string) => {
+    const filtered = genres.filter((element) => element !== value)
+    setGenres(filtered)
+  }
+
+  // 태그 필터링
+  const addTags = (value: string) => {
+    setTags([...tags, value])
+  }
+
+  const removeTags = (value: string) => {
+    const filtered = tags.filter((element) => element !== value)
+    setTags(filtered)
+  }
+
   return (
     <Container>
-      <SearchFilter changeKeyword={changeKeyword}/>
-      <SearchList keyword={keyword}/>
+      <SearchFilter 
+        keyword={keyword} 
+        genres={genres}
+        tags={tags}
+        changeKeyword={changeKeyword}
+        addGenres={addGenres}
+        removeGenres={removeGenres}
+        addTags={addTags}
+        removeTags={removeTags}
+      />
+      <SearchList 
+        keyword={keyword} 
+        genres={genres}
+        tags={tags}
+        changeKeyword={changeKeyword}
+        addGenres={addGenres}
+        removeGenres={removeGenres}
+        addTags={addTags}
+        removeTags={removeTags}
+      />
     </Container>
   )
 }

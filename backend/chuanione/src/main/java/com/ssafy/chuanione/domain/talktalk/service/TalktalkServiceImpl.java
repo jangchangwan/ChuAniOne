@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -32,6 +34,7 @@ public class TalktalkServiceImpl implements TalktalkService {
             resList.add(TalktalkResponseDto.from(talk));
         }
         return resList;
+
     }
     public TalktalkResponseDto insertTalk(TalktalkRequestDto dto){
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);

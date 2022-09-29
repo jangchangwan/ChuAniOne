@@ -15,7 +15,7 @@ import Mypage from './mypage/MyPage'
 import EmailCertification from './accounts/EmailCertification'
 import EmailVerificationCompleted from './accounts/EmailVerificationCompleted'
 import NotFound from './NotFound'
-
+import NavPage from './NavPage'
 import { useSelector } from 'react-redux'
 import initialState from '../store/Loginslice'
 import { useNavigate } from 'react-router-dom'
@@ -63,6 +63,7 @@ function AnimatedRoutes() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/emailCertification" element={<EmailCertification />} />
         <Route path="/emailVerificationCompleted" element={<EmailVerificationCompleted />} />
+        <Route path="/navPage" element={<NavPage />} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
     </AnimatePresence>

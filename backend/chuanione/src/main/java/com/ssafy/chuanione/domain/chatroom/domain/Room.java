@@ -30,7 +30,7 @@ public class Room {
     
     private int max; //최대인원
 
-    private int count = 0; //현재인원
+    private int count; //현재인원
 
 
     // onetomany list<chat> ?
