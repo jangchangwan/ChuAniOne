@@ -25,21 +25,21 @@ public class TalktalkServiceImpl implements TalktalkService {
     private final TalktalkRepository talktalkRepository;
     private final MemberRepository memberRepository;
 
-    public List<TalktalkResponseDto> getList(){
-        List<Talktalk> list = talktalkRepository.findAll();
+    public List<TalktalkResponseDto> getList(int id){
+        List<Talktalk> list = talktalkRepository.findByAnimation(id);
         List<TalktalkResponseDto> resList = new ArrayList<>();
         for(Talktalk talk : list){
             resList.add(TalktalkResponseDto.from(talk));
         }
         return resList;
     }
-    public TalktalkResponseDto insertTalk(TalktalkRequestDto dto){
+    public TalktalkResponseDto insertTalk(TalktalkRequestDto dto, int id){
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        Talktalk talk = dto.toEntity(dto,login);
+        Talktalk talk = dto.toEntity(dto,login, id);
         talktalkRepository.save(talk);
         return TalktalkResponseDto.from(talk);
     }
-    public void deleteTalk(int id){
+    public void deleteTalk(int id, int talk_id){
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         Talktalk talk = talktalkRepository.findById(id).orElse(null);
         // 로그인한사람과 작성자가 같으면
