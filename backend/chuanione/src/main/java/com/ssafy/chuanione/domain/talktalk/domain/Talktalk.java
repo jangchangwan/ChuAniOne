@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class Talktalk {
 
     @Id
+    @GeneratedValue
     @Column(name="talktalk_id")
     private Integer id;
 
@@ -29,11 +30,6 @@ public class Talktalk {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member writer; //작성자
-
-//    애니메이션 브랜치와 합친 후 바꾸기!!
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "animation_id")
-//    private Animation animation; //작성자
 
     @Column(name="animation_id")
     private Integer animation;

@@ -34,7 +34,6 @@ export const searchAni = createAsyncThunk(
         tags: data.tags
       }
       const res = await http.post(`animation/search.do/${data.page}`, dto)
-      console.log(res)
       return res.data
     } catch(err) {
       console.log('검색 에러', err)
@@ -63,11 +62,14 @@ export const getTaste = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const accessToken = localStorage.getItem("access-Token")
-      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
 
-      const res = await http.get(`animation/about/${id}`)
-      if (res.status === 200) return res.data
-      else console.log('찜 & 좋아요 & 싫어요 에러', res)
+      if (accessToken) {
+        http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+  
+        const res = await http.get(`animation/about/${id}`)
+        if (res.status === 200) return res.data
+        else console.log('찜 & 좋아요 & 싫어요 에러', res)
+      }
 
     } catch(err) {
       console.log('찜 & 좋아요 & 싫어요 에러', err)
@@ -221,28 +223,94 @@ export const getSimilar = createAsyncThunk(
   }
 )
 
+// 톡톡 조회
+export const getTalk = createAsyncThunk(
+  'GETTALK',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const res = await http.get(`talk/list.do/${id}`)
+
+      if (res.status === 200) return res.data
+      else {
+        console.log('톡톡 불러오기 에러', res)
+        return false
+      }
+    } catch(err) {
+      console.log('톡톡 불러오기 에러', err)
+    }
+  }
+)
+
+interface WriteProps {
+  content: string,
+  image: string,
+  id: number,
+}
+
+// 톡톡 작성
+export const createTalk = createAsyncThunk(
+  'CREATETALK',
+  async (data: WriteProps, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
+      const res = await http.post(`talk/insert/${data.id}`, {
+        content: data.content,
+        image: data.image,
+      })
+
+      if (res.status === 200) return true
+      else {
+        console.log('톡톡 작성 에러', res)
+        return false
+      }
+    } catch(err) {
+      console.log('톡톡 작성 에러', err)
+    }
+  }
+)
+
+interface DeleteProps {
+  id: number,
+  tid: number,
+}
+
+// 톡톡 삭제
+export const deleteTalk = createAsyncThunk(
+  'DELETETALK',
+  async (data: DeleteProps, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
+      const res = await http.delete(`talk/delete/${data.id}/${data.tid}`)
+      if (res.status === 200) return true
+      else {
+        console.log('톡톡 삭제 에러', res)
+        return false
+      }
+    } catch(err) {
+      console.log('톡톡 삭제 에러', err)
+    }
+  }
+)
+
 export interface openChatReducerType {
-  error: any,
-  anilist: []
 }
 
 const initialState:openChatReducerType = {
-  error: null,
-  anilist: []
 }
 
 const anislice:any = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    resetanilist: (state) => {
-      state.anilist = []
-    },
   },
   extraReducers: {
 
   },
 })
 
-export const { resetanilist } = anislice.actions
+export const {  } = anislice.actions
 export default anislice.reducer

@@ -4,9 +4,10 @@ import com.ssafy.chuanione.domain.talktalk.dto.TalktalkRequestDto;
 import com.ssafy.chuanione.domain.talktalk.dto.TalktalkResponseDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TalktalkService{
-     List<TalktalkResponseDto> getList();
-     TalktalkResponseDto insertTalk(TalktalkRequestDto dto);
-     void deleteTalk(int id);
+     Map<String,Object> getList(int id);
+     TalktalkResponseDto insertTalk(TalktalkRequestDto dto, int id);
+     void deleteTalk(int id, int talk_id);
 }

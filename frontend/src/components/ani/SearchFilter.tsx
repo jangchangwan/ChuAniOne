@@ -136,7 +136,7 @@ function SearchFilter({
 
   // 장르 필터링
   const getGenres = (e) => {
-    console.log(e.target.checked, e.target.labels[0].innerText)
+    // console.log(e.target.checked, e.target.labels[0].innerText)
     if (e.target.checked) {
       addGenres(e.target.labels[0].innerText)
     } else {
@@ -146,7 +146,7 @@ function SearchFilter({
 
   // 태그 필터링
   const getTags = (e) => {
-    console.log(e.target.checked, e.target.labels[0].innerText)
+    // console.log(e.target.checked, e.target.labels[0].innerText)
     if (e.target.checked) {
       addTags(e.target.labels[0].innerText)
     } else {

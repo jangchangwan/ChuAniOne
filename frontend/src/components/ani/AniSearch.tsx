@@ -6,7 +6,7 @@ import SearchFilter from './SearchFilter'
 
 const Container = styled.div`
   padding: 0 10rem;
-  padding-top: 3.5rem;
+  padding-top: 6rem;
   width: calc(100% - 20rem);
   display: flex;
   flex-direction: row;
