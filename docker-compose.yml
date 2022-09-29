@@ -8,19 +8,20 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - ./frontend/build:/usr/share/nginx/html
+      - /home/ubuntu/nginx:/etc/nginx/conf.d
+      - /home/ubuntu/chuanione/S07P22E104/frontend/build:/usr/share/nginx/html
       - /var/nginx/log:/log
       - /home/ubuntu/docker-volume/ssl:/var/www/html
     container_name: nginx_chu
     depends_on:
       - spring-boot
 
+
   react:
     image: node:12-alpine
     command: sh -c "npm ci && npm run build"
     ports:
-      - 3000:3000
+      - "3000:3000"
     working_dir: /app
     volumes:
       - ./frontend:/app
@@ -35,7 +36,7 @@ services:
       MYSQL_ROOT_PASSWORD: emforhsqhftbvj
       TZ: Asia/Seoul
     volumes:
-      - "./db_data:/var/lib/mysql"
+      - "/home/ubuntu/db_data:/var/lib/mysql"
     ports:
       - "3303:3306"
     container_name: mysql_chu

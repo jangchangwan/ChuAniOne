@@ -57,7 +57,11 @@ function Bigvoca() {
     >
       <motion.div
         initial={{ x: -1000, y: 500 }}
-        animate={{ x: [-1500, 300, -1500], y: [500, -500, -800] }}
+        animate={{ 
+          x: [-1500, 300,-1500], 
+          y: [500, -500,-1500],
+          transitionEnd: {display: 'none'}
+        }}
         exit={{ display: 'none' }}
 
         transition={{ duration: '1.5' }}
@@ -66,15 +70,19 @@ function Bigvoca() {
       </motion.div>
       <motion.div
         initial={{ x: 1500, y: -2300 }}
-        animate={{ x: [1500, -300, 2300, 2300, -1500], y: [-2300, -1500, -500, -3800, -3800] }}
+        animate={{ 
+          x: [1500, -300, 1500], 
+          y: [-2300, -1500,1500],
+          transitionEnd: {display: 'none'}
+        }}
         exit={{ display: 'none' }}
-        transition={{ duration: '3' }}
+        transition={{ duration: '1.5' }}
       >
         <PageChangeDownDiv id='pagemove'></PageChangeDownDiv>
       </motion.div>
 
       <motion.div
-        initial={{ y: -400 }}
+        initial={{ y: -1000 }}
         animate={{ y: -10 }}
         transition={{ delay: 1.2, type: 'spring', stiffness: 120 }}
       >
@@ -85,7 +93,7 @@ function Bigvoca() {
       </div>
       </motion.div>
       <motion.div
-        initial={{ y: -400 }}
+        initial={{ y: -1000 }}
         animate={{ y: -10 }}
         transition={{ delay: 1.4, type: 'spring', stiffness: 120 }}
       >
@@ -97,16 +105,16 @@ function Bigvoca() {
       </div>
       </motion.div>
       <motion.div
-        initial={{ y: -700 }}
+        initial={{ y: -1500 }}
         animate={{ y: -10 }}
         transition={{ delay: 1.6, type: 'spring', stiffness: 120 }}
       >
       <div>
         <Grid container>
           <Grid item xs={4}>
-            <img src={ReadBookImg} style={{ paddingTop: '3rem'}}/>
+            <img src={ReadBookImg} alt='책보는소년' style={{ paddingTop: '3rem'}}/>
           </Grid>
-          <Grid item xs={8} sx={{position:'absolute', top: '30%', left:'35%'}}>
+          <Grid item xs={8}>
             <WordList></WordList>
           </Grid>
         </Grid>

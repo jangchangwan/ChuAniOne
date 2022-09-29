@@ -13,7 +13,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import BackgroundImg from '../../assets/images/memberBackground.png'
-
+import IconButton from '@mui/material/IconButton'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 import styled from 'styled-components'
 // redux
@@ -197,7 +198,10 @@ function Signup() {
         }
     })
   }
-  
+  // 뒤로가기
+  const moveback = () => {
+    navigate(-1)
+  }
   // 비밀번호 재확인
   const samePassword = (e:any) => {
 
@@ -242,23 +246,40 @@ function Signup() {
         maxWidth="xs"
         sx = {{
           padding: '3rem',
-          
+          display: 'flex',
+          height: '100vh',
+          alignItems: 'center',
         }}
         >
         <Box
           boxShadow={2}
           sx={{
             display: 'flex',
-            marginTop: 8,
             flexDirection: 'column',
             alignItems: 'center',
             padding: 3,
+            paddingTop: 0,
             border: 1,
             borderRadius: '1rem',
             backgroundColor: 'white',
             opacity: 0.95,
           }}
         >
+        <IconButton
+            onClick={moveback}
+            sx={{
+              position: 'relative',
+              top: '2.6rem',
+              left: '-9.5rem',
+              
+            }}
+          >
+            <ArrowBackIcon
+              sx={{
+                fontSize: '2rem',
+              }}
+            />
+        </IconButton>
         <Typography component="h1" variant="h5">
               회원가입
         </Typography>

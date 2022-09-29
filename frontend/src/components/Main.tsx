@@ -187,9 +187,14 @@ function Main() {
     <Container>
       <motion.div
         initial={{ opacity: 1 }}
-        animate={{ opacity: 0 }}
-
-        transition={{ duration: '5' }}
+        animate={{ 
+          opacity: 0,
+          transitionEnd: {
+            display: "none"
+          }
+        }}
+        exit={{display:'none'}}
+        transition={{ duration: '4' }}
       >
         <div className="animation01">
           <div></div>
@@ -316,13 +321,7 @@ function Main() {
             </div>
           </div>
         </div>
-        {/* <div className='animation08'>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-      </div> */}
+      
       </motion.div>
       <motion.div
         initial={{ opacity: 0 }}

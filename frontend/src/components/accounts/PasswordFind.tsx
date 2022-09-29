@@ -8,6 +8,8 @@ import Container from '@mui/material/Container';
 import BackgroundImg from '../../assets/images/memberBackground.png'
 import Alert from '@mui/material/Alert'
 import Snackbar from '@mui/material/Snackbar'
+import IconButton from '@mui/material/IconButton'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // 화면전환 애니메이션
 // import { motion } from 'framer-motion';
 
@@ -39,7 +41,9 @@ function PasswordFind() {
           setchangeFail(true)
         })
     };
-
+    const moveback = () => {
+      navigate(-1)
+    }
     return (
       // <motion.div
         
@@ -54,25 +58,42 @@ function PasswordFind() {
           sx = {{
             padding: '5.5rem',
             position:'relative',
-            top: '15%'
+            display: 'flex',
+            height: '100vh',
+            alignItems: 'center',
           }}
         >
           <CssBaseline />
           <Box
             boxShadow={2}
             sx={{
-              marginTop: 8,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               backgroundColor: 'white',
               border: 1,
               borderRadius: '1rem',
-              padding: 3,
+              padding: 4,
+              paddingTop: 0,
               opacity: 0.9,
             }}
           >
-
+            <IconButton
+              onClick={moveback}
+              sx={{
+                position: 'relative',
+                top: '2.6rem',
+                left: '-9.5rem',
+                
+              }}
+            >
+              <ArrowBackIcon
+                sx={{
+                  fontSize: '2rem',
+                  fontWeight: '700'
+                }}
+              />
+            </IconButton>
             <Typography component="h1" variant="h5">
               비밀번호 찾기
             </Typography>
