@@ -79,7 +79,7 @@ function NavPage() {
         initial={{ y: -1500 }}
         animate={{ y: 0 }}
         exit={{ display: 'none' }}
-        transition={{ duration: '1.5' }}
+        transition={{ duration: '1' }}
         style={{
           position: 'relative',
           left: '0%',
@@ -133,7 +133,8 @@ function NavPage() {
               style={{
                 color: 'white',
                 fontWeight: '700',
-                marginLeft: '2rem'
+                marginLeft: '2rem',
+                cursor: 'pointer'
               }}
             >로그아웃</div>
             : null
@@ -145,7 +146,7 @@ function NavPage() {
         initial={{ y: 1500 }}
         animate={{ y: 0 }}
         exit={{ display: 'none' }}
-        transition={{ duration: '1.5' }}
+        transition={{ duration: '1' }}
         style={{
           position: 'relative',
           height: '100vh',
@@ -154,9 +155,9 @@ function NavPage() {
         }}
       >
         <motion.div
-          initial= {{ opacity:0}}
-          animate={{ opacity:1 }}
-          transition={{ delay: 1.5}}
+          initial= {{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5}}
         >
           <IconButton
           onClick={NavClose}
