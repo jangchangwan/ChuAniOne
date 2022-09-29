@@ -9,7 +9,7 @@ services:
       - 443:443
     volumes:
       - /home/ubuntu/nginx:/etc/nginx/conf.d
-      - /home/ubuntu/chuanione/S07P22E104/frontend/build:/usr/share/nginx/html
+      - ./build:/usr/share/nginx/html
       - /var/nginx/log:/log
       - /home/ubuntu/docker-volume/ssl:/var/www/html
     container_name: nginx_chu
