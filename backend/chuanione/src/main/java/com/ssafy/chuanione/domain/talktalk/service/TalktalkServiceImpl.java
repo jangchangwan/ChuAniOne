@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -25,13 +27,17 @@ public class TalktalkServiceImpl implements TalktalkService {
     private final TalktalkRepository talktalkRepository;
     private final MemberRepository memberRepository;
 
-    public List<TalktalkResponseDto> getList(int id){
+    public Map<String,Object> getList(int id){
         List<Talktalk> list = talktalkRepository.findByAnimation(id);
         List<TalktalkResponseDto> resList = new ArrayList<>();
+        int count = list.size(); // 해당 애니메이션의 톡톡 전체 개수
         for(Talktalk talk : list){
             resList.add(TalktalkResponseDto.from(talk));
         }
-        return resList;
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCnt",count);
+        map.put("talkList",resList);
+        return map;
     }
     public TalktalkResponseDto insertTalk(TalktalkRequestDto dto, int id){
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
