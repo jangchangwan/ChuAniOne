@@ -22,7 +22,7 @@ public class Review {
     private String content; // 리뷰내용
     private LocalDateTime date; //리뷰작성일
     private double rating; //리뷰별점
-    private Integer animation_id; //애니메이션 번호
+    private Integer animation; //애니메이션 번호
 
 
 
