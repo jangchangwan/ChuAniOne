@@ -57,11 +57,11 @@ services:
 
   django:
     build:
-      context: ./backend/recomm
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: /backend/recomm/Dockerfile
     ports:
       - "8000:8000"
     command:
       - python manage.py runserver 0:8000
     volumes:
-      - ./backend/recomm:/app/
+      - ./:/app/
