@@ -18,10 +18,11 @@ public class TalktalkRequestDto {
     private String image; //url
 //    private Integer id; //애니메이션 아이디
 
-    public static Talktalk toEntity(TalktalkRequestDto dto, Member member, int id){
+    public static Talktalk toEntity(TalktalkRequestDto dto, Member member, int id, LocalDateTime localDateTime){
         return Talktalk.builder()
                 .content(dto.getContent())
                 .image(dto.getImage())
+                .date(localDateTime)
                 .writer(member)
                 .animation(id)
                 .build();
