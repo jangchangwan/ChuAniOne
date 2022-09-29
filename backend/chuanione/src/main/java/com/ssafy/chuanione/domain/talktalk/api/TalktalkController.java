@@ -13,27 +13,27 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/room")
+@RequestMapping("/api/v1/talk")
 public class TalktalkController {
 
     private final TalktalkService talktalkService;
 
-    @GetMapping("/list.do")
-    @ApiOperation(value = "톡톡 전체 조회")
-    public ResponseEntity<List<TalktalkResponseDto>> getList() {
-        return new ResponseEntity<>(talktalkService.getList(),HttpStatus.OK);
+    @GetMapping("/list.do/{id}")
+    @ApiOperation(value = "톡톡 전체 조회 (id:애니메이션)")
+    public ResponseEntity<List<TalktalkResponseDto>> getList(@PathVariable int id) {
+        return new ResponseEntity<>(talktalkService.getList(id),HttpStatus.OK);
     }
 
-    @PostMapping("/insert.do")
-    @ApiOperation(value = "톡톡 작성 // 테스트용으로 .do")
-    public ResponseEntity<TalktalkResponseDto> insertTalk(@RequestBody TalktalkRequestDto dto) {
-        return new ResponseEntity<>(talktalkService.insertTalk(dto),HttpStatus.CREATED);
+    @PostMapping("/insert/{id}")
+    @ApiOperation(value = "톡톡 작성 (id:애니메이션)")
+    public ResponseEntity<TalktalkResponseDto> insertTalk(@RequestBody TalktalkRequestDto dto, @PathVariable int id) {
+        return new ResponseEntity<>(talktalkService.insertTalk(dto, id),HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete.do/{id}")
-    @ApiOperation(value = "톡톡 삭제 / (id:톡톡) // 테스트용으로 .do")
-    public ResponseEntity<Void> deleteTalk(@PathVariable int id) {
-        talktalkService.deleteTalk(id);
+    @DeleteMapping("/delete/{id}/{tid}")
+    @ApiOperation(value = "톡톡 삭제 (id:애니메이션), (tid:톡톡)")
+    public ResponseEntity<Void> deleteTalk(@PathVariable int id,@PathVariable int tid) {
+        talktalkService.deleteTalk(id, tid);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

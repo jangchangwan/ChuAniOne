@@ -14,21 +14,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ApiModel(value = "TalktalkRequestDto", description = "Talktalk 요청 Dto")
 public class TalktalkRequestDto {
-    private Integer id;
     private String content;
     private String image; //url
-    private LocalDateTime date;
-    private Integer writer; //작성자
-    private Integer animation;
+//    private Integer id; //애니메이션 아이디
 
-    public static Talktalk toEntity(TalktalkRequestDto dto, Member member){
+    public static Talktalk toEntity(TalktalkRequestDto dto, Member member, int id){
         return Talktalk.builder()
-                .id(dto.getId())
                 .content(dto.getContent())
                 .image(dto.getImage())
-                .date(dto.getDate())
                 .writer(member)
-                .animation(dto.getAnimation())
+                .animation(id)
                 .build();
     }
 
