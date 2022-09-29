@@ -17,16 +17,15 @@ services:
       - spring-boot
 
 
-#  react:
-#    image: node:12-alpine
-#    command: sh -c "npm ci && npm run build"
-#    ports:
-#      - "3000:3000"
-#    working_dir: /app
-#    volumes:
-#      - ./frontend/build:/usr/share/nginx/html
-#      - ./frontend:/app
-#    container_name: react_chu
+  react:
+    image: node:12-alpine
+    command: sh -c "npm ci && npm run build"
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    container_name: react_chu
 
   db:
     image: mysql:5.7
