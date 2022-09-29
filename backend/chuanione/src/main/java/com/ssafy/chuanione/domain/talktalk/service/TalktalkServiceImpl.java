@@ -49,7 +49,7 @@ public class TalktalkServiceImpl implements TalktalkService {
     }
     public void deleteTalk(int id, int talk_id){
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        Talktalk talk = talktalkRepository.findById(id).orElse(null);
+        Talktalk talk = talktalkRepository.findById(talk_id).orElse(null);
         // 로그인한사람과 작성자가 같으면
         if(login.getId() == talk.getWriter().getId()){
             talktalkRepository.delete(talk);
