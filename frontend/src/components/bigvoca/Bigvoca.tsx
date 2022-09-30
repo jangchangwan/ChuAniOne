@@ -112,7 +112,7 @@ function Bigvoca() {
       <div>
         <Grid container>
           <Grid item xs={4}>
-            {/* <img src={ReadBookImg} alt='책보는소년' style={{ paddingTop: '3rem'}}/> */}
+            <img src={ReadBookImg} alt='책보는소년' style={{ paddingTop: '3rem'}}/>
           </Grid>
           <Grid item xs={8}>
             <WordList></WordList>
