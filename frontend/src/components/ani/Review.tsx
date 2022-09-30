@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Rating from '@mui/material/Rating'
 import FavoriteIcon from '@mui/icons-material/Favorite'
@@ -6,6 +6,12 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import TextField from '@mui/material/TextField'
 import ReviewList from './ReviewList'
 
+// redux
+import { useDispatch } from 'react-redux'
+import store from '../../store'
+import { getMyReview, getReviewAll, postReview } from '../../store/anislice'
+import { useSelector } from 'react-redux'
+import initialState from '../../store/Loginslice'
 
 const Container = styled.div`
   width: 90%;
@@ -58,21 +64,85 @@ const ReviewInput = styled(TextField)`
 const ReviewTitle = styled.p`
   font-weight: bold;
   margin-bottom: 0;
+  cursor: default;
 `
 
 
 function Review({ aniId }) {
-  // const [myStar, setMyStar] = useState<number>(3);
+  interface Review {
+    animation: number,
+    content: string,
+    date: string,
+    id: number,
+    member_id: number,
+    member_name: number,
+    member_profile: string,
+    rating: number
+  }
 
-  // const getStar = (event: any): void => {
-  //   // console.log(event)
-  //   setMyStar(event.target.value)
-  // }
+
+  const dispatch = useDispatch<typeof store.dispatch>()
+  const isLogin = useSelector((state: initialState) => (state.login.isLogin))
+
+  const [data, setData] = useState<Review | null>(null)
+  const [count, setCount] = useState<number>(0)
+  const [rating, setRating] = useState<number>(0)
+
+  const [showRating, setShowRating] = useState<number>(0)
+  const [myStar, setMyStar] = useState<number>(3)
+
+  const [myReview, setMyReview] = useState<Review | null>(null)
+  const [review, setReview] = useState<string>('')
+
+  // 리뷰 데이터 불러오기
+  async function loadData() {
+    const res = await dispatch(getReviewAll(aniId))
+    if (res.meta.requestStatus === "fulfilled") {
+      setCount(res.payload.count)
+      setData(res.payload.reviewList)
+      if (res.payload.rating !== "NaN") {
+        setRating(res.payload.rating)
+      }
+    }
+
+    if (isLogin) {
+      const mine = await dispatch(getMyReview(aniId))
+      if (mine.meta.requestStatus === "fulfilled" && mine.payload !=="NO") {
+        setMyReview(mine.payload)
+      }
+    } 
+  }
+
+  // 리뷰 작성하기
+  async function sendReview() {
+    if (!review.trim()) return
+    
+    const res = await dispatch(postReview({
+      id: aniId,
+      content: review,
+      rating: myStar,
+    }))
+    
+    if (res.meta.requestStatus === "fulfilled") {
+      setReview('')
+      setMyStar(3)
+      loadData()
+    }
+  }
+
+  // 별점매기기
+  const getStar = (event: any): void => {
+    setMyStar(event.target.value)
+  }
+
+  useEffect(() => {
+    loadData()
+  }, [aniId])
+
 
   return (
     <Container>
-      Review
-      {/* <StarContainer>
+      <StarContainer>
         <StarBox>
           <StarTitle>내 별점</StarTitle>
           <StarText>{myStar}</StarText>
@@ -88,21 +158,33 @@ function Review({ aniId }) {
 
         <StarBox>
           <StarTitle>평균 별점</StarTitle>
-          <StarText>{recommend.avg_rating}</StarText>
+          <StarText>{ rating }</StarText>
           <StyledRating
             name="customized-color"
-            defaultValue={recommend.avg_rating}
+            value={rating}
             readOnly
-            getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
+            getLabelText={(rating: number) => `${rating} Heart${rating !== 1 ? 's' : ''}`}
             precision={0.5}
             icon={<FavoriteIcon fontSize="inherit" />}
             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
           />
         </StarBox>
       </StarContainer>
-      <ReviewInput id="outlined-basic" placeholder="이 작품에 대한 리뷰를 작성해보세요 !" variant="outlined" multiline rows={3}/>
-        <ReviewTitle>리뷰</ReviewTitle>
-      <ReviewList/> */}
+      <ReviewInput 
+        id="outlined-basic" 
+        placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
+        variant="outlined" 
+        multiline rows={3}
+        value={review}
+        onChange={(e) => setReview(e.target.value)}
+        onKeyPress={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) sendReview()
+        }}
+      />
+
+        <ReviewTitle>{ count } 개의 리뷰</ReviewTitle>
+
+      <ReviewList data={data}/>
     </Container>
   )
 }

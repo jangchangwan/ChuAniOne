@@ -1,5 +1,6 @@
 import http from '../api/axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { ContentCopy } from '@mui/icons-material'
 
 /** searchAni **/
 // 전체 애니 목록 (페이지네이션)
@@ -209,6 +210,111 @@ export const deleteChoice = createAsyncThunk (
 )
 
 
+// 리뷰 전체 조회
+export const getReviewAll = createAsyncThunk (
+  'GETREVIEWALL',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const res = await http.get(`review/list.do/${id}`)
+      if (res.status === 200) return res.data
+      else console.log('리뷰 전체 조회 에러', res)
+    } catch(err) {
+      console.log('리뷰 전체 조회 에러', err)
+    }
+  }
+)
+
+
+
+// 내 리뷰 조회
+export const getMyReview = createAsyncThunk (
+  'GETMYREVIEW',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+      
+      const res = await http.get(`review/my/${id}`)
+
+      if (res.status === 200) return res.data
+      else console.log('내 리뷰 조회 에러', res)
+    } catch(err) {
+      console.log('내 리뷰 조회 에러', err)
+    }
+  }
+)
+
+interface Review {
+  id: number,
+  content: string,
+  rating: number
+}
+
+// 리뷰 작성
+export const postReview = createAsyncThunk (
+  'POSTREVIEW',
+  async (data: Review, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+      
+      const res = await http.post(`review/insert/${data.id}`, {
+        content: data.content,
+        rating: data.rating
+      })
+      console.log(res)
+
+      if (res.status === 200) return res.data
+      else console.log('리뷰 작성 에러', res)
+    } catch(err) {
+      console.log('리뷰 작성 에러', err)
+    }
+  }
+)
+
+// 리뷰 수정
+export const patchReview = createAsyncThunk (
+  'POSTREVIEW',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+      
+      const res = await http.patch(`review/update/${id}`)
+      console.log(res)
+
+      if (res.status === 200) return res.data
+      else console.log('리뷰 수정 에러', res)
+    } catch(err) {
+      console.log('리뷰 수정 에러', err)
+    }
+  }
+)
+
+// 리뷰 삭제
+export const deleteReview = createAsyncThunk (
+  'DELETEREVIEW',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+      
+      const res = await http.delete(`review/delete/${id}`)
+      console.log(res)
+
+      if (res.status === 200) return res.data
+      else console.log('리뷰 삭제 에러', res)
+    } catch(err) {
+      console.log('리뷰 삭제 에러', err)
+    }
+  }
+)
+
+
+
+
+
+
 // 비슷한 애니메이션 조회
 export const getSimilar = createAsyncThunk(
   'GETSIMILAR',
@@ -295,6 +401,10 @@ export const deleteTalk = createAsyncThunk(
     }
   }
 )
+
+
+
+
 
 export interface openChatReducerType {
 }

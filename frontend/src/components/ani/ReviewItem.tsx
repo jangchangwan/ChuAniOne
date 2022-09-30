@@ -1,6 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import profileImg from '../../assets/images/profile.png'
+import lineImg from '../../assets/images/line.png'
+
+// redux
+import { useSelector } from 'react-redux'
+import initialState from '../../store/Loginslice'
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -12,6 +16,7 @@ const Container = styled.div`
 `
 
 const UserBox = styled.div`
+
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
@@ -31,6 +36,9 @@ const UserImg = styled.img`
 `
 
 const UserName = styled.h3` 
+  background-image: url(${lineImg});
+  background-size: 100% 100%;
+  padding: 0 1rem;
   margin: 0;
 `
 
@@ -38,17 +46,27 @@ const ReviewText = styled.p`
   margin: 0;
 `
 
-function ReviewItem() {
+
+function ReviewItem({ data }) {
+  const userId = useSelector((state: initialState) => (state.login.userId))
+
   return (
+    data.member_id === userId ?
+      <Container>
+        <UserBox>
+          <UserName>{data.member_name}</UserName>
+        </UserBox>
+        <ReviewText>
+          {data.content}
+        </ReviewText>
+      </Container>
+    : 
     <Container>
       <UserBox>
-        <UserImgBox>
-          <UserImg src={profileImg}/>
-        </UserImgBox>
-        <UserName>User</UserName>
+        <UserName>{data.member_name}</UserName>
       </UserBox>
       <ReviewText>
-        너무너무 재밌어요 !
+        {data.content}
       </ReviewText>
     </Container>
   )

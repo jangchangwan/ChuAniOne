@@ -7,13 +7,15 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-function ReviewList() {
+function ReviewList({ data }) {
   return (
     <Container>
-      <ReviewItem/>
-      <ReviewItem/>
-      <ReviewItem/>
-      <ReviewItem/>
+      { data ? (
+        data.map((item, idx) => (
+          <ReviewItem data={item}/> 
+        ))
+      ) : null }
+
     </Container>
   )
 }
