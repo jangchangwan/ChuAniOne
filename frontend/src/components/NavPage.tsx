@@ -41,6 +41,7 @@ function NavPage() {
 
   // 로그인 유무
   const logincheck = useSelector((state: initialState) => state.login.isLogin)
+  // const logincheck = true
   // 하트위치
   const [heart, setheart] = useState(500)
 

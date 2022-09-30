@@ -11,7 +11,7 @@ const Container = styled.div`
   margin: 7.5% 3rem;
   background-color: #FCE2DB;
   border-radius: 1rem;
-
+  z-index: 999;
   display: flex;
   flex-direction: column;
 `
