@@ -43,7 +43,7 @@ const MyAniTitle = styled.p`
 function MyAniList() {
   const dispatch = useDispatch<typeof store.dispatch>()
 
-  // const [aniList, setAniList] = useState<any>([])
+  const [aniList, setAniList] = useState<any>([])
   const [likeAniList, setLikeAniList] = useState<any>([])
   const [choiceaniList, setChoiceAniList] = useState<any>([])
   const [watchaniList, setWatchAniList] = useState<any>([])
@@ -56,7 +56,7 @@ function MyAniList() {
     const watchAniResponse = await dispatch(getWatchAniList())
     console.log(aniResponse);
     
-    // setAniList(aniResponse.data)
+    setAniList(aniResponse.payload)
     setLikeAniList(likeAniResponse.payload)
     setChoiceAniList(choiceAniResponse.payload)
     setWatchAniList(watchAniResponse.payload)
