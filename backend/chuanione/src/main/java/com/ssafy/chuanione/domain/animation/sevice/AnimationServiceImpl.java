@@ -117,8 +117,8 @@ public class AnimationServiceImpl implements AnimationService {
     public void addAniLike(int id) {
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         AnimationType type = AnimationType.builder()
-                .animation_id(id)
-                .member(login)
+                .animationId(id)
+                .memberId(login)
                 .type(1)
                 .build();
         animationTypeRepository.save(type);
@@ -128,8 +128,8 @@ public class AnimationServiceImpl implements AnimationService {
     public void addAniDisLike(int id) {
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         AnimationType type = AnimationType.builder()
-                .animation_id(id)
-                .member(login)
+                .animationId(id)
+                .memberId(login)
                 .type(2)
                 .build();
         animationTypeRepository.save(type);
@@ -139,8 +139,8 @@ public class AnimationServiceImpl implements AnimationService {
     public void addAniChoice(int id) {
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         AnimationType type = AnimationType.builder()
-                .animation_id(id)
-                .member(login)
+                .animationId(id)
+                .memberId(login)
                 .type(3)
                 .build();
         animationTypeRepository.save(type);

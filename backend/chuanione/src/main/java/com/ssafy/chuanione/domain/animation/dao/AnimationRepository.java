@@ -28,10 +28,10 @@ public interface AnimationRepository extends MongoRepository<Animation, Integer>
     // 애니메이션 아이디 리스트로 해당 애니메이션 상세 조회
     // 메인 - 8개(페이지네이션 X)
     @Query(value = "{'id': {'$in': ?0 }}")
-    List<Animation> findByQuery(int[] aniId);
+    List<Animation> findAllByQuery(int[] aniId);
     // 더보기 - 14개
     @Query(value = "{'id': {'$in': ?0 }}")
-    Page<Animation> findByQuery(int[] aniId, Pageable pageable);
+    Page<Animation> findAllByQuery(int[] aniId, Pageable pageable);
 
     @Query(value = "{id:?0}")
     Animation getAnimationBy_id(int id);
