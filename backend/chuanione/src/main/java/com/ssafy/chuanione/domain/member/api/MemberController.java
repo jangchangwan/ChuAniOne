@@ -3,10 +3,11 @@ package com.ssafy.chuanione.domain.member.api;
 
 import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
-import com.ssafy.chuanione.domain.member.exception.TokenNotFoundException;
 import com.ssafy.chuanione.domain.member.service.EmailService;
 import com.ssafy.chuanione.domain.member.service.EmailTokenService;
 import com.ssafy.chuanione.domain.member.service.MemberService;
+import com.ssafy.chuanione.domain.member.service.MyPageServiceImpl;
+import com.ssafy.chuanione.domain.review.dto.ReviewResponseDto;
 import com.ssafy.chuanione.global.error.exception.InvalidParameterException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,6 +31,7 @@ public class MemberController {
     private final EmailService emailService;
     private final EmailTokenService emailTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final MyPageServiceImpl myPageService;
 
     @PostMapping("/signup.do")
     @ApiOperation(value = "회원 가입")
@@ -131,8 +132,45 @@ public class MemberController {
 
     @GetMapping("/myinfo")
     @ApiOperation(value = "내 정보 보기")
-    public ResponseEntity<MemberResponseDto> getMyInfo(){
-        return new ResponseEntity<>(memberService.getMyInfo(), HttpStatus.OK);
+    public ResponseEntity<MyPageResponseDto> getMyInfo(){
+        return new ResponseEntity<>(myPageService.getMyInfo(), HttpStatus.OK);
     }
 
+    @GetMapping("/ani")
+    @ApiOperation(value = "애니 내역(좋아요, 찜, 시청) - 메인")
+    public ResponseEntity<Map<String, Object>> getMyAni(){
+        return new ResponseEntity<>(myPageService.getMyAni(), HttpStatus.OK);
+    }
+
+    @GetMapping("/ani/like")
+    @ApiOperation(value = "좋아요한 애니 목록 전체")
+    public ResponseEntity<Map<String, Object>> getLikeAni(){
+        return new ResponseEntity<>(myPageService.getLikeAni(), HttpStatus.OK);
+    }
+
+    @GetMapping("/ani/watch")
+    @ApiOperation(value = "시청한 애니 목록 전체")
+    public ResponseEntity<Map<String, Object>> getWatchAni(){
+        return new ResponseEntity<>(myPageService.getWatchAni(), HttpStatus.OK);
+    }
+
+    @GetMapping("/ani/choice")
+    @ApiOperation(value = "찜한 애니 목록 전체")
+    public ResponseEntity<Map<String, Object>> getChoiceAni(){
+        return new ResponseEntity<>(myPageService.getChoiceAni(), HttpStatus.OK);
+    }
+
+    @GetMapping("/review")
+    @ApiOperation(value = "내가 쓴 리뷰 전체")
+    public ResponseEntity<List<ReviewResponseDto>> getMyReview(){
+        return new ResponseEntity<>(myPageService.getMyReview(), HttpStatus.OK);
+    }
+
+    @GetMapping("/voca")
+    @ApiOperation(value = "내 단어 목록")
+    public ResponseEntity<Map<String, Object>> getMyVoca() {
+        // 한 페이지에 8개씩, 첫 페이지의 인덱스: 0
+        Map<String, Object> result = myPageService.getMyVoca();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
