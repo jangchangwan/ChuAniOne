@@ -1,21 +1,29 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import MyWordItem from './MyWordItem';
-import styled from 'styled-components';
+import { useDispatch } from 'react-redux'
+import { getMyvoca } from '../../store/mypageslice'
+import store from '../../store'
 
-// const WordBox = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// `
+
 
 function MyWord() {
+  const dispatch = useDispatch<typeof store.dispatch>()
+
+  const [myVocaList, setMyVocaList] = useState<any>([])
+
+    // 데이터 불러오기
+    async function loadWordData() {
+      const MyVoca = await dispatch(getMyvoca())
+      setMyVocaList(MyVoca.payload)
+    }
+  
+    useEffect(() => {
+      loadWordData()
+    },[])
   return (
     <div>
       {/* <WordBox> */}
       <h1>MyWord</h1>
-      <MyWordItem></MyWordItem>
-      <MyWordItem></MyWordItem>
-      <MyWordItem></MyWordItem>
       <MyWordItem></MyWordItem>
       {/* </WordBox> */}
     </div>

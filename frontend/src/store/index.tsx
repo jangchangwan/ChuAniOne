@@ -8,6 +8,7 @@ import LoginReducer from './Loginslice'
 import OpenChatReducer from './openchatslice'
 import AniReducer from './anislice'
 import BigvocaReducer from './bigvocaslice'
+import MypageReducer from './mypageslice'
 // thunk 관련
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
@@ -24,7 +25,8 @@ const rootReducers = combineReducers({
   login: LoginReducer,
   openchat: OpenChatReducer,
   ani: AniReducer,
-  bigvoca: BigvocaReducer
+  bigvoca: BigvocaReducer,
+  mypage: MypageReducer,
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducers)

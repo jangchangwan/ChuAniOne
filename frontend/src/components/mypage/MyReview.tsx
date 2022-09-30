@@ -1,22 +1,27 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, {useState, useEffect} from 'react'
 import MyReviewItem from './MyReviewItem'
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`
+import { useDispatch } from 'react-redux'
+import { getMyReview } from '../../store/mypageslice'
+import store from '../../store'
 
 function MyReview() {
+  const dispatch = useDispatch<typeof store.dispatch>()
+
+  const [myReviewList, setMyReviewList] = useState<any>([])
+
+    // 데이터 불러오기
+    async function loadReviewData() {
+      const MyReview = await dispatch(getMyReview())
+      setMyReviewList(MyReview.payload)
+    }
+  
+    useEffect(() => {
+      loadReviewData()
+    },[])
   return (
     <div>
       <h1>MyReview</h1>
-      {/* <Container> */}
         <MyReviewItem/>
-        <MyReviewItem/>
-        <MyReviewItem/>
-        <MyReviewItem/>
-      {/* </Container> */}
     </div>
   );
 }

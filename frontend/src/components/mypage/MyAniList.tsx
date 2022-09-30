@@ -4,6 +4,14 @@ import styled from 'styled-components';
 import Carousel from 'react-material-ui-carousel'
 import { Paper } from '@mui/material'
 
+import { useDispatch } from 'react-redux'
+import {
+  getMyAniList,
+  getChoiceAniList,
+  getLikeAniList,
+  getWatchAniList
+} from '../../store/mypageslice'
+import store from '../../store'
 
 
 const Container = styled.div`
@@ -28,12 +36,38 @@ const MyAniContainer = styled.div`
   justify-content: center; */
 `
 
-const MyAniTitle = styled.h2`
-  margin-left: 1rem;
+const MyAniTitle = styled.p`
+  font-size: 2rem;
 `
 
 function MyAniList() {
+  const dispatch = useDispatch<typeof store.dispatch>()
 
+  // const [aniList, setAniList] = useState<any>([])
+  const [likeAniList, setLikeAniList] = useState<any>([])
+  const [choiceaniList, setChoiceAniList] = useState<any>([])
+  const [watchaniList, setWatchAniList] = useState<any>([])
+
+  // 데이터 불러오기
+  async function loadAniData() {
+    // const aniResponse = await dispatch(getMyAniList())
+    const likeAniResponse = await dispatch(getChoiceAniList())
+    const choiceAniResponse = await dispatch(getLikeAniList())
+    const watchAniResponse = await dispatch(getWatchAniList())
+    // console.log(aniResponse);
+    
+    // setAniList(aniResponse.data)
+    setLikeAniList(likeAniResponse.payload)
+    setChoiceAniList(choiceAniResponse.payload)
+    setWatchAniList(watchAniResponse.payload)
+
+
+
+  }
+
+  useEffect(() => {
+    loadAniData()
+  },[])
   return (
     <Container>
       <MyAniContainer>
@@ -41,15 +75,6 @@ function MyAniList() {
         <CarouselContainer indicators={false}>
           <CarouselPaper elevation={0}>
             <MyAniItem></MyAniItem>
-            <MyAniItem></MyAniItem>
-            <MyAniItem></MyAniItem>
-            <MyAniItem></MyAniItem>
-          </CarouselPaper>
-          <CarouselPaper elevation={0}>
-          <MyAniItem></MyAniItem>
-          <MyAniItem></MyAniItem>
-          <MyAniItem></MyAniItem>
-          {/* <MyAniItem></MyAniItem> */}
           </CarouselPaper>
         </CarouselContainer>
       </MyAniContainer>
@@ -59,15 +84,6 @@ function MyAniList() {
         <CarouselContainer indicators={false}>
           <CarouselPaper elevation={0}>
             <MyAniItem></MyAniItem>
-            <MyAniItem></MyAniItem>
-            <MyAniItem></MyAniItem>
-            <MyAniItem></MyAniItem>
-          </CarouselPaper>
-          <CarouselPaper elevation={0}>
-          <MyAniItem></MyAniItem>
-          <MyAniItem></MyAniItem>
-          <MyAniItem></MyAniItem>
-          {/* <MyAniItem></MyAniItem> */}
           </CarouselPaper>
         </CarouselContainer>
       </MyAniContainer>
@@ -77,15 +93,6 @@ function MyAniList() {
         <CarouselContainer indicators={false}>
           <CarouselPaper elevation={0}>
             <MyAniItem></MyAniItem>
-            <MyAniItem></MyAniItem>
-            <MyAniItem></MyAniItem>
-            <MyAniItem></MyAniItem>
-          </CarouselPaper>
-          <CarouselPaper elevation={0}>
-          <MyAniItem></MyAniItem>
-          <MyAniItem></MyAniItem>
-          <MyAniItem></MyAniItem>
-          {/* <MyAniItem></MyAniItem> */}
           </CarouselPaper>
         </CarouselContainer>
       </MyAniContainer>
