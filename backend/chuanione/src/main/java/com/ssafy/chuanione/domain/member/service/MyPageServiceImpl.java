@@ -6,7 +6,9 @@ import com.ssafy.chuanione.domain.animation.domain.Animation;
 import com.ssafy.chuanione.domain.animation.domain.AnimationType;
 import com.ssafy.chuanione.domain.animation.dto.AnimationResponseDto;
 import com.ssafy.chuanione.domain.animation.dto.GenresResponseDto;
+import com.ssafy.chuanione.domain.member.dao.ExpHistoryRepository;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
+import com.ssafy.chuanione.domain.member.domain.ExpHistory;
 import com.ssafy.chuanione.domain.member.domain.Member;
 import com.ssafy.chuanione.domain.member.dto.MyPageResponseDto;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
@@ -32,6 +34,7 @@ public class MyPageServiceImpl implements MyPageService {
     private final AnimationRepository animationRepository;
     private final ReviewRepository reviewRepository;
     private final MemorizeVocaRepository memorizeVocaRepository;
+    private final ExpHistoryRepository expHistoryRepository;
 
 
     // 회원 정보
@@ -39,7 +42,12 @@ public class MyPageServiceImpl implements MyPageService {
         System.out.println("토큰 " + SecurityUtil.getCurrentUsername());
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         List<Map.Entry<String, Integer>> genres = getGenres();
-        return MyPageResponseDto.from(member, genres);
+        List<ExpHistory> expHistories = expHistoryRepository.findByMemberId(member);
+        int exp = 0;
+        for (ExpHistory v: expHistories) {
+            exp += v.getValue();
+        }
+        return MyPageResponseDto.from(member, exp, genres);
     }
 
     // 경험치

@@ -18,4 +18,7 @@ public class ExpHistory {
     private int value;
     private Type type;
     private int communityId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member memberId;
 }
