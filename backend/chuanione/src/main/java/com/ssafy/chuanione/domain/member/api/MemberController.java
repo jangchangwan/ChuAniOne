@@ -43,7 +43,12 @@ public class MemberController {
 
     @GetMapping("/email-confirm.do")
     @ApiOperation(value = "메일 인증 확인")
-    public ResponseEntity<Boolean> confirmEmail(@RequestParam String token){
+    public ResponseEntity<?> confirmEmail(@RequestParam String token){
+        HttpHeaders headers = new HttpHeaders();
+        if(emailService.confirmEmail(token)){
+            headers.setLocation(URI.create("/emailVerificationCompleted"));
+            return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+        }
         return new ResponseEntity<>(emailService.confirmEmail(token), HttpStatus.OK);
     }
 

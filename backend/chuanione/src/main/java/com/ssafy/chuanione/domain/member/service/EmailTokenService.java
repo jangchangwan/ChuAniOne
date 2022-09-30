@@ -22,6 +22,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.awt.*;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
