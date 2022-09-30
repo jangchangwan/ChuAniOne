@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Builder
@@ -18,13 +19,14 @@ public class MyPageResponseDto {
     private MemberResponseDto member;
     // 경험치
     // 상위 6개 장르
-//    private GenresResponseDto genres;
+    private List<Map.Entry<String, Integer>> genres;
     // 내 뱃지
 
-    public static MyPageResponseDto from(Member member){
+    public static MyPageResponseDto from(Member member, List<Map.Entry<String, Integer>> genres){
         if(member == null) return null;
         return MyPageResponseDto.builder()
                 .member(MemberResponseDto.from(member))
+                .genres(genres)
                 .build();
     }
 }

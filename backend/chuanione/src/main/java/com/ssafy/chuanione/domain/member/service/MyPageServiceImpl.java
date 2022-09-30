@@ -5,6 +5,7 @@ import com.ssafy.chuanione.domain.animation.dao.AnimationTypeRepository;
 import com.ssafy.chuanione.domain.animation.domain.Animation;
 import com.ssafy.chuanione.domain.animation.domain.AnimationType;
 import com.ssafy.chuanione.domain.animation.dto.AnimationResponseDto;
+import com.ssafy.chuanione.domain.animation.dto.GenresResponseDto;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.Member;
 import com.ssafy.chuanione.domain.member.dto.MyPageResponseDto;
@@ -19,10 +20,7 @@ import com.ssafy.chuanione.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,11 +38,51 @@ public class MyPageServiceImpl implements MyPageService {
     public MyPageResponseDto getMyInfo() {
         System.out.println("토큰 " + SecurityUtil.getCurrentUsername());
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        return MyPageResponseDto.from(member);
+        List<Map.Entry<String, Integer>> genres = getGenres();
+        return MyPageResponseDto.from(member, genres);
     }
 
     // 경험치
+
     // 상위 6개 장르
+    public List<Map.Entry<String, Integer>> getGenres(){
+        Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        // 시청한 애니 아이디
+        List<AnimationType> watchIds = aniTypeRepository.findAllTop8ByMemberIdAndTypeOrderByIdDesc(member, 4);
+        // 애니 아이디로 애니메이션 정보 가져와서
+        List<Animation> animations = animationRepository.findAllByQuery(getAnimationId(watchIds));
+        // 장르만 반환
+        List<GenresResponseDto> genres = animations.stream().map(GenresResponseDto::from).collect(Collectors.toList());
+        // 장르 합치기
+        List<String> genresList = genres.stream().flatMap(x -> x.getGenres().stream()).collect(Collectors.toList());
+
+        Map<String, Integer> map = new HashMap<>();
+
+        // 장르 빈도수 확인
+        Set<String> set = new HashSet<>(genresList);
+        for(String str: set){
+            map.put(str, Collections.frequency(genresList, str));
+        }
+
+        // 장르 빈도순 정렬
+        List<Map.Entry<String, Integer>> entryList = new LinkedList<>(map.entrySet());
+        entryList.sort(Map.Entry.comparingByValue());
+        entryList.sort((o1, o2) -> map.get(o2.getKey()) - map.get(o1.getKey()));
+
+        // 장르가 6개 이상이면 6개만 반환
+        if(entryList.size() > 6) entryList = new ArrayList<>(entryList.subList(0, 6));
+
+        System.out.println(entryList);
+
+        // 혹시 Map<String, Integer>로 변환 요청 있을 시 사용
+//        Map<String, Integer> resultMap = new HashMap<>();
+//        for(Map.Entry<String, Integer> entry: entryList){
+//            resultMap.put(entry.getKey(), entry.getValue());
+//        }
+//        System.out.println(resultMap);
+
+        return entryList;
+    }
 
     // 애니 내역 - 메인
     public Map<String, Object> getMyAni(){
