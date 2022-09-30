@@ -50,11 +50,11 @@ function MyAniList() {
 
   // 데이터 불러오기
   async function loadAniData() {
-    // const aniResponse = await dispatch(getMyAniList())
+    const aniResponse = await dispatch(getMyAniList())
     const likeAniResponse = await dispatch(getChoiceAniList())
     const choiceAniResponse = await dispatch(getLikeAniList())
     const watchAniResponse = await dispatch(getWatchAniList())
-    // console.log(aniResponse);
+    console.log(aniResponse);
     
     // setAniList(aniResponse.data)
     setLikeAniList(likeAniResponse.payload)
