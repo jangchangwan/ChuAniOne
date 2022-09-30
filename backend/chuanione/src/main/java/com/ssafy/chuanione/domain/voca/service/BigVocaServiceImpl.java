@@ -40,7 +40,7 @@ public class BigVocaServiceImpl implements BigVocaService{
         System.out.println("memvoca list size: " + memorizeVoca.size());
         List<Integer> memorizeVocaIds = new ArrayList<>();
         for (MemorizeVoca mem: memorizeVoca) {
-            memorizeVocaIds.add(mem.getVocaId().getId());
+            memorizeVocaIds.add(mem.getVocaId().getVocaId());
         }
         // 단어 목록과 페이지 정보
         Page<BigVoca> bigVocaList = bigVocaRepository.findAll(pageable, memorizeVocaIds);

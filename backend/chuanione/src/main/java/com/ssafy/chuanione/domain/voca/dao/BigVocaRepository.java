@@ -15,6 +15,6 @@ import java.util.List;
 @Transactional
 public interface BigVocaRepository extends JpaRepository<BigVoca, Integer> {
 
-    @Query(value = "select b from BigVoca b where b.id not in :memorizeVoca")
+    @Query(value = "select b from BigVoca b where b.vocaId not in :memorizeVoca")
     Page<BigVoca> findAll(Pageable pageable, List<Integer> memorizeVoca);
 }
