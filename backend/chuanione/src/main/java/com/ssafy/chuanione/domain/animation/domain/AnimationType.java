@@ -27,6 +27,6 @@ public class AnimationType {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member_id;
+    private Member member;
 
 }

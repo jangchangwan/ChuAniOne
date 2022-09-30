@@ -6,7 +6,8 @@ import com.ssafy.chuanione.domain.animation.domain.Animation;
 import com.ssafy.chuanione.domain.animation.domain.AnimationType;
 import com.ssafy.chuanione.domain.animation.dto.AnimationResponseDto;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
-import com.ssafy.chuanione.domain.member.dto.MemberResponseDto;
+import com.ssafy.chuanione.domain.member.domain.Member;
+import com.ssafy.chuanione.domain.member.dto.MyPageResponseDto;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.domain.voca.dao.MemorizeVocaRepository;
 import com.ssafy.chuanione.domain.voca.dto.MemorizeResponseDto;
@@ -33,9 +34,11 @@ public class MyPageServiceImpl implements MyPageService {
     private final MemorizeVocaRepository memorizeVocaRepository;
 
     // 회원 정보
-    public MemberResponseDto getMyInfo() {
+    public MyPageResponseDto getMyInfo() {
         System.out.println("토큰 " + SecurityUtil.getCurrentUsername());
-        return MemberResponseDto.from(SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new));
+        Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        MyPageResponseDto result = MyPageResponseDto.from(member);
+        return result;
     }
 
     // 경험치
@@ -44,11 +47,11 @@ public class MyPageServiceImpl implements MyPageService {
     // 애니 내역 - 메인
     public Map<String, Object> getMyAni(int memberId){
         // 시청한 애니 아이디
-        List<AnimationType> watchIds = aniTypeRepository.findTop8ByMemberId_IdAndTypeOrderByIdDesc(memberId, 4);
+        List<AnimationType> watchIds = aniTypeRepository.findTop8ByMember_IdAndTypeOrderByIdDesc(memberId, 4);
         // 좋아요한 애니 아이디
-        List<AnimationType> likeIds = aniTypeRepository.findTop8ByMemberId_IdAndTypeOrderByIdDesc(memberId, 1);
+        List<AnimationType> likeIds = aniTypeRepository.findTop8ByMember_IdAndTypeOrderByIdDesc(memberId, 1);
         // 찜한 애니 아이디
-        List<AnimationType> wishIds = aniTypeRepository.findTop8ByMemberId_IdAndTypeOrderByIdDesc(memberId, 3);
+        List<AnimationType> wishIds = aniTypeRepository.findTop8ByMember_IdAndTypeOrderByIdDesc(memberId, 3);
 
         // 각 리스트로 받아옴
         List<Animation> watchPage = animationRepository.findAllByQuery(getAnimationId(watchIds));
@@ -66,7 +69,7 @@ public class MyPageServiceImpl implements MyPageService {
     // 시청한 애니 더보기
     public Map<String, Object> getWatchAni(int memberId, Pageable page){
         // 시청한 애니 아이디
-        List<AnimationType> watchIds = aniTypeRepository.findAllByMemberId_IdAndTypeOrderByIdDesc(memberId, 4);
+        List<AnimationType> watchIds = aniTypeRepository.findByMember_IdAndTypeOrderByIdDesc(memberId, 4);
         // 각 리스트로 받아옴
         return getAniTypeList("watch", watchIds, page);
     }
@@ -74,7 +77,7 @@ public class MyPageServiceImpl implements MyPageService {
     // 좋아요한 애니 더보기
     public Map<String, Object> getLikeAni(int memberId, Pageable page){
         // 시청한 애니 아이디
-        List<AnimationType> likeIds = aniTypeRepository.findAllByMemberId_IdAndTypeOrderByIdDesc(memberId, 1);
+        List<AnimationType> likeIds = aniTypeRepository.findByMember_IdAndTypeOrderByIdDesc(memberId, 1);
         // 각 리스트로 받아옴
         return getAniTypeList("like", likeIds, page);
     }
@@ -82,7 +85,7 @@ public class MyPageServiceImpl implements MyPageService {
     // 찜한 애니 더보기
     public Map<String, Object> getWishAni(int memberId, Pageable page){
         // 찜한 애니 아이디
-        List<AnimationType> wishIds = aniTypeRepository.findAllByMemberId_IdAndTypeOrderByIdDesc(memberId, 3);
+        List<AnimationType> wishIds = aniTypeRepository.findByMember_IdAndTypeOrderByIdDesc(memberId, 3);
         // 각 리스트로 받아옴
         return getAniTypeList("wish", wishIds, page);
     }

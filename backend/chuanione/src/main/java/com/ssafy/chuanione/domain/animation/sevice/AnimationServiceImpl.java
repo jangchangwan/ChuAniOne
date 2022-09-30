@@ -35,7 +35,7 @@ public class AnimationServiceImpl implements AnimationService {
     public Map<String,Object> getListAll(int page){
         Page<Animation> roomPage =animationRepository.findAll(PageRequest.of(page,12));
         long totalCount = roomPage.getTotalElements();
-        long pageCount = roomPage.getTotalPages();;
+        long pageCount = roomPage.getTotalPages();
         List<Animation> anis = roomPage.getContent();
         List<AnimationResponseDto> dtoList = new ArrayList<>();
         for (Animation ani : anis){
@@ -118,7 +118,7 @@ public class AnimationServiceImpl implements AnimationService {
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         AnimationType type = AnimationType.builder()
                 .animation_id(id)
-                .member_id(login)
+                .member(login)
                 .type(1)
                 .build();
         animationTypeRepository.save(type);
@@ -129,7 +129,7 @@ public class AnimationServiceImpl implements AnimationService {
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         AnimationType type = AnimationType.builder()
                 .animation_id(id)
-                .member_id(login)
+                .member(login)
                 .type(2)
                 .build();
         animationTypeRepository.save(type);
@@ -140,7 +140,7 @@ public class AnimationServiceImpl implements AnimationService {
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         AnimationType type = AnimationType.builder()
                 .animation_id(id)
-                .member_id(login)
+                .member(login)
                 .type(3)
                 .build();
         animationTypeRepository.save(type);
