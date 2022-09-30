@@ -6,6 +6,11 @@ import MenuIcon from '@mui/icons-material/Menu'
 import IconButton from '@mui/material/IconButton'
 
 import { useNavigate } from 'react-router-dom'
+// import { useDispatch } from "react-redux"
+// import { useSelector } from 'react-redux'
+// import { refreshToken } from '../store/Loginslice'
+// import initialState from '../store/Loginslice'
+// import store from '../store'
 
 import LogoImg from '../assets/images/logo2.png'
 
@@ -31,9 +36,12 @@ const NavLogoImg = styled.img`
 
 
 function Nav() {
-  const navigate = useNavigate()
-  const [showNav, setShowNav] = useState(false)
 
+  const navigate = useNavigate()
+  // const dispatch = useDispatch<typeof store.dispatch>()
+  const [showNav, setShowNav] = useState(false)
+  // 로그인 유무
+  // const logincheck = useSelector((state: initialState) => state.login.isLogin)
   // 메인으로 이동
   const GoMain = () => {
     navigate('/')
@@ -44,6 +52,17 @@ function Nav() {
     navigate('/navPage')
   }
 
+  // useEffect(() => {
+  //   if (logincheck) {
+  //     const TokenDto = {
+  //       accessToken : localStorage.getItem("access-Token"),
+  //       refreshToken : localStorage.getItem("refresh-Token")
+  //     }
+  //     console.log(TokenDto);
+      
+  //     dispatch(refreshToken(TokenDto))
+  //   }
+  // },[window.location.pathname])
   // 네브바 감지
   useEffect(() => {
     if (window.location.pathname === '/intro') {
