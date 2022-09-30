@@ -9,6 +9,9 @@ import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.Member;
 import com.ssafy.chuanione.domain.member.dto.MyPageResponseDto;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
+import com.ssafy.chuanione.domain.review.dao.ReviewRepository;
+import com.ssafy.chuanione.domain.review.domain.Review;
+import com.ssafy.chuanione.domain.review.dto.ReviewResponseDto;
 import com.ssafy.chuanione.domain.voca.dao.MemorizeVocaRepository;
 import com.ssafy.chuanione.domain.voca.dto.MemorizeResponseDto;
 import com.ssafy.chuanione.domain.voca.dto.MyVocaJoinInterface;
@@ -31,14 +34,15 @@ public class MyPageServiceImpl implements MyPageService {
     private final MemberRepository memberRepository;
     private final AnimationTypeRepository aniTypeRepository;
     private final AnimationRepository animationRepository;
+    private final ReviewRepository reviewRepository;
     private final MemorizeVocaRepository memorizeVocaRepository;
+
 
     // 회원 정보
     public MyPageResponseDto getMyInfo() {
         System.out.println("토큰 " + SecurityUtil.getCurrentUsername());
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        MyPageResponseDto result = MyPageResponseDto.from(member);
-        return result;
+        return MyPageResponseDto.from(member);
     }
 
     // 경험치
@@ -46,62 +50,66 @@ public class MyPageServiceImpl implements MyPageService {
 
     // 애니 내역 - 메인
     public Map<String, Object> getMyAni(int memberId){
-        // 시청한 애니 아이디
-        List<AnimationType> watchIds = aniTypeRepository.findTop8ByMember_IdAndTypeOrderByIdDesc(memberId, 4);
+        System.out.println("[Service] getMyAni");
         // 좋아요한 애니 아이디
-        List<AnimationType> likeIds = aniTypeRepository.findTop8ByMember_IdAndTypeOrderByIdDesc(memberId, 1);
+        List<AnimationType> likeIds = aniTypeRepository.findAllTop8ByMemberId_IdAndTypeOrderByIdDesc(memberId, 1);
         // 찜한 애니 아이디
-        List<AnimationType> wishIds = aniTypeRepository.findTop8ByMember_IdAndTypeOrderByIdDesc(memberId, 3);
-
+        List<AnimationType> wishIds = aniTypeRepository.findAllTop8ByMemberId_IdAndTypeOrderByIdDesc(memberId, 3);
+        // 시청한 애니 아이디
+        List<AnimationType> watchIds = aniTypeRepository.findAllTop8ByMemberId_IdAndTypeOrderByIdDesc(memberId, 4);
+        System.out.println(likeIds.get(0));
         // 각 리스트로 받아옴
-        List<Animation> watchPage = animationRepository.findByQuery(getAnimationId(watchIds));
-        List<Animation> likePage = animationRepository.findByQuery(getAnimationId(likeIds));
-        List<Animation> wishPage = animationRepository.findByQuery(getAnimationId(wishIds));
-
+        List<Animation> likePage = animationRepository.findAllByQuery(getAnimationId(likeIds));
+        List<Animation> wishPage = animationRepository.findAllByQuery(getAnimationId(wishIds));
+        List<Animation> watchPage = animationRepository.findAllByQuery(getAnimationId(watchIds));
+        System.out.println(likePage.size());
         Map<String, Object> result = new HashMap<>();
-        result.put("watch", watchPage.stream().map(AnimationResponseDto::from).collect(Collectors.toList()));
         result.put("like", likePage.stream().map(AnimationResponseDto::from).collect(Collectors.toList()));
         result.put("wish", wishPage.stream().map(AnimationResponseDto::from).collect(Collectors.toList()));
+        result.put("watch", watchPage.stream().map(AnimationResponseDto::from).collect(Collectors.toList()));
 
         return result;
     }
 
     // 시청한 애니 더보기
-    public Map<String, Object> getWatchAni(int memberId, Pageable page){
+    public Map<String, Object> getWatchAni(int memberId){
         // 시청한 애니 아이디
-        List<AnimationType> watchIds = aniTypeRepository.findByMember_IdAndTypeOrderByIdDesc(memberId, 4);
+        List<AnimationType> watchIds = aniTypeRepository.findAllByMemberId_IdAndTypeOrderByIdDesc(memberId, 4);
         // 각 리스트로 받아옴
-        return getAniTypeList("watch", watchIds, page);
+        return getAniTypeList("watch", watchIds);
     }
 
     // 좋아요한 애니 더보기
-    public Map<String, Object> getLikeAni(int memberId, Pageable page){
+    public Map<String, Object> getLikeAni(int memberId){
         // 시청한 애니 아이디
-        List<AnimationType> likeIds = aniTypeRepository.findByMember_IdAndTypeOrderByIdDesc(memberId, 1);
+        List<AnimationType> likeIds = aniTypeRepository.findAllByMemberId_IdAndTypeOrderByIdDesc(memberId, 1);
         // 각 리스트로 받아옴
-        return getAniTypeList("like", likeIds, page);
+        return getAniTypeList("like", likeIds);
     }
 
     // 찜한 애니 더보기
-    public Map<String, Object> getWishAni(int memberId, Pageable page){
+    public Map<String, Object> getWishAni(int memberId){
         // 찜한 애니 아이디
-        List<AnimationType> wishIds = aniTypeRepository.findByMember_IdAndTypeOrderByIdDesc(memberId, 3);
+        List<AnimationType> wishIds = aniTypeRepository.findAllByMemberId_IdAndTypeOrderByIdDesc(memberId, 3);
         // 각 리스트로 받아옴
-        return getAniTypeList("wish", wishIds, page);
+        return getAniTypeList("wish", wishIds);
     }
 
     // 리뷰
+    public List<ReviewResponseDto> getMyReview(int memberId){
+        Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        List<Review> review = reviewRepository.findAllByMemberId(member);
+        return review.stream().map(ReviewResponseDto::from).collect(Collectors.toList());
+    }
 
     // 보카 내역
-    public Map<String, Object> getMyVoca(int memberId, Pageable pageable){
-        Page<MyVocaJoinInterface> vocaPage = memorizeVocaRepository.findAllByMemberId(memberId, pageable);
-        List<MemorizeResponseDto> vocaList = vocaPage.stream().map(MemorizeResponseDto::from).collect(Collectors.toList());
-        long totalCnt = vocaPage.getTotalElements();
+    public Map<String, Object> getMyVoca(int memberId){
+        List<MyVocaJoinInterface> myVoca = memorizeVocaRepository.findAllByMemberId(memberId);
+        List<MemorizeResponseDto> vocaList = myVoca.stream().map(MemorizeResponseDto::from).collect(Collectors.toList());
 
         Map<String, Object> result = new HashMap<>();
         result.put("myVoca", vocaList);
-        result.put("totalCnt", totalCnt);
-
+        result.put("totalCnt", vocaList.size());
         return result;
     }
 
@@ -109,24 +117,22 @@ public class MyPageServiceImpl implements MyPageService {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // 중복 코드 묶음(애니메이션 목록, 총 갯수 반환)
-    public Map<String, Object> getAniTypeList(String type, List<AnimationType> ids, Pageable page){
-        Page<Animation> aniPage = animationRepository.findByQuery(getAnimationId(ids), page);
-
+    public Map<String, Object> getAniTypeList(String type, List<AnimationType> ids){
+        // 애니메이션 아이디로 정보 목록 가져오기
+        List<Animation> aniList = animationRepository.findAllByQuery(getAnimationId(ids));
         Map<String, Object> result = new HashMap<>();
-        result.put(type, aniPage.stream().map(AnimationResponseDto::from).collect(Collectors.toList()));
-        result.put("totalCnt", aniPage.getTotalElements());
-
+        result.put(type, aniList.stream().map(AnimationResponseDto::from).collect(Collectors.toList()));
+        // 반환된 애니메이션 수
+        result.put("totalCnt", aniList.size());
         return result;
     }
 
     // 타입별 애니메이션 아이디 얻기
     public int[] getAnimationId(List<AnimationType> myAniList){
-        System.out.println("[MyPageService] getAnimationId");
         List<Integer> temp = new ArrayList<>();
         for(AnimationType myAni : myAniList){
-            temp.add(myAni.getId());
+            temp.add(myAni.getAnimationId());
         }
-        int[] result = temp.stream().mapToInt(Integer::intValue).toArray();
-        return result;
+        return temp.stream().mapToInt(Integer::intValue).toArray();
     }
 }
