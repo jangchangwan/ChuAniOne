@@ -10,6 +10,7 @@ const Container = styled.div`
   padding-top: 3.5rem;
   height: calc(100vh - 3.5rem);
   display: flex;
+  position: relative;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -64,6 +65,10 @@ function OpenChat() {
           transformOrigin : '1rem 48rem'
         }}
         transition = {{duration: 60, repeat: Infinity}}
+        style={{
+          position: 'absolute',
+          left: '35%'
+        }}
       >
         <Circlediv>
           <p>
