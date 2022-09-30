@@ -23,6 +23,7 @@ const TabBox = styled.div`
 const TabDiv = styled.div`
   width: 100%;
   height: 98%;
+  z-index: 999;
 `
 
 const DetailBox = styled(Box)`

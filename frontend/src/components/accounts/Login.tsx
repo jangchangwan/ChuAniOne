@@ -12,9 +12,6 @@ import logoicon from '../../assets/images/logo2.png'
 import Snackbar from '@mui/material/Snackbar'
 import styled from "styled-components"
 
-// 하위 컴포넌트
-import GoogleLogin from './GoogleLogin'
-import KakaoLogin from './KakaoLogin'
 
 // redux 
 import { useNavigate } from 'react-router-dom'
@@ -27,7 +24,6 @@ import store from '../../store'
 
 // Image
 import BackgroundImg from '../../assets/images/memberBackground.png'
-import { Height } from '@mui/icons-material'
 
 
 
@@ -103,6 +99,7 @@ function Login() {
               border: 1,
               borderRadius: '1rem',
               padding: 3,
+              paddingBottom: '3rem',
               opacity: 0.9,
             }}
           >
@@ -171,16 +168,6 @@ function Login() {
                   </Link>
                 </Grid>
               </Grid>
-              <Grid container>
-                <Grid item xs={4}></Grid>
-                <Grid item xs={3}>
-                  <GoogleLogin></GoogleLogin>
-                </Grid>
-                <Grid item xs={3}>
-                  <KakaoLogin></KakaoLogin>
-                </Grid>
-              </Grid>
-
             </Box>
           </Box>
         </Container>
