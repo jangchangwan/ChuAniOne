@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Table(name="review")
 public class Review {
     @Id
+    @GeneratedValue
     @Column(name="review_id")
     private Integer id;
     private String content; // 리뷰내용
