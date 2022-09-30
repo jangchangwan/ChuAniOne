@@ -1,5 +1,6 @@
 package com.ssafy.chuanione.domain.member.dto;
 
+import com.ssafy.chuanione.domain.member.domain.Member;
 import com.ssafy.chuanione.domain.voca.dto.BigVocaResponseDto;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
@@ -18,9 +19,12 @@ public class MyPageResponseDto {
     // 경험치
     // 상위 6개 장르
 //    private GenresResponseDto genres;
-    // 애니 내역
-    // 리뷰
-    // 빅보카
-    private List<BigVocaResponseDto> myVoca;
-    // 경험치 history
+    // 내 뱃지
+
+    public static MyPageResponseDto from(Member member){
+        if(member == null) return null;
+        return MyPageResponseDto.builder()
+                .member(MemberResponseDto.from(member))
+                .build();
+    }
 }

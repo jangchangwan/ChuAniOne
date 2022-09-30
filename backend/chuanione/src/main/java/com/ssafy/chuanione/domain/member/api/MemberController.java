@@ -126,7 +126,7 @@ public class MemberController {
 
     @GetMapping("/myinfo")
     @ApiOperation(value = "내 정보 보기")
-    public ResponseEntity<MemberResponseDto> getMyInfo(){
+    public ResponseEntity<MyPageResponseDto> getMyInfo(){
         return new ResponseEntity<>(myPageService.getMyInfo(), HttpStatus.OK);
     }
 
