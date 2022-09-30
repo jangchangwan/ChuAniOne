@@ -1,15 +1,12 @@
 package com.ssafy.chuanione.domain.animation.dao;
 
 import com.ssafy.chuanione.domain.animation.domain.Animation;
-import io.swagger.models.auth.In;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 
 //@Repository
@@ -31,10 +28,10 @@ public interface AnimationRepository extends MongoRepository<Animation, Integer>
     // 애니메이션 아이디 리스트로 해당 애니메이션 상세 조회
     // 메인 - 8개(페이지네이션 X)
     @Query(value = "{'id': {'$in': ?0 }}")
-    List<Animation> findAllByQuery(int[] aniId);
+    List<Animation> findByQuery(int[] aniId);
     // 더보기 - 14개
     @Query(value = "{'id': {'$in': ?0 }}")
-    Page<Animation> findAllByQuery(int[] aniId, Pageable pageable);
+    Page<Animation> findByQuery(int[] aniId, Pageable pageable);
 
     @Query(value = "{id:?0}")
     Animation getAnimationBy_id(int id);

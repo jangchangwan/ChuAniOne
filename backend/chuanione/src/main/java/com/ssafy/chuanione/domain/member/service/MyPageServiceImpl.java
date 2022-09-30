@@ -54,9 +54,9 @@ public class MyPageServiceImpl implements MyPageService {
         List<AnimationType> wishIds = aniTypeRepository.findTop8ByMember_IdAndTypeOrderByIdDesc(memberId, 3);
 
         // 각 리스트로 받아옴
-        List<Animation> watchPage = animationRepository.findAllByQuery(getAnimationId(watchIds));
-        List<Animation> likePage = animationRepository.findAllByQuery(getAnimationId(likeIds));
-        List<Animation> wishPage = animationRepository.findAllByQuery(getAnimationId(wishIds));
+        List<Animation> watchPage = animationRepository.findByQuery(getAnimationId(watchIds));
+        List<Animation> likePage = animationRepository.findByQuery(getAnimationId(likeIds));
+        List<Animation> wishPage = animationRepository.findByQuery(getAnimationId(wishIds));
 
         Map<String, Object> result = new HashMap<>();
         result.put("watch", watchPage.stream().map(AnimationResponseDto::from).collect(Collectors.toList()));
@@ -110,7 +110,7 @@ public class MyPageServiceImpl implements MyPageService {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // 중복 코드 묶음(애니메이션 목록, 총 갯수 반환)
     public Map<String, Object> getAniTypeList(String type, List<AnimationType> ids, Pageable page){
-        Page<Animation> aniPage = animationRepository.findAllByQuery(getAnimationId(ids), page);
+        Page<Animation> aniPage = animationRepository.findByQuery(getAnimationId(ids), page);
 
         Map<String, Object> result = new HashMap<>();
         result.put(type, aniPage.stream().map(AnimationResponseDto::from).collect(Collectors.toList()));
