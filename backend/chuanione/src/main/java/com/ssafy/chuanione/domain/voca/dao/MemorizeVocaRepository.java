@@ -23,8 +23,8 @@ public interface MemorizeVocaRepository extends JpaRepository<MemorizeVoca, Inte
     MemorizeVoca findByMemberIdAndVocaId(int member_id, int voca_id);
 
     // 멤버 단어
-    @Query(nativeQuery = true, value = "SELECT b.voca_id, b.japanese, b.pronunciation, b.korean, b.frequency FROM memorize_voca AS m LEFT JOIN bigvoca AS b ON m.voca_id = b.voca_id WHERE m.member_id = :memberId",
-            countQuery = "SELECT count(voca_id) FROM memorize_voca WHERE member_id = :memberId")
-    Page<MyVocaJoinInterface> findAllByMemberId(int memberId, Pageable pageable);
+    @Query(nativeQuery = true, value = "SELECT b.voca_id, b.japanese, b.pronunciation, b.korean, b.frequency FROM memorize_voca AS m LEFT JOIN bigvoca AS b ON m.voca_id = b.voca_id WHERE m.member_id = :memberId")
+//    countQuery = "SELECT count(voca_id) FROM memorize_voca WHERE member_id = :memberId"
+    List<MyVocaJoinInterface> findAllByMemberId(int memberId);
 
 }

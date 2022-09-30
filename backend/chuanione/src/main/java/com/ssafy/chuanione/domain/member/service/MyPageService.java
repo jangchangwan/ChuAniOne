@@ -14,16 +14,16 @@ public interface MyPageService {
     // 애니 내역 - 메인
     Map<String, Object> getMyAni(int memberId);
     // 시청한 애니 - 더보기
-    Map<String, Object> getWatchAni(int memberId, Pageable page);
+    Map<String, Object> getWatchAni(int memberId);
     // 좋아요한 애니 - 더보기
-    Map<String, Object> getLikeAni(int memberId, Pageable page);
+    Map<String, Object> getLikeAni(int memberId);
     // 찜한 애니 더보기
-    Map<String, Object> getWishAni(int memberId, Pageable page);
+    Map<String, Object> getWishAni(int memberId);
 
     // 리뷰
 
     // 경험치 history
 
     // 보카 내역
-    Map<String, Object> getMyVoca(int memberId, Pageable pageable);
+    Map<String, Object> getMyVoca(int memberId);
 }

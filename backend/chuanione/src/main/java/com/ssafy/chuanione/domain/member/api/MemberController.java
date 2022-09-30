@@ -8,6 +8,7 @@ import com.ssafy.chuanione.domain.member.service.EmailService;
 import com.ssafy.chuanione.domain.member.service.EmailTokenService;
 import com.ssafy.chuanione.domain.member.service.MemberService;
 import com.ssafy.chuanione.domain.member.service.MyPageServiceImpl;
+import com.ssafy.chuanione.domain.review.dto.ReviewResponseDto;
 import com.ssafy.chuanione.global.error.exception.InvalidParameterException;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -140,26 +142,32 @@ public class MemberController {
     @GetMapping("/ani/like/{id}")
     @ApiOperation(value = "좋아요한 애니 목록 전체")
     public ResponseEntity<Map<String, Object>> getLikeAni(@PathVariable int id, @PageableDefault(size = 14) @SortDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page){
-        return new ResponseEntity<>(myPageService.getLikeAni(id, page), HttpStatus.OK);
+        return new ResponseEntity<>(myPageService.getLikeAni(id), HttpStatus.OK);
     }
 
     @GetMapping("/ani/watch/{id}")
     @ApiOperation(value = "시청한 애니 목록 전체")
     public ResponseEntity<Map<String, Object>> getWatchAni(@PathVariable int id, @PageableDefault(size = 14) @SortDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page){
-        return new ResponseEntity<>(myPageService.getWatchAni(id, page), HttpStatus.OK);
+        return new ResponseEntity<>(myPageService.getWatchAni(id), HttpStatus.OK);
     }
 
     @GetMapping("/ani/wish/{id}")
     @ApiOperation(value = "찜한 애니 목록 전체")
     public ResponseEntity<Map<String, Object>> getWishAni(@PathVariable int id, @PageableDefault(size = 14) @SortDefault(sort = "id", direction = Sort.Direction.DESC) Pageable page){
-        return new ResponseEntity<>(myPageService.getWishAni(id, page), HttpStatus.OK);
+        return new ResponseEntity<>(myPageService.getWishAni(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/review/{id}")
+    @ApiOperation(value = "내가 쓴 리뷰 전체")
+    public ResponseEntity<List<ReviewResponseDto>> getMyReview(@PathVariable int id){
+        return new ResponseEntity<>(myPageService.getMyReview(id), HttpStatus.OK);
     }
 
     @GetMapping("/voca/{id}")
     @ApiOperation(value = "내 단어 목록 (id: 회원 번호)")
     public ResponseEntity<Map<String, Object>> getMyVoca(@PathVariable int id, @PageableDefault(size = 8) Pageable pageable) {
         // 한 페이지에 8개씩, 첫 페이지의 인덱스: 0
-        Map<String, Object> result = myPageService.getMyVoca(id, pageable);
+        Map<String, Object> result = myPageService.getMyVoca(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
