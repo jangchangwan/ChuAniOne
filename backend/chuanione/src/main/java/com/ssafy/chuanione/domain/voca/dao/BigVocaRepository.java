@@ -17,4 +17,5 @@ public interface BigVocaRepository extends JpaRepository<BigVoca, Integer> {
 
     @Query(value = "select b from BigVoca b where b.vocaId not in :memorizeVoca")
     Page<BigVoca> findAll(Pageable pageable, List<Integer> memorizeVoca);
+    Page<BigVoca> findAll(Pageable pageable);
 }
