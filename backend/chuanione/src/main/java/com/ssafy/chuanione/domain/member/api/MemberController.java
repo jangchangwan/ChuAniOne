@@ -54,7 +54,11 @@ public class MemberController {
         return new ResponseEntity<>(memberService.emailConfirmCheck(email), HttpStatus.OK);
     }
 
-
+    @PostMapping("/refresh.do")
+    @ApiOperation(value = "Access Token 재발급")
+    public ResponseEntity<TokenDto> refresh(@RequestBody TokenRequestDto requestDto){
+        return new ResponseEntity<>(memberService.refresh(requestDto), HttpStatus.OK);
+    }
 
     @PostMapping("/login.do")
     @ApiOperation(value = "로그인")

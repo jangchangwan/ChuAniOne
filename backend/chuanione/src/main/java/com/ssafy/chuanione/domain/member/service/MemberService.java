@@ -77,6 +77,36 @@ public class MemberService {
         return tokenDto;
     }
 
+    public TokenDto refresh(TokenRequestDto requestDto){
+        // Refresh Token 검증
+        if(!tokenProvider.validateToken(requestDto.getRefreshToken())){
+            throw new RuntimeException("Refresh Token이 유효하지 않습니다.");
+        }
+
+        // Access Token에서 Id(Email) 가져오기
+        Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
+
+        // 가져온 ID로 Refresh Token 가져오기
+        Member entity = memberRepository.findByEmail(authentication.getName())
+                .orElseThrow(()->new RuntimeException("로그아웃된 사용자입니다."));
+
+        String refreshToken = entity.getToken();
+
+        // 일치 검사
+        if(!refreshToken.equals(requestDto.getRefreshToken())){
+            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
+        }
+
+        // 새 토큰 생성
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+
+        // DB 정보 업데이트
+        entity.saveToken(tokenDto.getRefreshToken());
+
+        // 토큰 발급
+        return tokenDto;
+    }
+
     public boolean checkNickName(String nickname) {
         Optional<Member> member = memberRepository.findByNickname(nickname);
         return member.isPresent();
