@@ -1,6 +1,7 @@
 package com.ssafy.chuanione.domain.animation.dao;
 
 import com.ssafy.chuanione.domain.animation.domain.AnimationType;
+import com.ssafy.chuanione.domain.member.domain.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,8 +19,8 @@ public interface AnimationTypeRepository  extends JpaRepository<AnimationType, I
     AnimationType findType(int memberId, int animationId, int type);
 
     // 마이페이지 바로 보여질 애니 기록(타입별로 8개)
-    List<AnimationType> findAllTop8ByMemberId_IdAndTypeOrderByIdDesc(int memberId, int type);
+    List<AnimationType> findAllTop8ByMemberIdAndTypeOrderByIdDesc(Member member, int type);
 
     // 사용자의 애니 기록 전체 목록
-    List<AnimationType> findAllByMemberId_IdAndTypeOrderByIdDesc(int memberId, int type);
+    List<AnimationType> findAllByMemberIdAndTypeOrderByIdDesc(Member member, int type);
 }

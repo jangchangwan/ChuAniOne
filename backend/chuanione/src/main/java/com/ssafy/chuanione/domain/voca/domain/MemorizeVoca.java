@@ -24,7 +24,7 @@ public class MemorizeVoca {
     @JoinColumn(name = "member_id")
     private Member memberId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "voca_id")
     private BigVoca vocaId;
 }

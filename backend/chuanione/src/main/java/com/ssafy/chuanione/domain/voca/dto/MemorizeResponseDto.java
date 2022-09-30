@@ -10,21 +10,12 @@ import lombok.ToString;
 @Getter
 @Builder
 public class MemorizeResponseDto {
-    private Integer voca_id;
-    private String japanese;
-    private String pronunciation;
-    private String korean;
-    private Integer frequency;
+    private BigVoca voca;
 
-    public static MemorizeResponseDto from(MyVocaJoinInterface voca){
+    public static MemorizeResponseDto from(MemorizeVoca voca){
         if(voca == null) return null;
-
         return MemorizeResponseDto.builder()
-                .voca_id(voca.getVoca_id())
-                .japanese(voca.getJapanese())
-                .pronunciation(voca.getPronunciation())
-                .korean(voca.getKorean())
-                .frequency(voca.getFrequency())
+                .voca(voca.getVocaId())
                 .build();
     }
 }
