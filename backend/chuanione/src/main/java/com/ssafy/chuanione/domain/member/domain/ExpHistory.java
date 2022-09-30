@@ -13,11 +13,12 @@ import javax.persistence.*;
 public class ExpHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ext_history_id")
+    @Column(name = "exp_history_id")
     private Integer id;
     private int value;
     private Type type;
     private int communityId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member memberId;

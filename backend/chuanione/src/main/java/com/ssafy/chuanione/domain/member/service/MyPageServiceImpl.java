@@ -43,6 +43,7 @@ public class MyPageServiceImpl implements MyPageService {
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         List<Map.Entry<String, Integer>> genres = getGenres();
         List<ExpHistory> expHistories = expHistoryRepository.findByMemberId(member);
+        System.out.println("경험치배열 크기: " + expHistories.size());
         int exp = 0;
         for (ExpHistory v: expHistories) {
             exp += v.getValue();
