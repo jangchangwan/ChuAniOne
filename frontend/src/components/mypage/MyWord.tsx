@@ -14,18 +14,24 @@ function MyWord() {
     // 데이터 불러오기
     async function loadWordData() {
       const MyVoca = await dispatch(getMyvoca())
-      setMyVocaList(MyVoca.payload)
+      setMyVocaList(MyVoca.payload.myVoca)
     }
   
     useEffect(() => {
       loadWordData()
     },[])
+  
   return (
     <div>
-      {/* <WordBox> */}
-      <h1>MyWord</h1>
-      <MyWordItem></MyWordItem>
-      {/* </WordBox> */}
+      {
+        myVocaList ?
+        (
+          myVocaList.map((item, idx) => (
+            <MyWordItem key={idx} wordData={item}/>
+          ))
+        )
+        : null
+      }
     </div>
   );
 }
