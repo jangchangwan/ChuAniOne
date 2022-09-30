@@ -43,18 +43,18 @@ const MyAniTitle = styled.p`
 function MyAniList() {
   const dispatch = useDispatch<typeof store.dispatch>()
 
-  // const [aniList, setAniList] = useState<any>([])
+  const [aniList, setAniList] = useState<any>([])
   const [likeAniList, setLikeAniList] = useState<any>([])
   const [choiceaniList, setChoiceAniList] = useState<any>([])
   const [watchaniList, setWatchAniList] = useState<any>([])
 
   // 데이터 불러오기
   async function loadAniData() {
-    // const aniResponse = await dispatch(getMyAniList())
+    const aniResponse = await dispatch(getMyAniList())
     const likeAniResponse = await dispatch(getChoiceAniList())
     const choiceAniResponse = await dispatch(getLikeAniList())
     const watchAniResponse = await dispatch(getWatchAniList())
-    // console.log(aniResponse);
+    console.log(aniResponse);
     
     // setAniList(aniResponse.data)
     setLikeAniList(likeAniResponse.payload)
