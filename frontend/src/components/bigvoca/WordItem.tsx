@@ -15,7 +15,7 @@ const WordItemGrid = styled(Grid)`
   align-items: center;
   border-radius: 1rem;
   box-shadow: 0.5px 0.5px 0.5px 0.5px black;
-  padding: 0.5rem;
+  padding: 1rem;
 `
 
 function textToSpeech(word: string): void {
@@ -66,17 +66,16 @@ function WordItem({ vocaData }) {
 
     >
       {/* 일본어 */}
-        <Grid xs={1}></Grid>
-        <Grid xs={1}>
+      <Grid container>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={1}>
           <VolumeUpIcon 
             sx={checked ? 
               {
                 color: '#535453',
-                paddingTop: '0.5rem',
                 cursor: 'pointer'
               } : {
                 color: '#FA9494',
-                paddingTop: '0.5rem',
                 cursor: 'pointer'
               }}
               onClick={() => {
@@ -84,27 +83,27 @@ function WordItem({ vocaData }) {
               }} 
             />
         </Grid>
-        <Grid xs={3}
+        <Grid item xs={3}
         >
           <label htmlFor="word" >{vocaData.japanese}</label>
         </Grid>
-        <Grid xs={5}
+        <Grid item xs={5}
         >
-          <p>({vocaData.pronunciation})</p>
+          <p style={{margin:0}}>{vocaData.korean}</p>
         </Grid>
-        <Grid xs={2}>
+        <Grid item xs={2}>
           <Checkbox color='default' onChange={checkChange} id='word' 
             sx={{ 
-              paddingBottom: '1rem',
-              paddingLeft: '2rem'
           }}
           />
         </Grid>
+      </Grid>
+      <Grid container>
         <Grid xs={2}></Grid>
         <Grid xs={10}>
-          <div>{vocaData.korean}</div>
+          <div>({vocaData.pronunciation})</div>
         </Grid>
-
+      </Grid>
     </WordItemGrid>
   );
 }

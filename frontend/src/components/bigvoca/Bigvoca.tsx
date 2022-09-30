@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import styled from "styled-components";
 import Grid from '@mui/material/Grid';
 import ReadBookImg from  '../../assets/images/readbookImg.png'
+import bigvocaImg from  '../../assets/images/bigvocaImg.png'
 // 화면전환 애니메이션
 import { motion } from 'framer-motion';
 
@@ -49,10 +50,18 @@ function Bigvoca() {
 
   return (
 
+    <div
+      style={{
+        backgroundImage: `url(${bigvocaImg})`,
+        height: '100vh',
+      }}
+    >
 
+    
     <Container maxWidth="xl"
       sx={{
-        padding: '3.5rem'
+        padding: '3.5rem',
+        
       }}
     >
       <motion.div
@@ -105,9 +114,9 @@ function Bigvoca() {
       </div>
       </motion.div>
       <motion.div
-        initial={{ y: -1500 }}
-        animate={{ y: -10 }}
-        transition={{ delay: 1.6, type: 'spring', stiffness: 120 }}
+        initial={{ opacity:0 }}
+        animate={{ opacity:1 }}
+        transition={{ delay: 1.6, duration: 2 }}
       >
       <div>
         <Grid container>
@@ -121,6 +130,7 @@ function Bigvoca() {
       </div>
       </motion.div>
     </Container>
+    </div>
   );
 }
 
