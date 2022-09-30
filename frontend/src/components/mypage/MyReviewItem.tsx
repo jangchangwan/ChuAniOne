@@ -24,7 +24,7 @@ const ReviewText = styled.p`
   margin: 0;
 `
 
-function MyPageItem() {
+function MyPageItem(review:any) {
   return (
     <Container>
       <ReviewBox>

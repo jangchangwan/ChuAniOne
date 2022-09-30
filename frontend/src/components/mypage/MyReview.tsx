@@ -20,8 +20,16 @@ function MyReview() {
     },[])
   return (
     <div>
-      <h1>MyReview</h1>
-        <MyReviewItem/>
+      {
+        myReviewList ?
+        ( myReviewList.map((item, idx) => (
+          <MyReviewItem key={idx} reviewData={item}/>
+        ))
+
+        )
+        : null
+      }
+        
     </div>
   );
 }

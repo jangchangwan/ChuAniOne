@@ -197,8 +197,7 @@ const loginSlice:any = createSlice({
       })
       .addCase(myinfo.fulfilled, (state, { payload }) =>{
         if (payload) {
-          console.log(payload.data.memberId);
-          state.userId = payload.data.memberId
+          state.userId = payload.data.member.memberId
         }
       })
   },
