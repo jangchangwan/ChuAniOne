@@ -102,7 +102,7 @@ public class MyPageServiceImpl implements MyPageService {
         List<AnimationType> choiceIds = aniTypeRepository.findAllTop8ByMemberIdAndTypeOrderByIdDesc(member, 3);
         // 시청한 애니 아이디
         List<AnimationType> watchIds = aniTypeRepository.findAllTop8ByMemberIdAndTypeOrderByIdDesc(member, 4);
-        System.out.println(likeIds.get(0));
+
         // 각 리스트로 받아옴
         List<Animation> likePage = animationRepository.findAllByQuery(getAnimationId(likeIds));
         List<Animation> choicePage = animationRepository.findAllByQuery(getAnimationId(choiceIds));
