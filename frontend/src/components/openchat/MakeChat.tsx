@@ -17,7 +17,7 @@ const Container = styled.div`
   height: calc(100% - 2rem - 1.4rem);
   background-color: #f5f5f5;
   border-radius: 1.5rem;
-
+  z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;

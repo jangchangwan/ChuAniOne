@@ -25,28 +25,29 @@ import { AnimatePresence } from 'framer-motion';
 function AnimatedRoutes() {
   const navigate = useNavigate()
   const logincheck = useSelector((state: initialState) => state.login.isLogin)
+  
   const location = useLocation();
 
-  // 비로그인시 특정 페이지 막기
-  useEffect(():any => {
-    const path = window.location.pathname
-    if (logincheck === false) {
-      if (path === '/openchat' || path === '/bigvoca' || path === '/mypage'){
-        navigate('/*')
-      }
-    }
-  }, [window.location.pathname]);
+  // // 비로그인시 특정 페이지 막기
+  // useEffect(():any => {
+  //   const path = window.location.pathname
+  //   if (logincheck === false) {
+  //     if (path === '/openchat' || path === '/bigvoca' || path === '/mypage'){
+  //       navigate('/*')
+  //     }
+  //   }
+  // }, [window.location.pathname]);
 
 
-  // 로그인시 특정페이지 막기
-  useEffect(() => {
-    const path = window.location.pathname
-    if (logincheck === true) {
-      if (path === '/pwd' || path === '/login' || path === '/signup' || path === '/emailCertification'){
-        navigate('/*')
-      }
-    }
-  }, [window.location.pathname]);
+  // // 로그인시 특정페이지 막기
+  // useEffect(() => {
+  //   const path = window.location.pathname
+  //   if (logincheck === true) {
+  //     if (path === '/pwd' || path === '/login' || path === '/signup' || path === '/emailCertification'){
+  //       navigate('/*')
+  //     }
+  //   }
+  // }, [window.location.pathname]);
 
   return (
     <AnimatePresence>
