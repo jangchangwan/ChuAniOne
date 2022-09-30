@@ -136,6 +136,7 @@ function MyLeft() {
   const [profileImg, setProfileImg] = useState('')
   const [password, setPassword] = useState('')
   const [userId, setUserId] = useState('')
+  const [exp, setExp] = useState(0)
   // 유효성검사
   const [nicknameValid, setNicknameValid] = useState(true)
   const [pwdValid, setPwdValid] = useState(true)
@@ -144,11 +145,11 @@ function MyLeft() {
   const [defaultPwd, setDefaultPwd] = useState(false)
   const [defaultNickname, setDefaultNickname] = useState(false)
   const [confirmNickname, setConfirmNickname] = useState(false)
+  
   // 닉네임 중복체크
   // t: 사용가능, f: 사용불가능
   const [isDuplicateNicknameChecked, setisDuplicateNicknameChecked] = useState(false)
 
-  const exp:number = 370
   const tier:any = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']
   const mytier:string = tier[Math.floor(exp/100)]  // 소수점 버림
   const myexp:number = exp%100
@@ -247,9 +248,10 @@ function MyLeft() {
       .then((response:any) => {
         const data = response.payload.data
         console.log(data);
-        setNickName(data.nickname)
-        setIntroduction(data.introduction)
-        setUserId(data.memberId)
+        setNickName(data.member.nickname)
+        setIntroduction(data.member.introduction)
+        setUserId(data.member.memberId)
+        setExp(data.exp)
       }).catch((e) => {
         console.log(e);
         
