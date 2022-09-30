@@ -56,7 +56,7 @@ public class ReviewServiceImpl implements ReviewService{
     @Override
     public Object insertReview(ReviewRequestDto dto, int id) {//애니메이션id
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        if( reviewRepository.findByAnimationIdAndMemberId(id, login.getId()) != null ){
+        if( reviewRepository.findByAnimationIdAndMemberId(id, login) != null ){
             // 한번만 작성되게
             return "NO";
         }
@@ -107,9 +107,9 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public Object getMyReview(int id) {
+    public Object getMyReview(int ani_id) {
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-        Review review = reviewRepository.findByAnimationIdAndMemberId(id, login.getId());
+        Review review = reviewRepository.findByAnimationIdAndMemberId(ani_id, login);
         if(review == null) return "NO";
         else
         return ReviewResponseDto.from(review);
