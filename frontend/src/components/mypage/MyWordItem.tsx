@@ -13,6 +13,7 @@ import styled from 'styled-components';
 const WordItemGrid = styled(Grid)`
   display: flex;
   align-items: center;
+  width: 90% !important;
   border-radius: 1rem;
   box-shadow: 0.5px 0.5px 0.5px 0.5px black;
   margin-top: 1rem;
@@ -66,11 +67,9 @@ function MyWordItem(wordData:any) {
 
     >
       {/* 일본어 */}
-      <Grid container
-
-        >
+      <Grid container item xs={6}>
         <Grid item xs={1}></Grid>
-        <Grid item xs={1}>
+        <Grid item xs={3}>
           <VolumeUpIcon 
             sx={checked ? 
               {
@@ -85,18 +84,22 @@ function MyWordItem(wordData:any) {
               }} 
             />
         </Grid>
-        <Grid item xs={3}
+        <Grid item xs={5}
         >
           <label htmlFor="word" >{wordData.wordData.voca.japanese}</label>
         </Grid>
-        <Grid item xs={5}
+        <Grid item xs={2}
         >
           <p style={{margin:0}}>{wordData.wordData.voca.korean}</p>
         </Grid>
-        <Grid item xs={2}>
-          <Checkbox color='default' onChange={checkChange} id='word' 
-            sx={{ 
+        <Grid item xs={1}
+          sx = {{
+            position: 'relative',
+            top: '-1rem',
+            right: '-75%'
           }}
+        >
+          <Checkbox color='default' onChange={checkChange} id='word' 
           />
         </Grid>
       </Grid>

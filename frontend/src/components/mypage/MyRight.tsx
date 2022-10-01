@@ -11,13 +11,14 @@ import MyWord from './MyWord'
 import MyGoal from './MyGoal'
 
 const RightContainer = styled.div`
+  margin-top: 3rem;
   width: 100%;
   height: 100%;
 `
 
 const TabBox = styled.div`
   width: 100%;
-  height: 42%;
+  height: 70%;
 `
 
 const TabDiv = styled.div`
@@ -29,6 +30,25 @@ const DetailBox = styled(Box)`
   padding: 0.5rem;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    /* background-color: ; */
+    width: 0.5rem;
+    border-radius: 0.3rem;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 0.3rem;
+    background-color: #f37b83;
+    height: 30%;
+    box-shadow: inset 0px 0px 3px white;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #ffcdce;
+    box-shadow: inset 0px 0px 3px white;
+  }
 `
 
 interface TabPanelProps {

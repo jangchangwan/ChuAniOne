@@ -4,34 +4,11 @@ import { useDispatch } from 'react-redux'
 import { getMyvoca } from '../../store/mypageslice'
 import store from '../../store'
 import styled from 'styled-components'
+import Grid from '@mui/material/Grid'
 
 const MyVocaContainer = styled.div`
   width: 100%;  
-  height: 100%;
-  overflow-y: auto;
-
-  ::-webkit-scrollbar {
-    /* background-color: ; */
-    width: 0.5rem;
-    border-radius: 0.3rem;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 0.3rem;
-    background-color: #f37b83;
-    height: 30%;
-    box-shadow: inset 0px 0px 3px white;
-  }
-
-  ::-webkit-scrollbar-track {
-    background-color: #ffcdce;
-    box-shadow: inset 0px 0px 3px white;
-  }
-`
-const MyVocaList = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 1.2rem;
+  height: 100vh;
 
 `
 
@@ -53,17 +30,24 @@ function MyWord() {
   
   return (
     <MyVocaContainer>
-      <MyVocaList>
+      <Grid container
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              paddingTop: '1rem',
+            }}
+      >
       {
         myVocaList ?
         (
           myVocaList.map((item, idx) => (
-            <MyWordItem key={idx} wordData={item}/>
+            <Grid item xs={6}><MyWordItem key={idx} wordData={item}/></Grid>
+            
           ))
         )
         : null
       }
-      </MyVocaList>
+      </Grid>
     </MyVocaContainer>
   );
 }

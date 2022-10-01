@@ -60,7 +60,7 @@ function WordList() {
   return (
     <Container sx={{ width:'1000px', height:'580px', backgroundImage: `url(${BackgroundImg})`}} >
       <Grid container
-            spacing={3}
+            spacing={2}
             sx={{
               display: 'flex',
               justifyContent: 'center',
