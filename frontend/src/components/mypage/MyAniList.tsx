@@ -31,6 +31,7 @@ const CarouselPaper = styled(Paper)`
 `
 
 const MyAniContainer = styled.div`
+  height: 22%;
   /* display: flex;
   flex-direction: column;
   justify-content: center; */
@@ -43,10 +44,14 @@ const MyAniTitle = styled.p`
 function MyAniList() {
   const dispatch = useDispatch<typeof store.dispatch>()
 
-  const [aniList, setAniList] = useState<any>([])
   const [likeAniList, setLikeAniList] = useState<any>([])
   const [choiceaniList, setChoiceAniList] = useState<any>([])
   const [watchaniList, setWatchAniList] = useState<any>([])
+
+  // 총데이터
+  const [totalLikeAniList, setTotalLikeAniList] = useState<any>([])
+  const [totalChoiceaniList, setTotalChoiceAniList] = useState<any>([])
+  const [totalWatchaniList, setTotalWatchAniList] = useState<any>([])
 
   // 데이터 불러오기
   async function loadAniData() {
@@ -54,13 +59,14 @@ function MyAniList() {
     const likeAniResponse = await dispatch(getChoiceAniList())
     const choiceAniResponse = await dispatch(getLikeAniList())
     const watchAniResponse = await dispatch(getWatchAniList())
-    console.log(aniResponse);
     
-    setAniList(aniResponse.payload)
-    setLikeAniList(likeAniResponse.payload)
-    setChoiceAniList(choiceAniResponse.payload)
-    setWatchAniList(watchAniResponse.payload)
+    setLikeAniList(aniResponse.payload.choice)
+    setChoiceAniList(aniResponse.payload.like)
+    setWatchAniList(aniResponse.payload.watch)
 
+    setTotalLikeAniList(likeAniResponse.payload)
+    setTotalChoiceAniList(choiceAniResponse.payload)
+    setTotalWatchAniList(watchAniResponse.payload)
 
 
   }
@@ -68,13 +74,23 @@ function MyAniList() {
   useEffect(() => {
     loadAniData()
   },[])
+
   return (
     <Container>
       <MyAniContainer>
         <MyAniTitle>최근 시청한 작품들</MyAniTitle>
         <CarouselContainer indicators={false}>
           <CarouselPaper elevation={0}>
-            <MyAniItem></MyAniItem>
+            {
+            watchaniList ?
+            (
+              watchaniList.map((item, idx) => (
+                <MyAniItem key={idx} aniData={item}></MyAniItem>
+                
+              ))
+            )
+            : null
+            }
           </CarouselPaper>
         </CarouselContainer>
       </MyAniContainer>
@@ -83,7 +99,16 @@ function MyAniList() {
         <MyAniTitle>내가 찜한 작품 목록</MyAniTitle>
         <CarouselContainer indicators={false}>
           <CarouselPaper elevation={0}>
-            <MyAniItem></MyAniItem>
+            {
+            choiceaniList ?
+            (
+              choiceaniList.map((item, idx) => (
+                <MyAniItem key={idx} aniData={item}></MyAniItem>
+                
+              ))
+            )
+            : null
+            }
           </CarouselPaper>
         </CarouselContainer>
       </MyAniContainer>
@@ -92,7 +117,16 @@ function MyAniList() {
         <MyAniTitle>내가 좋아요한 작품 목록</MyAniTitle>
         <CarouselContainer indicators={false}>
           <CarouselPaper elevation={0}>
-            <MyAniItem></MyAniItem>
+            {
+            likeAniList ?
+            (
+              likeAniList.map((item, idx) => (
+                <MyAniItem key={idx} aniData={item}></MyAniItem>
+                
+              ))
+            )
+            : null
+            }
           </CarouselPaper>
         </CarouselContainer>
       </MyAniContainer>

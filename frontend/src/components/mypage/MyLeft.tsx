@@ -124,9 +124,16 @@ const SuccessText = styled.span`
   margin-bottom: 1rem;
 `
 
+const ChartDiv = styled.div`
+  margin-top: 10rem;
+`
+
 function MyLeft() {
   const dispatch = useDispatch<typeof store.dispatch>()
 
+  const [mynickName, setMyNickName] = useState('')
+  const [myintroduction, setMyintroduction] = useState('')
+  const [myProfileImg, setMyProfileImg] = useState('')
   // 개인정보수정 모달 열고 닫기
   const [open, setOpen] = React.useState(false);
   
@@ -247,7 +254,6 @@ function MyLeft() {
     dispatch(myinfo())
       .then((response:any) => {
         const data = response.payload.data
-        console.log(data);
         setNickName(data.member.nickname)
         setIntroduction(data.member.introduction)
         setUserId(data.member.memberId)
@@ -257,7 +263,23 @@ function MyLeft() {
         
       })
   },[])
-
+  {/* 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond' */}
+  const tiercolor = () => {
+    switch (tier) {
+      case 'Bronze':
+        return <p style={{ margin : '0', color : '#CD7F32'}}>{mytier}({myexp})  {nickName}</p>
+      case 'Silver':
+        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
+      case 'Gold':
+        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
+      case 'Platinum':
+        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
+      case 'Diaomnd':
+        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
+      default:
+        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
+    }
+  }
   return (
     <div
       style={{
@@ -282,7 +304,7 @@ function MyLeft() {
         
         <ProfileContainerBox>
           <ProfileContainerLv>
-            <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
+              <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
             <MoreVertIcon
               type='button'
               onClick={handleClickOpen}
@@ -456,8 +478,10 @@ function MyLeft() {
           </BadgeBox>
         </Grid>
       </Grid> */}
-
-      <MyAniChart></MyAniChart>
+      <ChartDiv>
+        <MyAniChart ></MyAniChart>
+      </ChartDiv>
+      
     </div>
   );
 }
