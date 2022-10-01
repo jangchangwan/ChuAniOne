@@ -47,7 +47,6 @@ Markdown==3.4.1
 MarkupSafe==2.1.1
 matplotlib==3.6.0
 matplotlib-inline==0.1.6
-mecab-python @ file:///C:/Users/sodud/study/ssafy_spec_pjt/S07P22E104/backend/venv/Lib/site-packages/mecab_python-0.996_ko_0.9.2_msvc-cp38-cp38-win_amd64.whl
 nest-asyncio==1.5.5
 numpy==1.21.5
 oauthlib==3.2.1
