@@ -2,8 +2,11 @@ package com.ssafy.chuanione.domain.review.service;
 
 import com.ssafy.chuanione.domain.animation.dao.AnimationTypeRepository;
 import com.ssafy.chuanione.domain.animation.domain.AnimationType;
+import com.ssafy.chuanione.domain.member.dao.ExpHistoryRepository;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
+import com.ssafy.chuanione.domain.member.domain.ExpHistory;
 import com.ssafy.chuanione.domain.member.domain.Member;
+import com.ssafy.chuanione.domain.member.domain.CommunityType;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.domain.review.dao.ReviewMongoRepository;
 import com.ssafy.chuanione.domain.review.dao.ReviewRepository;
@@ -33,6 +36,7 @@ public class ReviewServiceImpl implements ReviewService{
     private final ReviewRepository reviewRepository;
     private final ReviewMongoRepository reviewMongoRepository;
     private final AnimationTypeRepository animationTypeRepository;
+    private final ExpHistoryRepository expHistoryRepository;
 
     @Override
     public Map<String, Object> getList(int id) {//애니메이션id
@@ -62,7 +66,7 @@ public class ReviewServiceImpl implements ReviewService{
         }
         LocalDateTime localDateTime = LocalDateTime.now(); //현재시간
         Review review = dto.toEntity(dto,login,id,localDateTime);
-        reviewRepository.save(review);
+        Review saveReview = reviewRepository.save(review);
         // 몽고디비에 넣기
         ReviewMongoDB db = ReviewMongoDB.builder()
                 .profile(review.getMemberId().getId()+6000000)
@@ -77,6 +81,16 @@ public class ReviewServiceImpl implements ReviewService{
                 .memberId(login)
                 .type(4)
                 .build();
+
+        //경험치 삽입
+        ExpHistory expHistory = ExpHistory.builder()
+                .value(10)
+                .type(CommunityType.REVIEW)
+                .communityId(saveReview.getId())
+                .memberId(login)
+                .build();
+        expHistoryRepository.save(expHistory);
+
         animationTypeRepository.save(type);
         return ReviewResponseDto.from(review);
     }
@@ -100,6 +114,7 @@ public class ReviewServiceImpl implements ReviewService{
         Review review = reviewRepository.findById(id).orElse(null);
         if(login.getId() == review.getMemberId().getId()){
             reviewRepository.delete(review);
+            expHistoryRepository.deleteByTypeAndCommunityId(CommunityType.REVIEW, review.getId());
         }
         // AnimationType에 type4 삭제하기
         AnimationType type = animationTypeRepository.findType(login.getId(),review.getAnimationId(),4);

@@ -1,5 +1,5 @@
 package com.ssafy.chuanione.domain.member.domain;
 
-public enum Type {
+public enum CommunityType {
     TALKTALK, REVIEW
 }
