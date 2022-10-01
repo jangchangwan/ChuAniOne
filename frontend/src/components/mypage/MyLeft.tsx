@@ -131,9 +131,7 @@ const ChartDiv = styled.div`
 function MyLeft() {
   const dispatch = useDispatch<typeof store.dispatch>()
 
-  const [mynickName, setMyNickName] = useState('')
-  const [myintroduction, setMyintroduction] = useState('')
-  const [myProfileImg, setMyProfileImg] = useState('')
+
   // 개인정보수정 모달 열고 닫기
   const [open, setOpen] = React.useState(false);
   
@@ -144,6 +142,7 @@ function MyLeft() {
   const [password, setPassword] = useState('')
   const [userId, setUserId] = useState('')
   const [exp, setExp] = useState(0)
+  const [mygenres, setMygenres] = useState()
   // 유효성검사
   const [nicknameValid, setNicknameValid] = useState(true)
   const [pwdValid, setPwdValid] = useState(true)
@@ -253,7 +252,9 @@ function MyLeft() {
   useEffect(() => {
     dispatch(myinfo())
       .then((response:any) => {
+        console.log('동작')
         const data = response.payload.data
+        setMygenres(data.genres)
         setNickName(data.member.nickname)
         setIntroduction(data.member.introduction)
         setUserId(data.member.memberId)
@@ -262,24 +263,9 @@ function MyLeft() {
         console.log(e);
         
       })
+    console.log(mygenres)
   },[])
-  {/* 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond' */}
-  const tiercolor = () => {
-    switch (tier) {
-      case 'Bronze':
-        return <p style={{ margin : '0', color : '#CD7F32'}}>{mytier}({myexp})  {nickName}</p>
-      case 'Silver':
-        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
-      case 'Gold':
-        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
-      case 'Platinum':
-        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
-      case 'Diaomnd':
-        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
-      default:
-        return <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
-    }
-  }
+
   return (
     <div
       style={{
@@ -479,7 +465,11 @@ function MyLeft() {
         </Grid>
       </Grid> */}
       <ChartDiv>
-        <MyAniChart ></MyAniChart>
+        { mygenres ?
+          <MyAniChart genresData={mygenres}></MyAniChart>
+          : null
+        }
+        
       </ChartDiv>
       
     </div>
