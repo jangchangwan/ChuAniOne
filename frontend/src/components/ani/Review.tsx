@@ -205,17 +205,20 @@ function Review({ aniId }) {
   async function reviseReview() {
     if (!review.trim()) return 
 
-    const res = await dispatch(patchReview({
-      id: aniId,
-      content: review,
-      rating: myStar,
-    }))
-    
-    if (res.meta.requestStatus === "fulfilled") {
-      setReview('')
-      setMyStar(3)
-      loadData()
-      setRevise(false)
+    if (myReview) {
+      console.log(review)
+      const res = await dispatch(patchReview({
+        id: myReview.id,
+        content: review,
+        rating: myStar,
+      }))
+      
+      if (res.meta.requestStatus === "fulfilled") {
+        setReview('')
+        setMyStar(3)
+        loadData()
+        setRevise(false)
+      }
     }
   }
 
