@@ -23,6 +23,7 @@ public class ReviewRequestDto {
                 .animationId(id)
                 .content(dto.getContent())
                 .rating(dto.getRating())
+                .date(time)
                 .memberId(member)
                 .build();
     }
