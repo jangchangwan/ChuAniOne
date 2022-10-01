@@ -73,8 +73,8 @@ public class ReviewServiceImpl implements ReviewService{
         reviewMongoRepository.save(db);
         // AnimationType에 type 4로 넣어주기
         AnimationType type = AnimationType.builder()
-                .animation_id(id)
-                .member_id(login)
+                .animationId(id)
+                .memberId(login)
                 .type(4)
                 .build();
         animationTypeRepository.save(type);
@@ -111,7 +111,6 @@ public class ReviewServiceImpl implements ReviewService{
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         Review review = reviewRepository.findByAnimationIdAndMemberId(ani_id, login);
         if(review == null) return "NO";
-        else
-        return ReviewResponseDto.from(review);
+        else return ReviewResponseDto.from(review);
     }
 }

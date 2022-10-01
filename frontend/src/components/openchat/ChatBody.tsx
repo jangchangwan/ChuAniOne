@@ -16,6 +16,7 @@ import { getChatList } from '../../store/openchatslice'
 // chatting
 import SockJS from 'sockjs-client'
 import { Stomp } from '@stomp/stompjs'
+import { $CombinedState } from 'redux'
 
 const Container = styled.div`
   width: 100%;  
@@ -185,20 +186,23 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     connect()
   }, [])
 
+  // const scrollRef = useRef<any>()
   const scrollRef = useRef<any>()
-
   useEffect(() => {
-    scrollRef.current.scrollIntoView({ behavior: 'smooth' })
+    // scrollRef.current.scrollIntoView({ behavior: 'smooth' })
+    console.log(scrollRef)
+
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [messages])
 
 
   return (
     <Container>
-      <ChatList>
+      <ChatList ref={scrollRef}>
         { messages.map((chat: any, idx: number) => (
           <ChatItem data={chat}/>
         ))}
-        <div ref={scrollRef} />
+        {/* <div ref={scrollRef} /> */}
       </ChatList>
 
       {/* 채팅 보내기: input */}

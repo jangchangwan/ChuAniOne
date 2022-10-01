@@ -35,6 +35,8 @@ function WordList() {
   function loadData(page: number) {
     dispatch(getVocaList(page))
       .then((res:any) =>{
+        console.log(res);
+        
         setVocaList(res.payload.data)
     })
   }

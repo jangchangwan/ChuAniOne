@@ -2,6 +2,8 @@ package com.ssafy.chuanione.domain.review.dao;
 
 import com.ssafy.chuanione.domain.member.domain.Member;
 import com.ssafy.chuanione.domain.review.domain.Review;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +15,8 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     List<Review> findByAnimationId(int animation_id);
+
     Review findByAnimationIdAndMemberId(int animation_id, Member member_id);
+    List<Review> findAllByMemberId(Member member);
+
 }

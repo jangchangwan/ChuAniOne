@@ -23,6 +23,7 @@ const Container = styled.div`
   justify-content: center;
 `
 
+
 const StarContainer = styled.div`
   width: 100%;
   display: flex;
@@ -175,6 +176,11 @@ function Review({ aniId }) {
         placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
         variant="outlined" 
         multiline rows={3}
+        sx={{
+          "& .MuiOutlinedInput-root.Mui-focused": {
+            "& > fieldset": {
+            borderColor: "#f2ffb7"
+        }}}}
         value={review}
         onChange={(e) => setReview(e.target.value)}
         onKeyPress={(e) => {

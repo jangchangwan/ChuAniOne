@@ -92,7 +92,7 @@ const VideoBox = styled.div`
 
 const TabBox = styled.div`
   width: 100%;
-  height: 45%;
+  height: 47%;
   overflow-y: auto;
   scrollbar-color: #d4aa70 #e4e4e4;
   scrollbar-width: thin;

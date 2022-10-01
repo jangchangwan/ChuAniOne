@@ -22,6 +22,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.awt.*;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
@@ -57,7 +58,7 @@ public class EmailTokenService {
         StringBuilder body = new StringBuilder();
         body.append("<html> <body>");
         body.append("<p><img src=\"cid:mail-confirm.jpg\" height='700' width='1000'></p>");
-        body.append("<h1><a href='http://j7e104.p.ssafy.io/api/v1/member/email-confirm.do?token="+emailToken.getId() + "'>링크 인증하기</a></h1></body></html>");
+        body.append("<h1><a href='https://j7e104.p.ssafy.io/api/v1/member/email-confirm.do?token="+emailToken.getId() + "'>링크 인증하기</a></h1></body></html>");
         //이메일 전송
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");

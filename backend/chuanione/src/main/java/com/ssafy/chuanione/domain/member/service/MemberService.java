@@ -7,17 +7,14 @@ import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.DuplicateEmailException;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.global.jwt.TokenProvider;
-import com.ssafy.chuanione.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -31,6 +28,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final EmailTokenService emailTokenService;
+
     public MemberResponseDto doSignUp(SignUpRequestDto requestDto) throws Exception {
         // Login id/pw로 AuthenticationToken 생성
         if(memberRepository.findByEmail(requestDto.getEmail()).orElse(null) != null){
@@ -61,7 +59,7 @@ public class MemberService {
         // CustomUserDetailsService의 loadByUserName 실행
         Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authenticationToken);
-        //SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
@@ -74,6 +72,36 @@ public class MemberService {
             memberRepository.save(member.get());
         }
 
+        return tokenDto;
+    }
+
+    public TokenDto refresh(TokenRequestDto requestDto){
+        // Refresh Token 검증
+        if(!tokenProvider.validateToken(requestDto.getRefreshToken())){
+            throw new RuntimeException("Refresh Token이 유효하지 않습니다.");
+        }
+
+        // Access Token에서 Id(Email) 가져오기
+        Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
+
+        // 가져온 ID로 Refresh Token 가져오기
+        Member entity = memberRepository.findByEmail(authentication.getName())
+                .orElseThrow(()->new RuntimeException("로그아웃된 사용자입니다."));
+
+        String refreshToken = entity.getToken();
+
+        // 일치 검사
+        if(!refreshToken.equals(requestDto.getRefreshToken())){
+            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
+        }
+
+        // 새 토큰 생성
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+
+        // DB 정보 업데이트
+        entity.saveToken(tokenDto.getRefreshToken());
+
+        // 토큰 발급
         return tokenDto;
     }
 
@@ -110,12 +138,8 @@ public class MemberService {
         return;
     }
 
-    public MemberResponseDto getMyInfo() {
-        System.out.println("토큰 " + SecurityUtil.getCurrentUsername());
-        return MemberResponseDto.from(SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new));
-    }
-
     public boolean emailConfirmCheck(String email) {
         return memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new).isVerified();
     }
+
 }

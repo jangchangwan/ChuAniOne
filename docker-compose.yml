@@ -16,24 +16,13 @@ services:
     depends_on:
       - spring-boot
 
-
-  react:
-    image: node:12-alpine
-    command: sh -c "npm ci && npm run build"
-    ports:
-      - "3000:3000"
-    working_dir: /app
-    volumes:
-      - ./frontend:/app
-    container_name: react_chu
-
   db:
     image: mysql:5.7
     environment:
-      MYSQL_USER: master
-      MYSQL_DATABASE: chuanione
-      MYSQL_PASSWORD: rnlaufdmlzkfskf!
-      MYSQL_ROOT_PASSWORD: emforhsqhftbvj
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       TZ: Asia/Seoul
     volumes:
       - "/home/ubuntu/db_data:/var/lib/mysql"
@@ -54,3 +43,15 @@ services:
     restart: always
     depends_on:
       - db
+
+  django:
+    build:
+      context: ./backend/recomm
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    command:
+      - ls
+      - python manage.py runserver 0:8000
+    volumes:
+      - ./:/app/

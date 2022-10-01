@@ -140,6 +140,26 @@ export const findPWD = createAsyncThunk(
   }
 )
 
+// accessToken 재발급
+export const refreshToken = createAsyncThunk(
+  'REFRESHTOKEN',
+  async (TokenDto:any, {rejectWithValue}) => {
+    try{
+      console.log(TokenDto)
+      const newTokenDto = {
+        accessToken :  `Bearer ${TokenDto.accessToken}`,
+        refreshToken : `Bearer ${TokenDto.refreshToken}`
+      }
+      console.log(newTokenDto);
+      
+      const res = await http.post('member/refresh.do', newTokenDto)
+      console.log(res);
+      return
+    } catch(err:any){
+      return rejectWithValue(err.response)
+    }
+  }
+)
 
 export interface loginReducerType {
   userId: number,

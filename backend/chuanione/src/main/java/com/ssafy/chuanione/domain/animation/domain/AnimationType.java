@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @ToString
-@Table(name="animation_type")
 public class AnimationType {
 
     @Id
@@ -23,10 +22,10 @@ public class AnimationType {
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member_id")
-    private Integer animation_id; // 테이블 참조안하고 별개로 관리
+    private Integer animationId; // 테이블 참조안하고 별개로 관리
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member_id;
+    private Member memberId;
 
 }
