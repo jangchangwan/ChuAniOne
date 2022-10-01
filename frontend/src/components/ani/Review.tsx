@@ -5,16 +5,22 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import TextField from '@mui/material/TextField'
 import ReviewList from './ReviewList'
-import { Button, Modal } from '@mui/material'
+import { Button } from '@mui/material'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 import border1 from '../../assets/images/border1.png'
 import border2 from '../../assets/images/border2.png'
 
 // redux
 import { useDispatch } from 'react-redux'
 import store from '../../store'
-import { deleteReview, getMyReview, getReviewAll, postReview } from '../../store/anislice'
+import { deleteReview, getMyReview, getReviewAll, postReview, patchReview } from '../../store/anislice'
 import { useSelector } from 'react-redux'
 import initialState from '../../store/Loginslice'
+import { idText } from 'typescript'
 
 const Container = styled.div`
   width: 90%;
@@ -120,9 +126,6 @@ const ReviewTitle = styled.p`
   margin-top: 1rem;
 `
 
-const DeleteModal = styled(Modal)`
-  
-`
 
 function Review({ aniId }) {
   interface Review {
@@ -151,6 +154,7 @@ function Review({ aniId }) {
   const [review, setReview] = useState<string>('')
 
   const [delModal, setDelModal] = useState<boolean>(false)
+  const [revise, setRevise] = useState<boolean>(false)
 
   // 리뷰 데이터 불러오기
   async function loadData() {
@@ -160,6 +164,8 @@ function Review({ aniId }) {
       setData(res.payload.reviewList)
       if (res.payload.rating !== "NaN") {
         setRating(res.payload.rating)
+      } else {
+        setRating(0)
       }
     }
 
@@ -167,8 +173,12 @@ function Review({ aniId }) {
       const mine = await dispatch(getMyReview(aniId))
       if (mine.meta.requestStatus === "fulfilled" && mine.payload !=="NO") {
         setMyReview(mine.payload)
+        setReview(mine.payload.content)
+        setMyStar(mine.payload.rating)
       } else {
         setMyReview(undefined)
+        setReview('')
+        setMyStar(3)
       }
     } 
   }
@@ -190,6 +200,24 @@ function Review({ aniId }) {
       loadData()
     }
   }
+  
+  // 리뷰 수정하기
+  async function reviseReview() {
+    if (!review.trim()) return 
+
+    const res = await dispatch(patchReview({
+      id: aniId,
+      content: review,
+      rating: myStar,
+    }))
+    
+    if (res.meta.requestStatus === "fulfilled") {
+      setReview('')
+      setMyStar(3)
+      loadData()
+      setRevise(false)
+    }
+  }
 
 
   // 리뷰 삭제하기
@@ -197,8 +225,9 @@ function Review({ aniId }) {
     if (myReview) {
       const res = await dispatch(deleteReview(myReview.id))
       console.log(res)
-      loadData()
     }
+    closeDelModal()
+    loadData()
   }
 
   // 별점매기기
@@ -224,19 +253,35 @@ function Review({ aniId }) {
       <StarContainer>
         { isLogin ? (
           myReview ? 
-            <StarBox>
-              <StarTitle>내 별점</StarTitle>
-              <StyledRating
-                name="customized-color"
-                value={myReview.rating}
-                readOnly
-                precision={0.5}
-                icon={<FavoriteIcon fontSize="inherit" />}
-                emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-                style={{ paddingBottom: '15px' }}
-                />
-              <StarText>{myReview.rating}</StarText>
-            </StarBox>
+            ( revise ?
+              <StarBox>
+                <StarTitle>내 별점</StarTitle>
+                <StyledRating
+                  name="customized-color"
+                  value={myStar}
+                  onChange={getStar}
+                  precision={0.5}
+                  icon={<FavoriteIcon fontSize="inherit" />}
+                  emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+                  style={{ paddingBottom: '15px' }}
+                  />
+                <StarText>{myStar}</StarText>
+              </StarBox>
+              :
+              <StarBox>
+                <StarTitle>내 별점</StarTitle>
+                <StyledRating
+                  name="customized-color"
+                  value={myReview.rating}
+                  readOnly
+                  precision={0.5}
+                  icon={<FavoriteIcon fontSize="inherit" />}
+                  emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+                  style={{ paddingBottom: '15px' }}
+                  />
+                <StarText>{myReview.rating}</StarText>
+              </StarBox>
+              )
             : 
             <StarBox>
               <StarTitle>내 별점</StarTitle>
@@ -272,12 +317,13 @@ function Review({ aniId }) {
       </StarContainer>
       
       { isLogin ? (
-        myReview ?
+
+        myReview && !revise ?
           <MyReviewBox>
             <MyReviewHeader>
               <MyReviewTitle>나의 리뷰</MyReviewTitle>
               <ReviseDeleteBox>
-                <ReviseDeleteText>수정</ReviseDeleteText>
+                <ReviseDeleteText onClick={() => setRevise(true)}>수정</ReviseDeleteText>
                 <ReviseDeleteText onClick={openDelModal}>삭제</ReviseDeleteText>
               </ReviseDeleteBox>
             </MyReviewHeader>
@@ -287,7 +333,26 @@ function Review({ aniId }) {
             </MyReviewContent>
           </MyReviewBox> 
         :
-          <ReviewInput 
+          (
+            myReview && revise ?
+            <ReviewInput 
+              id="outlined-basic" 
+              placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
+              variant="outlined" 
+              multiline rows={3}
+              sx={{
+                "& .MuiOutlinedInput-root.Mui-focused": {
+                  "& > fieldset": {
+                  borderColor: "#fa898f"
+              }}}}
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) reviseReview()
+              }}
+            />
+          : 
+            <ReviewInput 
             id="outlined-basic" 
             placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
             variant="outlined" 
@@ -304,23 +369,29 @@ function Review({ aniId }) {
             }}
           />
         )
-      : null }
+        
+      ) : null }
       
-      <DeleteModal
-        hideBackdrop
+      <Dialog
         open={delModal}
         onClose={closeDelModal}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-        <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Text in a child modal</h2>
-          <p id="child-modal-description">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-          </p>
-          <Button onClick={handleClose}>Close Child Modal</Button>
-        </Box>
-      </DeleteModal>
+        <DialogTitle id="alert-dialog-title">
+          {"리뷰를 삭제하시겠습니까?"}
+        </DialogTitle>
+
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            삭제할 경우, 리뷰를 다시 확인할 수 없습니다.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={delReview}>삭제</Button>
+          <Button onClick={closeDelModal} autoFocus>취소</Button>
+        </DialogActions>
+      </Dialog>
       
 
         <ReviewTitle>{ count } 개의 리뷰</ReviewTitle>

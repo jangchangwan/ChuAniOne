@@ -275,12 +275,15 @@ export const postReview = createAsyncThunk (
 // 리뷰 수정
 export const patchReview = createAsyncThunk (
   'POSTREVIEW',
-  async (id: number, { rejectWithValue }) => {
+  async (data: Review, { rejectWithValue }) => {
     try {
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
       
-      const res = await http.patch(`review/update/${id}`)
+      const res = await http.patch(`review/update/${data.id}`, {
+        content: data.content,
+        rating: data.rating
+      })
       console.log(res)
 
       if (res.status === 200) return res.data
