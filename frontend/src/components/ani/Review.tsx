@@ -12,7 +12,7 @@ import border2 from '../../assets/images/border2.png'
 // redux
 import { useDispatch } from 'react-redux'
 import store from '../../store'
-import { getMyReview, getReviewAll, postReview } from '../../store/anislice'
+import { deleteReview, getMyReview, getReviewAll, postReview } from '../../store/anislice'
 import { useSelector } from 'react-redux'
 import initialState from '../../store/Loginslice'
 
@@ -162,6 +162,8 @@ function Review({ aniId }) {
       const mine = await dispatch(getMyReview(aniId))
       if (mine.meta.requestStatus === "fulfilled" && mine.payload !=="NO") {
         setMyReview(mine.payload)
+      } else {
+        setMyReview(undefined)
       }
     } 
   }
@@ -180,6 +182,16 @@ function Review({ aniId }) {
     if (res.meta.requestStatus === "fulfilled") {
       setReview('')
       setMyStar(3)
+      loadData()
+    }
+  }
+
+
+  // 리뷰 삭제하기
+  async function delReview() {
+    if (myReview) {
+      const res = await dispatch(deleteReview(myReview.id))
+      console.log(res)
       loadData()
     }
   }
@@ -252,7 +264,7 @@ function Review({ aniId }) {
               <MyReviewTitle>나의 리뷰</MyReviewTitle>
               <ReviseDeleteBox>
                 <ReviseDeleteText>수정</ReviseDeleteText>
-                <ReviseDeleteText>삭제</ReviseDeleteText>
+                <ReviseDeleteText onClick={delReview}>삭제</ReviseDeleteText>
               </ReviseDeleteBox>
             </MyReviewHeader>
   
