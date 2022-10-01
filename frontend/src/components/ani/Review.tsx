@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import TextField from '@mui/material/TextField'
 import ReviewList from './ReviewList'
-import { Button } from '@mui/material'
+import { Button, Modal } from '@mui/material'
 import border1 from '../../assets/images/border1.png'
 import border2 from '../../assets/images/border2.png'
 
@@ -113,13 +113,16 @@ const ReviewInput = styled(TextField)`
 const SaveBtn = styled(Button)`
 `
 
-  const ReviewTitle = styled.p`
-    font-weight: bold;
-    margin-bottom: 0;
-    cursor: default;
-    margin-top: 1rem;
-  `
+const ReviewTitle = styled.p`
+  font-weight: bold;
+  margin-bottom: 0;
+  cursor: default;
+  margin-top: 1rem;
+`
 
+const DeleteModal = styled(Modal)`
+  
+`
 
 function Review({ aniId }) {
   interface Review {
@@ -146,6 +149,8 @@ function Review({ aniId }) {
 
   const [myReview, setMyReview] = useState<Review>()
   const [review, setReview] = useState<string>('')
+
+  const [delModal, setDelModal] = useState<boolean>(false)
 
   // 리뷰 데이터 불러오기
   async function loadData() {
@@ -199,6 +204,15 @@ function Review({ aniId }) {
   // 별점매기기
   const getStar = (event: any): void => {
     setMyStar(event.target.value)
+  }
+
+  // 삭제 모달 open/close
+  const openDelModal = () => {
+    setDelModal(true)
+  }
+
+  const closeDelModal = () => {
+    setDelModal(false)
   }
 
   useEffect(() => {
@@ -264,7 +278,7 @@ function Review({ aniId }) {
               <MyReviewTitle>나의 리뷰</MyReviewTitle>
               <ReviseDeleteBox>
                 <ReviseDeleteText>수정</ReviseDeleteText>
-                <ReviseDeleteText onClick={delReview}>삭제</ReviseDeleteText>
+                <ReviseDeleteText onClick={openDelModal}>삭제</ReviseDeleteText>
               </ReviseDeleteBox>
             </MyReviewHeader>
   
@@ -291,6 +305,22 @@ function Review({ aniId }) {
           />
         )
       : null }
+      
+      <DeleteModal
+        hideBackdrop
+        open={delModal}
+        onClose={closeDelModal}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: 200 }}>
+          <h2 id="child-modal-title">Text in a child modal</h2>
+          <p id="child-modal-description">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+          </p>
+          <Button onClick={handleClose}>Close Child Modal</Button>
+        </Box>
+      </DeleteModal>
       
 
         <ReviewTitle>{ count } 개의 리뷰</ReviewTitle>
