@@ -1,7 +1,10 @@
 package com.ssafy.chuanione.domain.talktalk.service;
 
+import com.ssafy.chuanione.domain.member.dao.ExpHistoryRepository;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
+import com.ssafy.chuanione.domain.member.domain.ExpHistory;
 import com.ssafy.chuanione.domain.member.domain.Member;
+import com.ssafy.chuanione.domain.member.domain.CommunityType;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.domain.talktalk.domain.Talktalk;
 import com.ssafy.chuanione.domain.talktalk.domain.TalktalkRepository;
@@ -27,6 +30,7 @@ public class TalktalkServiceImpl implements TalktalkService {
 
     private final TalktalkRepository talktalkRepository;
     private final MemberRepository memberRepository;
+    private final ExpHistoryRepository expHistoryRepository;
 
     public Map<String,Object> getList(int id){
         List<Talktalk> list = talktalkRepository.findByAnimation(id);
@@ -44,7 +48,17 @@ public class TalktalkServiceImpl implements TalktalkService {
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         LocalDateTime localDateTime = LocalDateTime.now(); //현재시간
         Talktalk talk = dto.toEntity(dto,login, id, localDateTime);
-        talktalkRepository.save(talk);
+        Talktalk saveTalktalk = talktalkRepository.save(talk);
+
+        //경험치 삽입
+        ExpHistory expHistory = ExpHistory.builder()
+                .value(3)
+                .type(CommunityType.TALKTALK)
+                .communityId(saveTalktalk.getId())
+                .memberId(login)
+                .build();
+        expHistoryRepository.save(expHistory);
+
         return TalktalkResponseDto.from(talk);
     }
     public void deleteTalk(int id, int talk_id){
@@ -53,6 +67,8 @@ public class TalktalkServiceImpl implements TalktalkService {
         // 로그인한사람과 작성자가 같으면
         if(login.getId() == talk.getWriter().getId()){
             talktalkRepository.delete(talk);
+            expHistoryRepository.deleteByTypeAndCommunityId(CommunityType.TALKTALK, talk.getId());
         }
+
     }
 }
