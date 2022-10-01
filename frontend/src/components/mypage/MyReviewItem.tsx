@@ -1,5 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
+// redux
+import { useDispatch } from 'react-redux'
+import store from '../../store'
+import { getAni } from '../../store/anislice'
+
 
 const Container = styled.div`
   margin-top: 1rem;
@@ -24,14 +30,60 @@ const ReviewText = styled.p`
   margin: 0;
 `
 
+
 function MyPageItem(review:any) {
+
+  interface Images {
+    option_name: string,
+    img_url: string,
+    crop_ratio: string,
+  }
+
+  interface Data extends Images {
+    air_year_quarter: string,
+    ani_id: number,
+    author: string[],
+    avg_rating: number,
+    content: string,
+    content_rating: string,
+    genres: string[],
+    highlight_video: {
+      dash_url: string,
+    },
+    images: Images[],
+    img: string,
+    name: string,
+    production: string,
+    related: number[],
+    _adult: boolean,
+    _ending: boolean,
+    _id: string,
+  }
+  const dispatch = useDispatch<typeof store.dispatch>()
+  const [data, setData] = useState<Data>()
+  async function loadData() {
+    const resAni = await dispatch(getAni(review.reviewData.animation))
+    // console.log(resAni)
+    if (resAni.meta.requestStatus === "fulfilled") {
+      setData(resAni.payload)
+    }
+  }
+
+  useEffect(() =>{
+    loadData()
+  },[])
   return (
     <Container>
       <ReviewBox>
-        <AniName>도리벤</AniName>
+        {
+          data ?
+          <AniName>{data.name}</AniName>
+          : null
+        }
+        
       </ReviewBox>
       <ReviewText>
-        너무너무 재밌어요 !
+        {review.reviewData.content}
       </ReviewText>
     </Container>
   );
