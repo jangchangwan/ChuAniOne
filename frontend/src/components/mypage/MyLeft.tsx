@@ -404,7 +404,7 @@ function MyLeft() {
       <IntroductonBox>
         {introduction}
       </IntroductonBox>
-      <Grid container>
+      {/* <Grid container>
         <Grid item xs={2} xl={1.5} alignSelf="center">
           <BadgeBox>
             <BadgeImg src={imgArr[imgArrId[0]]}></BadgeImg>
@@ -455,7 +455,7 @@ function MyLeft() {
             <BadgeImg src={imgArr[imgArrId[9]]}></BadgeImg>
           </BadgeBox>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       <MyAniChart></MyAniChart>
     </div>

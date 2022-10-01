@@ -10,39 +10,25 @@ import MyReview from './MyReview'
 import MyWord from './MyWord'
 import MyGoal from './MyGoal'
 
+const RightContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`
 
 const TabBox = styled.div`
   width: 100%;
   height: 42%;
-  overflow-y: auto;
-
-  ::-webkit-scrollbar {
-    /* background-color: ; */
-    width: 0.5rem;
-    border-radius: 0.3rem;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 0.3rem;
-    background-color: #f37b83;
-    height: 30%;
-    box-shadow: inset 0px 0px 3px white;
-  }
-
-  ::-webkit-scrollbar-track {
-    background-color: #ffcdce;
-    box-shadow: inset 0px 0px 3px white;
-  }
 `
 
 const TabDiv = styled.div`
-
+  width: 100%;
+  height: 100%;
 `
 
 const DetailBox = styled(Box)`
-  /* padding: 0.5rem;
+  padding: 0.5rem;
   width: 100%;
-  height: 100%; */
+  height: 100%;
 `
 
 interface TabPanelProps {
@@ -89,7 +75,7 @@ function MyRight() {
   }
 
   return (
-    <div>
+    <RightContainer>
       <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
         <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary" variant='fullWidth'>
           <Tab label="애니메이션" {...a11yProps(0)} />
@@ -114,7 +100,7 @@ function MyRight() {
         </TabPanel>
       </TabBox>
 
-    </div>
+    </RightContainer>
   );
 }
 

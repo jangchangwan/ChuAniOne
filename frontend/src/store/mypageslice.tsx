@@ -112,7 +112,6 @@ export const getMyvoca = createAsyncThunk(
 
       const res = await http.get('member/voca')
       if (res.status === 200){
-        console.log(res);
         return res.data
       }
       console.log('err', res)
