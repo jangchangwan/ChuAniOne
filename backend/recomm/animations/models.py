@@ -38,3 +38,14 @@ class Animation(models.Model):
 
     class Meta:
         db_table = "ani_info"
+
+# 리뷰
+class Review(models.Model):
+    # 리뷰 번호
+    id = models.IntegerField(primary_key=True, blank=False, unique=True)
+    # 작성 유저
+    profile = models.IntegerField(blank=False)
+    # 평점
+    score = models.FloatField()
+    # 내용
+    content = models.CharField(max_length=1000)
