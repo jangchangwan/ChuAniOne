@@ -20,11 +20,11 @@ ChartJS.register(
 )
 
 export const data = {
-  labels: ['판타지', '로맨스', '금동운', '이소영', '안세영', '장창완', '이승현', '박유주'],
+  labels: ['판타지', '로맨스', '금동운', '이소영', '안세영', '장창완'],
   datasets: [
     {
       label: '당신의 덕력',
-      data: [5, 5, 5, 5, 5, 5, 6, 4],
+      data: [5, 5, 5, 5, 5, 5],
       backgroundColor: 'rgba(255, 99, 132, 0.2)',
       borderColor: 'rgba(255, 99, 132, 1)',
       borderWidth: 3,
@@ -44,7 +44,13 @@ export const option:any = {
             suggestedMin: 0,
             suggestedMax: 10
         }
+    },
+    plugins: {
+      legend: {
+        display: false
+      }
     }
+    
 }
 export default function App() {
   return <Radar data={data} options={option} />
