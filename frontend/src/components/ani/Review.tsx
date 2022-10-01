@@ -5,6 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import TextField from '@mui/material/TextField'
 import ReviewList from './ReviewList'
+import { Button } from '@mui/material'
 
 // redux
 import { useDispatch } from 'react-redux'
@@ -33,6 +34,44 @@ const StarContainer = styled.div`
   margin-bottom: 1.5rem;
 `
 
+const MyReviewBox = styled.div`
+  background: linear-gradient( to bottom,  #e8fabf, #f6fde4);
+  /* background-color: #e8fabf ; */
+  border-radius: 0.5rem;
+  width: 95%;
+  padding: 2.5%;
+  height: auto;
+`
+
+const MyReviewTitle = styled.h3`
+  margin: 0;
+`
+
+const MyReviewHeader = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const ReviseDeleteBox = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const ReviseDeleteText = styled(Button)`
+  margin: 0;
+  color: #333333 !important;
+
+  &:hover {
+    color: #fa898f !important;
+  }
+`
+
+const MyReviewContent = styled.p`
+`
+
+
 const StarBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,11 +82,11 @@ const StarBox = styled.div`
 
 const StarTitle = styled.h3`
   margin: 0;
-`
+  `
 
 const StarText = styled.h1`
   margin: 0.7rem;
-`
+  `
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -62,11 +101,11 @@ const StyledRating = styled(Rating)({
 const ReviewInput = styled(TextField)`
 `
 
-const ReviewTitle = styled.p`
-  font-weight: bold;
-  margin-bottom: 0;
-  cursor: default;
-`
+  const ReviewTitle = styled.p`
+    font-weight: bold;
+    margin-bottom: 0;
+    cursor: default;
+  `
 
 
 function Review({ aniId }) {
@@ -92,7 +131,7 @@ function Review({ aniId }) {
   const [showRating, setShowRating] = useState<number>(0)
   const [myStar, setMyStar] = useState<number>(3)
 
-  const [myReview, setMyReview] = useState<Review | null>(null)
+  const [myReview, setMyReview] = useState<Review>()
   const [review, setReview] = useState<string>('')
 
   // 리뷰 데이터 불러오기
@@ -113,6 +152,7 @@ function Review({ aniId }) {
       }
     } 
   }
+
 
   // 리뷰 작성하기
   async function sendReview() {
@@ -140,22 +180,36 @@ function Review({ aniId }) {
     loadData()
   }, [aniId])
 
-
   return (
     <Container>
       <StarContainer>
-        <StarBox>
-          <StarTitle>내 별점</StarTitle>
-          <StarText>{myStar}</StarText>
-          <StyledRating
-            name="customized-color"
-            value={myStar}
-            onChange={getStar}
-            precision={0.5}
-            icon={<FavoriteIcon fontSize="inherit" />}
-            emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-          />
-        </StarBox>
+        { myReview ? 
+          <StarBox>
+            <StarTitle>내 별점</StarTitle>
+            <StarText>{myReview.rating}</StarText>
+            <StyledRating
+              name="customized-color"
+              value={myReview.rating}
+              readOnly
+              precision={0.5}
+              icon={<FavoriteIcon fontSize="inherit" />}
+              emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+            />
+          </StarBox>
+          : 
+          <StarBox>
+            <StarTitle>내 별점</StarTitle>
+            <StarText>{myStar}</StarText>
+            <StyledRating
+              name="customized-color"
+              value={myStar}
+              onChange={(e) => getStar(e)}
+              precision={0.5}
+              icon={<FavoriteIcon fontSize="inherit" />}
+              emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+            />
+          </StarBox>
+        }
 
         <StarBox>
           <StarTitle>평균 별점</StarTitle>
@@ -171,22 +225,39 @@ function Review({ aniId }) {
           />
         </StarBox>
       </StarContainer>
-      <ReviewInput 
-        id="outlined-basic" 
-        placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
-        variant="outlined" 
-        multiline rows={3}
-        sx={{
-          "& .MuiOutlinedInput-root.Mui-focused": {
-            "& > fieldset": {
-            borderColor: "#f2ffb7"
-        }}}}
-        value={review}
-        onChange={(e) => setReview(e.target.value)}
-        onKeyPress={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) sendReview()
-        }}
-      />
+
+      { !myReview ?
+        <ReviewInput 
+          id="outlined-basic" 
+          placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
+          variant="outlined" 
+          multiline rows={3}
+          sx={{
+            "& .MuiOutlinedInput-root.Mui-focused": {
+              "& > fieldset": {
+              borderColor: "#f2ffb7"
+          }}}}
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) sendReview()
+          }}
+        />
+      : 
+        <MyReviewBox>
+          <MyReviewHeader>
+            <MyReviewTitle>내가 작성한 리뷰</MyReviewTitle>
+            <ReviseDeleteBox>
+              <ReviseDeleteText>수정</ReviseDeleteText>
+              <ReviseDeleteText>삭제</ReviseDeleteText>
+            </ReviseDeleteBox>
+          </MyReviewHeader>
+
+          <MyReviewContent>
+            {myReview.content}
+          </MyReviewContent>
+        </MyReviewBox> 
+      }
 
         <ReviewTitle>{ count } 개의 리뷰</ReviewTitle>
 
