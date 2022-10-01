@@ -1,6 +1,8 @@
 package com.ssafy.chuanione.domain.member.domain;
 
 
+import com.ssafy.chuanione.domain.member.domain.enumlist.Gender;
+import com.ssafy.chuanione.domain.member.domain.enumlist.Role;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

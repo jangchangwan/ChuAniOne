@@ -2,7 +2,7 @@ package com.ssafy.chuanione.domain.member.service;
 
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.Member;
-import com.ssafy.chuanione.domain.member.domain.Role;
+import com.ssafy.chuanione.domain.member.domain.enumlist.Role;
 import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.DuplicateEmailException;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;

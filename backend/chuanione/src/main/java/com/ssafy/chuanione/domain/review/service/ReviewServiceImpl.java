@@ -6,7 +6,7 @@ import com.ssafy.chuanione.domain.member.dao.ExpHistoryRepository;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.ExpHistory;
 import com.ssafy.chuanione.domain.member.domain.Member;
-import com.ssafy.chuanione.domain.member.domain.CommunityType;
+import com.ssafy.chuanione.domain.member.domain.enumlist.CommunityType;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.domain.review.dao.ReviewMongoRepository;
 import com.ssafy.chuanione.domain.review.dao.ReviewRepository;
