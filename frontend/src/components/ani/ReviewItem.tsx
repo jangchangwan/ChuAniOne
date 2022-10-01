@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import lineImg from '../../assets/images/line.png'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import Rating from '@mui/material/Rating'
 
 // redux
 import { useSelector } from 'react-redux'
@@ -12,7 +15,8 @@ const Container = styled.div`
   width: 95%;
   padding: 2.5%;
   height: auto;
-  background-color: #fff0f0;
+  background: linear-gradient( to bottom,  #ffe0e0, #fff0f0);
+  /* background-color: #fff0f0; */
 `
 
 const UserBox = styled.div`
@@ -42,6 +46,23 @@ const UserName = styled.h3`
   margin: 0;
 `
 
+const StyledRating = styled(Rating)(
+  {
+  '& .MuiRating-iconFilled': {
+    color: '#ff6d75',
+  },
+  '& .MuiRating-iconHover': {
+    color: '#ff3d47',
+  },
+})
+
+const RatingText = styled.p`
+  margin: 0;
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+`
+
+
 const ReviewText = styled.p`
   margin: 0;
 `
@@ -51,19 +72,18 @@ function ReviewItem({ data }) {
   const userId = useSelector((state: initialState) => (state.login.userId))
 
   return (
-    data.member_id === userId ?
-      <Container>
-        <UserBox>
-          <UserName>{data.member_name}</UserName>
-        </UserBox>
-        <ReviewText>
-          {data.content}
-        </ReviewText>
-      </Container>
-    : 
     <Container>
       <UserBox>
         <UserName>{data.member_name}</UserName>
+        <StyledRating
+            name="customized-color"
+            value={data.rating}
+            readOnly
+            precision={0.5}
+            icon={<FavoriteIcon fontSize="inherit" />}
+            emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+        />
+        <RatingText>{data.rating}</RatingText>
       </UserBox>
       <ReviewText>
         {data.content}
