@@ -39,10 +39,12 @@ public class TalktalkServiceImpl implements TalktalkService {
         for(Talktalk talk : list){
             resList.add(TalktalkResponseDto.from(talk));
         }
+
         Map<String, Object> map = new HashMap<>();
         map.put("totalCnt",count);
         map.put("talkList",resList);
         return map;
+
     }
     public TalktalkResponseDto insertTalk(TalktalkRequestDto dto, int id){
         Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);

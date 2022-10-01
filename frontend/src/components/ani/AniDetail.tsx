@@ -15,8 +15,9 @@ import Talk from './Talk'
 // import Books from './Books'
 
 // redux
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import store from '../../store'
+import initialState from '../../store/Loginslice'
 import { getAni, getTaste, postLike, deleteLike, deleteDislike, postDislike, deleteChoice, postChoice } from '../../store/anislice'
 
 const Container = styled.div`
@@ -91,7 +92,7 @@ const VideoBox = styled.div`
 
 const TabBox = styled.div`
   width: 100%;
-  height: 45%;
+  height: 47%;
   overflow-y: auto;
   scrollbar-color: #d4aa70 #e4e4e4;
   scrollbar-width: thin;
@@ -198,6 +199,7 @@ function AniDetail({ aniId }: any): any {
   }
   
   const dispatch = useDispatch<typeof store.dispatch>()
+  const isLogin = useSelector((state: initialState) => (state.login.isLogin))
 
   const [value, setValue] = useState<number>(0)
   const [data, setData] = useState<Data | null>(null)
@@ -289,18 +291,20 @@ function AniDetail({ aniId }: any): any {
         <TopBox>
           <AniInfo>
             <AniName>{data.name}</AniName>
+              { isLogin ?
+                <ButtonDiv>
+                  <IconBtn onClick={handleLike}>
+                    { like ? <ThumbUpAlt /> : <ThumbUpOffAlt /> }
+                  </IconBtn>
+                  <IconBtn onClick={handleDislike}>
+                    { dislike ?  <ThumbDownAlt /> : <ThumbDownOffAlt /> }
+                  </IconBtn>
+                  <IconBtn onClick={handleChoice}>
+                    { choice ? <DownloadDone/ > : <Add /> }
+                  </IconBtn>
+                </ButtonDiv>
+              : null }
 
-              <ButtonDiv>
-                <IconBtn onClick={handleLike}>
-                  { like ? <ThumbUpAlt /> : <ThumbUpOffAlt /> }
-                </IconBtn>
-                <IconBtn onClick={handleDislike}>
-                  { dislike ?  <ThumbDownAlt /> : <ThumbDownOffAlt /> }
-                </IconBtn>
-                <IconBtn onClick={handleChoice}>
-                  { choice ? <DownloadDone/ > : <Add /> }
-                </IconBtn>
-              </ButtonDiv>
 
             <InfoDiv>
               <InfoName>제작</InfoName>
@@ -335,7 +339,7 @@ function AniDetail({ aniId }: any): any {
           </TabPanel>
           <TabPanel value={value} index={1}>
             <Review aniId={data.ani_id}/>
-          </TabPanel>
+          </TabPanel >
           <TabPanel value={value} index={2}>
             <SimilarAni aniId={data.ani_id}/>
           </TabPanel>
