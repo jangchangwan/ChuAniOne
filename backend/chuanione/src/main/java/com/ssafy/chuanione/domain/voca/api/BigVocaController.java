@@ -1,5 +1,6 @@
 package com.ssafy.chuanione.domain.voca.api;
 
+import com.ssafy.chuanione.domain.voca.domain.BigVocaMongo;
 import com.ssafy.chuanione.domain.voca.domain.MemorizeVoca;
 import com.ssafy.chuanione.domain.voca.dto.BigVocaResponseDto;
 import com.ssafy.chuanione.domain.voca.service.BigVocaService;
@@ -49,5 +50,10 @@ public class BigVocaController {
     public ResponseEntity<Void> deleteMyVoca(@PathVariable int id) {
         vocaService.deleteMyVoca(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("test.do")
+    public ResponseEntity<List<BigVocaMongo>> test() {
+        return new ResponseEntity<>(vocaService.test(),HttpStatus.OK);
     }
 }

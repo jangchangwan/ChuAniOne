@@ -1,5 +1,6 @@
 package com.ssafy.chuanione.domain.voca.service;
 
+import com.ssafy.chuanione.domain.voca.domain.BigVocaMongo;
 import com.ssafy.chuanione.domain.voca.domain.MemorizeVoca;
 import com.ssafy.chuanione.domain.voca.dto.BigVocaResponseDto;
 import org.springframework.data.domain.Page;
@@ -19,5 +20,5 @@ public interface BigVocaService {
     //단어 체크 삭제
     void deleteMyVoca(int id);
 
-
+    List<BigVocaMongo> test();
 }

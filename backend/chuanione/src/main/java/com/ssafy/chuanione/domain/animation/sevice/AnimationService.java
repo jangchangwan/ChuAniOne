@@ -22,4 +22,6 @@ public interface AnimationService {
     void deleteAniChoice(int id);
 
     Map<String,Boolean> getAboutAni(int id);
+
+    Map<String, List<Animation>> getMainList();
 }

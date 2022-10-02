@@ -4,7 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a09db53d-39d8-46b1-81ac-78b9c426adfd" name="Changes" comment="" />
+    <list default="true" id="a09db53d-39d8-46b1-81ac-78b9c426adfd" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/dao/AniLogRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/domain/AniLog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/voca/dao/BigVocaMongoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/voca/domain/BigVocaMongo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/ChuanioneApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/ChuanioneApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/api/AnimationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/api/AnimationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/dao/AnimationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/dao/AnimationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/sevice/AnimationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/sevice/AnimationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/sevice/AnimationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/animation/sevice/AnimationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/member/api/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/member/api/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/voca/api/BigVocaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/voca/api/BigVocaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/voca/service/BigVocaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/voca/service/BigVocaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/voca/service/BigVocaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/java/com/ssafy/chuanione/domain/voca/service/BigVocaServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chuanione/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/chuanione/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,8 +65,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
         <option value="Interface" />
       </list>
     </option>

@@ -3,9 +3,11 @@ package com.ssafy.chuanione.domain.voca.service;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.Member;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
+import com.ssafy.chuanione.domain.voca.dao.BigVocaMongoRepository;
 import com.ssafy.chuanione.domain.voca.dao.BigVocaRepository;
 import com.ssafy.chuanione.domain.voca.dao.MemorizeVocaRepository;
 import com.ssafy.chuanione.domain.voca.domain.BigVoca;
+import com.ssafy.chuanione.domain.voca.domain.BigVocaMongo;
 import com.ssafy.chuanione.domain.voca.domain.MemorizeVoca;
 import com.ssafy.chuanione.domain.voca.dto.BigVocaResponseDto;
 import com.ssafy.chuanione.global.util.SecurityUtil;
@@ -32,6 +34,7 @@ public class BigVocaServiceImpl implements BigVocaService{
     private final MemorizeVocaRepository memorizeVocaRepository;
 
     private final BigVocaRepository bigVocaRepository;
+    private final BigVocaMongoRepository bigVocaMongoRepository;
 
     public List<BigVocaResponseDto> getList(Pageable pageable) {
         //회원 아이디 받기
@@ -72,5 +75,8 @@ public class BigVocaServiceImpl implements BigVocaService{
         memorizeVocaRepository.delete(memorizeVoca);
     }
 
-
+    public List<BigVocaMongo> test(){
+//        System.out.println(bigVocaMongoRepository.findByAni_id("37217"));
+        return null;
+    }
 }
