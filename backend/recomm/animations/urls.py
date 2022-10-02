@@ -6,4 +6,6 @@ from . import views
 urlpatterns = [
     # 애니 전체 목록
     url(r"^api/v1/animations/test", views.animation_list),
+    # 리뷰 기반 추천
+    url(r"^api/v1/animations/recomm", views.recommend),
 ]
