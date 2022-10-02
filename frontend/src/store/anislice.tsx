@@ -1,6 +1,6 @@
 import http from '../api/axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { ContentCopy } from '@mui/icons-material'
+
 
 /** searchAni **/
 // 전체 애니 목록 (페이지네이션)
