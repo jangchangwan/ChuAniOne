@@ -255,6 +255,7 @@ export const postReview = createAsyncThunk (
   'POSTREVIEW',
   async (data: Review, { rejectWithValue }) => {
     try {
+
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
       
@@ -262,7 +263,6 @@ export const postReview = createAsyncThunk (
         content: data.content,
         rating: data.rating
       })
-      console.log(res)
 
       if (res.status === 200) return res.data
       else console.log('리뷰 작성 에러', res)
@@ -279,12 +279,11 @@ export const patchReview = createAsyncThunk (
     try {
       const accessToken = localStorage.getItem("access-Token")
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
-      
+
       const res = await http.patch(`review/update/${data.id}`, {
         content: data.content,
         rating: data.rating
       })
-      console.log(res)
 
       if (res.status === 200) return res.data
       else console.log('리뷰 수정 에러', res)
@@ -303,7 +302,6 @@ export const deleteReview = createAsyncThunk (
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
       
       const res = await http.delete(`review/delete/${id}`)
-      console.log(res)
 
       if (res.status === 200) return res.data
       else console.log('리뷰 삭제 에러', res)
