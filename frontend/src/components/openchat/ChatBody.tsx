@@ -103,13 +103,14 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
   const [sendMessage, setSendMessage] = useState('')
   const [messages, setMessages] = useState<Msg[]>([])
   const [isUpdated, setIsUpdated] = useState(' ')
+  
 
   // SockJS 내부의 stomp 가져오기
   var stomp = Stomp.over(function() {
-    // return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
-    return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
+    return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
+    // return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
   })
-  stomp.reconnect_delay = 1000
+  var reconnect = 0
 
   // 메시지 보내기
   function sendMsg() {
@@ -130,17 +131,17 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
   }
 
   // 연결 시, 콜백 함수
-  const connect_callback = () => {
+  const connect_callback = (frame: any) => {
     console.log("STOMP Connection")
 
     // 입장용
-    stomp.send('/pub/chat/enter', {}, 
-      JSON.stringify({
-        roomId: `${openedId}`,
-        memberId: `${userId}`,
-        message: '',
-      }),
-    )
+    // stomp.send('/pub/chat/enter', {}, 
+    //   JSON.stringify({
+    //     roomId: `${openedId}`,
+    //     memberId: `${userId}`,
+    //     message: '',
+    //   }),
+    // )
 
         
     stomp.subscribe(`/sub/chat/room/${openedId}`, function (message: any) {
@@ -157,6 +158,16 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
 
   const error_callback = (err: any) => {
     console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
+    if(reconnect++ <= 5) {
+      setTimeout(function() {
+          console.log("connection reconnect");
+          var stomp = Stomp.over(function() {
+            return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
+            // return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
+          })
+          connect()
+      }, 10*1000)
+    }
   } 
 
   // connection 맺기
@@ -171,9 +182,10 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
       setMessages(res.payload)
     }
   }
-
+  
   // useEffect(() => {
   connect()
+  stomp.activate()
   // }, [sendMessage])
 
   // 방 바뀔때마다 메시지 새로 불러오기
@@ -182,11 +194,9 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
     getChattings()
   }, [openedId])
 
-  useEffect(() => {
-    connect()
-  }, [])
 
   const scrollRef = useRef<any>()
+  
   useEffect(() => {
     // scrollRef.current.scrollIntoView({ behavior: 'smooth' })
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
