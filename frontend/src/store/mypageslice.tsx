@@ -121,6 +121,24 @@ export const getMyvoca = createAsyncThunk(
   }
 )
 
+export const getchallenge = createAsyncThunk(
+  'GETCHALLENGE',
+  async ( arg, {rejectWithValue}) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
+      const res = await http.get('member/challenge')
+      if (res.status === 200) {
+        return res.data
+      }
+      console.log('err', res)
+    } catch(err:any) {
+      return rejectWithValue(err.response)
+    }
+  }
+)
+
 
 export interface myPageReducerType {
 }

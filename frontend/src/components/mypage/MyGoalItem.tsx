@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from "styled-components"
 import badgeicon1 from '../../assets/images/google_icon.png' // 임시로 사진 가져옴
 
@@ -41,12 +41,15 @@ const GoalClear = styled.div`
 `
 
 
-function MyGoalItem() {
+function MyGoalItem(challengeData:any) {
+  useEffect(() => {
+    console.log(challengeData)
+  },[])
   return (
     <GoalContainer>
       <BadgeBox>
       <BadgeImg src={badgeicon1}></BadgeImg></BadgeBox>
-      <GoalBox>도쿄 리벤저스 보기</GoalBox>
+      <GoalBox>{challengeData.challengeData}</GoalBox>
       <GoalClear>클리어</GoalClear>
     </GoalContainer>
   );
