@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
     <list default="true" id="a09db53d-39d8-46b1-81ac-78b9c426adfd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/api/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/api/axios.ts" afterDir="false" />
     </list>
-=======
-    <list default="true" id="a09db53d-39d8-46b1-81ac-78b9c426adfd" name="Changes" comment="" />
->>>>>>> fc6bbd2987a1dbd08b23b361bc475f8111ae60cc
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
