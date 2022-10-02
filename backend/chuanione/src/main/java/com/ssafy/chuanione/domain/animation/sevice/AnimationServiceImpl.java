@@ -44,12 +44,14 @@ public class AnimationServiceImpl implements AnimationService {
         for (int i = 0; i < categoryArr.length; i++) {
             result.put(Integer.toString(i), animationRepository.findByGenres(categoryArr[i], PageRequest.of(0, 20)));
         }
-
-        //사용자 맞춤 추천 애니 리스트에 담기
-//        Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
-//        AniLog aniLog = aniLogRepository.findByMember_id(6000005);
-        System.out.println(aniLogRepository.findAll());
-
+        //사용자 맞춤 추천 애니 리스트에 담기, 추천 값이 있을 경우 12번에 담김
+        Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        List<AniLog> aniLog = aniLogRepository.findByMemberId(login.getId() + 6000000);
+        if(aniLog.size() > 0){
+            int[] recommend = aniLogRepository.findByMemberId(15).get(0).getRecommended();
+            List<Animation> ani = animationRepository.findAllByQuery(recommend);
+            result.put("12", ani);
+        }
         return result;
     }
     @Override
