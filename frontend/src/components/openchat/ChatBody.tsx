@@ -106,7 +106,8 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
   // SockJS 내부의 stomp 가져오기
   var stomp = Stomp.over(function() {
-    return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
+    // return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
+    return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
   })
   // stomp.reconnect_delay = 1000
 
