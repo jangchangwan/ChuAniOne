@@ -252,7 +252,6 @@ function MyLeft() {
   useEffect(() => {
     dispatch(myinfo())
       .then((response:any) => {
-        console.log('동작')
         const data = response.payload.data
         setMygenres(data.genres)
         setNickName(data.member.nickname)
@@ -263,7 +262,6 @@ function MyLeft() {
         console.log(e);
         
       })
-    console.log(mygenres)
   },[])
 
   return (
