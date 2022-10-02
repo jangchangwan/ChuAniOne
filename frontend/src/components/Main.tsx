@@ -185,12 +185,12 @@ function Main() {
 
   const clickLeftButton = () => {
     setNow01X((prop) => prop + 19);
-    console.log(`it's work ${now01X}`)
+    // console.log(`it's work ${now01X}`)
   }
 
   const clickRightButton = () => {
     setNow01X(now01X - 19)
-    console.log(`it's work ${now01X}`)
+    // console.log(`it's work ${now01X}`)
   }
 
   useEffect(() => {
@@ -202,7 +202,6 @@ function Main() {
     const res = await dispatch(getAniAll(1))
     if (res.meta.requestStatus==="fulfilled" && res.payload) {
       setData(res.payload.rDto)
-      console.log(res.payload)
     }
   }
 
@@ -213,25 +212,6 @@ function Main() {
     'https://thumbnail.laftel.net/items/full/456559d1-6b44-4e4c-894f-e1003c4934d1.jpg',
     'https://thumbnail.laftel.net/items/full/b88d779f-f25e-4722-a6de-8a124026379a.jpg',
   ]
-
-  const carouselItem = (): JSX.Element | JSX.Element[] | undefined => {
-    if (data) {
-      const items = data.map((item, idx) => {
-
-        return (
-          <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
-            <ImgBox>
-              <Img src={item.images[0].img_url}/>
-            </ImgBox>
-            <Name>{item.name}</Name>
-          </ItemDiv>
-        )
-      })
-
-      return items
-    }
-  }
-
 
   return (
     <Container>
@@ -411,28 +391,37 @@ function Main() {
         </LeftContainer>
         
         <RightContainer>
-          <CarouselContainer>
-            <CarouselTitle>당신을 위한 추천 !</CarouselTitle>
-            { now01X !== 0 ?
-              <Left onClick={clickLeftButton}>
-                <Btn>
-                  <ArrowBackIosNewIcon />
-                </Btn>
-              </Left>
-            : null }
-            { now01X < -95 ?
-              null
-            :
-              <Right onClick={clickRightButton}>
-                <Btn>
-                  <ArrowForwardIosIcon />
-                </Btn>
-              </Right>
-            }
-            <CarouselDiv ref={carousel01}>
-              { carouselItem() }
-            </CarouselDiv>
-          </CarouselContainer>
+          { data ?
+            <CarouselContainer>
+              <CarouselTitle>당신을 위한 추천 !</CarouselTitle>
+              { now01X !== 0 ?
+                <Left onClick={clickLeftButton}>
+                  <Btn>
+                    <ArrowBackIosNewIcon />
+                  </Btn>
+                </Left>
+              : null }
+              { now01X < -95 ?
+                null
+              :
+                <Right onClick={clickRightButton}>
+                  <Btn>
+                    <ArrowForwardIosIcon />
+                  </Btn>
+                </Right>
+              }
+              <CarouselDiv ref={carousel01}>
+                { data.map((item, idx) => (
+                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                    <ImgBox>
+                      <Img src={item.images[0].img_url}/>
+                    </ImgBox>
+                    <Name>{item.name}</Name>
+                  </ItemDiv>
+                ))}
+              </CarouselDiv>
+            </CarouselContainer>
+          : null }
 
         </RightContainer>
         
