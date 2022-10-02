@@ -68,7 +68,7 @@ function a11yProps(index: number) {
 }
 
 
-function ChatLeft ({ opened, openedRoom,  handleOpened, handleClosed }: any) {
+function ChatLeft ({ opened, openedId,  handleOpened, handleClosed }: any) {
   const [value, setValue] = useState<number>(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -90,7 +90,7 @@ function ChatLeft ({ opened, openedRoom,  handleOpened, handleClosed }: any) {
         <TabPanel value={value} index={1}>
           <MyChat 
             opened={opened}
-            openedRoom={openedRoom}
+            openedId={openedId}
             handleOpened={handleOpened}
             handleClosed={handleClosed}
           />
