@@ -81,6 +81,7 @@ const RatingText = styled.p`
 
 const ReviewText = styled.p`
   margin: 0;
+  white-space: pre-wrap;
 `
 
 

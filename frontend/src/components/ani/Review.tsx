@@ -114,6 +114,7 @@ const ReviseDeleteText = styled(Button)`
 `
 
 const MyReviewContent = styled.p`
+  white-space: pre-wrap;
 `
 
 const ReviewInput = styled(TextField)`
@@ -326,7 +327,6 @@ function Review({ aniId }) {
             name="customized-color"
             value={rating}
             readOnly
-            // getLabelText={(rating: number) => `${rating} Heart${rating !== 1 ? 's' : ''}`}
             precision={0.5}
             icon={<FavoriteIcon fontSize="inherit" />}
             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
@@ -370,7 +370,8 @@ function Review({ aniId }) {
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
                 onKeyPress={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) reviseReview()
+                  if (e.key === "Enter" && e.shiftKey) setReview(`${review}\n`)
+                  // if (e.key === "Enter" && !e.shiftKey) reviseReview()
                 }}
                 fullWidth
               />
@@ -394,12 +395,16 @@ function Review({ aniId }) {
                   "& .MuiOutlinedInput-root.Mui-focused": {
                     "& > fieldset": {
                     borderColor: "#fa898f"
-                }}}}
+                  }},
+                  "": {
+
+                  }
+                }}
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) sendReview()
-                }}
+                // onKeyPress={(e) => {
+                //   if (e.key === "Enter" && !e.shiftKey) sendReview()
+                // }}
                 fullWidth
               />
 

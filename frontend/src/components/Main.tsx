@@ -129,6 +129,11 @@ const Img = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: all 0.2s linear;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 `
 
 const Name = styled.p`
