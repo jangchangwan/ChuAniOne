@@ -4,6 +4,6 @@ RUN apt-get update && pip install --upgrade pip
 
 WORKDIR /app
 
-
+gunicorn -b 0.0.0.0:8000
 ADD requirements.txt  /app/
 RUN pip install -r requirements.txt
