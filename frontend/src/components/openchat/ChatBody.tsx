@@ -14,9 +14,10 @@ import store from '../../store'
 import { getChatList } from '../../store/openchatslice'
 
 // chatting
+import * as StompJs from '@stomp/stompjs'
+// import * as SockJS from "sockjs-client"
 import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
-import { $CombinedState } from 'redux'
+// import { Stomp, Client } from '@stomp/stompjs'
 
 const Container = styled.div`
   width: 100%;  
@@ -102,103 +103,129 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
 
   const [sendMessage, setSendMessage] = useState('')
   const [messages, setMessages] = useState<Msg[]>([])
-  const [isUpdated, setIsUpdated] = useState(' ')
-  
 
-  // SockJS 내부의 stomp 가져오기
-  var stomp = Stomp.over(function() {
-    return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
-    // return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
-  })
-  var reconnect = 0
+  const client = useRef<any>({})
+
+  useEffect(() => {
+    connect()
+
+    return () => disconnect()
+  }, [])
+
+  const connect = () => {
+    client.current = new StompJs.Client({
+      webSocketFactory: () => new SockJS('http://localhost:8080/api/v1/stomp/chat.do'),
+      debug: function (str) {
+        console.log(str);
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+      onConnect: () => {
+        client.current.subscribe(`/sub/chat/room/${openedId}`, ({ body }) => {
+          setMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)])
+        })
+      },
+      onStompError: (frame) => {
+        console.error(frame);
+      },
+    })
+
+    client.current.activate()
+  }
+
+  const disconnect = () => {
+    client.current.deactivate()
+  }
 
   // 메시지 보내기
-  function sendMsg() {
-    if (sendMessage.trim() === '') return
-    console.log('보낸다', sendMessage)
-    connect()
-    
-    stomp.send('/pub/chat/message', 
-      {},
-      JSON.stringify({
+  const sendMsg = () => {
+    if (!client.current.connected) {
+      return
+    }
+
+    client.current.publish({
+      destination: "/pub/chat/message",
+      body: JSON.stringify({ 
         roomId: `${openedId}`,
         memberId: `${userId}`,
         message: `${sendMessage}`,
       }),
-    )
+    })
 
     setSendMessage('')
   }
 
-  // 연결 시, 콜백 함수
-  const connect_callback = (frame: any) => {
-    console.log("STOMP Connection")
+  // // SockJS 내부의 stomp 가져오기
+  // var stomp = Stomp.over(function() {
+  //   return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
+  //   // return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
+  // })
+  // var reconnect = 0
 
-    // 입장용
-    // stomp.send('/pub/chat/enter', {}, 
-    //   JSON.stringify({
-    //     roomId: `${openedId}`,
-    //     memberId: `${userId}`,
-    //     message: '',
-    //   }),
-    // )
+  // // 메시지 보내기
+  // function sendMsg() {
+  //   if (sendMessage.trim() === '') return
 
-        
-    stomp.subscribe(`/sub/chat/room/${openedId}`, function (message: any) {
-      console.log('subscribe', message)
-      let recv = JSON.parse(message.body)
-      if (messages[messages.length-1] !== recv) setMessages([...messages, recv])
-      // console.log()
-      // console.log('recv', recv)
-      // getChattings()
-      message.ack()
-    })
+  //   connect()
+    
+  //   stomp.send('/pub/chat/message', 
+  //     {},
+  //     JSON.stringify({
+  //       roomId: `${openedId}`,
+  //       memberId: `${userId}`,
+  //       message: `${sendMessage}`,
+  //     }),
+  //   )
 
-  }
+  //   setSendMessage('')
+  // }
 
-  const error_callback = (err: any) => {
-    console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
-    if(reconnect++ <= 5) {
-      setTimeout(function() {
-          console.log("connection reconnect");
-          var stomp = Stomp.over(function() {
-            return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
-            // return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
-          })
-          connect()
-      }, 10*1000)
-    }
-  } 
+  // // 연결 시, 콜백 함수
+  // const connect_callback = (frame: any) => {
+  //   console.log("STOMP Connection")
+  //   console.log(stomp)
+  //   stomp.subscribe(`/sub/chat/room/${openedId}`, function (message: any) {
+  //     // console.log('subscribe', message)
+  //     // let recv = JSON.parse(message.body)
+  //     getChattings()
+  //     // message.ack()
+  //   })
 
-  // connection 맺기
-  function connect() {
-    stomp.connect({}, connect_callback, error_callback)
-  }
+  // }
 
-  // 채팅 기록 불러오기
-  async function getChattings () {
-    const res: any = await dispatch(getChatList(openedId))
-    if (res.meta.requestStatus === "fulfilled") {
-      setMessages(res.payload)
-    }
-  }
+  // const error_callback = (err: any) => {
+  //   console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
+  // } 
+
+  // // connection 맺기
+  // function connect() {
+  //   stomp.connect({}, connect_callback, error_callback)
+  // }
+
+  // // 채팅 기록 불러오기
+  // async function getChattings () {
+  //   const res: any = await dispatch(getChatList(openedId))
+  //   if (res.meta.requestStatus === "fulfilled") {
+  //     setMessages(res.payload)
+  //   }
+  // }
   
   // useEffect(() => {
-  connect()
-  stomp.activate()
-  // }, [sendMessage])
+  //   connect()
+  // }, [sendMessage, messages])
 
-  // 방 바뀔때마다 메시지 새로 불러오기
-  useEffect(() => {
-    connect()
-    getChattings()
-  }, [openedId])
+  // // 방 바뀔때마다 메시지 새로 불러오기
+  // useEffect(() => {
+  //   connect()
+  //   getChattings()
+  // }, [openedId])
 
 
+  // 채팅 스크롤
   const scrollRef = useRef<any>()
   
   useEffect(() => {
-    // scrollRef.current.scrollIntoView({ behavior: 'smooth' })
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [messages])
 
@@ -209,7 +236,6 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
         { messages.map((chat: any, idx: number) => (
           <ChatItem data={chat}/>
         ))}
-        {/* <div ref={scrollRef} /> */}
       </ChatList>
 
       {/* 채팅 보내기: input */}
@@ -232,11 +258,6 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
               borderColor: "#f37b83"
           }}}}
         />
-        {/* <ImgDiv>
-          <IconBtn>
-            <PhotoIcon/>
-          </IconBtn>
-        </ImgDiv> */}
         <SendDiv 
           onClick={() => {
             sendMsg()
