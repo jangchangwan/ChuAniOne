@@ -29,6 +29,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: #333333;
 `
 
 
@@ -64,6 +65,7 @@ const StarText = styled.h2`
   padding-bottom: 15px;
 `
 
+
 const StyledRating = styled(Rating)(
   {
   '& .MuiRating-iconFilled': {
@@ -73,6 +75,8 @@ const StyledRating = styled(Rating)(
     color: '#ff3d47',
   },
 })
+
+
 
 
 const MyReviewBox = styled.div`
@@ -115,8 +119,6 @@ const MyReviewContent = styled.p`
 const ReviewInput = styled(TextField)`
 `
 
-const SaveBtn = styled(Button)`
-`
 
 const ReviewTitle = styled.p`
   font-weight: bold;
@@ -125,6 +127,25 @@ const ReviewTitle = styled.p`
   margin-top: 1rem;
 `
 
+
+const WriteReview = styled.div`
+  position: relative;
+  width: 100%;
+`
+
+const BtnBox = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+`
+
+const SaveBtn = styled(Button)`
+  color: #333333 !important;
+
+  &:hover {
+    color: #fa898f !important;
+  }
+`
 
 function Review({ aniId }) {
   interface Review {
@@ -337,39 +358,57 @@ function Review({ aniId }) {
         :
           (
             myReview && revise ?
-            <ReviewInput 
-              id="outlined-basic" 
-              placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
-              variant="outlined" 
-              multiline rows={3}
-              sx={{
-                "& .MuiOutlinedInput-root.Mui-focused": {
-                  "& > fieldset": {
-                  borderColor: "#fa898f"
-              }}}}
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) reviseReview()
-              }}
-            />
+            <WriteReview>
+              <ReviewInput 
+                id="outlined-basic" 
+                placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
+                variant="outlined" 
+                multiline rows={3}
+                sx={{
+                  "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& > fieldset": {
+                    borderColor: "#fa898f"
+                }}}}
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) reviseReview()
+                }}
+                fullWidth
+              />
+              <BtnBox>
+                <SaveBtn onClick={reviseReview}>저장</SaveBtn>
+                <SaveBtn onClick={() => {
+                  setRevise(false)
+                  setReview(myReview.content)
+                  setMyStar(myReview.rating)
+                }}>취소</SaveBtn>
+              </BtnBox>
+            </WriteReview>
           : 
-            <ReviewInput 
-            id="outlined-basic" 
-            placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
-            variant="outlined" 
-            multiline rows={3}
-            sx={{
-              "& .MuiOutlinedInput-root.Mui-focused": {
-                "& > fieldset": {
-                borderColor: "#fa898f"
-            }}}}
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) sendReview()
-            }}
-          />
+            <WriteReview>
+              <ReviewInput 
+                id="outlined-basic" 
+                placeholder="이 작품에 대한 리뷰를 작성해보세요 !" 
+                variant="outlined" 
+                multiline rows={3}
+                sx={{
+                  "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& > fieldset": {
+                    borderColor: "#fa898f"
+                }}}}
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) sendReview()
+                }}
+                fullWidth
+              />
+
+              <BtnBox>
+                <SaveBtn onClick={sendReview}>저장</SaveBtn>
+              </BtnBox>
+            </WriteReview>
         )
         
       ) : null }
