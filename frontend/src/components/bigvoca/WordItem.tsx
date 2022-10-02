@@ -94,7 +94,7 @@ function WordItem({ vocaData }) {
           <p style={{margin:0}}>{vocaData.korean}</p>
         </Grid>
         <Grid item xs={2}>
-          <Checkbox color='default' onChange={checkChange} id='word' 
+          <Checkbox checked={checked} color='default' onChange={checkChange} id='word' 
             sx={{ 
           }}
           />
