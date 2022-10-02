@@ -87,7 +87,7 @@ const SendIcon = styled(IconSend)`
 `
 
 
-function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
+function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
   interface Msg {
     roomId: number,
     memberId: number,
@@ -109,7 +109,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     // return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
     return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
   })
-  // stomp.reconnect_delay = 1000
+  stomp.reconnect_delay = 1000
 
   // 메시지 보내기
   function sendMsg() {
@@ -120,7 +120,7 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     stomp.send('/pub/chat/message', 
       {},
       JSON.stringify({
-        roomId: `${openedRoom.id}`,
+        roomId: `${openedId}`,
         memberId: `${userId}`,
         message: `${sendMessage}`,
       }),
@@ -136,25 +136,24 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
     // 입장용
     stomp.send('/pub/chat/enter', {}, 
       JSON.stringify({
-        roomId: `${openedRoom.id}`,
+        roomId: `${openedId}`,
         memberId: `${userId}`,
         message: '',
       }),
     )
 
         
-    stomp.subscribe(`/sub/chat/room/${openedRoom.id}`, function (message: any) {
-      // console.log('subscribe', message)
-      // let recv = JSON.parse(message.body)
+    stomp.subscribe(`/sub/chat/room/${openedId}`, function (message: any) {
+      console.log('subscribe', message)
+      let recv = JSON.parse(message.body)
+      if (messages[messages.length-1] !== recv) setMessages([...messages, recv])
+      // console.log()
       // console.log('recv', recv)
-      // recvMsg(recv)
-      getChattings()
+      // getChattings()
       message.ack()
     })
 
   }
-
-
 
   const error_callback = (err: any) => {
     console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
@@ -167,32 +166,29 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
   // 채팅 기록 불러오기
   async function getChattings () {
-    const res: any = await dispatch(getChatList(openedRoom.id))
+    const res: any = await dispatch(getChatList(openedId))
     if (res.meta.requestStatus === "fulfilled") {
       setMessages(res.payload)
     }
   }
 
-  useEffect(() => {
-    connect()
-  }, [sendMessage])
+  // useEffect(() => {
+  connect()
+  // }, [sendMessage])
 
   // 방 바뀔때마다 메시지 새로 불러오기
   useEffect(() => {
     connect()
     getChattings()
-  }, [openedRoom])
+  }, [openedId])
 
   useEffect(() => {
     connect()
   }, [])
 
-  // const scrollRef = useRef<any>()
   const scrollRef = useRef<any>()
   useEffect(() => {
     // scrollRef.current.scrollIntoView({ behavior: 'smooth' })
-    console.log(scrollRef)
-
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [messages])
 
@@ -226,11 +222,11 @@ function ChatBody({ opened, openedRoom, handleOpened, handleClosed }: any) {
               borderColor: "#f37b83"
           }}}}
         />
-        <ImgDiv>
+        {/* <ImgDiv>
           <IconBtn>
             <PhotoIcon/>
           </IconBtn>
-        </ImgDiv>
+        </ImgDiv> */}
         <SendDiv 
           onClick={() => {
             sendMsg()
