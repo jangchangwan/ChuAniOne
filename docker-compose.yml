@@ -49,7 +49,7 @@ services:
       context: ./backend/recomm
       dockerfile: Dockerfile
     ports:
-      - "0.0.0.0:8000"
+      - "0:8000"
     command:
       - ls
       - python manage.py runserver 0:8000
