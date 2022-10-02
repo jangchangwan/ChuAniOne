@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react'
 
 // CSS 관련
-import Grid from '@mui/material/Grid';
-import Checkbox from '@mui/material/Checkbox';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import Grid from '@mui/material/Grid'
+import Checkbox from '@mui/material/Checkbox'
+import VolumeUpIcon from '@mui/icons-material/VolumeUp'
 
 import { insertMyVoca, deleteMyVoca } from '../../store/bigvocaslice'
 import { useDispatch } from "react-redux"
 import store from '../../store'
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const WordItemGrid = styled(Grid)`
   display: flex;
@@ -57,7 +57,9 @@ function WordItem({ vocaData }) {
     setChecked(event.target.checked);
   };
 
-
+  useEffect(() =>{
+    setChecked(false)
+  },[vocaData])
 
   return (
     <WordItemGrid
