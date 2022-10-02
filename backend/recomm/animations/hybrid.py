@@ -32,11 +32,18 @@ ani_df.columns = ["ani_id", "ani_name", "series_id"]
 rating_df = pd.DataFrame(dbcol_review.find({}))
 rating_df = rating_df[["profile", "animation", "score"]]
 rating_df.columns = ["user_id", "ani_id", "score"]
-rating_df.dropna(how="any")
+
+# 데이터 중복 확인
+rating_df["user_id"].nunique()
+rating_df.drop_duplicates(subset=["user_id"], inplace=True)
+rating_df = rating_df.dropna(how="any")
 
 # 결측값 제거
 rating_df["user_id"].replace("", np.nan, inplace=True)
 rating_df = rating_df.dropna(how="any") # Null값이 존재하는 행 제거
+
+print("Null값 유무: ", rating_df.isnull().values.any())
+print("총 데이터 수: ", len(rating_df))
 
 # 형태소 분석이 이뤄진 데이터 불러오기
 feat_df = pd.DataFrame(dbcol_feat.find({}, {"id": 1, "feat_str": 1}))
@@ -111,7 +118,7 @@ def recommend_ani(df_svd_preds, userId, ori_ani_df, ori_score_df, n):
 
 def recommend_ani_2(user_history_list, recommendation_list, n):
     tf_idf_list = list()
-    user_feat = ''
+    user_feat = ""
     for i in user_history_list:
         idx = feat_df_id_to_idx[i]
         feat = feat_df_idx_to_feat[idx]
@@ -138,6 +145,7 @@ def recommend_ani_2(user_history_list, recommendation_list, n):
 
 
 def get_user_data(user_id, ani_id, score):
+    
     global rating_df, user_ani_ratings_df
     
     review = dbcol_review.find_one({"profile": user_id, "ani_id": ani_id})
@@ -194,5 +202,7 @@ def get_user_data(user_id, ani_id, score):
         dbcol_log.update_one({"member_id": user_id}, {"$set": {"recommended": id_list}}, upsert=True)
     else:
         dbcol_log.insert_one({"member_id": user_id, "recommended": id_list})
+        print("member_id: ", user_id)
+        print("recommended: ", id_list)
     
     return id_list

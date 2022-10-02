@@ -1,3 +1,4 @@
+from numpy import source
 from rest_framework import serializers
 from .models import Animation, Review, History, Feature
 
@@ -12,9 +13,13 @@ class AnimationSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    
+    member_id = serializers.IntegerField(source="profile")
+    ani_id = serializers.IntegerField(source="animation")
+    
     class Meta:
         model = Review
-        fields = "__all__"
+        fields = ("member_id", "ani_id", "score")
 
 
 class HistorySerializer(serializers.ModelSerializer):

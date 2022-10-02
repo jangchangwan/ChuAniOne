@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     "djongo",
     # CORS
     "corsheaders",
+    # Swagger
+    "drf_yasg",
     # Default applications
     "django.contrib.admin",
     "django.contrib.auth",
@@ -59,7 +61,7 @@ REST_FRAMEWORK = {
 # CORS
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    "http://localhost:3000",
+    ["http://localhost:3000", "https://j7e104.p.ssafy.io"]
 )
 
 ROOT_URLCONF = "recomm.urls"
