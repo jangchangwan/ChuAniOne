@@ -366,7 +366,9 @@ function Review({ aniId }) {
                   "& .MuiOutlinedInput-root.Mui-focused": {
                     "& > fieldset": {
                     borderColor: "#fa898f"
-                }}}}
+                  }}
+                }}
+                InputProps={{ sx: { paddingRight: '9rem' } }}
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
                 onKeyPress={(e) => {
@@ -395,11 +397,9 @@ function Review({ aniId }) {
                   "& .MuiOutlinedInput-root.Mui-focused": {
                     "& > fieldset": {
                     borderColor: "#fa898f"
-                  }},
-                  "": {
-
-                  }
+                  }}
                 }}
+                InputProps={{ sx: { paddingRight: '5rem' } }}
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
                 // onKeyPress={(e) => {
