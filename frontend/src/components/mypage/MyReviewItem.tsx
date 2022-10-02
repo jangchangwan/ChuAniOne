@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import Rating from '@mui/material/Rating'
 
 // redux
 import { useDispatch } from 'react-redux'
@@ -20,6 +23,12 @@ const ReviewBox = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
+  margin-right: 1rem;
+`
+
+const Namediv = styled.div`
+  display: flex;
+  flex-direction: row;
 `
 
 const AniName = styled.h3` 
@@ -74,14 +83,25 @@ function MyPageItem(review:any) {
   },[])
   return (
     <Container>
-      <ReviewBox>
-        {
-          data ?
-          <AniName>{data.name}</AniName>
-          : null
-        }
-        
-      </ReviewBox>
+      <Namediv>
+        <ReviewBox>
+          {
+            data ?
+            <AniName>{data.name}</AniName>
+            : null
+          }
+          
+        </ReviewBox>
+        <Rating
+              name="customized-color"
+              value={review.reviewData.rating}
+              readOnly
+              precision={0.5}
+              icon={<FavoriteIcon fontSize="inherit" />}
+              emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+          />
+      </Namediv>
+      
       <ReviewText>
         {review.reviewData.content}
       </ReviewText>
