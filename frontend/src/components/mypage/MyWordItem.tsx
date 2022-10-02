@@ -67,9 +67,9 @@ function MyWordItem(wordData:any) {
 
     >
       {/* 일본어 */}
-      <Grid container item xs={6}>
+      <Grid container item xs={12}>
         <Grid item xs={1}></Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <VolumeUpIcon 
             sx={checked ? 
               {
@@ -84,11 +84,11 @@ function MyWordItem(wordData:any) {
               }} 
             />
         </Grid>
-        <Grid item xs={5}
+        <Grid item xs={4}
         >
           <label htmlFor="word" >{wordData.wordData.voca.japanese}</label>
         </Grid>
-        <Grid item xs={2}
+        <Grid item xs={3}
         >
           <p style={{margin:0}}>{wordData.wordData.voca.korean}</p>
         </Grid>
@@ -96,7 +96,7 @@ function MyWordItem(wordData:any) {
           sx = {{
             position: 'relative',
             top: '-1rem',
-            right: '-75%'
+            right: '-5%'
           }}
         >
           <Checkbox color='default' onChange={checkChange} id='word' 
@@ -104,8 +104,8 @@ function MyWordItem(wordData:any) {
         </Grid>
       </Grid>
       <Grid container>
-        <Grid xs={2}></Grid>
-        <Grid xs={10}>
+        <Grid xs={3}></Grid>
+        <Grid xs={9}>
           <div>({wordData.wordData.voca.pronunciation})</div>
         </Grid>
       </Grid>
