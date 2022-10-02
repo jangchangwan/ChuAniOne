@@ -47,6 +47,7 @@ const AniInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 1rem;
 `
 
 const AniName = styled.h1`
@@ -96,7 +97,11 @@ const VideoBox = styled.div`
 
 const ImageBox = styled.div`
   height: 100%;
-  /* margin-right: 5rem; */
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
   border-radius: 0.5rem;
   overflow: hidden;
   border: 0.5rem inset #f37b83;
