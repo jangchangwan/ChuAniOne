@@ -1,8 +1,7 @@
 package com.ssafy.chuanione.domain.member.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ssafy.chuanione.domain.member.domain.Gender;
+import com.ssafy.chuanione.domain.member.domain.enumlist.Gender;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

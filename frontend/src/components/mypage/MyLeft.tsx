@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import Grid from '@mui/material/Grid'
-import badgeicon1 from '../../assets/images/google_icon.png' // 임시로 사진 가져옴
-import badgeicon2 from '../../assets/images/kakao_icon.png' // 임시로 사진 가져옴
-import badgeicon3 from '../../assets/images/Logo.png' // 임시로 사진 가져옴
+
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MyAniChart   from "./MyAniChart";
 
@@ -91,26 +89,7 @@ const IntroductonBox = styled.div`
   margin: 2rem 0 2rem 0;
 `
 
-// 벳지 박스
-const BadgeBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem;
-`
 
-// 벳지 이미지
-const BadgeImg = styled.img`
-  /* width: 2.5rem; */
-  width: 2rem;
-  height: 2rem;
-  /* display: flex;
-  justify-content: center; 
-  align-items: center;
-  margin: 0; */
-  /* margin: 2rem; */
-  filter: drop-shadow(5px 5px 5px #000); // 배경 짤라야 온전하게 그림자 적용 가능
-`
 const ErrorText = styled.span`
   width: 100%;
   color: #ff0000;
@@ -159,8 +138,7 @@ function MyLeft() {
   const tier:any = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']
   const mytier:string = tier[Math.floor(exp/100)]  // 소수점 버림
   const myexp:number = exp%100
-  const imgArr:any = [0, badgeicon1, badgeicon2, badgeicon3]
-  const imgArrId:any = [1, 3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2] // 12개
+
 
 
   // 비밀번호 유효성 검사
@@ -252,7 +230,6 @@ function MyLeft() {
   useEffect(() => {
     dispatch(myinfo())
       .then((response:any) => {
-        console.log('동작')
         const data = response.payload.data
         setMygenres(data.genres)
         setNickName(data.member.nickname)
@@ -263,7 +240,6 @@ function MyLeft() {
         console.log(e);
         
       })
-    console.log(mygenres)
   },[])
 
   return (

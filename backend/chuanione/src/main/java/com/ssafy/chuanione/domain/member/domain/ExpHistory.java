@@ -1,5 +1,6 @@
 package com.ssafy.chuanione.domain.member.domain;
 
+import com.ssafy.chuanione.domain.member.domain.enumlist.CommunityType;
 import lombok.*;
 
 import javax.persistence.*;
