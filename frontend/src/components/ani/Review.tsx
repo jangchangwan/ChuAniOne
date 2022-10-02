@@ -20,7 +20,6 @@ import store from '../../store'
 import { deleteReview, getMyReview, getReviewAll, postReview, patchReview } from '../../store/anislice'
 import { useSelector } from 'react-redux'
 import initialState from '../../store/Loginslice'
-import { idText } from 'typescript'
 
 const Container = styled.div`
   width: 90%;
@@ -163,7 +162,7 @@ function Review({ aniId }) {
       setCount(res.payload.count)
       setData(res.payload.reviewList)
       if (res.payload.rating !== "NaN") {
-        setRating(res.payload.rating)
+        setRating(Math.floor(res.payload.rating*100)/100)
       } else {
         setRating(0)
       }
