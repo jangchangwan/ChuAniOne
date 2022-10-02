@@ -180,7 +180,7 @@ const NameInput = styled(TextField)`
 
 
 
-function UpdateModal({ openedRoom, roomInfo, getChangeInfo }) {
+function UpdateModal({ openedId, roomInfo, getChangeInfo }) {
   const dispatch = useDispatch<typeof store.dispatch>()
   const userId = useSelector((state: initialState) => (state.login.userId))
   
@@ -364,7 +364,7 @@ function UpdateModal({ openedRoom, roomInfo, getChangeInfo }) {
 
 
 
-function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
+function ChatHeader({ opened, openedId, handleOpened, handleClosed }: any) {
 
   const dispatch = useDispatch<typeof store.dispatch>()
   const userId = useSelector((state: initialState) => (state.login.userId))
@@ -416,7 +416,7 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
   // 채팅방 퇴장
   const leave = () => {
-    dispatch(leaveRoom(openedRoom.id))
+    dispatch(leaveRoom(openedId))
     closeConfirm()
     handleClosed()
   }
@@ -427,7 +427,7 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
   
   // 방 정보 가져오기
   async function getInfo() {
-    const res = await dispatch(getChatInfo(openedRoom.id))
+    const res = await dispatch(getChatInfo(openedId))
     
     if (res.meta.requestStatus === "fulfilled" && res.payload) {
       await setRoomInfo(res.payload)
@@ -436,7 +436,7 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
   useEffect(() => {
     getInfo()
-  }, [changeInfo])
+  }, [openedId])
 
   useEffect(() => {
     getInfo()
@@ -445,130 +445,125 @@ function ChatHeader({ opened, openedRoom, handleOpened, handleClosed }: any) {
 
 
   return (
-    <>
-      { openedRoom ?
-        <Container>
-          {/* 방이름, 뒤로가기 */}
-          <NameBox>
-            <BackIcon 
-              onClick={closeChat}
-            />
-            { roomInfo ?
-              <Name>
-                {roomInfo.rDto.name}
-              </Name>
-              : null
-            }
-          </NameBox>
+    roomInfo ?
+      <Container>
+        {/* 방이름, 뒤로가기 */}
+        <NameBox>
+          <BackIcon 
+            onClick={closeChat}
+          />
+            <Name>
+              {roomInfo.rDto.name}
+            </Name>
+        </NameBox>
 
-          {/* 더보기 메뉴 */}
-          <IconBox
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-          >
-            <Icon />
-          </IconBox>
+        {/* 더보기 메뉴 */}
+        <IconBox
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <Icon />
+        </IconBox>
 
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem onClick={() => {
-              openInfoTrue()
-              handleClose()
-            }}>방 정보</MenuItem>
-            
-            <MenuItem onClick={() => {
-              handleClose()
-              closeChat()
-              }}>닫기</MenuItem>
-
-            <MenuItem onClick={() => {
-              handleClose()
-              openConfirm() 
-              }}>퇴장하기</MenuItem>
-          </Menu>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        >
+          <MenuItem onClick={() => {
+            openInfoTrue()
+            handleClose()
+          }}>방 정보</MenuItem>
           
-          {/* 방 정보 Modal */}
-          { roomInfo ?
-            <Modal
-              open={openInfo}
-              onClose={openInfoFalse}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <InfoContainer>
-                <InfoHeader>
-                  <InfoTitle>{roomInfo.rDto.name}</InfoTitle>
-                  <CloseBtnDiv>
-                    <CloseBtn onClick={openInfoFalse}><ModalCloseIcon/></CloseBtn>
-                  </CloseBtnDiv>
-                </InfoHeader>
-                <InfoContentBox>
-                  { roomInfo.rDto.tag1 ? <InfoContentHash># {roomInfo.rDto.tag1}</InfoContentHash> : null }
-                  { roomInfo.rDto.tag2 ? <InfoContentHash># {roomInfo.rDto.tag2}</InfoContentHash> : null }
-                  { roomInfo.rDto.tag3 ? <InfoContentHash># {roomInfo.rDto.tag3}</InfoContentHash> : null }
-                </InfoContentBox>
+          <MenuItem onClick={() => {
+            handleClose()
+            closeChat()
+            }}>닫기</MenuItem>
 
-                  <InfoContentTitle>현재 인원 / 전체 인원 </InfoContentTitle>
-                  <InfoContent>{ roomInfo.mDto.length } / { roomInfo.rDto.max }</InfoContent>
-                
-                <InfoUserBox>
-                  { roomInfo.mDto.map((user, idx) => (
-                    <UserInfo>{user.nickname}</UserInfo>
-                  ))}
-                </InfoUserBox>
-                { roomInfo.rDto.memberId === userId ? 
-                  <BtnBox>
-                    <UpdateModal openedRoom={openedRoom} roomInfo={roomInfo} getChangeInfo={getChangeInfo}/>
-                    <Btn onClick={openConfirm}>삭제</Btn>
-                  </BtnBox>
-                : null }
-              </InfoContainer>
-            </Modal>
-          : null }
-
-          {/* 퇴장하기 Modal */}
-          <Dialog
-            open={leaveConfirm}
-            onClose={closeConfirm}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+          <MenuItem onClick={() => {
+            handleClose()
+            openConfirm() 
+            }}>퇴장하기</MenuItem>
+        </Menu>
+        
+        {/* 방 정보 Modal */}
+        { roomInfo ?
+          <Modal
+            open={openInfo}
+            onClose={openInfoFalse}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
-            <DialogTitle id="alert-dialog-title">
-              {"정말 떠나시겠습니까?"}
-            </DialogTitle>
+            <InfoContainer>
+              <InfoHeader>
+                <InfoTitle>{roomInfo.rDto.name}</InfoTitle>
+                <CloseBtnDiv>
+                  <CloseBtn onClick={openInfoFalse}><ModalCloseIcon/></CloseBtn>
+                </CloseBtnDiv>
+              </InfoHeader>
+              <InfoContentBox>
+                { roomInfo.rDto.tag1 ? <InfoContentHash># {roomInfo.rDto.tag1}</InfoContentHash> : null }
+                { roomInfo.rDto.tag2 ? <InfoContentHash># {roomInfo.rDto.tag2}</InfoContentHash> : null }
+                { roomInfo.rDto.tag3 ? <InfoContentHash># {roomInfo.rDto.tag3}</InfoContentHash> : null }
+              </InfoContentBox>
 
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                { openedRoom.memberId !== userId ? 
-                  <>
-                    방을 떠날 경우, 내 채팅목록에서 삭제됩니다.
-                  </>
-                : 
-                  <>
-                    당신은 방장입니다. <br/>
-                    방을 떠날 경우, 현재 계신 채팅방은 삭제됩니다.
-                  </>
-                }
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <LeaveBtn onClick={leave}>떠나기</LeaveBtn>
-              <LeaveBtn onClick={closeConfirm} autoFocus>머무르기</LeaveBtn>
-            </DialogActions>
-          </Dialog>
-        </Container>
-      : null }
-    </>
+                <InfoContentTitle>현재 인원 / 전체 인원 </InfoContentTitle>
+                <InfoContent>{ roomInfo.mDto.length } / { roomInfo.rDto.max }</InfoContent>
+              
+              <InfoUserBox>
+                { roomInfo.mDto.map((user, idx) => (
+                  <UserInfo>{user.nickname}</UserInfo>
+                ))}
+              </InfoUserBox>
+              { roomInfo.rDto.memberId === userId ? 
+                <BtnBox>
+                  <UpdateModal openedId={openedId} roomInfo={roomInfo} getChangeInfo={getChangeInfo}/>
+                  <Btn onClick={openConfirm}>삭제</Btn>
+                </BtnBox>
+              : null }
+            </InfoContainer>
+          </Modal>
+        : null }
+
+        {/* 퇴장하기 Modal */}
+        <Dialog
+          open={leaveConfirm}
+          onClose={closeConfirm}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"정말 떠나시겠습니까?"}
+          </DialogTitle>
+
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              { roomInfo.rDto.memberId !== userId ? 
+                <>
+                  방을 떠날 경우, 내 채팅목록에서 삭제됩니다.
+                </>
+              : 
+                <>
+                  당신은 방장입니다. <br/>
+                  방을 떠날 경우, 현재 계신 채팅방은 삭제됩니다.
+                </>
+              }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <LeaveBtn onClick={leave}>떠나기</LeaveBtn>
+            <LeaveBtn onClick={closeConfirm} autoFocus>머무르기</LeaveBtn>
+          </DialogActions>
+        </Dialog>
+      </Container>
+    : null 
   )
 }
 

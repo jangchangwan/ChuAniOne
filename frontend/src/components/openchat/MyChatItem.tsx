@@ -97,12 +97,12 @@ const EnterRoom = styled(Button)`
   background-color: #f37b83 !important;
 `
 
-function MyChatItem({ roomData, opened, openedRoom,  handleOpened, handleClosed }: any): any {
+function MyChatItem({ roomData, opened, openedId,  handleOpened, handleClosed }: any): any {
 
   const userId = useSelector((state: initialState) => state.login.userId)
 
   const openChat = () => {
-    handleOpened(roomData)
+    handleOpened(roomData.id)
   }
 
   return (
