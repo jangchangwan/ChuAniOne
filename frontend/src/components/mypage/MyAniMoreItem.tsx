@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components';
 
 
 const Container = styled.div`
-  height: 20rem;
+  height: 100%;
 `
 
 const AniBox = styled.div`
@@ -25,10 +25,6 @@ const AniName = styled.p`
 `
 
 function MyAniMoreItem(myAniData) {
-
-  useEffect(() =>{
-    console.log(myAniData)
-  }, [])
 
   return (
     <Container>

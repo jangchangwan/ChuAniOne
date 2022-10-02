@@ -18,7 +18,7 @@ const RightContainer = styled.div`
 
 const TabBox = styled.div`
   width: 100%;
-  height: 70%;
+  height: 80vh;
 `
 
 const TabDiv = styled.div`

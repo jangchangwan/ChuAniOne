@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react'
-import styled from 'styled-components';
+import React, { useEffect } from 'react'
+import styled from 'styled-components'
 
 
 const Container = styled.div`
-  height: 20rem;
+  height: 14rem;
 `
 
 const AniBox = styled.div`
