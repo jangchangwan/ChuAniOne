@@ -1,9 +1,9 @@
 package com.ssafy.chuanione.domain.member.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ssafy.chuanione.domain.member.domain.Gender;
+import com.ssafy.chuanione.domain.member.domain.enumlist.Gender;
 import com.ssafy.chuanione.domain.member.domain.Member;
-import com.ssafy.chuanione.domain.member.domain.Role;
+import com.ssafy.chuanione.domain.member.domain.enumlist.Role;
 import lombok.Builder;
 import lombok.Getter;
 

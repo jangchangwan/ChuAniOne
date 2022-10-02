@@ -174,4 +174,10 @@ public class MemberController {
         Map<String, Object> result = myPageService.getMyVoca();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @GetMapping("/challenge")
+    @ApiOperation(value = "도전 과제")
+    public ResponseEntity<List<String>> getChallenge(){
+        return new ResponseEntity<>(myPageService.getChallenge(), HttpStatus.OK);
+    }
 }

@@ -6,6 +6,7 @@ import com.ssafy.chuanione.domain.animation.domain.Animation;
 import com.ssafy.chuanione.domain.animation.domain.AnimationType;
 import com.ssafy.chuanione.domain.animation.dto.AnimationResponseDto;
 import com.ssafy.chuanione.domain.animation.dto.GenresResponseDto;
+import com.ssafy.chuanione.domain.member.dao.ChallengeRepository;
 import com.ssafy.chuanione.domain.member.dao.ExpHistoryRepository;
 import com.ssafy.chuanione.domain.member.dao.MemberRepository;
 import com.ssafy.chuanione.domain.member.domain.ExpHistory;
@@ -15,6 +16,8 @@ import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.domain.review.dao.ReviewRepository;
 import com.ssafy.chuanione.domain.review.domain.Review;
 import com.ssafy.chuanione.domain.review.dto.ReviewResponseDto;
+import com.ssafy.chuanione.domain.talktalk.domain.Talktalk;
+import com.ssafy.chuanione.domain.talktalk.domain.TalktalkRepository;
 import com.ssafy.chuanione.domain.voca.dao.MemorizeVocaRepository;
 import com.ssafy.chuanione.domain.voca.domain.MemorizeVoca;
 import com.ssafy.chuanione.domain.voca.dto.MemorizeResponseDto;
@@ -33,8 +36,11 @@ public class MyPageServiceImpl implements MyPageService {
     private final AnimationTypeRepository aniTypeRepository;
     private final AnimationRepository animationRepository;
     private final ReviewRepository reviewRepository;
+    private final TalktalkRepository talktalkRepository;
     private final MemorizeVocaRepository memorizeVocaRepository;
     private final ExpHistoryRepository expHistoryRepository;
+    private final ChallengeRepository challengeRepository;
+
 
 
     // 회원 정보
@@ -183,5 +189,34 @@ public class MyPageServiceImpl implements MyPageService {
             temp.add(myAni.getAnimationId());
         }
         return temp.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public List<String> getChallenge(){
+        List<String> result = new ArrayList<>();
+        Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        //리뷰 작성 도전과제
+        List<Review> review = reviewRepository.findAllByMemberId(member);
+        if(review.size() > 0){
+            result.add(challengeRepository.findById(1).get().getName());
+        }
+        if(review.size() > 2){
+            result.add(challengeRepository.findById(2).get().getName());
+        }
+        //톡톡 작성 도전과제
+        List<Talktalk> talktalk = talktalkRepository.findAllByWriter(member);
+        if(talktalk.size() > 0){
+            result.add(challengeRepository.findById(3).get().getName());
+        }
+        if(talktalk.size() > 2){
+            result.add(challengeRepository.findById(4).get().getName());
+        }
+        //애니 좋아요 도전과제
+        List<AnimationType> likeIds = aniTypeRepository.findAllByMemberIdAndTypeOrderByIdDesc(member, 1);
+        if(likeIds.size() > 0) result.add(challengeRepository.findById(5).get().getName());
+        //애니 찜하기 도전과제
+        List<AnimationType> choiceIds = aniTypeRepository.findAllByMemberIdAndTypeOrderByIdDesc(member, 3);
+        if(choiceIds.size() > 0) result.add(challengeRepository.findById(6).get().getName());
+
+        return result;
     }
 }
