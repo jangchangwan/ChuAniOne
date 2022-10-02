@@ -106,10 +106,10 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
 
   // SockJS 내부의 stomp 가져오기
   var stomp = Stomp.over(function() {
-    return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
-    // return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
+    // return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
+    return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
   })
-  // stomp.reconnect_delay = 1000
+  stomp.reconnect_delay = 1000
 
   // 메시지 보내기
   function sendMsg() {
@@ -144,17 +144,16 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
 
         
     stomp.subscribe(`/sub/chat/room/${openedId}`, function (message: any) {
-      // console.log('subscribe', message)
-      // let recv = JSON.parse(message.body)
+      console.log('subscribe', message)
+      let recv = JSON.parse(message.body)
+      if (messages[messages.length-1] !== recv) setMessages([...messages, recv])
+      // console.log()
       // console.log('recv', recv)
-      // recvMsg(recv)
-      getChattings()
+      // getChattings()
       message.ack()
     })
 
   }
-
-
 
   const error_callback = (err: any) => {
     console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
@@ -173,9 +172,9 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
     }
   }
 
-  useEffect(() => {
-    connect()
-  }, [sendMessage])
+  // useEffect(() => {
+  connect()
+  // }, [sendMessage])
 
   // 방 바뀔때마다 메시지 새로 불러오기
   useEffect(() => {
