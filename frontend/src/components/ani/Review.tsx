@@ -371,7 +371,7 @@ function Review({ aniId }) {
                 onChange={(e) => setReview(e.target.value)}
                 onKeyPress={(e) => {
                   if (e.key === "Enter" && e.shiftKey) setReview(`${review}\n`)
-                  if (e.key === "Enter" && !e.shiftKey) reviseReview()
+                  // if (e.key === "Enter" && !e.shiftKey) reviseReview()
                 }}
                 fullWidth
               />
@@ -395,12 +395,16 @@ function Review({ aniId }) {
                   "& .MuiOutlinedInput-root.Mui-focused": {
                     "& > fieldset": {
                     borderColor: "#fa898f"
-                }}}}
+                  }},
+                  "": {
+
+                  }
+                }}
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) sendReview()
-                }}
+                // onKeyPress={(e) => {
+                //   if (e.key === "Enter" && !e.shiftKey) sendReview()
+                // }}
                 fullWidth
               />
 
