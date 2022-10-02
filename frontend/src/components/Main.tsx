@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Carousel from 'react-material-ui-carousel'
-import { Paper } from '@mui/material'
+import { Paper, IconButton } from '@mui/material'
 import styled from "styled-components"
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
@@ -104,6 +104,10 @@ const Right = styled.div`
   right: 0%;
   color: white;
   z-index: 2;
+`
+
+const Btn = styled(IconButton)`
+  color: white !important;
 `
 
 const ItemDiv = styled.div`
@@ -405,12 +409,20 @@ function Main() {
           <CarouselContainer>
             <CarouselTitle>당신을 위한 추천 !</CarouselTitle>
             { now01X !== 0 ?
-              <Left onClick={clickLeftButton}>left</Left>
+              <Left onClick={clickLeftButton}>
+                <Btn>
+                  <ArrowBackIosNewIcon />
+                </Btn>
+              </Left>
             : null }
             { now01X < -95 ?
               null
             :
-              <Right onClick={clickRightButton}>right</Right>
+              <Right onClick={clickRightButton}>
+                <Btn>
+                  <ArrowForwardIosIcon />
+                </Btn>
+              </Right>
             }
             <CarouselDiv ref={carousel01}>
               { carouselItem() }
