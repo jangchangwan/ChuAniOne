@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 
 const Container = styled.div`
-  height: 14rem;
+  height: 100%;
 `
 
 const AniBox = styled.div`
@@ -15,21 +15,20 @@ const AniBox = styled.div`
 
 const AniImgBox = styled.div`
   margin: 0.5rem;
+  width: 90%;
   height: 10.375em; 
   position: relative;
   overflow-y: hidden;
   border-radius: 0.2rem;
+  overflow: hidden;
 `
 const AniImg = styled.img`
   width: 100%;
   height: 100%;
-  position: top;
-  object-fit: cover;
+  position: top; 
 `
 
-const AniName = styled.p`
-  margin: 0;
-`
+
 
 function MyAniItem(aniData) {
 
@@ -43,7 +42,6 @@ function MyAniItem(aniData) {
         <AniImgBox>
           <AniImg src={aniData.aniData.img} alt={aniData.aniData.name} />
         </AniImgBox>
-        <AniName>{aniData.aniData.name}</AniName>
       </AniBox>
     </Container>
   );

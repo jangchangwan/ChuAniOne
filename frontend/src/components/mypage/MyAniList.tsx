@@ -145,44 +145,44 @@ function MyAniList() {
             <CarouselPaper elevation={0}>
               {
                 watchaniList[0] ?
-                <MyAniItem aniData={watchaniList[0]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={watchaniList[0]}></MyAniItem></Grid>
                 : null
               }
               {
                 watchaniList[1] ?
-                <MyAniItem aniData={watchaniList[1]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={watchaniList[1]}></MyAniItem></Grid>
                 : null
               }
               {
                 watchaniList[2] ?
-                <MyAniItem aniData={watchaniList[2]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={watchaniList[2]}></MyAniItem></Grid>
                 : null
               }
               {
                 watchaniList[3] ?
-                <MyAniItem aniData={watchaniList[3]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={watchaniList[3]}></MyAniItem></Grid>
                 : null
               }
             </CarouselPaper>
             <CarouselPaper elevation={1}>
             {
                 watchaniList[4] ?
-                <MyAniItem aniData={watchaniList[4]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={watchaniList[4]}></MyAniItem></Grid>
                 : null
               }
               {
                 watchaniList[5] ?
-                <MyAniItem aniData={watchaniList[5]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={watchaniList[5]}></MyAniItem></Grid>
                 : null
               }
               {
                 watchaniList[6] ?
-                <MyAniItem aniData={watchaniList[6]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={watchaniList[6]}></MyAniItem></Grid>
                 : null
               }
               {
                 watchaniList[7] ?
-                <MyAniItem aniData={watchaniList[7]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={watchaniList[7]}></MyAniItem></Grid>
                 : null
               }
             </CarouselPaper>
@@ -223,44 +223,44 @@ function MyAniList() {
             <CarouselPaper elevation={0}>
               {
                 choiceaniList[0] ?
-                <MyAniItem aniData={choiceaniList[0]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={choiceaniList[0]}></MyAniItem></Grid>
                 : null
               }
               {
                 choiceaniList[1] ?
-                <MyAniItem aniData={choiceaniList[1]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={choiceaniList[1]}></MyAniItem></Grid>
                 : null
               }
               {
                 choiceaniList[2] ?
-                <MyAniItem aniData={choiceaniList[2]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={choiceaniList[2]}></MyAniItem></Grid>
                 : null
               }
               {
                 choiceaniList[3] ?
-                <MyAniItem aniData={choiceaniList[3]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={choiceaniList[3]}></MyAniItem></Grid>
                 : null
               }
             </CarouselPaper>
             <CarouselPaper elevation={1}>
             {
                 choiceaniList[4] ?
-                <MyAniItem aniData={choiceaniList[4]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={choiceaniList[4]}></MyAniItem></Grid>
                 : null
               }
               {
                 choiceaniList[5] ?
-                <MyAniItem aniData={choiceaniList[5]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={choiceaniList[5]}></MyAniItem></Grid>
                 : null
               }
               {
                 choiceaniList[6] ?
-                <MyAniItem aniData={choiceaniList[6]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={choiceaniList[6]}></MyAniItem></Grid>
                 : null
               }
               {
                 choiceaniList[7] ?
-                <MyAniItem aniData={choiceaniList[7]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={choiceaniList[7]}></MyAniItem></Grid>
                 : null
               }
             </CarouselPaper>
@@ -300,44 +300,44 @@ function MyAniList() {
             <CarouselPaper elevation={0}>
               {
                 likeAniList[0] ?
-                <MyAniItem aniData={likeAniList[0]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={likeAniList[0]}></MyAniItem></Grid>
                 : null
               }
               {
                 likeAniList[1] ?
-                <MyAniItem aniData={likeAniList[1]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={likeAniList[1]}></MyAniItem></Grid>
                 : null
               }
               {
                 likeAniList[2] ?
-                <MyAniItem aniData={likeAniList[2]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={likeAniList[2]}></MyAniItem></Grid>
                 : null
               }
               {
                 likeAniList[3] ?
-                <MyAniItem aniData={likeAniList[3]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={likeAniList[3]}></MyAniItem></Grid>
                 : null
               }
             </CarouselPaper>
             <CarouselPaper elevation={1}>
             {
                 likeAniList[4] ?
-                <MyAniItem aniData={likeAniList[4]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={likeAniList[4]}></MyAniItem></Grid>
                 : null
               }
               {
                 likeAniList[5] ?
-                <MyAniItem aniData={likeAniList[5]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={likeAniList[5]}></MyAniItem></Grid>
                 : null
               }
               {
                 likeAniList[6] ?
-                <MyAniItem aniData={likeAniList[6]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={likeAniList[6]}></MyAniItem></Grid>
                 : null
               }
               {
                 likeAniList[7] ?
-                <MyAniItem aniData={likeAniList[7]}></MyAniItem>
+                <Grid item xs={3}><MyAniItem aniData={likeAniList[7]}></MyAniItem></Grid>
                 : null
               }
             </CarouselPaper>
