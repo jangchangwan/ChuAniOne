@@ -53,10 +53,10 @@ const StarBox = styled.div`
 
 const StarTitle = styled.h3`
   margin: 0;
-  margin-right: 1rem;
-  padding: 0 0.3rem;
+  margin-right: 0.7rem;
+  padding: 0 0.5rem;
   border-bottom: 15px solid transparent;
-  border-image: url(${border1}) 20 stretch;
+  border-image: url(${border2}) 20 stretch;
 `
 
 const StarText = styled.h2`
