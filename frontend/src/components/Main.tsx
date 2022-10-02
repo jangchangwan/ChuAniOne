@@ -43,9 +43,10 @@ const RightContainer = styled.div`
   /* background-color: aqua; */
   padding: 0 3rem;
   padding-top: 4rem;
-  height: calc(100vh - 4rem);
+  padding-bottom: 4rem;
+  height: calc(100vh - 8rem);
   width: calc(65vw - 6rem);
-
+  overflow-x: hidden;
   overflow-y: auto;
 
   ::-webkit-scrollbar {
@@ -69,109 +70,119 @@ const RightContainer = styled.div`
 
 const CarouselContainer = styled.div`
   width: 100%;
-  height: 12rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`
+
+const CarouselTitle = styled.h1`
+  margin-bottom: 0;
+`
+
+const CarouselDiv = styled.div`
+  width: 100%;
+  height: 14rem;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  /* overflow: hidden; */
   scroll-behavior: smooth;
+  transition: transform 0.5s;
+
 `
 
-const CarouselSection = styled.section`
-  height: 80%;
-  aspect-ratio: 4/3;
+const Left = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  color: white;
+  z-index: 2;
 `
 
+const Right = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  color: white;
+  z-index: 2;
+`
 
+const ItemDiv = styled.div`
+  height: 100%;
+  aspect-ratio: 7/6;
+  margin-right: 1rem;
+  cursor: pointer;
+`
 
+const ImgBox = styled.div`
+  margin-top: 0.5rem;
+  height: 70%;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+`
 
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
 
-// const CarouselContainer = styled(Carousel)`
-//   margin-bottom: 3rem;
-// `
+const Name = styled.p`
+  margin: 0;
+  margin-left: 0.5rem;
+`
 
-// const CarouselPaper = styled(Paper)`
-//   width: 100%;
-//   display: flex;
-//   flex-direction: row; 
-//   justify-content: center; 
-//   align-items: center;
-// `
-
-// const CarouselImg = styled.img`
-//   width: 100%;
-//   height: auto;
-//   object-fit: cover;
-// `
-
-// const CarouselImgIn = styled.img`
-//   position: absolute;
-//   left: 3.125em;
-//   bottom: 11em;
-//   max-width: 38.75em;
-//   height: auto;
-//   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-//   box-sizing: inherit;
-//   display: block;
-// `
-
-// const RecommendContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-// `
-
-// const RecommendTitle = styled.h1`
-//   margin-left: 4rem;
-// `
-
-// const RecommendBox = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   margin-bottom: 1.5rem;
-// `
-
-// const RecommendImgBox = styled.div`
-//   margin: 0.5rem;
-//   height: 10.375em; 
-//   position: relative;
-//   overflow-y: hidden;
-//   border-radius: 0.2rem;
-// `
-// const RecommendImg = styled.img`
-//   width: 100%;
-//   position: top;
-//   object-fit: cover;
-// `
-
-// const RecommendName = styled.p`
-//   margin: 0;
-// `
-
-// const styleBoxDetail = {
-//   position: 'absolute' as 'absolute',
-//   top: '50%',
-//   left: '50%',
-//   transform: 'translate(-50%, -50%)',
-//   width: '50%',
-//   height: '90%',
-//   bgcolor: 'background.paper',
-//   borderRadius: '0.3rem',
-//   border: 'none',
-//   boxShadow: 24,
-// }
+const styleBoxDetail = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '50%',
+  height: '90%',
+  bgcolor: 'background.paper',
+  borderRadius: '0.3rem',
+  border: 'none',
+  boxShadow: 24,
+}
 
 
 function Main() {
+
 
   const dispatch = useDispatch<typeof store.dispatch>()
 
   const [data, setData] = useState<any>()
 
   const [openDetail, setOpenDetail] = useState<boolean>(false)
+  const [detailId, setDetailId] = useState<number | null>(null)
 
-  const handleOpenDetail = () => setOpenDetail(true)
-  const handleCloseDetail = () => setOpenDetail(false)
+  const handleOpenDetail = (aniId) => {
+    setOpenDetail(true)
+    setDetailId(aniId)
+  }
+  
+  const handleCloseDetail = () => {
+    setOpenDetail(false)
+  }
+
+  const carousel01 = useRef() as React.MutableRefObject<HTMLDivElement>
+  const [now01X, setNow01X] = useState(0)
+
+  useEffect(() => {
+    if (carousel01 && carousel01.current) {
+      carousel01.current.style.transform = `translateX(${now01X}vw)`
+    }
+  }, [now01X]) 
+
+  const clickLeftButton = () => {
+    setNow01X((prop) => prop + 19);
+    console.log(`it's work ${now01X}`)
+  }
+
+  const clickRightButton = () => {
+    setNow01X(now01X - 19)
+    console.log(`it's work ${now01X}`)
+  }
 
   useEffect(() => {
     loadData()
@@ -193,6 +204,24 @@ function Main() {
     'https://thumbnail.laftel.net/items/full/456559d1-6b44-4e4c-894f-e1003c4934d1.jpg',
     'https://thumbnail.laftel.net/items/full/b88d779f-f25e-4722-a6de-8a124026379a.jpg',
   ]
+
+  const carouselItem = (): JSX.Element | JSX.Element[] | undefined => {
+    if (data) {
+      const items = data.map((item, idx) => {
+
+        return (
+          <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+            <ImgBox>
+              <Img src={item.images[0].img_url}/>
+            </ImgBox>
+            <Name>{item.name}</Name>
+          </ItemDiv>
+        )
+      })
+
+      return items
+    }
+  }
 
 
   return (
@@ -373,222 +402,35 @@ function Main() {
         </LeftContainer>
         
         <RightContainer>
-          { data ? 
-            <CarouselContainer>
-              { data.map((item, idx) => {
-                <CarouselSection id={`section${idx}`}>
-                  <div>{item.name}</div>
-                </CarouselSection>
-              })}
-            </CarouselContainer>
-          : null}
+          <CarouselContainer>
+            <CarouselTitle>당신을 위한 추천 !</CarouselTitle>
+            { now01X !== 0 ?
+              <Left onClick={clickLeftButton}>left</Left>
+            : null }
+            { now01X < -95 ?
+              null
+            :
+              <Right onClick={clickRightButton}>right</Right>
+            }
+            <CarouselDiv ref={carousel01}>
+              { carouselItem() }
+            </CarouselDiv>
+          </CarouselContainer>
+
         </RightContainer>
-
-
-        {/* <Modal
-          open={openDetail}
-          onClose={handleCloseDetail}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={styleBoxDetail}>
-            <AniDetail aniId={item.ani_id} />
-          </Box>
-        </Modal> */}
-
-
-        {/* 
-
-        <RecommendContainer>
-          <RecommendTitle>당신을 위한 추천 !</RecommendTitle>
-          <CarouselContainer indicators={false}>
-            <CarouselPaper elevation={0}>
-              <RecommendBox onClick={handleOpenDetail}>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-            </CarouselPaper>
-
-            <CarouselPaper elevation={0}>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-            </CarouselPaper>
-          </CarouselContainer>
-        </RecommendContainer>
-
-        <RecommendContainer>
-          <RecommendTitle>이번 추천은 ?!</RecommendTitle>
-          <CarouselContainer indicators={false}>
-            <CarouselPaper elevation={0}>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-            </CarouselPaper>
-
-            <CarouselPaper elevation={0}>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-              <RecommendBox>
-                <RecommendImgBox>
-                  <RecommendImg src={recommend.img} />
-                </RecommendImgBox>
-                <RecommendName>{recommend.name}</RecommendName>
-              </RecommendBox>
-            </CarouselPaper>
-          </CarouselContainer>
-        </RecommendContainer> */}
+        
+        { detailId ?
+          <Modal
+            open={openDetail}
+            onClose={handleCloseDetail}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={styleBoxDetail}>
+              <AniDetail aniId={detailId} />
+            </Box>
+          </Modal>
+        : null }
 
 
 
