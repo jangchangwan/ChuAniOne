@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import styled from "styled-components"
 import Player from 'react-player'
 import Tabs from '@mui/material/Tabs'
@@ -7,6 +7,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { IconButton } from '@mui/material'
 import { ThumbDownAlt, ThumbDownOffAlt, ThumbUpAlt, ThumbUpOffAlt, DownloadDone, Add, RestartAlt } from '@mui/icons-material'
+import confetti from 'canvas-confetti'
 
 import Info from './Info'
 import Review from './Review'
@@ -19,6 +20,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import store from '../../store'
 import initialState from '../../store/Loginslice'
 import { getAni, getTaste, postLike, deleteLike, deleteDislike, postDislike, deleteChoice, postChoice } from '../../store/anislice'
+
+
 
 const Container = styled.div`
   width: 100%;
@@ -267,6 +270,7 @@ function AniDetail({ aniId }: any): any {
       const res = await dispatch(postLike(aniId))
       if (res.meta.requestStatus === "fulfilled" && res.payload) {
         setLike(!like)
+        onClick()
       }
     }
   }
@@ -299,10 +303,25 @@ function AniDetail({ aniId }: any): any {
       const res = await dispatch(postChoice(aniId))
       if (res.meta.requestStatus === "fulfilled" && res.payload) {
         setChoice(!choice)
+        onClick()
       }
     }
   }
 
+  // 폭죽
+  const onClick = useCallback(() => {
+    confetti({
+      origin: {
+        x: 0.3,
+        y: 0.3
+      },
+      particleCount: 50,
+      spread: 40,
+      zIndex: 2000,
+    })
+  }, [])
+
+  // 탭
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
@@ -353,7 +372,6 @@ function AniDetail({ aniId }: any): any {
       }
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs 
-          id="탭입니다요" 
           value={value} 
           onChange={handleChange} 
           textColor='inherit'
