@@ -42,10 +42,11 @@ public class AnimationServiceImpl implements AnimationService {
         //카테고리별 애니메이션 20개씩 0번부터 11번 (string타입)
         Map<String, List<Animation>> result = new HashMap<>();
         for (int i = 0; i < categoryArr.length; i++) {
-            result.put(Integer.toString(i), animationRepository.findByGenres(categoryArr[i], PageRequest.of(0, 20)));
+            result.put(Integer.toString(i), animationRepository.findByGenres(categoryArr[i], PageRequest.of(0, 10)));
         }
         //사용자 맞춤 추천 애니 리스트에 담기, 추천 값이 있을 경우 12번에 담김
-        Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+        Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElse(null);
+        if(login == null) return result;
         List<AniLog> aniLog = aniLogRepository.findByMemberId(login.getId() + 6000000);
         if(aniLog.size() > 0){
             int[] recommend = aniLogRepository.findByMemberId(15).get(0).getRecommended();

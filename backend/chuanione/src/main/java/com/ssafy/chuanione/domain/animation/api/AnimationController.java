@@ -21,7 +21,7 @@ public class AnimationController {
 
     private final AnimationService animationService;
 
-    @GetMapping("/main")
+    @GetMapping("/main.do")
     @ApiOperation(value = "전체 메인")
     public ResponseEntity<Map<String,List<Animation>>> getMainList(){
         return new ResponseEntity<>(animationService.getMainList(), HttpStatus.OK);
