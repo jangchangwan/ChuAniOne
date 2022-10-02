@@ -3,9 +3,11 @@ import styled from 'styled-components'
 import ChatLeft from './ChatLeft'
 import ChatRight from './ChatRight'
 
+// background
 import { motion } from 'framer-motion' 
 // import aniimg from '../../assets/images/aniImg.gif'
 import aniimg from '../../assets/images/aniImg.png'
+
 const Container = styled.div`
   padding-top: 3.5rem;
   height: calc(100vh - 3.5rem);
@@ -38,22 +40,21 @@ const CircleWord = styled.span`
 
 function OpenChat() { 
   const [opened, setOpened] = useState<boolean>(false)
-  const [openedRoom, setOpenedRoom] = useState<any>()
+  const [openedId, setOpenedId] = useState<number | undefined>()
 
-  const handleOpened = ( room: any ) => {
+  const handleOpened = ( roomId: number ) => {
     setOpened(true)
-    setOpenedRoom(room)
+    setOpenedId(roomId)
   }
 
-  const handleClosed = ( ) => {
+  const handleClosed = () => {
     setOpened(false)
-    setOpenedRoom(null)
+    setOpenedId(undefined)
   }
 
   return (
     <Container
       style = {{ backgroundImage: `url(${aniimg})`}}
-      
     >
       <motion.div
         initial = {{ 
@@ -109,13 +110,13 @@ function OpenChat() {
       </motion.div>
       <ChatLeft 
         opened={opened} 
-        openedRoom={openedRoom}
+        openedId={openedId}
         handleOpened={handleOpened}
         handleClosed={handleClosed}
       />
       <ChatRight 
         opened={opened} 
-        openedRoom={openedRoom} 
+        openedId={openedId} 
         handleOpened={handleOpened} 
         handleClosed={handleClosed}
       />
