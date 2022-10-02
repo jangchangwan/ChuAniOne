@@ -114,6 +114,7 @@ const ReviseDeleteText = styled(Button)`
 `
 
 const MyReviewContent = styled.p`
+  white-space: pre-wrap;
 `
 
 const ReviewInput = styled(TextField)`
@@ -207,7 +208,7 @@ function Review({ aniId }) {
   // 리뷰 작성하기
   async function sendReview() {
     if (!review.trim()) return
-    
+
     const res = await dispatch(postReview({
       id: aniId,
       content: review,
@@ -226,7 +227,6 @@ function Review({ aniId }) {
     if (!review.trim()) return 
 
     if (myReview) {
-      console.log(review)
       const res = await dispatch(patchReview({
         id: myReview.id,
         content: review,
@@ -247,7 +247,6 @@ function Review({ aniId }) {
   async function delReview() {
     if (myReview) {
       const res = await dispatch(deleteReview(myReview.id))
-      console.log(res)
     }
     closeDelModal()
     loadData()
@@ -328,7 +327,6 @@ function Review({ aniId }) {
             name="customized-color"
             value={rating}
             readOnly
-            // getLabelText={(rating: number) => `${rating} Heart${rating !== 1 ? 's' : ''}`}
             precision={0.5}
             icon={<FavoriteIcon fontSize="inherit" />}
             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
@@ -368,11 +366,14 @@ function Review({ aniId }) {
                   "& .MuiOutlinedInput-root.Mui-focused": {
                     "& > fieldset": {
                     borderColor: "#fa898f"
-                }}}}
+                  }}
+                }}
+                InputProps={{ sx: { paddingRight: '9rem' } }}
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
                 onKeyPress={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) reviseReview()
+                  if (e.key === "Enter" && e.shiftKey) setReview(`${review}\n`)
+                  // if (e.key === "Enter" && !e.shiftKey) reviseReview()
                 }}
                 fullWidth
               />
@@ -396,12 +397,14 @@ function Review({ aniId }) {
                   "& .MuiOutlinedInput-root.Mui-focused": {
                     "& > fieldset": {
                     borderColor: "#fa898f"
-                }}}}
+                  }}
+                }}
+                InputProps={{ sx: { paddingRight: '5rem' } }}
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) sendReview()
-                }}
+                // onKeyPress={(e) => {
+                //   if (e.key === "Enter" && !e.shiftKey) sendReview()
+                // }}
                 fullWidth
               />
 

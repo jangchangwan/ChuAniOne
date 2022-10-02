@@ -64,7 +64,7 @@ const SearchIcon1 = styled(SearchIcon)`
 `
 
 
-function MyChat({ opened, openedRoom,  handleOpened, handleClosed }: any) {
+function MyChat({ opened, openedId,  handleOpened, handleClosed }: any) {
   interface RoomData {
     id: number,
     name: string,
@@ -89,16 +89,6 @@ function MyChat({ opened, openedRoom,  handleOpened, handleClosed }: any) {
   const [roomInfo, setRoomInfo] = useState<any>()
   const [change, setChange] = useState<boolean>(false)
 
-  // setTimeout(async () => {
-  //   if (openedRoom) {
-  //     const res = await dispatch(getChatInfo(openedRoom.id))
-
-  //     if (res.payload !== roomInfo) {
-  //       setRoomInfo(res.payload)
-  //       setChange(!change)
-  //     }
-  //   }
-  // }, 3000)
 
     // 초기 데이터 불러오기
     useEffect(() => {
@@ -165,7 +155,7 @@ function MyChat({ opened, openedRoom,  handleOpened, handleClosed }: any) {
               <MyChatItem 
                 roomData={item}
                 opened={opened}
-                openedRoom={openedRoom}
+                openedId={openedId}
                 handleOpened={handleOpened}
                 handleClosed={handleClosed}
               />
