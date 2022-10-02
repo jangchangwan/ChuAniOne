@@ -16,7 +16,14 @@ const Container = styled.div`
   padding: 2.5%;
   height: auto;
   background: linear-gradient( to bottom,  #ffe0e0, #fff0f0);
+  color: #333333;
   /* background-color: #fff0f0; */
+`
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const UserBox = styled.div`
@@ -46,6 +53,15 @@ const UserName = styled.h3`
   margin: 0;
 `
 
+const DateBox = styled.div`
+`
+
+const DateText = styled.p`
+  margin: 0;
+  font-size: 0.8rem;
+  color: #333333;
+`
+
 const StyledRating = styled(Rating)(
   {
   '& .MuiRating-iconFilled': {
@@ -73,18 +89,23 @@ function ReviewItem({ data }) {
 
   return (
     <Container>
-      <UserBox>
-        <UserName>{data.member_name}</UserName>
-        <StyledRating
-            name="customized-color"
-            value={data.rating}
-            readOnly
-            precision={0.5}
-            icon={<FavoriteIcon fontSize="inherit" />}
-            emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-        />
-        <RatingText>{data.rating}</RatingText>
-      </UserBox>
+      <Header>
+        <UserBox>
+          <UserName>{data.member_name}</UserName>
+          <StyledRating
+              name="customized-color"
+              value={data.rating}
+              readOnly
+              precision={0.5}
+              icon={<FavoriteIcon fontSize="inherit" />}
+              emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+          />
+          <RatingText>{data.rating}</RatingText>
+        </UserBox>
+        <DateBox>
+          <DateText>{`작성일 : ${data.date[0]}.${data.date[1]}.${data.date[2]}`}</DateText>
+        </DateBox>
+      </Header>
       <ReviewText>
         {data.content}
       </ReviewText>
