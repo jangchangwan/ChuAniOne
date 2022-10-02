@@ -24,14 +24,15 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
+  color: #333333;
 `
 
 const TopBox = styled.div`
-  position: relative;
   width: 100%;
+  height: 38%;
   display: flex;
-  flex-direction: row-reverse;
-  align-items: flex-start;
+  justify-content: space-around;
+  align-items: center;
   padding: 0;
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -40,9 +41,6 @@ const TopBox = styled.div`
 `
 
 const AniInfo = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 40%;
   height: 90%;
   padding: 1rem;
@@ -53,6 +51,7 @@ const AniInfo = styled.div`
 
 const AniName = styled.h1`
   color: white;
+  margin-bottom: 0;
 `
 
 const ButtonDiv = styled.div`
@@ -62,6 +61,10 @@ const ButtonDiv = styled.div`
 
 const IconBtn = styled(IconButton)`
   
+`
+
+const InfoBox = styled.div`
+  margin-top: 1.2rem;
 `
 
 const InfoDiv = styled.div`
@@ -84,10 +87,24 @@ const InfoText = styled.p`
 
 const VideoBox = styled.div`
   overflow: hidden;
-  width: 50%;
+  width: 55%;
   border-radius: 3rem;
   margin: 0.5rem;
+  margin-right: 1rem;
   border: 1rem inset #f37b83;
+`
+
+const ImageBox = styled.div`
+  height: 100%;
+  /* margin-right: 5rem; */
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 0.5rem inset #f37b83;
+`
+
+const Image = styled.img`
+  height: 100%;
+  object-fit: cover;
 `
 
 const TabBox = styled.div`
@@ -305,25 +322,43 @@ function AniDetail({ aniId }: any): any {
                 </ButtonDiv>
               : null }
 
-
-            <InfoDiv>
-              <InfoName>제작</InfoName>
-              <InfoText>{data.production}</InfoText>
-            </InfoDiv>
-            <InfoDiv>
-              <InfoName>출시</InfoName>
-              <InfoText>{data.air_year_quarter}</InfoText>
-            </InfoDiv>
+            <InfoBox>
+              <InfoDiv>
+                <InfoName>제작</InfoName>
+                <InfoText>{data.production}</InfoText>
+              </InfoDiv>
+              <InfoDiv>
+                <InfoName>출시</InfoName>
+                <InfoText>{data.air_year_quarter}</InfoText>
+              </InfoDiv>
+            </InfoBox>
           </AniInfo>
-          <VideoBox>
-            <Player url={data.highlight_video.dash_url} {...videoAttrs}/>
-          </VideoBox>
+          { data.highlight_video.dash_url ? 
+            <VideoBox>
+              <Player url={data.highlight_video.dash_url} {...videoAttrs}/>
+            </VideoBox>
+          : 
+            <ImageBox>
+              <Image src={data.images[0].img_url}/>
+            </ImageBox>
+          }
         </TopBox>
 
         : null
       }
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary">
+        <Tabs 
+          id="탭입니다요" 
+          value={value} 
+          onChange={handleChange} 
+          textColor='inherit'
+          TabIndicatorProps={{
+            sx: {
+              backgroundColor: '#06113C',
+            },
+          }}
+          style={{ color: '#06113C' }}
+        >
           <Tab label="상세정보" {...a11yProps(0)} />
           <Tab label="리뷰" {...a11yProps(1)} />
           <Tab label="비슷한 작품" {...a11yProps(2)} />
