@@ -1,6 +1,22 @@
 import http from '../api/axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+/** Main **/
+export const getMain = createAsyncThunk(
+  'GETMAIN',
+  async (args, { rejectWithValue }) => {
+    try {
+      const accessToken = localStorage.getItem("access-Token")
+      if (accessToken) http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
+
+      const res = await http.get(`animation/main.do`)
+      if (res.status === 200) return res.data
+      else console.log('메인 조회 에러', res)
+    } catch (err) {
+      console.log('메인 조회 에러', err)
+    }
+  }
+)
 
 /** searchAni **/
 // 전체 애니 목록 (페이지네이션)
@@ -42,6 +58,7 @@ export const searchAni = createAsyncThunk(
   }
 )
 
+/** AniDetail **/
 // 애니메이션 정보 조회
 export const getAni = createAsyncThunk(
   'GETANI',
@@ -404,9 +421,6 @@ export const deleteTalk = createAsyncThunk(
 )
 
 
-
-
-
 export interface openChatReducerType {
 }
 
@@ -414,7 +428,7 @@ const initialState:openChatReducerType = {
 }
 
 const anislice:any = createSlice({
-  name: 'login',
+  name: 'ani',
   initialState,
   reducers: {
   },

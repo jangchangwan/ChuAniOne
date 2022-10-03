@@ -216,7 +216,7 @@ const initialState: openChatReducerType = {
 } 
 
 const openchatSlice: any = createSlice({
-  name: 'login',
+  name: 'openchat',
   initialState,
   reducers: {
   },
