@@ -55,5 +55,5 @@ services:
       - python manage.py runserver 0:8000
     volumes:
       - ./:/app/
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
