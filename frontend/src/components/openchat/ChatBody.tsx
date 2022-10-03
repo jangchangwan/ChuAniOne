@@ -15,9 +15,8 @@ import { getChatList } from '../../store/openchatslice'
 
 // chatting
 import * as StompJs from '@stomp/stompjs'
-// import * as SockJS from "sockjs-client"
 import SockJS from 'sockjs-client'
-// import { Stomp, Client } from '@stomp/stompjs'
+// import { Stomp } from '@stomp/stompjs'
 
 const Container = styled.div`
   width: 100%;  
@@ -106,24 +105,25 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
 
   const client = useRef<any>({})
 
-  useEffect(() => {
-    connect()
-
-    return () => disconnect()
-  }, [])
-
+  // 채팅 연결하기
   const connect = () => {
+    // SockJs 설정
     client.current = new StompJs.Client({
-      webSocketFactory: () => new SockJS('http://localhost:8080/api/v1/stomp/chat.do'),
+      webSocketFactory: () => new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do'),
+      // webSocketFactory: () => new SockJS('http://localhost:8080/api/v1/stomp/chat.do'),
       debug: function (str) {
         console.log(str);
       },
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
+      // 연결된 경우, 구독하기
       onConnect: () => {
         client.current.subscribe(`/sub/chat/room/${openedId}`, ({ body }) => {
-          setMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)])
+          const msg = JSON.parse(body)
+          if (messages[messages.length-1] !== msg) {
+            setMessages(messages => [...messages, msg])
+          }
         })
       },
       onStompError: (frame) => {
@@ -131,18 +131,19 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
       },
     })
 
+    // 활성화
     client.current.activate()
   }
 
+  // 연결 해제
   const disconnect = () => {
     client.current.deactivate()
   }
 
   // 메시지 보내기
   const sendMsg = () => {
-    if (!client.current.connected) {
-      return
-    }
+    if (!client.current.connected) return
+    if (!sendMessage.trim()) return
 
     client.current.publish({
       destination: "/pub/chat/message",
@@ -156,70 +157,23 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
     setSendMessage('')
   }
 
-  // // SockJS 내부의 stomp 가져오기
-  // var stomp = Stomp.over(function() {
-  //   return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
-  //   // return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
-  // })
-  // var reconnect = 0
 
-  // // 메시지 보내기
-  // function sendMsg() {
-  //   if (sendMessage.trim() === '') return
+  // 채팅 기록 불러오기
+  async function getChattings () {
+    const res: any = await dispatch(getChatList(openedId))
+    if (res.meta.requestStatus === "fulfilled") {
+      setMessages(res.payload)
+    }
+  }
 
-  //   connect()
-    
-  //   stomp.send('/pub/chat/message', 
-  //     {},
-  //     JSON.stringify({
-  //       roomId: `${openedId}`,
-  //       memberId: `${userId}`,
-  //       message: `${sendMessage}`,
-  //     }),
-  //   )
 
-  //   setSendMessage('')
-  // }
+  // 방 바뀔때마다 메시지 새로 불러오기
+  useEffect(() => {
+    getChattings()
+    connect()
 
-  // // 연결 시, 콜백 함수
-  // const connect_callback = (frame: any) => {
-  //   console.log("STOMP Connection")
-  //   console.log(stomp)
-  //   stomp.subscribe(`/sub/chat/room/${openedId}`, function (message: any) {
-  //     // console.log('subscribe', message)
-  //     // let recv = JSON.parse(message.body)
-  //     getChattings()
-  //     // message.ack()
-  //   })
-
-  // }
-
-  // const error_callback = (err: any) => {
-  //   console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
-  // } 
-
-  // // connection 맺기
-  // function connect() {
-  //   stomp.connect({}, connect_callback, error_callback)
-  // }
-
-  // // 채팅 기록 불러오기
-  // async function getChattings () {
-  //   const res: any = await dispatch(getChatList(openedId))
-  //   if (res.meta.requestStatus === "fulfilled") {
-  //     setMessages(res.payload)
-  //   }
-  // }
-  
-  // useEffect(() => {
-  //   connect()
-  // }, [sendMessage, messages])
-
-  // // 방 바뀔때마다 메시지 새로 불러오기
-  // useEffect(() => {
-  //   connect()
-  //   getChattings()
-  // }, [openedId])
+    return () => disconnect()
+  }, [openedId])
 
 
   // 채팅 스크롤
