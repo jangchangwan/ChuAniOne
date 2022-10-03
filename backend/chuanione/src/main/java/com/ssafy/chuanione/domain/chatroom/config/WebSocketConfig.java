@@ -28,7 +28,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/api/v1/stomp/chat.do")
-                .setAllowedOriginPatterns("*")
+                .setAllowedOriginPatterns("https://j7e104.p.ssafy.io")
                 .withSockJS();
     }
 //    Client에서 websocket연결할 때 사용할 API 경로를 설정해주는 메서드.
