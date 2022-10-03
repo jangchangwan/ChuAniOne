@@ -464,7 +464,7 @@ function Main() {
         
         <RightContainer>
           {/* 추천 */}
-          { data && data['12'] ? 
+          {/* { data && data['12'] ? 
             <CarouselContainer>
               <CarouselTitle>{title['12']}</CarouselTitle>
               { now00X !== 0 ?
@@ -488,10 +488,10 @@ function Main() {
                 ))}
               </CarouselDiv>
             </CarouselContainer>
-          : null }
+          : null } */}
 
           {/* 0번 */}
-          { data && arr ? (
+          {/* { data && arr ? (
             <CarouselContainer>
               <CarouselTitle>{title[arr[0]]}</CarouselTitle>
               { now01X !== 0 ?
@@ -517,10 +517,10 @@ function Main() {
                 ))}
               </CarouselDiv>
             </CarouselContainer>
-          ) : null}
+          ) : null} */}
 
           {/* 1번 */}
-          { data && arr ? (
+          {/* { data && arr ? (
             <CarouselContainer>
               <CarouselTitle>{title[arr[1]]}</CarouselTitle>
               { now02X !== 0 ?
@@ -546,10 +546,10 @@ function Main() {
                 ))}
               </CarouselDiv>
             </CarouselContainer>
-          ) : null}
+          ) : null} */}
 
           {/* 2번 */}
-          { data && arr ? (
+          {/* { data && arr ? (
             <CarouselContainer>
               <CarouselTitle>{title[arr[2]]}</CarouselTitle>
               { now03X !== 0 ?
@@ -576,10 +576,10 @@ function Main() {
                 ))}
               </CarouselDiv>
             </CarouselContainer>
-          ) : null}
+          ) : null} */}
 
           {/* 3번 */}
-          { data && arr ? (
+          {/* { data && arr ? (
             <CarouselContainer>
               <CarouselTitle>{title[arr[3]]}</CarouselTitle>
               { now04X !== 0 ?
@@ -605,10 +605,10 @@ function Main() {
                 ))}
               </CarouselDiv>
             </CarouselContainer>
-          ) : null}
+          ) : null} */}
 
           {/* 4번 */}
-          { data && arr ? (
+          {/* { data && arr ? (
             <CarouselContainer>
               <CarouselTitle>{title[arr[4]]}</CarouselTitle>
               { now05X !== 0 ?
@@ -634,10 +634,10 @@ function Main() {
                 ))}
               </CarouselDiv>
             </CarouselContainer>
-          ) : null}
+          ) : null} */}
 
           {/* 5번 */}
-          { data && arr ? (
+          {/* { data && arr ? (
             <CarouselContainer>
               <CarouselTitle>{title[arr[5]]}</CarouselTitle>
               { now06X !== 0 ?
@@ -663,7 +663,7 @@ function Main() {
                 ))}
               </CarouselDiv>
             </CarouselContainer>
-          ) : null}
+          ) : null} */}
 
         </RightContainer>
         
