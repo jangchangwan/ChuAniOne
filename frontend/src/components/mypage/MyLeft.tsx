@@ -23,6 +23,14 @@ const ProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  width: 100%;
+
+`
+const IntroDiv = styled.div`
+  border-radius: 1rem;
+  width: 100%;
+  padding: 1rem;
 `
 
 // 프로필 사진
@@ -86,6 +94,9 @@ const ProfileContainerExpIn = styled.div`
 
 // 소개
 const IntroductonBox = styled.div`
+  background-color: #f7f8f9;
+  width: 100%;
+  border-radius: 1rem;
   margin: 2rem 0 2rem 0;
 `
 
@@ -104,7 +115,9 @@ const SuccessText = styled.span`
 `
 
 const ChartDiv = styled.div`
-  margin-top: 10rem;
+  width: 100%;
+  border-radius: 1rem;
+  padding: 1rem
 `
 
 function MyLeft() {
@@ -248,199 +261,153 @@ function MyLeft() {
         paddingTop: '3rem'
       }}
     >
-      {/* 프로필사진, 경험치, 닉네임, 소개, 벳지 가져오기 */}
-      <ProfileContainer>
-        {
-          profileImg ?
-          <ProfileImg src={profileImg} alt="프로필사진"></ProfileImg>
-          :
-          <AccountCircleIcon 
-            sx={{
-            fontSize: '4rem',
-            margin: `0 1rem 0 0`,
-            width: `4rem`,
-            display: `flex`,
-            justifyContent: `center`, 
-            alignItems: `center`}}/>
-        }
-        
-        <ProfileContainerBox>
-          <ProfileContainerLv>
-              <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
-            <MoreVertIcon
-              type='button'
-              onClick={handleClickOpen}
-              sx={{ paddingTop: '2px',}}
-            ></MoreVertIcon>
-            <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>회원정보 변경</DialogTitle>
-              <DialogContent
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  flexDirection: 'column'
-                }}>
-                <DialogContentText>
-                  프로필 사진, 자기소개, 닉네임 등을 꾸며보세요!
-                </DialogContentText>
-                <hr />
-                <div style={{ justifyContent: 'center'}}>
-                  {
-                    profileImg ?
-                    <img src={profileImg} alt="프로필사진" style={{ height: '10rem', width:'auto'}}/>
-                    :
-                    <AccountCircleIcon 
-                      sx={{
-                      fontSize: '10rem',
-                      marginLeft: '4.5rem',
-                      display: `flex`,
-                      justifyContent: `center`, 
-                      alignItems: `center`}}/>
-                  }
-                  
-                </div>
-                <Button>이미지 선택</Button>
-                <Grid container spacing={1}>
-                  <Grid item xs={8}>
-                    <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="nickName"
-                    label="닉네임를 입력해주세요."
-                    id="nickName"
-                    autoComplete="nickName"
-                    onBlur={(e) => {validateNickName(e)}}
-                    onChange={(e) => {
-                      setNickName(e.target.value)
-                      if (isDuplicateNicknameChecked) { setisDuplicateNicknameChecked(false) }
-                    }}
-                    autoFocus
-                    value={nickName}
-                  />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Button
-                      type='button'
-                      fullWidth
-                      variant="contained"
-                      onClick={isDuplicateNickname}
-                      sx={{
-                        top: '1.5rem'
-                      }}
-                    >중복 체크</Button>
-                  </Grid>
-                </Grid>
-                {defaultNickname && !nicknameValid ? (
-                <ErrorText>유효하지 않은 닉네임입니다</ErrorText>) : null}
-                {defaultNickname && nicknameValid && !isDuplicateNicknameChecked && confirmNickname ? (
-                <ErrorText>이미 존재하는 닉네임입니다</ErrorText>) : null}
-                {defaultNickname && nicknameValid && isDuplicateNicknameChecked ? <SuccessText>사용가능한 닉네임입니다</SuccessText> : null}
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="myintro"
-                  label="자기소개을 입력해주세요"
-                  type="myintro"
-                  fullWidth
-                  variant="standard"
-                  onChange={(e) => {
-                    setIntroduction(e.target.value)
-                  }}
-                  value={introduction}
-                />
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="password"
-                  label="비밀번호을 입력해주세요"
-                  type="password"
-                  onBlur={validatePwd}
-                  fullWidth
-                  variant="standard"
-                  onChange={(e) => {
-                    setPassword(e.target.value)
-                  }}
-                  value={password}
-                />
-                {defaultPwd && !pwdValid ? (
-                <ErrorText>유효하지 않은 비밀번호입니다</ErrorText>) : null}
-                {defaultPwd && pwdValid ? (
-                <SuccessText>사용가능한 비밀번호입니다</SuccessText>) : null}
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose}>취소</Button>
-                <Button onClick={changeInfo}>변경</Button>
-              </DialogActions>
-            </Dialog>
-          </ProfileContainerLv>
+      <IntroDiv>
+        <ProfileContainer>
+          {
+            profileImg ?
+            <ProfileImg src={profileImg} alt="프로필사진"></ProfileImg>
+            :
+            <AccountCircleIcon 
+              sx={{
+              fontSize: '4rem',
+              margin: `0 1rem 0 0`,
+              width: `4rem`,
+              display: `flex`,
+              justifyContent: `center`, 
+              alignItems: `center`}}/>
+          }
           
-          <ProfileContainerExpTextBox>
-            {/* <ProfileContainerExpText style={{ color:"blue" }}>현재 경험치 : {myexp}</ProfileContainerExpText> */}
-            <ProfileContainerExpText style={{ color:"red" }}>다음 레벨까지 : {100 - myexp} !!</ProfileContainerExpText>
-          </ProfileContainerExpTextBox>
-          <ProfileContainerExpOut>
-            <ProfileContainerExpIn style={{ width: `${myexp}%`}}></ProfileContainerExpIn>
-          </ProfileContainerExpOut>
-        </ProfileContainerBox>
-      </ProfileContainer>
-      {/* <IntroductonBox style={{ color:"#f37b83" }}> */}
-      <IntroductonBox>
-        {introduction}
-      </IntroductonBox>
-      {/* <Grid container>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-          <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[0]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-          <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[1]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-          <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[2]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-          <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[3]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-          <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[4]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-        <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[5]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-        <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[6]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-        <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[7]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-        <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[8]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-        <Grid item xs={2} xl={1.5} alignSelf="center">
-        <BadgeBox>
-            <BadgeImg src={imgArr[imgArrId[9]]}></BadgeImg>
-          </BadgeBox>
-        </Grid>
-      </Grid> */}
+          <ProfileContainerBox>
+            <ProfileContainerLv>
+              <div
+                style={{ display: 'flex', justifyContent: 'space-between'}}
+              >
+                <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
+                <MoreVertIcon
+                  type='button'
+                  onClick={handleClickOpen}
+                  sx={{ paddingTop: '2px', cursor: 'pointer'}}
+                ></MoreVertIcon>
+              </div>
+              
+              <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>회원정보 변경</DialogTitle>
+                <DialogContent
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'column'
+                  }}>
+                  <DialogContentText>
+                    프로필 사진, 자기소개, 닉네임 등을 꾸며보세요!
+                  </DialogContentText>
+                  <hr />
+                  <div style={{ justifyContent: 'center'}}>
+                    {
+                      profileImg ?
+                      <img src={profileImg} alt="프로필사진" style={{ height: '10rem', width:'auto'}}/>
+                      :
+                      <AccountCircleIcon 
+                        sx={{
+                        fontSize: '10rem',
+                        marginLeft: '4.5rem',
+                        display: `flex`,
+                        justifyContent: `center`, 
+                        alignItems: `center`}}/>
+                    }
+                    
+                  </div>
+                  <Button>이미지 선택</Button>
+                  <Grid container spacing={1}>
+                    <Grid item xs={8}>
+                      <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="nickName"
+                      label="닉네임를 입력해주세요."
+                      id="nickName"
+                      autoComplete="nickName"
+                      onBlur={(e) => {validateNickName(e)}}
+                      onChange={(e) => {
+                        setNickName(e.target.value)
+                        if (isDuplicateNicknameChecked) { setisDuplicateNicknameChecked(false) }
+                      }}
+                      autoFocus
+                      value={nickName}
+                    />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Button
+                        type='button'
+                        fullWidth
+                        variant="contained"
+                        onClick={isDuplicateNickname}
+                        sx={{
+                          top: '1.5rem'
+                        }}
+                      >중복 체크</Button>
+                    </Grid>
+                  </Grid>
+                  {defaultNickname && !nicknameValid ? (
+                  <ErrorText>유효하지 않은 닉네임입니다</ErrorText>) : null}
+                  {defaultNickname && nicknameValid && !isDuplicateNicknameChecked && confirmNickname ? (
+                  <ErrorText>이미 존재하는 닉네임입니다</ErrorText>) : null}
+                  {defaultNickname && nicknameValid && isDuplicateNicknameChecked ? <SuccessText>사용가능한 닉네임입니다</SuccessText> : null}
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="myintro"
+                    label="자기소개을 입력해주세요"
+                    type="myintro"
+                    fullWidth
+                    variant="standard"
+                    onChange={(e) => {
+                      setIntroduction(e.target.value)
+                    }}
+                    value={introduction}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="password"
+                    label="비밀번호을 입력해주세요"
+                    type="password"
+                    onBlur={validatePwd}
+                    fullWidth
+                    variant="standard"
+                    onChange={(e) => {
+                      setPassword(e.target.value)
+                    }}
+                    value={password}
+                  />
+                  {defaultPwd && !pwdValid ? (
+                  <ErrorText>유효하지 않은 비밀번호입니다</ErrorText>) : null}
+                  {defaultPwd && pwdValid ? (
+                  <SuccessText>사용가능한 비밀번호입니다</SuccessText>) : null}
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>취소</Button>
+                  <Button onClick={changeInfo}>변경</Button>
+                </DialogActions>
+              </Dialog>
+            </ProfileContainerLv>
+            
+            <ProfileContainerExpTextBox>
+              {/* <ProfileContainerExpText style={{ color:"blue" }}>현재 경험치 : {myexp}</ProfileContainerExpText> */}
+              <ProfileContainerExpText style={{ color:"red" }}>다음 레벨까지 : {100 - myexp} !!</ProfileContainerExpText>
+            </ProfileContainerExpTextBox>
+            <ProfileContainerExpOut>
+              <ProfileContainerExpIn style={{ width: `${myexp}%`}}></ProfileContainerExpIn>
+            </ProfileContainerExpOut>
+          </ProfileContainerBox>
+        </ProfileContainer>
+        <IntroductonBox>
+          {introduction}
+        </IntroductonBox>
+      </IntroDiv>
       <ChartDiv>
+        <h1 style={{textAlign: 'center'}}>나만의 덕력 능력치</h1>
         { mygenres ?
           <MyAniChart genresData={mygenres}></MyAniChart>
           : null

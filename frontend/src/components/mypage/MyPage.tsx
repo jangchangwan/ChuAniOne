@@ -10,6 +10,7 @@ const MyPageContainer = styled.div`
   width: 100%;
   height: 100vh;
   overflow-y: hidden;
+  background-color: #f7f8f9;
 `
 
 function MyPage() {

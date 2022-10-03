@@ -19,29 +19,50 @@ ChartJS.register(
   Legend
 )
 
-
 export function MyAniChart(genresData) {
   const [myScore, setMyScore] = useState([0,0,0,0,0,0])
   const [myGenres, setMyGenres] = useState(['판타지','모험','이세계','모험','개그','시대물'])
   const [maxScore, setMaxScore] = useState(5)
+  const [ticks, setTicks] = useState(1)
   const option:any = {
+      startAngle: 90,
       scales: {
           r: {
-              angleLines: {
-                  display: false
-              },
-              suggestedMin: 0,
-              suggestedMax: maxScore+1,
+              min: 0,
+              max: maxScore,
               ticks:{
-                stepSize: 1
-              }
-          }
+                stepSize: 1,
+                ontColor: "rgba(255, 0, 0, 1)"
+              },
+              angleLines: {
+                color: "rgba(255, 99, 132, 0.2)",
+                lineWidth: 3
+              },
+              gridLines: {
+                color: "rgba(255, 255, 255, 1)",
+                circular: true,
+                lineWidth: 3
+              },
+          },
       },
       plugins: {
         legend: {
-          display: false
+          display: false,
+        },
+        font: {
+          weight: 'bold',
+          size: 200,
         }
-      }
+      },
+      animations: {
+        tension: {
+          duration: 5000,
+          easing: 'easeOutQuad',
+          from: 1,
+          to: 0,
+          loop: true
+        }
+      },
       
   }
   const data = {
@@ -50,10 +71,14 @@ export function MyAniChart(genresData) {
       {
         label: '당신의 덕력',
         data: myScore,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 3,
-  
+        fontSize: 40,
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        pointBackgroundColor: "rgba(255, 99, 132, 1)",
+        poingBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgba(255, 99, 132, 1)",
       },
       
     ],
@@ -75,6 +100,7 @@ export function MyAniChart(genresData) {
         maxScore = score[0]
       }
     });
+    setTicks(maxScore / 5)
     setMaxScore(maxScore)
     setMyScore(tempScore)
     setMyGenres(tempGenres)
