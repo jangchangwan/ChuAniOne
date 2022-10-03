@@ -54,8 +54,8 @@ services:
       - "8000:8000"
     command:
       - ls
-      # - python manage.py runserver 0:8000
-      - gunicorn closet.wsgi:application --bind 0.0.0.0:8000
+      - python manage.py runserver 0:8000
+      # - gunicorn closet.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./:/app/
     container_name: django_chu
