@@ -57,5 +57,9 @@ services:
       - python manage.py runserver 0:8000
     volumes:
       - ./:/app/
+    container_name: django_chu
+    restart: always
+    environment:
+    - TZ=Asia/Seoul
     depends_on:
       - db
