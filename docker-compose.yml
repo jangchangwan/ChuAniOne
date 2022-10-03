@@ -16,6 +16,7 @@ services:
     depends_on:
       - spring-boot
 
+
   db:
     image: mysql:5.7
     environment:
@@ -52,10 +53,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    # command:
+    command:
     #   # - ls
     #   # - python manage.py runserver 0:8000
-    #   - gunicorn closet.wsgi:application --bind 0.0.0.0:8000
+      # - gunicorn closet.wsgi:application --bind 0.0.0.0:8000
+      - gunicorn backend.wsqi.application --bind 0.0.0.0:8000
     volumes:
       - ./:/app/
     container_name: django_chu
