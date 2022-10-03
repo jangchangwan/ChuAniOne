@@ -104,7 +104,7 @@ export const changeUserInfo = createAsyncThunk(
       if ( userDto ) {
         const memberDto = {
           introduction: userDto.introduction,
-          nickname: userDto.nickName,
+          nickname: userDto.nickname,
           password: userDto.password,
           profile: userDto.profile,
   
