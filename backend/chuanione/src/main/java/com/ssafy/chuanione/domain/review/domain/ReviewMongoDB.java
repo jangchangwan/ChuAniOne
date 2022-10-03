@@ -11,7 +11,7 @@ import javax.persistence.Id;
 //@Builder
 @Data
 //@PersistenceConstructor
-@Document(collection="review")
+@Document(collection="ani_review")
 public class ReviewMongoDB {
     @Id
     private String _id;
