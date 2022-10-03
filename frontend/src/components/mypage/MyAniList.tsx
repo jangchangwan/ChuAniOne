@@ -1,16 +1,18 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 
 // 하위컴포넌트
-import MyAniItem from './MyAniItem';
 import MyAniMoreItem from './MyAniMoreItem'
+import AniDetail from '../ani/AniDetail'
 
 // MUI
 import styled from 'styled-components';
-import Carousel from 'react-material-ui-carousel'
-import { Paper } from '@mui/material'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import Modal from '@mui/material/Modal'
+import { IconButton } from '@mui/material'
 
 // Redux
 import { useDispatch } from 'react-redux'
@@ -24,28 +26,9 @@ import store from '../../store'
 
 
 const Container = styled.div`
-  
+  overflow-x: hidden;
 `
 
-const CarouselContainer = styled(Carousel)`
-  display: flex;
-  margin-bottom: 1rem;
-`
-
-const CarouselPaper = styled(Paper)`
-  width: 100%;
-  display: flex;
-  flex-direction: row; 
-  justify-content: center; 
-  align-items: center;
-`
-
-const MyAniContainer = styled.div`
-  height: 22%;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
-`
 const Titlediv = styled.div`
   display: flex;
   flex-direction: row; 
@@ -63,8 +46,96 @@ const MoreIcon = styled.p`
   cursor: pointer;
 `
 
+
+const CarouselContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+`
+
+const CarouselDiv = styled.div`
+  width: 100%;
+  height: 14rem;
+  display: flex;
+  align-items: center;
+  /* overflow: hidden; */
+  scroll-behavior: smooth;
+  transition: transform 0.5s;
+
+`
+
+const Left = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  color: white;
+  z-index: 2;
+`
+
+const Right = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  color: white;
+  z-index: 2;
+`
+
+const Btn = styled(IconButton)`
+  color: white !important;
+`
+
+const ItemDiv = styled.div`
+  height: 100%;
+  aspect-ratio: 7/6;
+  margin-right: 1rem;
+  cursor: pointer;
+`
+
+const ImgBox = styled.div`
+  margin-top: 0.5rem;
+  height: 70%;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+`
+
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.2s linear;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+`
+
+const Name = styled.p`
+  margin: 0;
+  margin-left: 0.5rem;
+`
+
+const styleBoxDetail = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '50%',
+  height: '90%',
+  bgcolor: 'background.paper',
+  borderRadius: '0.3rem',
+  border: 'none',
+  boxShadow: 24,
+}
+
+
 function MyAniList() {
   const dispatch = useDispatch<typeof store.dispatch>()
+
+  // 상세페이지 연동
+  const [openDetail, setOpenDetail] = useState<boolean>(false)
+  const [detailId, setDetailId] = useState<number | null>(null)
 
   // 더보기 뒤로 버튼
   const [likeMore, setLikeMore] = useState(true)
@@ -80,6 +151,68 @@ function MyAniList() {
   const [totalChoiceaniList, setTotalChoiceAniList] = useState<any>([])
   const [totalWatchaniList, setTotalWatchAniList] = useState<any>([])
 
+  // 상세페이지 켜기
+  const handleOpenDetail = (aniId) => {
+    setOpenDetail(true)
+    setDetailId(aniId)
+  }
+  // 상세페이지 끄기
+  const handleCloseDetail = () => {
+    setOpenDetail(false)
+  }
+
+  // 캐러셀 이동
+  const carousel01 = useRef() as React.MutableRefObject<HTMLDivElement>
+  const carousel02 = useRef() as React.MutableRefObject<HTMLDivElement>
+  const carousel03 = useRef() as React.MutableRefObject<HTMLDivElement>
+  const [now01X, setNow01X] = useState(0)
+  const [now02X, setNow02X] = useState(0)
+  const [now03X, setNow03X] = useState(0)
+
+  useEffect(() => {
+    if (carousel01 && carousel01.current) {
+      carousel01.current.style.transform = `translateX(${now01X}vw)`
+    }
+  }, [now01X])
+  useEffect(() => {
+    if (carousel02 && carousel02.current) {
+      carousel02.current.style.transform = `translateX(${now02X}vw)`
+    }
+  }, [now02X]) 
+  useEffect(() => {
+    if (carousel03 && carousel03.current) {
+      carousel03.current.style.transform = `translateX(${now03X}vw)`
+    }
+  }, [now03X]) 
+
+  const clickLeftButton = () => {
+    setNow01X((prop) => prop + 13.5);
+    console.log(`it's work ${now01X}`)
+  }
+
+  const clickRightButton = () => {
+    setNow01X(now01X - 13.5)
+    console.log(`it's work ${now01X}`)
+  }
+
+  const clickLeftButton2 = () => {
+    setNow02X((prop) => prop + 13.5);
+    console.log(`it's work ${now02X}`)
+  }
+
+  const clickRightButton2 = () => {
+    setNow02X(now02X - 13.5)
+    console.log(`it's work ${now02X}`)
+  }
+  const clickLeftButton3 = () => {
+    setNow03X((prop) => prop + 13.5);
+    console.log(`it's work ${now03X}`)
+  }
+
+  const clickRightButton3 = () => {
+    setNow03X(now03X - 13.5)
+    console.log(`it's work ${now03X}`)
+  }
   // 데이터 불러오기
   async function loadAniData() {
     const aniResponse = await dispatch(getMyAniList())
@@ -124,147 +257,136 @@ function MyAniList() {
 
   return (
     <Container>
-      <MyAniContainer>
-        <Titlediv>
-          <MyAniTitle>최근 시청한 작품들</MyAniTitle>
-          {
-            watchMore ?
-            <MoreIcon onClick={watchMoreData}>
-              더보기<ArrowForwardIosIcon sx={{fontSize:'1rem'}}></ArrowForwardIosIcon>
-            </MoreIcon>
-            :
-            <MoreIcon onClick={watchMoreData}>
-              <ArrowBackIosIcon sx={{fontSize:'1rem'}}></ArrowBackIosIcon>뒤로가기
-            </MoreIcon>
-          }
-          
-        </Titlediv>
-        {
-          watchMore ?
-          <CarouselContainer indicators={false}>
-            <CarouselPaper elevation={0}>
-              {
-                watchaniList[0] ?
-                <Grid item xs={3}><MyAniItem aniData={watchaniList[0]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                watchaniList[1] ?
-                <Grid item xs={3}><MyAniItem aniData={watchaniList[1]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                watchaniList[2] ?
-                <Grid item xs={3}><MyAniItem aniData={watchaniList[2]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                watchaniList[3] ?
-                <Grid item xs={3}><MyAniItem aniData={watchaniList[3]}></MyAniItem></Grid>
-                : null
-              }
-            </CarouselPaper>
-            <CarouselPaper elevation={1}>
+      { watchMore && watchaniList ?
+        <CarouselContainer>
+          <Titlediv>
+            <MyAniTitle>최근 시청한 작품들</MyAniTitle>
             {
-                watchaniList[4] ?
-                <Grid item xs={3}><MyAniItem aniData={watchaniList[4]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                watchaniList[5] ?
-                <Grid item xs={3}><MyAniItem aniData={watchaniList[5]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                watchaniList[6] ?
-                <Grid item xs={3}><MyAniItem aniData={watchaniList[6]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                watchaniList[7] ?
-                <Grid item xs={3}><MyAniItem aniData={watchaniList[7]}></MyAniItem></Grid>
-                : null
-              }
-            </CarouselPaper>
-          </CarouselContainer> :
-            <Grid container>
-            { totalWatchaniList ?
-            
-              ( totalWatchaniList.map((item, idx) => (
-                <Grid item xs={3}>
-                  <MyAniMoreItem key={idx} myAniData={item}/>
-                </Grid>
-                ))
-              ) 
-              : null
+              watchMore ?
+              <MoreIcon onClick={watchMoreData}>
+                더보기<ArrowForwardIosIcon sx={{fontSize:'1rem'}}></ArrowForwardIosIcon>
+              </MoreIcon>
+              :
+              <MoreIcon onClick={watchMoreData}>
+                <ArrowBackIosIcon sx={{fontSize:'1rem'}}></ArrowBackIosIcon>뒤로가기
+              </MoreIcon>
             }
-            </Grid>
+          </Titlediv>
+        { now01X !== 0 ?
+          <Left onClick={clickLeftButton}>
+            <Btn>
+              <ArrowBackIosNewIcon />
+            </Btn>
+          </Left>
+        : null }
+        { now01X < -60 ?
+          null
+        :
+          <Right onClick={clickRightButton}>
+            <Btn>
+              <ArrowForwardIosIcon />
+            </Btn>
+          </Right>
         }
-        
-      </MyAniContainer>
-
-      <MyAniContainer>
-        <Titlediv>
-          <MyAniTitle>내가 찜한 작품 목록</MyAniTitle>
-          {
-            choiceMore ?
-            <MoreIcon onClick={choiceMoreData}>
-              더보기<ArrowForwardIosIcon sx={{fontSize:'1rem'}}></ArrowForwardIosIcon>
-            </MoreIcon>
-            :
-            <MoreIcon onClick={choiceMoreData}>
-              <ArrowBackIosIcon sx={{fontSize:'1rem'}}></ArrowBackIosIcon>뒤로가기
-            </MoreIcon>
-          }
-        </Titlediv>
-        {
-          choiceMore ?
-          <CarouselContainer indicators={false}>
-            <CarouselPaper elevation={0}>
-              {
-                choiceaniList[0] ?
-                <Grid item xs={3}><MyAniItem aniData={choiceaniList[0]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                choiceaniList[1] ?
-                <Grid item xs={3}><MyAniItem aniData={choiceaniList[1]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                choiceaniList[2] ?
-                <Grid item xs={3}><MyAniItem aniData={choiceaniList[2]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                choiceaniList[3] ?
-                <Grid item xs={3}><MyAniItem aniData={choiceaniList[3]}></MyAniItem></Grid>
-                : null
-              }
-            </CarouselPaper>
-            <CarouselPaper elevation={1}>
+        <CarouselDiv ref={carousel01}>
+          { watchaniList.map((item, idx) => (
+            <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+              <ImgBox>
+                <Img src={item.images[0].img_url}/>
+              </ImgBox>
+              <Name>{item.name}</Name>
+            </ItemDiv>
+          ))}
+        </CarouselDiv>
+        </CarouselContainer>
+        : 
+        <CarouselContainer>
+          <Titlediv>
+            <MyAniTitle>최근 시청한 작품들</MyAniTitle>
             {
-                choiceaniList[4] ?
-                <Grid item xs={3}><MyAniItem aniData={choiceaniList[4]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                choiceaniList[5] ?
-                <Grid item xs={3}><MyAniItem aniData={choiceaniList[5]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                choiceaniList[6] ?
-                <Grid item xs={3}><MyAniItem aniData={choiceaniList[6]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                choiceaniList[7] ?
-                <Grid item xs={3}><MyAniItem aniData={choiceaniList[7]}></MyAniItem></Grid>
-                : null
-              }
-            </CarouselPaper>
-          </CarouselContainer> :
+              watchMore ?
+              <MoreIcon onClick={watchMoreData}>
+                더보기<ArrowForwardIosIcon sx={{fontSize:'1rem'}}></ArrowForwardIosIcon>
+              </MoreIcon>
+              :
+              <MoreIcon onClick={watchMoreData}>
+                <ArrowBackIosIcon sx={{fontSize:'1rem'}}></ArrowBackIosIcon>뒤로가기
+              </MoreIcon>
+            }
+            
+          </Titlediv>
+          <Grid container>
+          { totalWatchaniList ?
+          
+            ( totalWatchaniList.map((item, idx) => (
+              <Grid item xs={3}>
+                <MyAniMoreItem key={idx} myAniData={item}/>
+              </Grid>
+              ))
+            ) 
+            : null
+          }
+          </Grid>
+        </CarouselContainer>
+      }
+
+      { choiceMore ?
+        <CarouselContainer>
+          <Titlediv>
+            <MyAniTitle>내가 찜한 작품 목록</MyAniTitle>
+            {
+              choiceMore ?
+              <MoreIcon onClick={choiceMoreData}>
+                더보기<ArrowForwardIosIcon sx={{fontSize:'1rem'}}></ArrowForwardIosIcon>
+              </MoreIcon>
+              :
+              <MoreIcon onClick={choiceMoreData}>
+                <ArrowBackIosIcon sx={{fontSize:'1rem'}}></ArrowBackIosIcon>뒤로가기
+              </MoreIcon>
+            }
+          </Titlediv>
+        { now02X !== 0 ?
+          <Left onClick={clickLeftButton2}>
+            <Btn>
+              <ArrowBackIosNewIcon />
+            </Btn>
+          </Left>
+        : null }
+        { now02X < -70 ?
+          null
+        :
+          <Right onClick={clickRightButton2}>
+            <Btn>
+              <ArrowForwardIosIcon />
+            </Btn>
+          </Right>
+        }
+        <CarouselDiv ref={carousel02}>
+          { choiceaniList.map((item, idx) => (
+            <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+              <ImgBox>
+                <Img src={item.images[0].img_url}/>
+              </ImgBox>
+              <Name>{item.name}</Name>
+            </ItemDiv>
+          ))}
+        </CarouselDiv>
+        </CarouselContainer>
+        : 
+        <CarouselContainer>
+          <Titlediv>
+            <MyAniTitle>내가 찜한 작품 목록</MyAniTitle>
+            {
+              choiceMore ?
+              <MoreIcon onClick={choiceMoreData}>
+                더보기<ArrowForwardIosIcon sx={{fontSize:'1rem'}}></ArrowForwardIosIcon>
+              </MoreIcon>
+              :
+              <MoreIcon onClick={choiceMoreData}>
+                <ArrowBackIosIcon sx={{fontSize:'1rem'}}></ArrowBackIosIcon>뒤로가기
+              </MoreIcon>
+            }
+          </Titlediv>
           <Grid container>
           { totalChoiceaniList ?
           
@@ -277,71 +399,65 @@ function MyAniList() {
             : null
           }
           </Grid>
-        }
-        
-      </MyAniContainer>
-
-      <MyAniContainer>
-        <Titlediv>
-          <MyAniTitle>내가 좋아요한 작품 목록</MyAniTitle>
-          {
-            likeMore ?
-            <MoreIcon onClick={likeMoreData}>
-              더보기<ArrowForwardIosIcon sx={{fontSize:'1rem'}}></ArrowForwardIosIcon>
-            </MoreIcon>
-            :
-            <MoreIcon onClick={likeMoreData}>
-              <ArrowBackIosIcon sx={{fontSize:'1rem'}}></ArrowBackIosIcon>뒤로가기
-            </MoreIcon>
-          }
-        </Titlediv>
-        { likeMore ?
-          <CarouselContainer indicators={false}>
-            <CarouselPaper elevation={0}>
-              {
-                likeAniList[0] ?
-                <Grid item xs={3}><MyAniItem aniData={likeAniList[0]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                likeAniList[1] ?
-                <Grid item xs={3}><MyAniItem aniData={likeAniList[1]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                likeAniList[2] ?
-                <Grid item xs={3}><MyAniItem aniData={likeAniList[2]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                likeAniList[3] ?
-                <Grid item xs={3}><MyAniItem aniData={likeAniList[3]}></MyAniItem></Grid>
-                : null
-              }
-            </CarouselPaper>
-            <CarouselPaper elevation={1}>
+        </CarouselContainer>
+      }
+      { likeMore ?
+        <CarouselContainer>
+          <Titlediv>
+            <MyAniTitle>내가 좋아요한 작품 목록</MyAniTitle>
             {
-                likeAniList[4] ?
-                <Grid item xs={3}><MyAniItem aniData={likeAniList[4]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                likeAniList[5] ?
-                <Grid item xs={3}><MyAniItem aniData={likeAniList[5]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                likeAniList[6] ?
-                <Grid item xs={3}><MyAniItem aniData={likeAniList[6]}></MyAniItem></Grid>
-                : null
-              }
-              {
-                likeAniList[7] ?
-                <Grid item xs={3}><MyAniItem aniData={likeAniList[7]}></MyAniItem></Grid>
-                : null
-              }
-            </CarouselPaper>
-          </CarouselContainer> :
+              likeMore ?
+              <MoreIcon onClick={likeMoreData}>
+                더보기<ArrowForwardIosIcon sx={{fontSize:'1rem'}}></ArrowForwardIosIcon>
+              </MoreIcon>
+              :
+              <MoreIcon onClick={likeMoreData}>
+                <ArrowBackIosIcon sx={{fontSize:'1rem'}}></ArrowBackIosIcon>뒤로가기
+              </MoreIcon>
+            }
+          </Titlediv>
+        { now03X !== 0 ?
+          <Left onClick={clickLeftButton3}>
+            <Btn>
+              <ArrowBackIosNewIcon />
+            </Btn>
+          </Left>
+        : null }
+        { now03X < -70 ?
+          null
+        :
+          <Right onClick={clickRightButton3}>
+            <Btn>
+              <ArrowForwardIosIcon />
+            </Btn>
+          </Right>
+        }
+        <CarouselDiv ref={carousel03}>
+          { likeAniList.map((item, idx) => (
+            <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+              <ImgBox>
+                <Img src={item.images[0].img_url}/>
+              </ImgBox>
+              <Name>{item.name}</Name>
+            </ItemDiv>
+          ))}
+        </CarouselDiv>
+        </CarouselContainer>
+        : 
+        <CarouselContainer>
+          <Titlediv>
+            <MyAniTitle>내가 좋아요한 작품 목록</MyAniTitle>
+            {
+              likeMore ?
+              <MoreIcon onClick={likeMoreData}>
+                더보기<ArrowForwardIosIcon sx={{fontSize:'1rem'}}></ArrowForwardIosIcon>
+              </MoreIcon>
+              :
+              <MoreIcon onClick={likeMoreData}>
+                <ArrowBackIosIcon sx={{fontSize:'1rem'}}></ArrowBackIosIcon>뒤로가기
+              </MoreIcon>
+            }
+          </Titlediv>
           <Grid container>
           { totalLikeAniList ?
           
@@ -354,10 +470,22 @@ function MyAniList() {
             : null
           }
           </Grid>
+        </CarouselContainer>
+      }
 
-        }
-        
-      </MyAniContainer>
+
+      { detailId ?
+        <Modal
+          open={openDetail}
+          onClose={handleCloseDetail}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={styleBoxDetail}>
+            <AniDetail aniId={detailId} />
+          </Box>
+        </Modal>
+      : null }
     </Container>
   )
 }

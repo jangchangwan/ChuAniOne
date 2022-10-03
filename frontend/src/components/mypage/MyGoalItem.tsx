@@ -42,9 +42,7 @@ const GoalClear = styled.div`
 
 
 function MyGoalItem(challengeData:any) {
-  useEffect(() => {
-    console.log(challengeData)
-  },[])
+
   return (
     <GoalContainer>
       <BadgeBox>

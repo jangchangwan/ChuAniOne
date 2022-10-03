@@ -220,7 +220,7 @@ function MyLeft() {
       profile: profileImg,
       id: userId,
     }
-    
+    console.log(changeDto)
     dispatch(changeUserInfo(changeDto))
     
     setOpen(false)
