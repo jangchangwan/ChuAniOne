@@ -8,19 +8,21 @@ import AniDetail from './ani/AniDetail'
 import './Main.css'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
-
+import backImg from '../assets/images/mainImg.png'
 
 import { motion } from 'framer-motion'
 
 // redux
 import { useDispatch } from 'react-redux'
 import store from '../store'
-import { getAniAll } from '../store/anislice'
+import { getMain } from '../store/anislice'
 
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  background-image: url(${backImg});
+  background-size: cover;
 `
 
 const LeftContainer = styled.div`
@@ -156,14 +158,30 @@ const styleBoxDetail = {
 
 
 function Main() {
-
-
   const dispatch = useDispatch<typeof store.dispatch>()
 
   const [data, setData] = useState<any>()
 
   const [openDetail, setOpenDetail] = useState<boolean>(false)
   const [detailId, setDetailId] = useState<number | null>(null)
+  const [arr, setArr] = useState<string[]>([])
+  let cnt = 0
+  
+  const title = {
+    '0': '판타지 액션',
+    '1': '드라마 로맨스',
+    '2': '모험 무협',
+    '3': '이세계 판타지',
+    '4': '모험 SF',
+    '5': '스포츠 드라마',
+    '6': '공포 스릴러',
+    '7': '치유',
+    '8': '음악 로맨스',
+    '9': '음식 일상',
+    '10': '개그 하렘',
+    '11': '판타지 액션',
+    '12': '내가 찾던 게 바로 이거잖아',
+  }
 
   const handleOpenDetail = (aniId) => {
     setOpenDetail(true)
@@ -174,8 +192,28 @@ function Main() {
     setOpenDetail(false)
   }
 
+  // 추천작 캐러셀
+  const carousel00 = useRef() as React.MutableRefObject<HTMLDivElement>
   const carousel01 = useRef() as React.MutableRefObject<HTMLDivElement>
+  const carousel02 = useRef() as React.MutableRefObject<HTMLDivElement>
+  const carousel03 = useRef() as React.MutableRefObject<HTMLDivElement>
+  const carousel04 = useRef() as React.MutableRefObject<HTMLDivElement>
+  const carousel05 = useRef() as React.MutableRefObject<HTMLDivElement>
+  const carousel06 = useRef() as React.MutableRefObject<HTMLDivElement>
+
+  const [now00X, setNow00X] = useState(0)
   const [now01X, setNow01X] = useState(0)
+  const [now02X, setNow02X] = useState(0)
+  const [now03X, setNow03X] = useState(0)
+  const [now04X, setNow04X] = useState(0)
+  const [now05X, setNow05X] = useState(0)
+  const [now06X, setNow06X] = useState(0)
+
+  useEffect(() => {
+    if (carousel00 && carousel00.current) {
+      carousel00.current.style.transform = `translateX(${now00X}vw)`
+    }
+  }, [now00X]) 
 
   useEffect(() => {
     if (carousel01 && carousel01.current) {
@@ -183,28 +221,62 @@ function Main() {
     }
   }, [now01X]) 
 
-  const clickLeftButton = () => {
-    setNow01X((prop) => prop + 19);
-    // console.log(`it's work ${now01X}`)
-  }
-
-  const clickRightButton = () => {
-    setNow01X(now01X - 19)
-    // console.log(`it's work ${now01X}`)
-  }
+  useEffect(() => {
+    if (carousel02 && carousel02.current) {
+      carousel02.current.style.transform = `translateX(${now02X}vw)`
+    }
+  }, [now02X]) 
+  
+  useEffect(() => {
+    if (carousel03 && carousel03.current) {
+      carousel03.current.style.transform = `translateX(${now03X}vw)`
+    }
+  }, [now03X]) 
 
   useEffect(() => {
+    if (carousel04 && carousel04.current) {
+      carousel04.current.style.transform = `translateX(${now04X}vw)`
+    }
+  }, [now04X]) 
+
+  useEffect(() => {
+    if (carousel05 && carousel05.current) {
+      carousel05.current.style.transform = `translateX(${now05X}vw)`
+    }
+  }, [now05X]) 
+
+  useEffect(() => {
+    if (carousel06 && carousel06.current) {
+      carousel06.current.style.transform = `translateX(${now06X}vw)`
+    }
+  }, [now06X]) 
+
+  // 데이터 불러오기
+  useEffect(() => {
     loadData()
-  }, [])
+    if (!cnt) shuffle()
 
+    cnt += 1
+  }, [cnt])
 
+  // 데이터 불러오기
   async function loadData() {
-    const res = await dispatch(getAniAll(1))
+    const res = await dispatch(getMain())
     if (res.meta.requestStatus==="fulfilled" && res.payload) {
-      setData(res.payload.rDto)
+      setData(res.payload)
     }
   }
 
+  // 보여줄 데이터 랜덤
+  function shuffle() {
+    const value = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+    const result = value.sort(() => Math.random() - 0.5)
+
+    setArr(result.slice(0, 6))
+  }
+
+
+  // 좌측 캐러셀 이미지
   const carouselImages: string[] = [
     'https://thumbnail.laftel.net/items/full/b54e5776-59b2-489c-8d7f-407cdad1a66c.jpg',
     'https://thumbnail.laftel.net/items/full/0f955696-79ea-4a92-a8a2-6c2b9021fd57.jpg',
@@ -372,7 +444,7 @@ function Main() {
             indicators={false}
             NextIcon={<ArrowForwardIosIcon />}
             PrevIcon={<ArrowBackIosNewIcon />}
-            navButtonsProps={{          // Change the colors and radius of the actual buttons. THIS STYLES BOTH BUTTONS
+            navButtonsProps={{
               style: {
                 background: 'none',
               }
@@ -391,27 +463,22 @@ function Main() {
         </LeftContainer>
         
         <RightContainer>
-          { data ?
+          {/* 추천 */}
+          { data && data['12'] ? 
             <CarouselContainer>
-              <CarouselTitle>당신을 위한 추천 !</CarouselTitle>
-              { now01X !== 0 ?
-                <Left onClick={clickLeftButton}>
-                  <Btn>
-                    <ArrowBackIosNewIcon />
-                  </Btn>
+              <CarouselTitle>{title['12']}</CarouselTitle>
+              { now00X !== 0 ?
+                <Left onClick={() => setNow00X((prop) => prop + 18)}>
+                  <Btn><ArrowBackIosNewIcon /></Btn>
                 </Left>
               : null }
-              { now01X < -95 ?
-                null
-              :
-                <Right onClick={clickRightButton}>
-                  <Btn>
-                    <ArrowForwardIosIcon />
-                  </Btn>
+              { now00X < -126 ? null :
+                <Right onClick={() => setNow00X(now00X - 18)}>
+                  <Btn><ArrowForwardIosIcon /></Btn>
                 </Right>
               }
-              <CarouselDiv ref={carousel01}>
-                { data.map((item, idx) => (
+              <CarouselDiv ref={carousel00}>
+                { data['12'].map((item, idx) => (
                   <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
                     <ImgBox>
                       <Img src={item.images[0].img_url}/>
@@ -422,6 +489,181 @@ function Main() {
               </CarouselDiv>
             </CarouselContainer>
           : null }
+
+          {/* 0번 */}
+          { data && arr ? (
+            <CarouselContainer>
+              <CarouselTitle>{title[arr[0]]}</CarouselTitle>
+              { now01X !== 0 ?
+                <Left onClick={() => setNow01X((prop) => prop + 17)}>
+                  <Btn>
+                    <ArrowBackIosNewIcon />
+                  </Btn>
+                </Left>
+              : null }
+              { now01X < -68 ? null :
+                <Right onClick={() => setNow01X(now01X - 17)}>
+                  <Btn><ArrowForwardIosIcon /></Btn>
+                </Right>
+              }
+              <CarouselDiv ref={carousel01}>
+                { data[arr[0]].map((item, idx) => (
+                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                    <ImgBox>
+                      <Img src={item.images[0].img_url}/>
+                    </ImgBox>
+                    <Name>{item.name}</Name>
+                  </ItemDiv>
+                ))}
+              </CarouselDiv>
+            </CarouselContainer>
+          ) : null}
+
+          {/* 1번 */}
+          { data && arr ? (
+            <CarouselContainer>
+              <CarouselTitle>{title[arr[1]]}</CarouselTitle>
+              { now02X !== 0 ?
+                <Left onClick={() => setNow02X((prop) => prop + 17)}>
+                  <Btn>
+                    <ArrowBackIosNewIcon />
+                  </Btn>
+                </Left>
+              : null }
+              { now02X < -68 ? null :
+                <Right onClick={() => setNow02X(now02X - 17)}>
+                  <Btn><ArrowForwardIosIcon /></Btn>
+                </Right>
+              }
+              <CarouselDiv ref={carousel01}>
+                { data[arr[1]].map((item, idx) => (
+                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                    <ImgBox>
+                      <Img src={item.images[0].img_url}/>
+                    </ImgBox>
+                    <Name>{item.name}</Name>
+                  </ItemDiv>
+                ))}
+              </CarouselDiv>
+            </CarouselContainer>
+          ) : null}
+
+          {/* 2번 */}
+          { data && arr ? (
+            <CarouselContainer>
+              <CarouselTitle>{title[arr[2]]}</CarouselTitle>
+              { now03X !== 0 ?
+                <Left onClick={() => setNow03X((prop) => prop + 17)}>
+                  <Btn>
+                    <ArrowBackIosNewIcon />
+                  </Btn>
+                </Left>
+              : null }
+              { now03X < -68 ? null 
+                :
+                <Right onClick={() => setNow03X(now03X - 17)}>
+                  <Btn><ArrowForwardIosIcon /></Btn>
+                </Right>
+              }
+              <CarouselDiv ref={carousel03}>
+                { data[arr[2]].map((item, idx) => (
+                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                    <ImgBox>
+                      <Img src={item.images[0].img_url}/>
+                    </ImgBox>
+                    <Name>{item.name}</Name>
+                  </ItemDiv>
+                ))}
+              </CarouselDiv>
+            </CarouselContainer>
+          ) : null}
+
+          {/* 3번 */}
+          { data && arr ? (
+            <CarouselContainer>
+              <CarouselTitle>{title[arr[3]]}</CarouselTitle>
+              { now04X !== 0 ?
+                <Left onClick={() => setNow04X((prop) => prop + 17)}>
+                  <Btn>
+                    <ArrowBackIosNewIcon />
+                  </Btn>
+                </Left>
+              : null }
+              { now04X < -68 ? null :
+                <Right onClick={() => setNow04X(now04X - 17)}>
+                  <Btn><ArrowForwardIosIcon /></Btn>
+                </Right>
+              }
+              <CarouselDiv ref={carousel04}>
+                { data[arr[3]].map((item, idx) => (
+                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                    <ImgBox>
+                      <Img src={item.images[0].img_url}/>
+                    </ImgBox>
+                    <Name>{item.name}</Name>
+                  </ItemDiv>
+                ))}
+              </CarouselDiv>
+            </CarouselContainer>
+          ) : null}
+
+          {/* 4번 */}
+          { data && arr ? (
+            <CarouselContainer>
+              <CarouselTitle>{title[arr[4]]}</CarouselTitle>
+              { now05X !== 0 ?
+                <Left onClick={() => setNow05X((prop) => prop + 17)}>
+                  <Btn>
+                    <ArrowBackIosNewIcon />
+                  </Btn>
+                </Left>
+              : null }
+              { now05X < -68 ? null :
+                <Right onClick={() => setNow05X(now05X - 17)}>
+                  <Btn><ArrowForwardIosIcon /></Btn>
+                </Right>
+              }
+              <CarouselDiv ref={carousel05}>
+                { data[arr[4]].map((item, idx) => (
+                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                    <ImgBox>
+                      <Img src={item.images[0].img_url}/>
+                    </ImgBox>
+                    <Name>{item.name}</Name>
+                  </ItemDiv>
+                ))}
+              </CarouselDiv>
+            </CarouselContainer>
+          ) : null}
+
+          {/* 5번 */}
+          { data && arr ? (
+            <CarouselContainer>
+              <CarouselTitle>{title[arr[5]]}</CarouselTitle>
+              { now06X !== 0 ?
+                <Left onClick={() => setNow06X((prop) => prop + 17)}>
+                  <Btn>
+                    <ArrowBackIosNewIcon />
+                  </Btn>
+                </Left>
+              : null }
+              { now06X < -68 ? null :
+                <Right onClick={() => setNow06X(now06X - 17)}>
+                  <Btn><ArrowForwardIosIcon /></Btn>
+                </Right>
+              }
+              <CarouselDiv ref={carousel06}>
+                { data[arr[5]].map((item, idx) => (
+                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                    <ImgBox>
+                      <Img src={item.images[0].img_url}/>
+                    </ImgBox>
+                    <Name>{item.name}</Name>
+                  </ItemDiv>
+                ))}
+              </CarouselDiv>
+            </CarouselContainer>
+          ) : null}
 
         </RightContainer>
         
