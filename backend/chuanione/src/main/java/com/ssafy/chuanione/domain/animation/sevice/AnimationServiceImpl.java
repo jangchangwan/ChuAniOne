@@ -1,7 +1,9 @@
 package com.ssafy.chuanione.domain.animation.sevice;
 
+import com.ssafy.chuanione.domain.animation.dao.AniLogRepository;
 import com.ssafy.chuanione.domain.animation.dao.AnimationRepository;
 import com.ssafy.chuanione.domain.animation.dao.AnimationTypeRepository;
+import com.ssafy.chuanione.domain.animation.domain.AniLog;
 import com.ssafy.chuanione.domain.animation.domain.Animation;
 import com.ssafy.chuanione.domain.animation.domain.AnimationType;
 import com.ssafy.chuanione.domain.animation.dto.AnimationResponseDto;
@@ -30,7 +32,29 @@ public class AnimationServiceImpl implements AnimationService {
     private final MemberRepository memberRepository;
 
     private final AnimationTypeRepository animationTypeRepository;
+    private final AniLogRepository aniLogRepository;
 
+    private final String[][] categoryArr = {{"판타지", "액션"}, {"드라마", "로맨스"}, {"모험", "무협"}, {"이세계", "판타지"}, {"모험", "SF"}, {"스포츠", "드라마"},
+            {"공포", "스릴러"}, {"치유"}, {"음악","로맨스"}, {"음식", "일상"}, {"개그","하렘"}, {"판타지", "액션"}};
+
+    @Override
+    public Map<String, List<Animation>> getMainList(){
+        //카테고리별 애니메이션 20개씩 0번부터 11번 (string타입)
+        Map<String, List<Animation>> result = new HashMap<>();
+        for (int i = 0; i < categoryArr.length; i++) {
+            result.put(Integer.toString(i), animationRepository.findByGenres(categoryArr[i], PageRequest.of(0, 10)));
+        }
+        //사용자 맞춤 추천 애니 리스트에 담기, 추천 값이 있을 경우 12번에 담김
+        Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElse(null);
+        if(login == null) return result;
+        List<AniLog> aniLog = aniLogRepository.findByMemberId(login.getId() + 6000000);
+        if(aniLog.size() > 0){
+            int[] recommend = aniLogRepository.findByMemberId(15).get(0).getRecommended();
+            List<Animation> ani = animationRepository.findAllByQuery(recommend);
+            result.put("12", ani);
+        }
+        return result;
+    }
     @Override
     public Map<String,Object> getListAll(int page){
         Page<Animation> roomPage =animationRepository.findAll(PageRequest.of(page,12));

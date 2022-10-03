@@ -40,4 +40,7 @@ public interface AnimationRepository extends MongoRepository<Animation, Integer>
     @Query(value = "{id:?0}", fields = "{ related : 1 }")
     Animation getRelationBy_id(int id);
 
+
+    @Query(value = "{ 'genres' : { '$all' : ?0 }}")
+    List<Animation> findByGenres(String[] genre, Pageable pageable);
 }
