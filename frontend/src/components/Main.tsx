@@ -277,12 +277,22 @@ function Main() {
 
 
   // 좌측 캐러셀 이미지
-  const carouselImages: string[] = [
-    'https://thumbnail.laftel.net/items/full/b54e5776-59b2-489c-8d7f-407cdad1a66c.jpg',
-    'https://thumbnail.laftel.net/items/full/0f955696-79ea-4a92-a8a2-6c2b9021fd57.jpg',
-    'https://thumbnail.laftel.net/items/full/83af4342-688c-4ab8-98f4-cfa946267f27.jpg',
-    'https://thumbnail.laftel.net/items/full/456559d1-6b44-4e4c-894f-e1003c4934d1.jpg',
-    'https://thumbnail.laftel.net/items/full/b88d779f-f25e-4722-a6de-8a124026379a.jpg',
+  const carouselImages = [ 
+    { id: 38912,
+      img: 'https://thumbnail.laftel.net/items/full/b54e5776-59b2-489c-8d7f-407cdad1a66c.jpg',
+    },
+    { id: 40815,
+      img: 'https://thumbnail.laftel.net/items/full/0f955696-79ea-4a92-a8a2-6c2b9021fd57.jpg',
+    },
+    { id: 40394,
+      img: 'https://thumbnail.laftel.net/items/full/83af4342-688c-4ab8-98f4-cfa946267f27.jpg',
+    },
+    { id: 24485,
+      img:  'https://thumbnail.laftel.net/items/full/456559d1-6b44-4e4c-894f-e1003c4934d1.jpg',
+    },
+    { id: 34318,
+      img: 'https://thumbnail.laftel.net/items/full/b88d779f-f25e-4722-a6de-8a124026379a.jpg',
+    },
   ]
 
   return (
@@ -454,9 +464,9 @@ function Main() {
             duration={1000}
             swipe={true}
           >
-            {carouselImages.map((item: string, idx: number) => (
-              <CarouselPaper elevation={0}>
-                <CarouselImg src={item} />
+            {carouselImages.map((item, idx) => (
+              <CarouselPaper key={item.id} elevation={0} onClick={()=>handleOpenDetail(item.id)}>
+                <CarouselImg src={item.img} />
               </CarouselPaper>
             ))}
           </Carousel>
