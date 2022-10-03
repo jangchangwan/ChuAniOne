@@ -14,9 +14,9 @@ import store from '../../store'
 import { getChatList } from '../../store/openchatslice'
 
 // chatting
+import * as StompJs from '@stomp/stompjs'
 import SockJS from 'sockjs-client'
-import { Stomp } from '@stomp/stompjs'
-import { $CombinedState } from 'redux'
+// import { Stomp } from '@stomp/stompjs'
 
 const Container = styled.div`
   width: 100%;  
@@ -102,67 +102,61 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
 
   const [sendMessage, setSendMessage] = useState('')
   const [messages, setMessages] = useState<Msg[]>([])
-  const [isUpdated, setIsUpdated] = useState(' ')
 
-  // SockJS 내부의 stomp 가져오기
-  var stomp = Stomp.over(function() {
-    // return new SockJS('http://localhost:8080/api/v1/stomp/chat.do')
-    return new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do')
-  })
-  stomp.reconnect_delay = 1000
+  const client = useRef<any>({})
+
+  // 채팅 연결하기
+  const connect = () => {
+    // SockJs 설정
+    client.current = new StompJs.Client({
+      webSocketFactory: () => new SockJS('https://j7e104.p.ssafy.io/api/v1/stomp/chat.do'),
+      // webSocketFactory: () => new SockJS('http://localhost:8080/api/v1/stomp/chat.do'),
+      debug: function (str) {
+        console.log(str);
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+      // 연결된 경우, 구독하기
+      onConnect: () => {
+        client.current.subscribe(`/sub/chat/room/${openedId}`, ({ body }) => {
+          const msg = JSON.parse(body)
+          if (messages[messages.length-1] !== msg) {
+            setMessages(messages => [...messages, msg])
+          }
+        })
+      },
+      onStompError: (frame) => {
+        console.error(frame);
+      },
+    })
+
+    // 활성화
+    client.current.activate()
+  }
+
+  // 연결 해제
+  const disconnect = () => {
+    client.current.deactivate()
+  }
 
   // 메시지 보내기
-  function sendMsg() {
-    if (sendMessage.trim() === '') return
-    console.log('보낸다', sendMessage)
-    connect()
-    
-    stomp.send('/pub/chat/message', 
-      {},
-      JSON.stringify({
+  const sendMsg = () => {
+    if (!client.current.connected) return
+    if (!sendMessage.trim()) return
+
+    client.current.publish({
+      destination: "/pub/chat/message",
+      body: JSON.stringify({ 
         roomId: `${openedId}`,
         memberId: `${userId}`,
         message: `${sendMessage}`,
       }),
-    )
+    })
 
     setSendMessage('')
   }
 
-  // 연결 시, 콜백 함수
-  const connect_callback = () => {
-    console.log("STOMP Connection")
-
-    // 입장용
-    stomp.send('/pub/chat/enter', {}, 
-      JSON.stringify({
-        roomId: `${openedId}`,
-        memberId: `${userId}`,
-        message: '',
-      }),
-    )
-
-        
-    stomp.subscribe(`/sub/chat/room/${openedId}`, function (message: any) {
-      console.log('subscribe', message)
-      let recv = JSON.parse(message.body)
-      if (messages[messages.length-1] !== recv) setMessages([...messages, recv])
-      // console.log()
-      // console.log('recv', recv)
-      // getChattings()
-      message.ack()
-    })
-
-  }
-
-  const error_callback = (err: any) => {
-    console.log('!!!!!!!!!!! 에러 !!!!!!!!!!!')
-  } 
-
-  // connection 맺기
-  function connect() {
-    stomp.connect({}, connect_callback, error_callback)
-  }
 
   // 채팅 기록 불러오기
   async function getChattings () {
@@ -172,23 +166,20 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
     }
   }
 
-  // useEffect(() => {
-  connect()
-  // }, [sendMessage])
 
   // 방 바뀔때마다 메시지 새로 불러오기
   useEffect(() => {
-    connect()
     getChattings()
+    connect()
+
+    return () => disconnect()
   }, [openedId])
 
-  useEffect(() => {
-    connect()
-  }, [])
 
+  // 채팅 스크롤
   const scrollRef = useRef<any>()
+  
   useEffect(() => {
-    // scrollRef.current.scrollIntoView({ behavior: 'smooth' })
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [messages])
 
@@ -199,7 +190,6 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
         { messages.map((chat: any, idx: number) => (
           <ChatItem data={chat}/>
         ))}
-        {/* <div ref={scrollRef} /> */}
       </ChatList>
 
       {/* 채팅 보내기: input */}
@@ -222,11 +212,6 @@ function ChatBody({ opened, openedId, handleOpened, handleClosed }: any) {
               borderColor: "#f37b83"
           }}}}
         />
-        {/* <ImgDiv>
-          <IconBtn>
-            <PhotoIcon/>
-          </IconBtn>
-        </ImgDiv> */}
         <SendDiv 
           onClick={() => {
             sendMsg()
