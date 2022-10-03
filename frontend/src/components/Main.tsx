@@ -267,13 +267,17 @@ function Main() {
     }
   }
 
-  // 보여줄 데이터 랜덤
+  // 데이터 랜덤 섞기  
   function shuffle() {
-    const value = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
-    const result = value.sort(() => Math.random() - 0.5)
+    const array = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
 
-    setArr(result.slice(0, 6))
-  }
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    setArr(array.slice(0, 6))
+}
 
 
   // 좌측 캐러셀 이미지
