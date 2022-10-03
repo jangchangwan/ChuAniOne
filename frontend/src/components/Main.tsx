@@ -535,7 +535,7 @@ function Main() {
                   <Btn><ArrowForwardIosIcon /></Btn>
                 </Right>
               }
-              <CarouselDiv ref={carousel01}>
+              <CarouselDiv ref={carousel02}>
                 { data[arr[1]].map((item, idx) => (
                   <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
                     <ImgBox>
