@@ -11,19 +11,23 @@ import MyWord from './MyWord'
 import MyGoal from './MyGoal'
 
 const RightContainer = styled.div`
+  background-color: #FFF5E4;
+  padding: 2rem;
   margin-top: 3rem;
   width: 100%;
-  height: 100%;
+  height: 85%;
+  border: 0.5rem solid #967E76;
+  border-radius: 1rem;
 `
 
 const TabBox = styled.div`
   width: 100%;
-  height: 80vh;
+  height: 80%;
 `
 
 const TabDiv = styled.div`
   width: 100%;
-  height: 100%;
+  height: 70vh;
 `
 
 const DetailBox = styled(Box)`
@@ -40,13 +44,13 @@ const DetailBox = styled(Box)`
 
   ::-webkit-scrollbar-thumb {
     border-radius: 0.3rem;
-    background-color: #f37b83;
+    background-color: #967E76;
     height: 30%;
     box-shadow: inset 0px 0px 3px white;
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #ffcdce;
+    background-color: #c7b5b0;
     box-shadow: inset 0px 0px 3px white;
   }
 `
