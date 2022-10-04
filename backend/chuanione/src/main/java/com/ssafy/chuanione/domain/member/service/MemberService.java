@@ -14,9 +14,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +34,10 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final EmailTokenService emailTokenService;
+
+    private final String uploadPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
+    private final String uploadFolder = "uploads";
+
 
     public MemberResponseDto doSignUp(SignUpRequestDto requestDto) throws Exception {
         // Login id/pw로 AuthenticationToken 생성
@@ -130,11 +140,79 @@ public class MemberService {
         throw new MemberNotFoundException();
     }
 
-    public void updateMember(int id, UpdateRequestDto requestDto) {
+    public void updateMember(int id, UpdateRequestDto requestDto, MultipartFile request) {
+        System.out.println("[Service] updateMember");
         Member member = requestDto.toEntity();
+
+        // request에서 파일 받아와서
+        MultipartFile profile = request;
+        System.out.println(profile);
+
+        // 프로필이 같이 첨부된 경우
+        if (!profile.isEmpty()) {
+            System.out.println("profile is not empty!!");
+            try {
+                // 업로드 폴더 접근
+                File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+                // 없으면 업로드 폴더 생성
+                if (!uploadDir.exists()) {
+                    try{
+                        uploadDir.mkdir();
+                        System.out.println("created uploadDir");
+                    } catch(Exception e){
+                        System.out.println("failed create uploadDir");
+                        e.getStackTrace();
+                    }
+                } else {
+                    System.out.println("Aleady exist uploadDir");
+                }
+
+                System.out.println("uploadDir: " + uploadDir);
+
+                // 만약 원래 프로필 있으면 해당 프로필 삭제
+                String profileUrl = member.getProfile();
+
+                if(profileUrl != null) {
+                    File origin = new File(uploadDir, profileUrl);
+                    System.out.println(origin.getName());
+                    if (origin.exists()) origin.delete();
+                }
+
+                // 새로운 프로필 저장
+                String profileName = profile.getOriginalFilename();
+
+                System.out.println("profileName: " + profileName);
+
+                UUID uuid = UUID.randomUUID();
+                String ext = profileName.substring(profileName.lastIndexOf(".") + 1);
+                System.out.println(ext);
+
+                String savingName = uuid + "." + ext;
+
+                System.out.println("savingName: " + savingName);
+                File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingName);
+                profile.transferTo(destFile);
+
+                System.out.println("destFile: " + destFile);
+
+                // db에 profile 경로 저장
+                member = Member.builder()
+                        .profile(uploadFolder + "/" + savingName)
+                        .nickname(requestDto.getNickname())
+                        .introduction(requestDto.getIntroduction())
+                        .password(requestDto.getPassword())
+                        .build();
+                System.out.println(member);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         Member target = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
         target.patch(member, passwordEncoder);
         memberRepository.save(target);
+
         return;
     }
 

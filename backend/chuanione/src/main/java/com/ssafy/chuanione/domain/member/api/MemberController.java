@@ -17,8 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -126,8 +129,9 @@ public class MemberController {
 
     @PatchMapping("/update/{id}")
     @ApiOperation(value = "회원 정보 수정")
-    public ResponseEntity<String> updateMember(@PathVariable int id, @RequestBody UpdateRequestDto requestDto){
-        memberService.updateMember(id, requestDto);
+    public ResponseEntity<String> updateMember(@PathVariable int id, UpdateRequestDto requestDto, @RequestParam("file") MultipartFile profile) {
+        System.out.println("[Controller] updateMember");
+        memberService.updateMember(id, requestDto, profile);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
