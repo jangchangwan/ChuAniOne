@@ -126,10 +126,10 @@ public class MemberController {
     }
 
 
-    @PatchMapping(value = "/update/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PatchMapping("/update/{id}")
     @ApiOperation(value = "회원 정보 수정")
-    public ResponseEntity<String> updateMember(@PathVariable int id, @RequestPart UpdateRequestDto requestDto, @RequestPart(required = false) MultipartFile imgFile) {
-        memberService.updateMember(id, requestDto, imgFile);
+    public ResponseEntity<String> updateMember(@PathVariable int id, @RequestPart UpdateRequestDto requestDto, @RequestPart(required = false) MultipartFile profile) {
+        memberService.updateMember(id, requestDto, profile);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 

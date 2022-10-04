@@ -141,9 +141,9 @@ public class MemberService {
 
     public void updateMember(int id, UpdateRequestDto requestDto, MultipartFile profile) {
         Member member = null;
-
         // 프로필이 같이 첨부된 경우
         if (!profile.isEmpty()) {
+            System.out.println("profile is not empty!");
             try {
                 // 업로드 폴더 접근
                 File uploadDir = new File(uploadPath + File.separator + uploadFolder);
@@ -185,8 +185,9 @@ public class MemberService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
+        // 프로필 사진 같이 안보냈을 때
+        else member = requestDto.toEntity();
 
         Member target = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
         target.patch(member, passwordEncoder);
