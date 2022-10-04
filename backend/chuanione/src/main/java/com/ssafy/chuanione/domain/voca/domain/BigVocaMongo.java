@@ -14,6 +14,6 @@ import java.util.Map;
 public class BigVocaMongo {
 
     private String series_id;
-    private Map<Integer, String> ani_id;
+    private int[] ani_id;
     private Map<Integer, Map<String, String>> words;
 }
