@@ -11,19 +11,23 @@ import MyWord from './MyWord'
 import MyGoal from './MyGoal'
 
 const RightContainer = styled.div`
+  background-color: #FFF5E4;
+  padding: 2rem;
   margin-top: 3rem;
   width: 100%;
-  height: 100%;
+  height: 85%;
+  border: 0.5rem solid #967E76;
+  border-radius: 1rem;
 `
 
 const TabBox = styled.div`
   width: 100%;
-  height: 80vh;
+  height: 80%;
 `
 
 const TabDiv = styled.div`
   width: 100%;
-  height: 100%;
+  height: 70vh;
 `
 
 const DetailBox = styled(Box)`
@@ -40,13 +44,13 @@ const DetailBox = styled(Box)`
 
   ::-webkit-scrollbar-thumb {
     border-radius: 0.3rem;
-    background-color: #f37b83;
+    background-color: #967E76;
     height: 30%;
     box-shadow: inset 0px 0px 3px white;
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #ffcdce;
+    background-color: #c7b5b0;
     box-shadow: inset 0px 0px 3px white;
   }
 `
@@ -97,11 +101,23 @@ function MyRight() {
   return (
     <RightContainer>
       <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
-        <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary" variant='fullWidth'>
-          <Tab label="애니메이션" {...a11yProps(0)} />
-          <Tab label="리뷰" {...a11yProps(1)} />
-          <Tab label="단어" {...a11yProps(2)} />
-          <Tab label="도전과제" {...a11yProps(3)} />
+        <Tabs 
+          value={value} 
+          onChange={handleChange} 
+          textColor="inherit" 
+          indicatorColor="secondary" 
+          TabIndicatorProps={{
+            sx: {
+              backgroundColor: '#967E76',
+            },
+          }}
+          variant='fullWidth'
+          style={{ color: '#967E76' }}
+        >
+          <Tab label="애니메이션" {...a11yProps(0)} sx={{ fontSize:'1.5rem'}}/>
+          <Tab label="리뷰" {...a11yProps(1)} sx={{ fontSize:'1.5rem'}}/>
+          <Tab label="단어" {...a11yProps(2)} sx={{ fontSize:'1.5rem'}}/>
+          <Tab label="도전과제" {...a11yProps(3)} sx={{ fontSize:'1.5rem'}}/>
         </Tabs>
       </Box>
 

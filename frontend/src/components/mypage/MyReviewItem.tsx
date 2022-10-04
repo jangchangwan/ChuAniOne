@@ -11,7 +11,6 @@ import AniDetail from '../ani/AniDetail'
 import { useDispatch } from 'react-redux'
 import store from '../../store'
 import { getAni } from '../../store/anislice'
-import { isConstructorDeclaration } from 'typescript'
 
 
 const Container = styled.div`
@@ -21,6 +20,8 @@ const Container = styled.div`
   padding: 2.5%;
   height: auto;
   background-color: #fff0f0;
+  border: 2px solid #d77070;
+  
 `
 
 const ReviewBox = styled.div`
