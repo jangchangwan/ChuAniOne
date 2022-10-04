@@ -59,8 +59,8 @@ services:
     #   # - ls
       # - python manage.py runserver 0:8000
       # - gunicorn recomm.wsqi.application --bind 0.0.0.0:8000
-    volumes:
-      - .:/app
+    # volumes:
+    #   - .:/app 
     container_name: django_chu
     restart: always
     environment:
