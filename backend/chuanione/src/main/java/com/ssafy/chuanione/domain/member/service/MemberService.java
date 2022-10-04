@@ -140,11 +140,7 @@ public class MemberService {
     }
 
     public void updateMember(int id, UpdateRequestDto requestDto, MultipartFile profile) {
-        System.out.println("[Service] updateMember");
-
         Member member = null;
-        // request에서 파일 받아와서
-        System.out.println(profile);
 
         // 프로필이 같이 첨부된 경우
         if (!profile.isEmpty()) {
@@ -155,21 +151,16 @@ public class MemberService {
                 if (!uploadDir.exists()) {
                     try {
                         uploadDir.mkdir();
-                        System.out.println("created uploadDir");
                     } catch (Exception e) {
-                        System.out.println("failed create uploadDir");
                         e.getStackTrace();
                     }
                 }
-
-                System.out.println("uploadDir: " + uploadDir);
 
                 Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
                 // 만약 원래 프로필 있으면 해당 프로필 삭제
                 String profileUrl = login.getProfile();
                 if (profileUrl != null) {
                     File origin = new File(uploadPath, profileUrl);
-                    System.out.println(origin);
                     if (origin.exists()) origin.delete();
                 }
 
@@ -188,12 +179,8 @@ public class MemberService {
                         .password(requestDto.getPassword())
                         .build();
 
-                System.out.println(member);
-
                 File destFile = new File(uploadPath + File.separator + member.getProfile());
                 profile.transferTo(destFile);
-
-                System.out.println("destFile: " + destFile);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -204,8 +191,6 @@ public class MemberService {
         Member target = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
         target.patch(member, passwordEncoder);
         memberRepository.save(target);
-
-        return;
     }
 
     public boolean emailConfirmCheck(String email) {
