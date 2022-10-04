@@ -25,45 +25,51 @@ export function MyAniChart(genresData) {
   const [maxScore, setMaxScore] = useState(5)
   const [ticks, setTicks] = useState(1)
   const option:any = {
-      startAngle: 90,
-      scales: {
-          r: {
-              min: 0,
-              max: maxScore,
-              ticks:{
-                stepSize: 1,
-                ontColor: "rgba(255, 0, 0, 1)"
-              },
-              angleLines: {
-                color: "rgba(255, 99, 132, 0.2)",
-                lineWidth: 3
-              },
-              gridLines: {
-                color: "rgba(255, 255, 255, 1)",
-                circular: true,
-                lineWidth: 3
-              },
-          },
-      },
-      plugins: {
-        legend: {
-          display: false,
+
+
+  startAngle: 90,
+    scales: {
+        r: {
+            min: 0,
+            max: maxScore,
+            ticks:{
+              display: false,
+              stepSize: 1,
+            },
+            angleLines: {
+              color: "rgba(255, 99, 132, 0.2)",
+              lineWidth: 3
+            },
+            gridLines: {
+              color: "rgba(255, 255, 255, 1)",
+              circular: true,
+              lineWidth: 3
+            },
+            pointLabels: {
+              color: "rgba(255, 99, 132, 1)",
+              font: {
+                size: 18,
+                family: 'MaplestoryOTFBold'
+              }
+            }
+
         },
-        font: {
-          weight: 'bold',
-          size: 200,
-        }
+        
+    },
+    plugins: {
+      legend: {
+        display: false,
       },
-      animations: {
-        tension: {
-          duration: 5000,
-          easing: 'easeOutQuad',
-          from: 1,
-          to: 0,
-          loop: true
-        }
-      },
-      
+    },
+    animations: {
+      tension: {
+        duration: 5000,
+        easing: 'easeOutQuad',
+        from: 1,
+        to: 0,
+        loop: true
+      }
+    },
   }
   const data = {
     labels: myGenres,
