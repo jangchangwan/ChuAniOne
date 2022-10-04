@@ -5,9 +5,17 @@ import Grid from '@mui/material/Grid'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MyAniChart   from "./MyAniChart";
 
+import likeIcon from '../../assets/images/like.png'
+import wish from '../../assets/images/wish.png'
+import review1 from '../../assets/images/review1.png'
+import review3 from '../../assets/images/review3.png'
+import talktalk1 from '../../assets/images/talktalk1.png'
+import talktalk3 from '../../assets/images/talktalk3.png'
+
 
 import { useDispatch } from "react-redux"
 import { myinfo, nicknameCheck, changeUserInfo } from '../../store/Loginslice'
+import { getchallenge } from '../../store/mypageslice'
 import store from '../../store'
 // MUI
 import Button from '@mui/material/Button';
@@ -18,12 +26,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { padding, width } from '@mui/system';
 // 프로필 사진, 닉네임, 경험치 관련
 const ProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-
   width: 100%;
 
 `
@@ -31,6 +39,7 @@ const IntroDiv = styled.div`
   border-radius: 1rem;
   width: 100%;
   padding: 1rem;
+  margin-bottom: 1rem;
 `
 
 // 프로필 사진
@@ -54,6 +63,7 @@ const ProfileContainerBox = styled.div`
 // 레벨과 닉네임
 const ProfileContainerLv = styled.div`
   display: flex;
+  width: 100%;
   align-items: flex-start;
   justify-content: space-around;
   font-size: 1.5rem;
@@ -63,10 +73,8 @@ const ProfileContainerLv = styled.div`
 // 경험치 바 위의 텍스트 박스
 const ProfileContainerExpTextBox = styled.div`
   display: flex;
-  /* justify-content: space-between; */
   justify-content: end;
   width: 100%;
-  /* height: 1rem; */
   margin-bottom: 0.5rem;
 `
 
@@ -94,10 +102,9 @@ const ProfileContainerExpIn = styled.div`
 
 // 소개
 const IntroductonBox = styled.div`
-  background-color: #f7f8f9;
   width: 100%;
   border-radius: 1rem;
-  margin: 2rem 0 2rem 0;
+  margin: 2rem 0 0 0;
 `
 
 
@@ -114,16 +121,35 @@ const SuccessText = styled.span`
   margin-bottom: 1rem;
 `
 
-const ChartDiv = styled.div`
+const BadgeDiv = styled.div`
+  display: flex;
+  float: left;
+  flex-direction: row;
+  align-items: center;
+`
+const BadgeImg = styled.img`
+  width: 3rem;
+  height: 3rem;
+  filter: drop-shadow(1px 1px 1px #000);
+`
+const TotalChartDiv = styled.div`
+  background-color: #FFF5E4;
   width: 100%;
   border-radius: 1rem;
+  border: 0.5rem solid #967E76;
+  padding: 1rem
+`
+const ChartDiv = styled.div`
+  position: relative;
+  left: 10%;
+  width: 70%;
   padding: 1rem
 `
 
 function MyLeft() {
   const dispatch = useDispatch<typeof store.dispatch>()
 
-
+  const [myChallengeList, setChallengeList] = useState<any>([])
   // 개인정보수정 모달 열고 닫기
   const [open, setOpen] = React.useState(false);
   
@@ -152,7 +178,12 @@ function MyLeft() {
   const mytier:string = tier[Math.floor(exp/100)]  // 소수점 버림
   const myexp:number = exp%100
 
-
+  async function loadChallengeData() {
+      const myChallenge = await dispatch(getchallenge())
+      setChallengeList(myChallenge.payload)
+    }
+  
+  
 
   // 비밀번호 유효성 검사
   const validatePwd = (e:any) => {
@@ -253,6 +284,8 @@ function MyLeft() {
         console.log(e);
         
       })
+    loadChallengeData()
+    
   },[])
 
   return (
@@ -261,7 +294,7 @@ function MyLeft() {
         paddingTop: '3rem'
       }}
     >
-      <IntroDiv>
+      <IntroDiv style={{backgroundColor: '#FFF5E4', border: '0.5rem solid #967E76'}}>
         <ProfileContainer>
           {
             profileImg ?
@@ -279,16 +312,22 @@ function MyLeft() {
           
           <ProfileContainerBox>
             <ProfileContainerLv>
-              <div
-                style={{ display: 'flex', justifyContent: 'space-between'}}
+              <Grid container
+                sx={{ display: 'flex', width: '100%'}}
               >
-                <p style={{ margin : '0'}}>{mytier}({myexp})  {nickName}</p>
-                <MoreVertIcon
-                  type='button'
-                  onClick={handleClickOpen}
-                  sx={{ paddingTop: '2px', cursor: 'pointer'}}
-                ></MoreVertIcon>
-              </div>
+                <Grid item xs={11}>
+                <p style={{ margin : '0', width: '100%'}}>{mytier}({myexp})  {nickName}</p>
+                </Grid>
+                <Grid item xs={1}>
+                  <MoreVertIcon
+                    type='button'
+                    onClick={handleClickOpen}
+                    sx={{ paddingTop: '2px', cursor: 'pointer'}}
+                  ></MoreVertIcon>
+                </Grid>
+                
+                
+              </Grid>
               
               <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>회원정보 변경</DialogTitle>
@@ -403,17 +442,62 @@ function MyLeft() {
           </ProfileContainerBox>
         </ProfileContainer>
         <IntroductonBox>
-          {introduction}
+          <p style={{margin: '0'}}>{introduction}</p>
         </IntroductonBox>
-      </IntroDiv>
-      <ChartDiv>
-        <h1 style={{textAlign: 'center'}}>나만의 덕력 능력치</h1>
-        { mygenres ?
-          <MyAniChart genresData={mygenres}></MyAniChart>
-          : null
-        }
         
-      </ChartDiv>
+      </IntroDiv>
+      <div style={{backgroundColor: '#FFF5E4',width:'100%', height: '6rem', padding: '1rem', borderRadius:'1rem', marginBottom: '1rem', border: '0.5rem solid #967E76'}}>
+          <p style={{marginTop: '0', color: '#967E76'}}>획득 뱃지</p>
+          {
+            myChallengeList ?
+            ( myChallengeList.map((item, idx) => (
+              <BadgeDiv>
+              {
+                item === '리뷰 작성 완료' ?
+                <BadgeImg src={review1}></BadgeImg>
+                : null
+              }
+              {
+                item === '리뷰 3개 작성 완료' ?
+                <BadgeImg src={review3}></BadgeImg>
+                : null
+              }
+              {
+                item === '톡톡 작성 완료' ?
+                <BadgeImg src={talktalk1}></BadgeImg>
+                : null
+              }
+              {
+                item === '애니메이션 좋아요 완료' ?
+                <BadgeImg src={likeIcon}></BadgeImg>
+                : null
+              }
+              {
+                item === '애니메이션 찜하기 완료' ?
+                <BadgeImg src={wish}></BadgeImg>
+                : null
+              }
+              {
+                item === '톡톡 3개 작성 완료' ?
+                <BadgeImg src={talktalk3}></BadgeImg>
+                : null
+              }
+              </BadgeDiv>
+            ))
+            )
+            : null
+          }
+      </div>
+      <TotalChartDiv>
+        <ChartDiv>
+          { mygenres ?
+            <MyAniChart genresData={mygenres}></MyAniChart>
+            : null
+          }
+          
+        </ChartDiv>
+      </TotalChartDiv>
+      
       
     </div>
   );

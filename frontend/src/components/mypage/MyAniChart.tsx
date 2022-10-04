@@ -78,12 +78,10 @@ export function MyAniChart(genresData) {
         label: '당신의 덕력',
         data: myScore,
         borderWidth: 3,
-        fontSize: 40,
+        fontSize: 1,
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         borderColor: "rgba(255, 99, 132, 1)",
         pointBackgroundColor: "rgba(255, 99, 132, 1)",
-        poingBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
         pointHoverBorderColor: "rgba(255, 99, 132, 1)",
       },
       

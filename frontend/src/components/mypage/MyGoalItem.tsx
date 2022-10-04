@@ -1,7 +1,11 @@
 import React, {useEffect} from 'react'
 import styled from "styled-components"
-import badgeicon1 from '../../assets/images/google_icon.png' // 임시로 사진 가져옴
-
+import likeIcon from '../../assets/images/like.png'
+import wish from '../../assets/images/wish.png'
+import review1 from '../../assets/images/review1.png'
+import review3 from '../../assets/images/review3.png'
+import talktalk1 from '../../assets/images/talktalk1.png'
+import talktalk3 from '../../assets/images/talktalk3.png'
 
 // 도전과제 1개 세트
 const GoalContainer = styled.div`
@@ -18,14 +22,14 @@ const BadgeBox = styled.div`
 // 벳지 이미지
 const BadgeImg = styled.img`
   /* width: 2.5rem; */
-  width: 2rem;
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
   /* display: flex; */
   /* justify-content: center;  */
   /* align-items: center; */
   /* margin: 0; */
   /* margin: 1rem; */
-  filter: drop-shadow(5px 5px 5px #000); // 배경 짤라야 온전하게 그림자 적용 가능
+  filter: drop-shadow(1px 1px 1px #000); // 배경 짤라야 온전하게 그림자 적용 가능
 `
 
 // 텍스트
@@ -42,11 +46,44 @@ const GoalClear = styled.div`
 
 
 function MyGoalItem(challengeData:any) {
-
+  useEffect(() => {
+    console.log(challengeData);
+    
+  },[])
   return (
     <GoalContainer>
       <BadgeBox>
-      <BadgeImg src={badgeicon1}></BadgeImg></BadgeBox>
+      {
+        challengeData.challengeData === '리뷰 작성 완료' ?
+        <BadgeImg src={review1}></BadgeImg>
+        : null
+      }
+      {
+        challengeData.challengeData === '리뷰 3개 작성 완료' ?
+        <BadgeImg src={review3}></BadgeImg>
+        : null
+      }
+      {
+        challengeData.challengeData === '톡톡 작성 완료' ?
+        <BadgeImg src={talktalk1}></BadgeImg>
+        : null
+      }
+      {
+        challengeData.challengeData === '애니메이션 좋아요 완료' ?
+        <BadgeImg src={likeIcon}></BadgeImg>
+        : null
+      }
+      {
+        challengeData.challengeData === '애니메이션 찜하기 완료' ?
+        <BadgeImg src={wish}></BadgeImg>
+        : null
+      }
+      {
+        challengeData.challengeData === '톡톡 3개 작성 완료' ?
+        <BadgeImg src={talktalk3}></BadgeImg>
+        : null
+      }
+      </BadgeBox>
       <GoalBox>{challengeData.challengeData}</GoalBox>
       <GoalClear>클리어</GoalClear>
     </GoalContainer>

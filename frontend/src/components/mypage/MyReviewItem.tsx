@@ -26,6 +26,7 @@ const Container = styled.div`
 const ReviewBox = styled.div`
   display: flex;
   align-items: center;
+  width: 80%;
   margin-bottom: 0.5rem;
   margin-right: 1rem;
   cursor: pointer;
@@ -43,6 +44,15 @@ const AniName = styled.h3`
 const ReviewText = styled.p`
   margin: 0;
   white-space: pre-wrap;
+`
+const DateDiv = styled.div`
+
+`
+
+const DateText = styled.p`
+  margin: 0;
+  font-size: 0.8rem;
+  color: #333333;
 `
 
 const styleBoxDetail = {
@@ -112,6 +122,7 @@ function MyPageItem(review:any) {
   }
 
   useEffect(() =>{    
+    console.log(review)
     loadData()
   },[])
   return (
@@ -121,18 +132,23 @@ function MyPageItem(review:any) {
           {
             data ?
             <AniName>{data.name}</AniName>
+            
             : null
           }
-          
-        </ReviewBox>
-        <Rating
+          <Rating
               name="customized-color"
               value={review.reviewData.rating}
               readOnly
               precision={0.5}
               icon={<FavoriteIcon fontSize="inherit" />}
               emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+              sx={{marginLeft: '1rem'}}
           />
+        </ReviewBox>
+        
+        <DateDiv>
+          <DateText>작성일 : {review.reviewData.date[0]}.{review.reviewData.date[1]}.{review.reviewData.date[2]}</DateText>
+        </DateDiv>
       </Namediv>
       
       <ReviewText>
@@ -146,7 +162,7 @@ function MyPageItem(review:any) {
           aria-describedby="modal-modal-description"
         >
           <Box sx={styleBoxDetail}>
-            <AniDetail aniId={detailId} />
+            <AniDetail aniId={detailId}/>
           </Box>
         </Modal>
       : null }
