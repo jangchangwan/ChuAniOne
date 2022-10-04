@@ -49,8 +49,8 @@ services:
 
   django:
     build:
-      context: .
-      dockerfile: /backend/recomm/Dockerfile
+      context: /backend/recomm
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     command:
