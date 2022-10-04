@@ -101,11 +101,23 @@ function MyRight() {
   return (
     <RightContainer>
       <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
-        <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary" variant='fullWidth'>
-          <Tab label="애니메이션" {...a11yProps(0)} />
-          <Tab label="리뷰" {...a11yProps(1)} />
-          <Tab label="단어" {...a11yProps(2)} />
-          <Tab label="도전과제" {...a11yProps(3)} />
+        <Tabs 
+          value={value} 
+          onChange={handleChange} 
+          textColor="inherit" 
+          indicatorColor="secondary" 
+          TabIndicatorProps={{
+            sx: {
+              backgroundColor: '#967E76',
+            },
+          }}
+          variant='fullWidth'
+          style={{ color: '#967E76' }}
+        >
+          <Tab label="애니메이션" {...a11yProps(0)} sx={{ fontSize:'1.5rem'}}/>
+          <Tab label="리뷰" {...a11yProps(1)} sx={{ fontSize:'1.5rem'}}/>
+          <Tab label="단어" {...a11yProps(2)} sx={{ fontSize:'1.5rem'}}/>
+          <Tab label="도전과제" {...a11yProps(3)} sx={{ fontSize:'1.5rem'}}/>
         </Tabs>
       </Box>
 
