@@ -7,6 +7,7 @@ import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.DuplicateEmailException;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.global.jwt.TokenProvider;
+import com.ssafy.chuanione.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,9 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
@@ -140,39 +139,35 @@ public class MemberService {
         throw new MemberNotFoundException();
     }
 
-    public void updateMember(int id, UpdateRequestDto requestDto, MultipartFile request) {
+    public void updateMember(int id, UpdateRequestDto requestDto, MultipartFile profile) {
         System.out.println("[Service] updateMember");
-        Member member = requestDto.toEntity();
 
+        Member member = null;
         // request에서 파일 받아와서
-        MultipartFile profile = request;
         System.out.println(profile);
 
         // 프로필이 같이 첨부된 경우
         if (!profile.isEmpty()) {
-            System.out.println("profile is not empty!!");
             try {
                 // 업로드 폴더 접근
                 File uploadDir = new File(uploadPath + File.separator + uploadFolder);
                 // 없으면 업로드 폴더 생성
                 if (!uploadDir.exists()) {
-                    try{
+                    try {
                         uploadDir.mkdir();
                         System.out.println("created uploadDir");
-                    } catch(Exception e){
+                    } catch (Exception e) {
                         System.out.println("failed create uploadDir");
                         e.getStackTrace();
                     }
-                } else {
-                    System.out.println("Aleady exist uploadDir");
                 }
 
                 System.out.println("uploadDir: " + uploadDir);
 
+                Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
                 // 만약 원래 프로필 있으면 해당 프로필 삭제
-                String profileUrl = member.getProfile();
-
-                if(profileUrl != null) {
+                String profileUrl = login.getProfile();
+                if (profileUrl != null) {
                     File origin = new File(uploadDir, profileUrl);
                     System.out.println(origin.getName());
                     if (origin.exists()) origin.delete();
@@ -180,20 +175,10 @@ public class MemberService {
 
                 // 새로운 프로필 저장
                 String profileName = profile.getOriginalFilename();
-
-                System.out.println("profileName: " + profileName);
-
                 UUID uuid = UUID.randomUUID();
                 String ext = profileName.substring(profileName.lastIndexOf(".") + 1);
-                System.out.println(ext);
 
                 String savingName = uuid + "." + ext;
-
-                System.out.println("savingName: " + savingName);
-                File destFile = new File(uploadPath + File.separator + uploadFolder + File.separator + savingName);
-                profile.transferTo(destFile);
-
-                System.out.println("destFile: " + destFile);
 
                 // db에 profile 경로 저장
                 member = Member.builder()
@@ -202,7 +187,14 @@ public class MemberService {
                         .introduction(requestDto.getIntroduction())
                         .password(requestDto.getPassword())
                         .build();
+
                 System.out.println(member);
+
+                File destFile = new File(uploadPath + File.separator + member.getProfile());
+                profile.transferTo(destFile);
+
+                System.out.println("destFile: " + destFile);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -13,15 +13,14 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -127,11 +126,11 @@ public class MemberController {
     }
 
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping(value = "/update/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ApiOperation(value = "회원 정보 수정")
-    public ResponseEntity<String> updateMember(@PathVariable int id, UpdateRequestDto requestDto, @RequestParam("file") MultipartFile profile) {
+    public ResponseEntity<String> updateMember(@PathVariable int id, @RequestPart UpdateRequestDto requestDto, @RequestPart MultipartFile imgFile) {
         System.out.println("[Controller] updateMember");
-        memberService.updateMember(id, requestDto, profile);
+        memberService.updateMember(id, requestDto, imgFile);
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
