@@ -33,9 +33,12 @@ RUN apt-get -y update
 RUN apt-get -y install vim #docker 안에서 vim설치를 안하도록
 
 RUN mkdir /srv/docker-server #docker안에서 srv/docker-server 폴더 생성
-ADD . /srv/docker-server #현재 디렉토리를 통째로 srv/docker-server폴더에 복사
 
 WORKDIR /srv/docker-server #작업 디렉토리 설정
+
+ADD . /srv/docker-server #현재 디렉토리를 통째로 srv/docker-server폴더에 복사
+
+
 
 RUN pip install --upgrade pip #pip 업그레이드
 RUN pip install uwsgi
