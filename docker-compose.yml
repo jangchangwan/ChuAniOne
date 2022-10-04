@@ -54,7 +54,7 @@ services:
       context: ./backend/recomm
       dockerfile: Dockerfile
     expose:
-      - "8000:8000"
+      - "8000"
     # command:
     #   # - ls
       - python manage.py runserver 0:8000
