@@ -15,6 +15,7 @@ services:
     container_name: nginx_chu
     depends_on:
       - spring-boot
+      - django
 
 
 
@@ -60,7 +61,7 @@ services:
       # - gunicorn closet.wsgi:application --bind 0.0.0.0:8000
       # - gunicorn recomm.wsqi.application --bind 0.0.0.0:8000
     # volumes:
-    #   - ./backend/recomm:/app/
+    #   - ./backend/recomm:/project
     container_name: django_chu
     restart: always
     environment:
