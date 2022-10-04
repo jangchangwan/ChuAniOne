@@ -80,8 +80,14 @@ const ProfileContainerExpTextBox = styled.div`
 
 // 텍스트 박스 안의 왼쪽, 오른쪽 텍스트
 const ProfileContainerExpText = styled.div`
+  background-color: #f37b83;
+  border-radius: 10%;
+  padding: 2px;
+  color: white;
   height: 1rem;
   font-size: 0.8rem;
+  opacity: 1;
+  transition: opacity 0.35s ease-in-out;
 `
 
 // 경험치 바 밖
@@ -91,6 +97,9 @@ const ProfileContainerExpOut = styled.div`
   height: 1rem;
   border-radius: 10px 10px 10px 10px;
   border-color: #f37b83;
+  &:hover .remainExp {
+    opacity: 1;
+  }
 `
 
 // 경험치 바 안
@@ -98,6 +107,9 @@ const ProfileContainerExpIn = styled.div`
   height: 1rem;
   border-radius: 10px 10px 10px 10px;
   background-color: #f37b83; 
+  &:hover .remainExp {
+    opacity: 1;
+  }
 `
 
 // 소개
@@ -325,8 +337,6 @@ function MyLeft() {
                     sx={{ paddingTop: '2px', cursor: 'pointer'}}
                   ></MoreVertIcon>
                 </Grid>
-                
-                
               </Grid>
               
               <Dialog open={open} onClose={handleClose}>
@@ -356,7 +366,10 @@ function MyLeft() {
                     }
                     
                   </div>
-                  <Button>이미지 선택</Button>
+                  <Button component="label">
+                    이미지 선택
+                    <input hidden multiple type="file" />
+                  </Button>
                   <Grid container spacing={1}>
                     <Grid item xs={8}>
                       <TextField
@@ -433,8 +446,7 @@ function MyLeft() {
             </ProfileContainerLv>
             
             <ProfileContainerExpTextBox>
-              {/* <ProfileContainerExpText style={{ color:"blue" }}>현재 경험치 : {myexp}</ProfileContainerExpText> */}
-              <ProfileContainerExpText style={{ color:"red" }}>다음 레벨까지 : {100 - myexp} !!</ProfileContainerExpText>
+              <ProfileContainerExpText className='remainExp'>다음 레벨까지 : {100 - myexp} !!</ProfileContainerExpText>
             </ProfileContainerExpTextBox>
             <ProfileContainerExpOut>
               <ProfileContainerExpIn style={{ width: `${myexp}%`}}></ProfileContainerExpIn>
