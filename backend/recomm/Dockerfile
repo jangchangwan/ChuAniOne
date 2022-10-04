@@ -28,16 +28,15 @@
 FROM python:3.8
 
 ENV PYTHONUNBUFFERED 1
-WORKDIR /srv/docker-server #작업 디렉토리 설정
 
 RUN apt-get -y update
 RUN apt-get -y install vim #docker 안에서 vim설치를 안하도록
 
-# RUN mkdir /srv/docker-server #docker안에서 srv/docker-server 폴더 생성
+RUN mkdir /srv/docker-server #docker안에서 srv/docker-server 폴더 생성
 
+WORKDIR /srv/docker-server #작업 디렉토리 설정
 
-
-ADD . /srv/docker-server #현재 디렉토리를 통째로 srv/docker-server폴더에 복사
+COPY . /srv/docker-server #현재 디렉토리를 통째로 srv/docker-server폴더에 복사
 
 
 
