@@ -2,14 +2,17 @@ FROM python:3.8
 
 RUN apt-get update && pip install --upgrade pip
 
-# WORKDIR /app
+WORKDIR /app
+
+# WORKDIR /usr/src/app
+# RUN mkdir /project
+# ADD . /project
 # WORKDIR /project
-WORKDIR /usr/src/app
 
 # COPY requirements.txt  ./
 # COPY requirements.txt  /app/
 
-COPY . .
+# COPY . .
 
 RUN pip install -r requirements.txt
 
