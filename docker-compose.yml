@@ -58,7 +58,6 @@ services:
     # command:
     #   # - ls
       # - python manage.py runserver 0:8000
-      # - gunicorn closet.wsgi:application --bind 0.0.0.0:8000
       # - gunicorn recomm.wsqi.application --bind 0.0.0.0:8000
     # volumes:
     #   - ./backend/recomm:/project
