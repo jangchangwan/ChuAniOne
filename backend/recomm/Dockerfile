@@ -36,7 +36,7 @@ RUN mkdir /srv/docker-server #docker안에서 srv/docker-server 폴더 생성
 
 WORKDIR /srv/docker-server #작업 디렉토리 설정
 
-ADD . /srv/docker-server #현재 디렉토리를 통째로 srv/docker-server폴더에 복사
+ADD ./recomm /srv/docker-server #현재 디렉토리를 통째로 srv/docker-server폴더에 복사
 
 
 
