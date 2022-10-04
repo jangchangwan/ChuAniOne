@@ -53,7 +53,7 @@ services:
     build:
       context: ./backend/recomm
       dockerfile: Dockerfile
-    ports:
+    expose:
       - "8000:8000"
     # command:
     #   # - ls
