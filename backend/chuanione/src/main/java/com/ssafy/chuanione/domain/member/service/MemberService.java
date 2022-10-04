@@ -7,6 +7,7 @@ import com.ssafy.chuanione.domain.member.dto.*;
 import com.ssafy.chuanione.domain.member.exception.DuplicateEmailException;
 import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.global.jwt.TokenProvider;
+import com.ssafy.chuanione.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,9 +15,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +33,10 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final EmailTokenService emailTokenService;
+
+    private final String uploadPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
+    private final String uploadFolder = "uploads";
+
 
     public MemberResponseDto doSignUp(SignUpRequestDto requestDto) throws Exception {
         // Login id/pw로 AuthenticationToken 생성
@@ -130,11 +139,72 @@ public class MemberService {
         throw new MemberNotFoundException();
     }
 
-    public void updateMember(int id, UpdateRequestDto requestDto) {
-        Member member = requestDto.toEntity();
+    public void updateMember(int id, UpdateRequestDto requestDto, MultipartFile profile) {
+        System.out.println("[Service] updateMember");
+
+        Member member = null;
+        // request에서 파일 받아와서
+        System.out.println(profile);
+
+        // 프로필이 같이 첨부된 경우
+        if (!profile.isEmpty()) {
+            try {
+                // 업로드 폴더 접근
+                File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+                // 없으면 업로드 폴더 생성
+                if (!uploadDir.exists()) {
+                    try {
+                        uploadDir.mkdir();
+                        System.out.println("created uploadDir");
+                    } catch (Exception e) {
+                        System.out.println("failed create uploadDir");
+                        e.getStackTrace();
+                    }
+                }
+
+                System.out.println("uploadDir: " + uploadDir);
+
+                Member login = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
+                // 만약 원래 프로필 있으면 해당 프로필 삭제
+                String profileUrl = login.getProfile();
+                if (profileUrl != null) {
+                    File origin = new File(uploadPath, profileUrl);
+                    System.out.println(origin);
+                    if (origin.exists()) origin.delete();
+                }
+
+                // 새로운 프로필 저장
+                String profileName = profile.getOriginalFilename();
+                UUID uuid = UUID.randomUUID();
+                String ext = profileName.substring(profileName.lastIndexOf(".") + 1);
+
+                String savingName = uuid + "." + ext;
+
+                // db에 profile 경로 저장
+                member = Member.builder()
+                        .profile(uploadFolder + "/" + savingName)
+                        .nickname(requestDto.getNickname())
+                        .introduction(requestDto.getIntroduction())
+                        .password(requestDto.getPassword())
+                        .build();
+
+                System.out.println(member);
+
+                File destFile = new File(uploadPath + File.separator + member.getProfile());
+                profile.transferTo(destFile);
+
+                System.out.println("destFile: " + destFile);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         Member target = memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
         target.patch(member, passwordEncoder);
         memberRepository.save(target);
+
         return;
     }
 
