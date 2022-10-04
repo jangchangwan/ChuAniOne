@@ -15,6 +15,7 @@ services:
     container_name: nginx_chu
     depends_on:
       - spring-boot
+      - django
 
 
   db:
@@ -51,13 +52,13 @@ services:
     build:
       context: ./backend/recomm
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    # command:
+    expose:
+      - "8000"
+    command:
     #   # - ls
       # - python manage.py runserver 0:8000
       # - gunicorn closet.wsgi:application --bind 0.0.0.0:8000
-      # - gunicorn recomm.wsqi.application --bind 0.0.0.0:8000
+      - gunicorn recomm.wsqi.application --bind 0.0.0.0:8000
     # volumes:
     #   - ./backend/recomm:/app/
     container_name: django_chu
