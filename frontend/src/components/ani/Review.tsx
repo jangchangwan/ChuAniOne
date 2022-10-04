@@ -13,6 +13,7 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import border1 from '../../assets/images/border1.png'
 import border2 from '../../assets/images/border2.png'
+import axios from 'axios'
 
 // redux
 import { useDispatch } from 'react-redux'
@@ -163,6 +164,7 @@ function Review({ aniId }) {
 
   const dispatch = useDispatch<typeof store.dispatch>()
   const isLogin = useSelector((state: initialState) => (state.login.isLogin))
+  const member_id = useSelector((state: initialState) => (state.login.userId))
 
   const [data, setData] = useState<Review | null>(null)
   const [count, setCount] = useState<number>(0)
@@ -216,10 +218,23 @@ function Review({ aniId }) {
     }))
     
     if (res.meta.requestStatus === "fulfilled") {
-      setReview('')
-      setMyStar(3)
-      loadData()
+      await sendDjango()
+      await setReview('')
+      await setMyStar(3)
+      await loadData()
     }
+  }
+
+  // 리뷰 장고로 보내기
+  async function sendDjango() {
+    await axios.post(`https://j7e104.p.ssafy.io/server/v1/recomm`, 
+      {
+        member_id,
+        ani_id: aniId,
+        score: myStar,
+        content: review,
+      }
+    )
   }
   
   // 리뷰 수정하기
