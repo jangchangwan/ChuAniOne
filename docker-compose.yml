@@ -49,7 +49,7 @@ services:
 
   django:
     build:
-      context: /backend/recomm
+      context: ./backend/recomm
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
