@@ -7,6 +7,7 @@ from scipy.sparse.linalg import svds
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+
 # 환경변수 불러오기
 dotenv.load_dotenv(dotenv.find_dotenv())
 HOST = os.environ["MONGO_HOST"]
@@ -148,10 +149,13 @@ def get_user_data(user_id, ani_id, score):
     
     global rating_df, user_ani_ratings_df
     
-    review = dbcol_review.find_one({"profile": user_id, "ani_id": ani_id})
+    review = dbcol_review.find_one({"profile": user_id, "animation": ani_id})
+    print(review)
     if review != None:
+        print("score update")
         dbcol_review.update_one({"profile": user_id, "animation": ani_id}, {"$set": {"score": score}}, upsert=True)
     else:
+        print("review insert")
         dbcol_review.insert_one({"profile": user_id, "animation": ani_id, "score": score})
 
     # rating_df에 데이터 추가
@@ -199,8 +203,10 @@ def get_user_data(user_id, ani_id, score):
     
     log = dbcol_log.find_one({"member_id": user_id})
     if log != None:
+        print("related update")
         dbcol_log.update_one({"member_id": user_id}, {"$set": {"recommended": id_list}}, upsert=True)
     else:
+        print("related insert")
         dbcol_log.insert_one({"member_id": user_id, "recommended": id_list})
         print("member_id: ", user_id)
         print("recommended: ", id_list)
