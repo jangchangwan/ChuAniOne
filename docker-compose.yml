@@ -67,7 +67,7 @@ services:
   #   - TZ=Asia/Seoul
   #   depends_on:
   #     - db
-   django:
+  django:
     container_name: django_chu
     build: ./recomm
     image: docker-server/django
