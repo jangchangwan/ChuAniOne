@@ -43,6 +43,7 @@ rating_df = rating_df.dropna(how="any")
 rating_df["user_id"].replace("", np.nan, inplace=True)
 rating_df = rating_df.dropna(how="any") # Null값이 존재하는 행 제거
 
+
 print("Null값 유무: ", rating_df.isnull().values.any())
 print("총 데이터 수: ", len(rating_df))
 
@@ -59,9 +60,10 @@ ani_df_id_to_name = dict(zip(ani_df["ani_id"], ani_df["ani_name"]))
 feat_df_id_to_idx = dict(zip(feat_df["id"], feat_df.index))
 feat_df_idx_to_feat = dict(zip(feat_df.index, feat_df["feat_str"]))
 
+print("기본프린트문 끝")
 
 def recommend_ani(df_svd_preds, userId, ori_ani_df, ori_score_df, n):
-
+    print("애니추천 시작")
     # 최종적으로 만든 pred_df에서 사용자 index에 따라 애니 데이터 정렬 -> 애니 평점이 높은 순으로 정렬 됌
     sorted_user_predictions = df_svd_preds.loc[userId].sort_values(ascending=False)
     # print(sorted_user_predictions)
