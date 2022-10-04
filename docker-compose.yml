@@ -69,7 +69,7 @@ services:
   #     - db
   django:
     container_name: django_chu
-    build: /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm
+    build: ./backend/recomm
     image: docker-server/django
     restart: always
     command: uwsgi --ini uwsgi.ini
