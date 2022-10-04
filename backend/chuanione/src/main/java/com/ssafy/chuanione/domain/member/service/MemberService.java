@@ -168,8 +168,8 @@ public class MemberService {
                 // 만약 원래 프로필 있으면 해당 프로필 삭제
                 String profileUrl = login.getProfile();
                 if (profileUrl != null) {
-                    File origin = new File(uploadDir, profileUrl);
-                    System.out.println(origin.getName());
+                    File origin = new File(uploadPath, profileUrl);
+                    System.out.println(origin);
                     if (origin.exists()) origin.delete();
                 }
 
