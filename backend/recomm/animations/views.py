@@ -11,9 +11,10 @@ from drf_yasg.utils import swagger_auto_schema
 
 @api_view(["GET"])
 def animation_list(request):
-    return "hihi"
     animations = Animation.objects.all()
+    print("테스트1")
     ani_serializer = AnimationSerializer(animations, many=True)
+    print("테스트2")
     return JsonResponse(ani_serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
