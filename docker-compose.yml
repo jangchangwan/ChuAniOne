@@ -12,6 +12,7 @@ services:
       - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/frontend/build:/usr/share/nginx/html
       - /var/nginx/log:/log
       - /home/ubuntu/docker-volume/ssl:/var/www/html
+      - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm:/srv/docker-server
     container_name: nginx_chu
     depends_on:
       - spring-boot
