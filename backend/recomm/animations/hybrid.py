@@ -47,15 +47,15 @@ rating_df = rating_df.dropna(how="any") # Null값이 존재하는 행 제거
 print("Null값 유무: ", rating_df.isnull().values.any())
 print("총 데이터 수: ", len(rating_df))
 
-print("기본프린트문 끝-1")
+
 # 형태소 분석이 이뤄진 데이터 불러오기
 feat_df = pd.DataFrame(dbcol_feat.find({}, {"id": 1, "feat_str": 1}))
 
-print("기본프린트문 끝-2")
+
 # 사용자 - 애니 pivot table 생성
 user_ani_ratings_df = rating_df.pivot(index="user_id", columns="ani_id", values="score").fillna(0)
 
-print("기본프린트문 끝-3")
+
 ani_df_id_to_idx = dict(zip(ani_df["ani_id"], ani_df.index))
 ani_df_idx_to_series = dict(zip(ani_df.index, ani_df["series_id"]))
 ani_df_id_to_series = dict(zip(ani_df["ani_id"], ani_df["series_id"]))
@@ -65,6 +65,7 @@ feat_df_idx_to_feat = dict(zip(feat_df.index, feat_df["feat_str"]))
 
 
 def recommend_ani(df_svd_preds, userId, ori_ani_df, ori_score_df, n):
+    print("추천 시작")
     # 최종적으로 만든 pred_df에서 사용자 index에 따라 애니 데이터 정렬 -> 애니 평점이 높은 순으로 정렬 됌
     sorted_user_predictions = df_svd_preds.loc[userId].sort_values(ascending=False)
     # print(sorted_user_predictions)
@@ -118,9 +119,10 @@ def recommend_ani(df_svd_preds, userId, ori_ani_df, ori_score_df, n):
         # 30개가 추천되면 종료
         if len(recommendation_list) == n:
             return user_history_list, recommendation_list
-
+    print("추천 끝")
 
 def recommend_ani_2(user_history_list, recommendation_list, n):
+    print("TFIDF 시작")
     tf_idf_list = list()
     user_feat = ""
     for i in user_history_list:
@@ -146,7 +148,7 @@ def recommend_ani_2(user_history_list, recommendation_list, n):
         id_list.append(recommendation_list[sim_scores[num][0]-1])
 
     return id_list
-
+    print("TFIDF 끝")
 
 def get_user_data(user_id, ani_id, score):
     
