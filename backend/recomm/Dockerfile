@@ -18,7 +18,7 @@ RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000","--timeout 600" ,"recomm.wsgi:application"]
+CMD ["gunicorn", "--timeout 600", "--bind", "0.0.0.0:8000" ,"recomm.wsgi:application"]
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 # CMD ["python3", "manage.py", "runserver",  "0:8000"]
 
