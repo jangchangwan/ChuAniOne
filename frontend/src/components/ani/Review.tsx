@@ -11,7 +11,6 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
-import border1 from '../../assets/images/border1.png'
 import border2 from '../../assets/images/border2.png'
 import axios from 'axios'
 
@@ -33,7 +32,6 @@ const Container = styled.div`
   color: #333333;
 `
 
-
 const StarContainer = styled.div`
   width: 100%;
   display: flex;
@@ -43,14 +41,13 @@ const StarContainer = styled.div`
   margin-bottom: 1.5rem;
 `
 
-
 const StarBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin: 0 2rem;
-  `
+`
 
 const StarTitle = styled.h3`
   margin: 0;
@@ -66,7 +63,6 @@ const StarText = styled.h2`
   padding-bottom: 15px;
 `
 
-
 const StyledRating = styled(Rating)(
   {
   '& .MuiRating-iconFilled': {
@@ -77,12 +73,8 @@ const StyledRating = styled(Rating)(
   },
 })
 
-
-
-
 const MyReviewBox = styled.div`
   background: linear-gradient( to bottom,  #e8fabf, #f6fde4);
-  /* background-color: #e8fabf ; */
   border-radius: 0.5rem;
   width: 95%;
   padding: 2.5%;
@@ -121,14 +113,12 @@ const MyReviewContent = styled.p`
 const ReviewInput = styled(TextField)`
 `
 
-
 const ReviewTitle = styled.p`
   font-weight: bold;
   margin-bottom: 0;
   cursor: default;
   margin-top: 1rem;
 `
-
 
 const WriteReview = styled.div`
   position: relative;
@@ -149,7 +139,9 @@ const SaveBtn = styled(Button)`
   }
 `
 
+/** 상세페이지: 리뷰 */
 function Review({ aniId }) {
+  /** review type */
   interface Review {
     animation: number,
     content: string,
@@ -166,11 +158,19 @@ function Review({ aniId }) {
   const isLogin = useSelector((state: initialState) => (state.login.isLogin))
   const member_id = useSelector((state: initialState) => (state.login.userId))
 
+  /** 
+    data: 리뷰 목록
+    count: 리뷰 개수
+    rating: 평균 별점
+    myStar: 내 별점
+    myReview: 내 리뷰 데이터
+    review: 작성하는 리뷰
+    delModal: 삭제 확인 모달
+    revise: 수정 상태 여부
+  **/
   const [data, setData] = useState<Review | null>(null)
   const [count, setCount] = useState<number>(0)
   const [rating, setRating] = useState<number>(0)
-
-  const [showRating, setShowRating] = useState<number>(0)
   const [myStar, setMyStar] = useState<number>(3)
 
   const [myReview, setMyReview] = useState<Review>()
@@ -179,8 +179,10 @@ function Review({ aniId }) {
   const [delModal, setDelModal] = useState<boolean>(false)
   const [revise, setRevise] = useState<boolean>(false)
 
-  // 리뷰 데이터 불러오기
+  /** 전체 & 내 리뷰데이터 불러오기 */
   async function loadData() {
+
+    // 전체 리뷰 데이터 불러오기
     const res = await dispatch(getReviewAll(aniId))
     if (res.meta.requestStatus === "fulfilled") {
       setCount(res.payload.count)
@@ -192,6 +194,7 @@ function Review({ aniId }) {
       }
     }
 
+    // 내 리뷰데이터 불러오기
     if (isLogin) {
       const mine = await dispatch(getMyReview(aniId))
       if (mine.meta.requestStatus === "fulfilled" && mine.payload !=="NO") {
@@ -207,7 +210,7 @@ function Review({ aniId }) {
   }
 
 
-  // 리뷰 작성하기
+  /** 리뷰 작성 */
   async function sendReview() {
     if (!review.trim()) return
 
@@ -216,18 +219,20 @@ function Review({ aniId }) {
       content: review,
       rating: myStar,
     }))
+
+    await sendDjango()
     
     if (res.meta.requestStatus === "fulfilled") {
-      await sendDjango()
       await setReview('')
       await setMyStar(3)
       await loadData()
     }
   }
 
-  // 리뷰 장고로 보내기
+  /** 리뷰 작성 시, Django로 전송 */
   async function sendDjango() {
-    await axios.post(`https://j7e104.p.ssafy.io/server/v1/recomm`, 
+    // await axios.post(`https://j7e104.p.ssafy.io/server/v1/recomm`, 
+    await axios.post(`http://localhost:8000/server/v1/recomm`, 
       {
         member_id,
         ani_id: aniId,
@@ -237,7 +242,7 @@ function Review({ aniId }) {
     )
   }
   
-  // 리뷰 수정하기
+  /** 리뷰 수정 */
   async function reviseReview() {
     if (!review.trim()) return 
 
@@ -258,7 +263,7 @@ function Review({ aniId }) {
   }
 
 
-  // 리뷰 삭제하기
+  /** 리뷰 삭제 */
   async function delReview() {
     if (myReview) {
       const res = await dispatch(deleteReview(myReview.id))
@@ -267,20 +272,22 @@ function Review({ aniId }) {
     loadData()
   }
 
-  // 별점매기기
+  /** 별점 매기기 */
   const getStar = (event: any): void => {
     setMyStar(event.target.value)
   }
 
-  // 삭제 모달 open/close
+  /** 삭제 모달 열기 */
   const openDelModal = () => {
     setDelModal(true)
   }
 
+  /** 삭제 모달 닫기 */
   const closeDelModal = () => {
     setDelModal(false)
   }
 
+  // 애니메이션에 따라 데이터 불러오기
   useEffect(() => {
     loadData()
   }, [aniId])
@@ -388,7 +395,6 @@ function Review({ aniId }) {
                 onChange={(e) => setReview(e.target.value)}
                 onKeyPress={(e) => {
                   if (e.key === "Enter" && e.shiftKey) setReview(`${review}\n`)
-                  // if (e.key === "Enter" && !e.shiftKey) reviseReview()
                 }}
                 fullWidth
               />
@@ -417,9 +423,6 @@ function Review({ aniId }) {
                 InputProps={{ sx: { paddingRight: '5rem' } }}
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
-                // onKeyPress={(e) => {
-                //   if (e.key === "Enter" && !e.shiftKey) sendReview()
-                // }}
                 fullWidth
               />
 
@@ -431,6 +434,7 @@ function Review({ aniId }) {
         
       ) : null }
       
+      {/* 리뷰 삭제 모달 */}
       <Dialog
         open={delModal}
         onClose={closeDelModal}
@@ -452,9 +456,7 @@ function Review({ aniId }) {
         </DialogActions>
       </Dialog>
       
-
-        <ReviewTitle>{ count } 개의 리뷰</ReviewTitle>
-
+      <ReviewTitle>{ count } 개의 리뷰</ReviewTitle>
       <ReviewList data={data}/>
     </Container>
   )
