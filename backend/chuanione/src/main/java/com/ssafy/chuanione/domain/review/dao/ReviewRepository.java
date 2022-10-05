@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    List<Review> findByAnimationId(int animation_id);
+    List<Review> findByAnimationIdOrderByIdDesc(int animation_id);
 
     Review findByAnimationIdAndMemberId(int animation_id, Member member_id);
     List<Review> findAllByMemberId(Member member);
