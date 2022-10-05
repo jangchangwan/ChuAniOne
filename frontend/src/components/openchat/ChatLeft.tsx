@@ -12,6 +12,10 @@ const Container = styled.div`
   height: 85%;
   padding: 1rem 2rem;
   z-index: 2;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const TabBox = styled.div`
@@ -75,7 +79,18 @@ function ChatLeft ({ handleOpened }: any) {
 
   return (
     <Container>
-      <Tabs value={value} onChange={handleChange} textColor="secondary" indicatorColor="secondary" centered>
+      <Tabs 
+        value={value} 
+        onChange={handleChange}
+        textColor='inherit'
+        TabIndicatorProps={{
+          sx: {
+            backgroundColor: '#06113C',
+          },
+        }}
+        style={{ color: '#06113C', width: '70%' }}
+        variant="fullWidth"
+      >
         <Tab label="전체 오픈채팅" {...a11yProps(0)} />
         <Tab label="내 채팅목록" {...a11yProps(1)} />
         <Tab label="방 만들기" {...a11yProps(2)} />

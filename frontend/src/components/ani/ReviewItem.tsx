@@ -5,10 +5,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import Rating from '@mui/material/Rating'
 
-// redux
-import { useSelector } from 'react-redux'
-import initialState from '../../store/Loginslice'
-
 const Container = styled.div`
   margin-top: 1rem;
   border-radius: 0.5rem;
@@ -29,19 +25,6 @@ const UserBox = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
-`
-
-const UserImgBox = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 0.5rem;
-`
-
-const UserImg = styled.img`
-  width: 100%;
-  height: 100%;
 `
 
 const UserName = styled.h3` 

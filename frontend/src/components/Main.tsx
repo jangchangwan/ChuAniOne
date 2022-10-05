@@ -15,7 +15,7 @@ import { motion } from 'framer-motion'
 // redux
 import { useDispatch } from 'react-redux'
 import store from '../store'
-import { getMain } from '../store/anislice'
+import { getMain, resetAniId, setAniId } from '../store/anislice'
 
 
 const Container = styled.div`
@@ -161,41 +161,41 @@ function Main() {
 
   /**
     openDetail: 상세페이지 모달
-    detailId: 상세페이지가 열려있는 애니메이션 id
     arr: data 중 보여줄 데이터 랜덤 선택
   **/
   const [openDetail, setOpenDetail] = useState<boolean>(false)  
-  const [detailId, setDetailId] = useState<number | null>(null)
   const [arr, setArr] = useState<string[]>([])
   
   // title: data의 key에 따른 제목
   const title = {
-    '0': '판타지 액션',    // 판타지 액션
-    '1': '드라마 로맨스',  // 드라마 로맨스
-    '2': '모험 무협',      // 모험 무협
-    '3': '이세계 판타지',  // 이세계 판타지
-    '4': '모험 SF',        // 모험 SF
-    '5': '스포츠 드라마',  // 스포츠 드라마
-    '6': '공포 스릴러',    // 공포 스릴러
-    '7': '치유',           // 치유 
-    '8': '음악 로맨스',    // 음악 로맨스 
-    '9': '음식 일상',      // 음식 일상
-    '10': '개그 하렘',     // 개그 하렘
+    '0': '화려하고 통쾌하게 펼쳐지는!',    // 판타지 액션
+    '1': '두근두근 설레고 싶은 날',  // 드라마 로맨스
+    '2': '무협에 모험을 더했다..랄까?',      // 모험 무협
+    '3': '그..그치만 이세계도 세상인걸요',  // 이세계 판타지
+    '4': 'SF에 모험을 더했다..랄까?',        // 모험 SF
+    '5': '운동, 열정, 경쟁, 그리고 드라마',  // 스포츠 드라마
+    '6': '무섭지 않은 것은 전력으로 반대한다.',    // 공포 스릴러
+    '7': '마음을 편안하게 하고 싶다면',           // 치유 
+    '8': '나라에서 허락하는 유일한 마약 .. 음악 그리고 사랑 ..',    // 음악 로맨스 
+    '9': '배고픔 주의!',      // 음식 일상
+    '10': '즐거운 개그! 그리고 하렘!',     // 개그 하렘
     '11': '내 이름은 코난, 탐정이죠 !', // 추리
     '12': '내가 찾던 게 바로 이거잖아',
   }
 
 
   /** 상세페이지 모달 열기(aniId) */
-  const handleOpenDetail = (aniId) => {
+  async function handleOpenDetail(aniId) {
+    await dispatch(setAniId(aniId))
     setOpenDetail(true)
-    setDetailId(aniId)
   }
   
   /** 상세페이지 모달 닫기 */
-  const handleCloseDetail = () => {
+  async function handleCloseDetail() {
+    await dispatch(resetAniId())
     setOpenDetail(false)
   }
+
 
   // 추천작 캐러셀
   const carousel00 = useRef() as React.MutableRefObject<HTMLDivElement>
@@ -691,18 +691,16 @@ function Main() {
         </RightContainer>
         
         {/* 상세 페이지 모달 */}
-        { detailId ?
-          <Modal
-            open={openDetail}
-            onClose={handleCloseDetail}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={styleBoxDetail}>
-              <AniDetail aniId={detailId} />
-            </Box>
-          </Modal>
-        : null }
+        <Modal
+          open={openDetail}
+          onClose={handleCloseDetail}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={styleBoxDetail}>
+            <AniDetail/>
+          </Box>
+        </Modal>
 
       </motion.div>
     </Container>

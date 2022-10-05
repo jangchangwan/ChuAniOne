@@ -112,7 +112,7 @@ function ChatTotalItem({ chatData, loadData, page }: any): any {
       const users: User[] = res.payload.mDto
       var joined = false
 
-      users.map((user: any, idx: number) => {
+      users.map((user) => {
         if (user.memberId === userId) {
           joined = true
         }

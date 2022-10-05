@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '@mui/material/Button'
-import LocalFloristIcon from '@mui/icons-material/LocalFlorist'
 
 // redux
 import { useSelector } from 'react-redux'
@@ -34,10 +32,6 @@ const NameBox = styled.div`
   align-items: center;
 `
 
-const MineIcon = styled(LocalFloristIcon)`
-  height: 100%;
-  color: #FFAFAF;
-`
 const Name = styled.p`
   font-size: 1.4rem;
   font-weight: bold;
