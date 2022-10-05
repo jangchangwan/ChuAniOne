@@ -27,6 +27,7 @@ const Container = styled.div`
   height: 100%;
   overflow: hidden;
   color: #333333;
+  border-radius: 1rem;
 `
 
 const TopBox = styled.div`
