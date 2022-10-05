@@ -1,10 +1,14 @@
 import React from 'react'
+
+// MUI
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import MyLeft from './MyLeft';
-import MyRight from './MyRight';
+import MyLeft from './MyLeft'
+import MyRight from './MyRight'
 
+// styled Component
 import styled from 'styled-components'
+
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -13,6 +17,7 @@ const MyPageContainer = styled.div`
   background-color: #f7f8f9;
 `
 
+/** 마이페이지 전체페이지 */
 function MyPage() {
   return (
     <MyPageContainer>
@@ -31,7 +36,7 @@ function MyPage() {
         </Grid>
       </Grid>
     </MyPageContainer>
-  );
+  )
 }
 
-export default MyPage;
+export default MyPage

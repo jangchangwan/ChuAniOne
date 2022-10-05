@@ -9,6 +9,7 @@ import OpenChatReducer from './openchatslice'
 import AniReducer from './anislice'
 import BigvocaReducer from './bigvocaslice'
 import MypageReducer from './mypageslice'
+
 // thunk 관련
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
@@ -18,9 +19,6 @@ const rootPersistConfig = {
 }
 
 const rootReducers = combineReducers({
-
-  // signup: signupReducer,
-  // accounts : accountsReducer,
   auth: AuthReducer,
   login: LoginReducer,
   openchat: OpenChatReducer,
@@ -40,5 +38,5 @@ const store = configureStore({
     }),
     devTools: process.env.NODE_ENV !== 'production',
 })
-export type AppDispatch = typeof store.dispatch;
-export default store;
+export type AppDispatch = typeof store.dispatch
+export default store

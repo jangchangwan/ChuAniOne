@@ -1,13 +1,17 @@
-import React from 'react';
-// CSS 관련
-import Grid from '@mui/material/Grid';
-import Checkbox from '@mui/material/Checkbox';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import React from 'react'
 
+// MUI
+import Grid from '@mui/material/Grid'
+import Checkbox from '@mui/material/Checkbox'
+import VolumeUpIcon from '@mui/icons-material/VolumeUp'
+
+// redux
 import { insertMyVoca, deleteMyVoca } from '../../store/bigvocaslice'
 import { useDispatch } from "react-redux"
 import store from '../../store'
-import styled from 'styled-components';
+
+// styled Component
+import styled from 'styled-components'
 
 
 const WordItemGrid = styled(Grid)`
@@ -33,7 +37,6 @@ function textToSpeech(word: string): void {
 
   
   const speechMsg = new SpeechSynthesisUtterance()
-  console.log(window.speechSynthesis.getVoices());
 
   speechMsg.rate = 1 // 속도: 0.1 ~ 10      
   speechMsg.pitch = 1 // 음높이: 0 ~ 2
@@ -57,7 +60,7 @@ function MyWordItem(wordData:any) {
     } else {
       dispatch(deleteMyVoca(wordData.wordData.voca.vocaId))
     }
-    setChecked(event.target.checked);
+    setChecked(event.target.checked)
   }
 
   return (
@@ -110,7 +113,7 @@ function MyWordItem(wordData:any) {
         </Grid>
       </Grid>
     </WordItemGrid>
-  );
+  )
 }
 
-export default MyWordItem;
+export default MyWordItem

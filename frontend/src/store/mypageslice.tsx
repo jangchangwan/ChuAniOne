@@ -2,7 +2,7 @@ import http from '../api/axios'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 
-// 내 애니 조회
+/** 내 애니 조회 */ 
 export const getMyAniList = createAsyncThunk(
   'GETMYANILIST',
   async ( arg, {rejectWithValue}) => {
@@ -22,7 +22,7 @@ export const getMyAniList = createAsyncThunk(
   }
 )
 
-// 찜한 애니 전체조회
+/** 찜한 애니 전체조회 */ 
 export const getChoiceAniList = createAsyncThunk(
   'GETCHOICEANILIST',
   async ( arg, {rejectWithValue}) => {
@@ -42,7 +42,8 @@ export const getChoiceAniList = createAsyncThunk(
     }
   }
 )
-// 좋아요한 애니 전체 조회
+
+/** 좋아요한 애니 전체 조회 */ 
 export const getLikeAniList = createAsyncThunk(
   'GETLIKEANILIST',
   async ( arg, {rejectWithValue}) => {
@@ -62,7 +63,7 @@ export const getLikeAniList = createAsyncThunk(
   }
 )
 
-// 시청한 애니 전체조회
+/** 시청한 애니 전체조회 */ 
 export const getWatchAniList = createAsyncThunk(
   'GETWATCHANILIST',
   async ( arg, {rejectWithValue}) => {
@@ -82,7 +83,7 @@ export const getWatchAniList = createAsyncThunk(
   }
 )
 
-// 내 리뷰 전체조회
+/** 내 리뷰 전체조회 */ 
 export const getMyReview = createAsyncThunk(
   'GETMYREVIEW',
   async ( arg, {rejectWithValue}) => {
@@ -94,15 +95,14 @@ export const getMyReview = createAsyncThunk(
       if (res.status === 200){
         return res.data
       }
-      console.log('err', res)
-      return
+      return res.data
     } catch(err:any) {
       return rejectWithValue(err.response)
     }
   }
 )
 
-// 내 단어 전체조회
+/** 내 단어 전체조회 */ 
 export const getMyvoca = createAsyncThunk(
   'GETMYREVIEW',
   async ( arg, {rejectWithValue}) => {
@@ -121,6 +121,7 @@ export const getMyvoca = createAsyncThunk(
   }
 )
 
+/** 내 도전과제 조회 */
 export const getchallenge = createAsyncThunk(
   'GETCHALLENGE',
   async ( arg, {rejectWithValue}) => {
@@ -156,5 +157,5 @@ const mypageslice:any = createSlice({
   },
 })
 
-export const {  } = mypageslice.actions
+
 export default mypageslice.reducer

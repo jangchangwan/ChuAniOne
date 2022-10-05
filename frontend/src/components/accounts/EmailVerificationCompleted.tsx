@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 // MUI
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 

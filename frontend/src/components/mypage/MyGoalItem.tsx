@@ -1,5 +1,9 @@
 import React, {useEffect} from 'react'
+
+// styled Component
 import styled from "styled-components"
+
+// image
 import likeIcon from '../../assets/images/like.png'
 import wish from '../../assets/images/wish.png'
 import review1 from '../../assets/images/review1.png'
@@ -15,20 +19,15 @@ const GoalContainer = styled.div`
   margin-bottom: 1rem;
 `
 
+// 뱃지 박스
 const BadgeBox = styled.div`
   width: 15%;
 `
 
 // 벳지 이미지
 const BadgeImg = styled.img`
-  /* width: 2.5rem; */
   width: 3rem;
   height: 3rem;
-  /* display: flex; */
-  /* justify-content: center;  */
-  /* align-items: center; */
-  /* margin: 0; */
-  /* margin: 1rem; */
   filter: drop-shadow(1px 1px 1px #000); // 배경 짤라야 온전하게 그림자 적용 가능
 `
 
@@ -44,12 +43,8 @@ const GoalClear = styled.div`
   justify-content: center;
 `
 
-
+/** 도전과제 Item Component */
 function MyGoalItem(challengeData:any) {
-  useEffect(() => {
-    console.log(challengeData);
-    
-  },[])
   return (
     <GoalContainer>
       <BadgeBox>
@@ -87,7 +82,7 @@ function MyGoalItem(challengeData:any) {
       <GoalBox>{challengeData.challengeData}</GoalBox>
       <GoalClear>클리어</GoalClear>
     </GoalContainer>
-  );
+  )
 }
 
-export default MyGoalItem;
+export default MyGoalItem

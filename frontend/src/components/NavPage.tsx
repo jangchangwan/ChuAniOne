@@ -1,4 +1,4 @@
-import styled from "styled-components"
+
 import React, { useState, useEffect } from 'react'
 import { NavLink } from "react-router-dom"
 import { useNavigate } from 'react-router-dom'
@@ -10,10 +10,13 @@ import { logout, logoutUser, resetUser } from '../store/Loginslice'
 import initialState from '../store/Loginslice'
 import store from '../store'
 
-// 모션
-import { motion } from 'framer-motion';
+// styled Component
+import styled from "styled-components"
 
-// 이미지
+// 모션
+import { motion } from 'framer-motion'
+
+// image
 import NavImgLeft from '../assets/images/navImg1.png'
 import NavImgRight from '../assets/images/navImg2.png'
 import NavImgRight2 from '../assets/images/navImage3.png'
@@ -35,13 +38,14 @@ const Spacing = styled.div`
   height: 1.5rem;
 `
 
+/** Nav 페이지 */
 function NavPage() {
   const navigate = useNavigate()
   const dispatch = useDispatch<typeof store.dispatch>()
 
   // 로그인 유무
   const logincheck = useSelector((state: initialState) => state.login.isLogin)
-  // const logincheck = true
+
   // 하트위치
   const [heart, setheart] = useState(500)
 
@@ -52,11 +56,13 @@ function NavPage() {
       setheart(res)
     })
   }, [])
-  // 뒤로가기
+  
+  /** 뒤로가기 */
   const NavClose = () => {
     navigate(-1)
   }
 
+  /** 로그아웃 */
   const gologout = () => {
     
     dispatch(logout())
@@ -198,4 +204,4 @@ function NavPage() {
     </div>
   )
 }
-export default NavPage;
+export default NavPage

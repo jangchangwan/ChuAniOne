@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-// 이미지 불러오기
+import React from 'react'
+import { NavLink } from "react-router-dom"
 
+// image
 import Member1 from '../assets/images/member1.png'
 import Member2 from '../assets/images/member2.png'
 import Member3 from '../assets/images/member3.png'
@@ -8,35 +9,43 @@ import Member4 from '../assets/images/member4.png'
 import Member5 from '../assets/images/member5.png'
 import Member6 from '../assets/images/member6.png'
 import IntroImg1 from '../assets/images/introImg.png'
-// CSS
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
+
+// MUI
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import Typography from '@mui/material/Typography'
+
 // 모션
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
 
+// styled Component
+import styled from "styled-components"
 
+// 소개페이지 1
 const PageIntro1 = styled.div`
   width: 100%;
   height: 100vh;
   padding: 0;
 `
+
+// 소개페이지 2
 const PageIntro2 = styled.div`
   background-color: #E3B55D;
   height: 100%;
   width: 100%;
 `
+
+// 소개페이지 3
 const PageIntro3 = styled.div`
   background-color : #FFD1D1;
   width: 100%;
   height: 100%;
 `
 
+// 메인으로 버튼
 const PageButton = styled.button`
   border: none;
   display: block;
@@ -82,16 +91,8 @@ const PageButton = styled.button`
 }
 `
 
+/** 소개 페이지 */
 function Intro() {
-  // const { scrollYProgress } = useScroll()
-  // useEffect(() => {
-  //   window.addEventListener('scroll', () => {
-  //     console.log(scrollYProgress);
-  //   });
-  //   return () => {
-  //     window.removeEventListener('scroll', () => {});
-  //   } 
-  // }, []);
   return (
     <div
       style={{
@@ -102,7 +103,6 @@ function Intro() {
         width: '100%'
       }}
     >
-
       {/* 웹사이트 소개 */}
       <PageIntro1
         style={{ backgroundImage: `url(${IntroImg1})`}}
@@ -413,7 +413,7 @@ function Intro() {
       </PageIntro3>
     </div>
 
-  );
+  )
 }
 
-export default Intro;
+export default Intro

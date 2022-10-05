@@ -1,10 +1,19 @@
 import React, {useState, useEffect} from 'react'
-import MyWordItem from './MyWordItem';
+
+// 하위 컴포넌트
+import MyWordItem from './MyWordItem'
+
+// redux
 import { useDispatch } from 'react-redux'
 import { getMyvoca } from '../../store/mypageslice'
 import store from '../../store'
+
+// styled Component
 import styled from 'styled-components'
+
+// Mui
 import Grid from '@mui/material/Grid'
+
 
 const MyVocaContainer = styled.div`
   width: 100%;  
@@ -49,7 +58,7 @@ function MyWord() {
       }
       </Grid>
     </MyVocaContainer>
-  );
+  )
 }
 
-export default MyWord;
+export default MyWord

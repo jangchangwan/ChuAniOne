@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
+
+// styled Conponent
 import styled from "styled-components"
+
+// MUI
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
+// 하위컴포넌트
 import MyAni from './MyAni'
 import MyReview from './MyReview'
 import MyWord from './MyWord'
 import MyGoal from './MyGoal'
+
 
 const RightContainer = styled.div`
   background-color: #FFF5E4;
@@ -37,7 +43,6 @@ const DetailBox = styled(Box)`
   overflow-y: auto;
 
   ::-webkit-scrollbar {
-    /* background-color: ; */
     width: 0.5rem;
     border-radius: 0.3rem;
   }
@@ -56,13 +61,14 @@ const DetailBox = styled(Box)`
 `
 
 interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
+  children?: React.ReactNode
+  index: number
+  value: number
 }
 
+/** 탭 판넬 */
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props
 
   return (
     <TabDiv
@@ -78,7 +84,7 @@ function TabPanel(props: TabPanelProps) {
         </DetailBox>
       )}
     </TabDiv>
-  );
+  )
 }
 
 
@@ -90,9 +96,10 @@ function a11yProps(index: number) {
 }
 
 
+
 function MyRight() {
 
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<number>(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -137,7 +144,7 @@ function MyRight() {
       </TabBox>
 
     </RightContainer>
-  );
+  )
 }
 
-export default MyRight;
+export default MyRight

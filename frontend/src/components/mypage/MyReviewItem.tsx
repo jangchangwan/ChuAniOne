@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
+
+// styled Component
 import styled from 'styled-components'
+
+// MUI
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import Rating from '@mui/material/Rating'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 
+// 하위 컴포넌트
 import AniDetail from '../ani/AniDetail'
 // redux
 import { useDispatch } from 'react-redux'
@@ -104,28 +109,27 @@ function MyPageItem(review:any) {
   const [openDetail, setOpenDetail] = useState<boolean>(false)
   const [detailId, setDetailId] = useState<number | null>(null)
   
-  // 상세페이지 켜기
+  /** 상세페이지 켜기 */
   const handleOpenDetail = (aniId) => {
     setOpenDetail(true)
     setDetailId(aniId)
   }
-  // 상세페이지 끄기
+  /** 상세페이지 끄기 */
   const handleCloseDetail = () => {
     setOpenDetail(false)
   }
-
+  /** review data road */
   async function loadData() {
     const resAni = await dispatch(getAni(review.reviewData.animation))
-    // console.log(resAni)
     if (resAni.meta.requestStatus === "fulfilled") {
       setData(resAni.payload)
     }
   }
 
   useEffect(() =>{    
-    console.log(review)
     loadData()
   },[])
+
   return (
     <Container>
       <Namediv>
@@ -168,8 +172,8 @@ function MyPageItem(review:any) {
         </Modal>
       : null }
     </Container>
-  );
+  )
 
 }
 
-export default MyPageItem;
+export default MyPageItem
