@@ -75,7 +75,6 @@ services:
     restart: always
     command: 
       - uwsgi --ini uwsgi.ini
-      - chmod 777 apps.sock
     volumes:
       - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm:/srv/docker-server
       - ./log:/var/log/uwsgi
