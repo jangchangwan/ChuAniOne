@@ -266,7 +266,7 @@ function Review({ aniId }) {
   /** 리뷰 삭제 */
   async function delReview() {
     if (myReview) {
-      const res = await dispatch(deleteReview(myReview.id))
+      await dispatch(deleteReview(myReview.id))
     }
     closeDelModal()
     loadData()
