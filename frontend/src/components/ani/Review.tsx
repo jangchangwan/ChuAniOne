@@ -456,7 +456,7 @@ function Review({ aniId }) {
         </DialogActions>
       </Dialog>
       
-      <ReviewTitle>{ count } 개의 리뷰</ReviewTitle>
+      <ReviewTitle>{ count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') } 개의 리뷰</ReviewTitle>
       <ReviewList data={data}/>
     </Container>
   )

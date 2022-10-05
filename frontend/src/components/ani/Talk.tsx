@@ -119,7 +119,7 @@ function Talk({ aniId }) {
   return (
     <Container>
       <TalkCountBox>
-        <TalkCount>{cnt}개의 Talk</TalkCount>
+        <TalkCount>{cnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}개의 Talk</TalkCount>
         <RenewBtn onClick={loadData}><RenewIcon/></RenewBtn>
       </TalkCountBox>
 
