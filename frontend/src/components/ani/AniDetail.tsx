@@ -4,7 +4,6 @@ import Player from 'react-player'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import { IconButton } from '@mui/material'
 import { ThumbDownAlt, ThumbDownOffAlt, ThumbUpAlt, ThumbUpOffAlt, DownloadDone, Add } from '@mui/icons-material'
 import confetti from 'canvas-confetti'
@@ -171,7 +170,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <DetailBox>
-          <Typography>{children}</Typography>
+          {children}
         </DetailBox>
       )}
     </TabDiv>

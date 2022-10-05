@@ -1,6 +1,4 @@
-import React from 'react'
 import styled from 'styled-components'
-
 
 const Container = styled.div`
   width: 90%;
@@ -8,16 +6,10 @@ const Container = styled.div`
   padding: 2.5% 5%;
 `
 
-
 const Title = styled.h2`
 `
 
 const Content = styled.span`
-`
-
-const ContentBold = styled.span`
-  font-weight: bold;
-  margin-right: 0.5rem;
 `
 
 const Genres = styled.div`
@@ -32,13 +24,14 @@ const Genre = styled.span`
   margin-right: 0.5rem;
 `
 
+/** 상세페이지: 상세정보 */
 function Info({ data }: any) {
   return (
     <Container>
       <Content>{ data.content_rating }</Content>
       <Genres>
         { data.genres.map((genre: string, idx: number) => (
-          <Genre>{genre}</Genre>
+          <Genre key={idx}>{genre}</Genre>
         ))}
       </Genres>
       <Title>줄거리</Title>
