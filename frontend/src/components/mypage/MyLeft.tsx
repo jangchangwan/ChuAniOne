@@ -54,6 +54,7 @@ const IntroDiv = styled.div`
 const ProfileImg = styled.img`
   margin: 0 1rem 0 0;
   width: 4rem;
+  object-fit: cover;
   border-radius: 50%;
   display: flex;
   justify-content: center; 
@@ -296,7 +297,10 @@ function MyLeft() {
     
     setOpen(false)
   }
-
+  const saveFileImage = (fileBlob) => {
+    const fileUrl = URL.createObjectURL(fileBlob);
+    setProfileImg(fileUrl);
+  };
   // 회원정보 받아오기
   useEffect(() => {
     dispatch(myinfo())
@@ -369,7 +373,17 @@ function MyLeft() {
                   <div style={{ justifyContent: 'center'}}>
                     {
                       profileImg ?
-                      <img src={profileImg} alt="프로필사진" style={{ height: '10rem', width:'auto'}}/>
+                      <img 
+                        src={profileImg} 
+                        alt="프로필사진" 
+                        style={{ 
+                          height: '10rem', 
+                          width:'auto', 
+                          objectFit: 'cover',
+                          borderRadius: '50%',
+                          position: 'relative',
+                          left: '22%'
+                        }}/>
                       :
                       <AccountCircleIcon 
                         sx={{
@@ -383,7 +397,7 @@ function MyLeft() {
                   </div>
                   <Button component="label">
                     이미지 선택
-                    <input hidden multiple type="file" onChange={(e) => { setProfileImg(e.target.value)}} />
+                    <input hidden multiple type="file" onChange={(e:any) => { saveFileImage(e.target.files[0])}} />
                   </Button>
                   <Grid container spacing={1}>
                     <Grid item xs={8}>
