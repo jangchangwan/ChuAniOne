@@ -46,11 +46,6 @@ function SearchList({
     keyword, 
     genres,
     tags,
-    changeKeyword,
-    addGenres,
-    removeGenres,
-    addTags,
-    removeTags,
   }) {
 
   const dispatch = useDispatch<typeof store.dispatch>()
@@ -65,7 +60,7 @@ function SearchList({
   }, [page, keyword, genres, tags])
 
 
-  // 데이터 불러오기
+  /** 데이터 불러오기 */
   async function loadData() {
     const res = await dispatch(searchAni({
       page, keyword, tags, genres
@@ -79,7 +74,7 @@ function SearchList({
   } 
   
 
-  // 페이지네이션 동작
+  /** 페이지네이션 */
   function handlePage(event: any) {
     if (event.target.innerText) {
       const nowPageInt = parseInt(event.target.innerText)
@@ -102,6 +97,7 @@ function SearchList({
 
   return (
     <Container>
+      {/* 작품 개수 & 페이지네이션 */}
       <TopBox>
         <NumberBox>
           <NumberTextOut>총 </NumberTextOut> 
@@ -119,10 +115,11 @@ function SearchList({
           />
       </TopBox>
 
+      {/* 검색 결과 */}
       <Box sx={{ width: '92%' }}>
         <Grid container columnSpacing={2} >
           { data.map((ani, i) => (
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={3} key={i}>
               <SearchItem ani={ani}/>
             </Grid>
           ))}
