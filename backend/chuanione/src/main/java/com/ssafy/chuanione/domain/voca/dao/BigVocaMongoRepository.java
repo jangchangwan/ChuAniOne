@@ -11,7 +11,8 @@ import java.util.Map;
 
 public interface BigVocaMongoRepository extends MongoRepository<BigVocaMongo, String> {
 
-    @Query(value = "{'ani_id': ?0, words: 1}")
+
+    @Query(value = "{'ani_id':?0}")
     List<BigVocaMongo> findByAni_id(int ani_id);
 
 }
