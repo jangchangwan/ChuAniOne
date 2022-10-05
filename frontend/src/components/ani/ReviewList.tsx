@@ -7,12 +7,13 @@ const Container = styled.div`
   flex-direction: column;
 `
 
+/** 리뷰 리스트 */
 function ReviewList({ data }) {
   return (
     <Container>
       { data ? (
         data.map((item, idx) => (
-          <ReviewItem data={item}/> 
+          <ReviewItem key={idx} data={item}/> 
         ))
       ) : null }
 

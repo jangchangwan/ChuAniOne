@@ -1,8 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
 import ChatHeader from './ChatHeader'
 import ChatBody from './ChatBody'
-
 
 const Container = styled.div`
   width: calc(38% - 6rem);
@@ -11,28 +9,24 @@ const Container = styled.div`
   margin: 7.5% 3rem;
   background-color: #FCE2DB;
   border-radius: 1rem;
-  z-index: 999;
   display: flex;
   flex-direction: column;
+  z-index: 2;
 `
 
-function ChatRight({ opened, openedId, handleOpened, handleClosed }: any) {
+/** 열린 채팅방 */
+function ChatRight({ opened, openedId, handleClosed }: any) {
   
   return (
     <>
       { opened ?
         <Container>
           <ChatHeader 
-            opened={opened} 
             openedId={openedId} 
-            handleOpened={handleOpened} 
             handleClosed={handleClosed}
           />
           <ChatBody
-            opened={opened} 
             openedId={openedId} 
-            handleOpened={handleOpened} 
-            handleClosed={handleClosed}
           />
         </Container>
       : 
