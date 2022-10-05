@@ -90,7 +90,7 @@ function ChatTotal() {
 
   /** 초기데이터 불러오기 */
   useEffect(() => {
-    loadData(1)
+    loadData(page)
   }, [keyword, page])
 
   /** 데이터 불러오기 */
