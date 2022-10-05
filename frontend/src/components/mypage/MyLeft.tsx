@@ -31,6 +31,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Grid from '@mui/material/Grid'
+import { log } from 'console'
 
 
 // 프로필 사진, 닉네임, 경험치 관련
@@ -290,6 +291,7 @@ function MyLeft() {
       profile: profileImg,
       id: userId,
     }
+    console.log(changeDto)
     dispatch(changeUserInfo(changeDto))
     
     setOpen(false)
@@ -381,7 +383,7 @@ function MyLeft() {
                   </div>
                   <Button component="label">
                     이미지 선택
-                    <input hidden multiple type="file" />
+                    <input hidden multiple type="file" onChange={(e) => { setProfileImg(e.target.value)}} />
                   </Button>
                   <Grid container spacing={1}>
                     <Grid item xs={8}>
