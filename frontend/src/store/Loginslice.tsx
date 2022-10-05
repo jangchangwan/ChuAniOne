@@ -3,7 +3,7 @@ import http from '../api/axios'
 
 
 
-// 로그인
+/** 로그인 */
 export const login = createAsyncThunk(
   'LOGIN',
   async (userData:any, { rejectWithValue }) => {
@@ -15,18 +15,17 @@ export const login = createAsyncThunk(
       window.localStorage.setItem('refresh-Token', refreshToken);
       return res
     } catch (err:any) {
-      return rejectWithValue(err.response) //err안에 response로 담겨있음
+      return rejectWithValue(err.response)
     }
   },
 )
 
 
-// 로그아웃
+/** 로그아웃 */
 export const logout = createAsyncThunk(
   'LOGOUT',
   async (arg, { rejectWithValue }) => {
     try {
-      // const res = await http.post('member/logout.do')
       window.localStorage.removeItem('access-Token');
       window.localStorage.removeItem('refresh-Token');
       return
@@ -36,7 +35,7 @@ export const logout = createAsyncThunk(
   },
 )
 
-// 회원가입
+/** 회원가입 */
 export const signup = createAsyncThunk(
   'SIGNUP',
   async (userData:any, { rejectWithValue }) => {
@@ -49,12 +48,11 @@ export const signup = createAsyncThunk(
   }
 )
 
-// 닉네임 중복 확인
+/** 닉네임 중복 확인 */
 export const nicknameCheck = createAsyncThunk(
   'NICKNAMECHECK',
   async (nickname:string, {rejectWithValue}) => {
     try{
-      console.log("loginslice", nickname)
       const res = await http.get(`member/check.do/nickname/${nickname}`,)
       return res
     } catch(err:any) {
@@ -63,7 +61,7 @@ export const nicknameCheck = createAsyncThunk(
   }
 )
 
-// 이메일 중복 확인
+/** 이메일 중복 확인 */
 export const emailCheck = createAsyncThunk(
   'EMAILCHECK',
   async (email:string, {rejectWithValue}) => {
@@ -76,7 +74,7 @@ export const emailCheck = createAsyncThunk(
   }
 )
 
-// 회원정보 받아오기
+/** 회원정보 받아오기 */
 export const myinfo = createAsyncThunk(
   'MYINFO',
   async (arg, {rejectWithValue}) => {
@@ -84,19 +82,14 @@ export const myinfo = createAsyncThunk(
       const accessToken =localStorage.getItem("access-Token");
       http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       const res = await http.get('member/myinfo')
-
-      if (res.status === 200){
-        return res
-      } else {
-        console.log('실패',res)
-      } 
+      return res
     } catch(err:any) {
       return rejectWithValue(err.response)
     }
   }
 )
 
-// 회원 정보 변경
+/** 회원 정보 변경  */
 export const changeUserInfo = createAsyncThunk(
   'CHANGEUSERINFO',
   async (userDto:any, {rejectWithValue}) => {
@@ -112,9 +105,7 @@ export const changeUserInfo = createAsyncThunk(
         const accessToken =localStorage.getItem("access-Token")
         http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
         const res = await http.patch(`member/update/${userDto.id}`, memberDto)
-        if (res.status === 200) {
-          console.log('성공')
-        } else console.log('실패');
+        if (res.status === 200) return res
       }
     } catch (err:any) {
       return rejectWithValue(err.response)
@@ -122,17 +113,12 @@ export const changeUserInfo = createAsyncThunk(
   }
 )
 
-// 비밀번호 찾기
+/** 비밀번호 찾기 */
 export const findPWD = createAsyncThunk(
   'FINDPWD',
   async (userDto:any, {rejectWithValue}) => {
     try{
       const res = await http.patch('member/findPw.do', userDto)
-      if (res.status === 200) {
-        console.log('성공', res)
-      } else {
-        console.log('실패', res);
-      }
       return res
     } catch(err:any){
       return rejectWithValue(err.response)
@@ -140,37 +126,36 @@ export const findPWD = createAsyncThunk(
   }
 )
 
-// accessToken 재발급
+/** accessToken 재발급  */
 export const refreshToken = createAsyncThunk(
   'REFRESHTOKEN',
   async (TokenDto:any, {rejectWithValue}) => {
     try{
-      console.log(TokenDto)
       const newTokenDto = {
         accessToken :  `Bearer ${TokenDto.accessToken}`,
         refreshToken : `Bearer ${TokenDto.refreshToken}`
       }
-      console.log(newTokenDto);
-      
       const res = await http.post('member/refresh.do', newTokenDto)
-      console.log(res);
-      return
+      return res
     } catch(err:any){
       return rejectWithValue(err.response)
     }
   }
 )
 
+
 export interface loginReducerType {
   userId: number,
   isLogin: boolean,
   error: any,
+  profileImg: string,
 }
 
 const initialState:loginReducerType = {
   userId: 0,
   isLogin: false,
   error: null,
+  profileImg: '',
 }
 
 const loginSlice:any = createSlice({

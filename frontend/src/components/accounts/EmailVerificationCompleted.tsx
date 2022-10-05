@@ -1,21 +1,17 @@
 import React from 'react';
+
+// MUI
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
-// import styled from "styled-components"
+
+// image
 import BackgroundImg from '../../assets/images/memberBackground.png'
 import logoicon from '../../assets/images/smallLogo.png'
 import SmileIcon from '../../assets/images/smileIcon.png'
-import styled from "styled-components"
 
-const MyHrTag = styled.hr`
-  width : 100%;
-  height : 5px;
-  background-color : #FFD1D1;
-  border : none;
-  border-radius : 5rem;
-`
 
+/** 이메일 인증 완료 페이지 */
 function EmailVerificationCompleted() {
   return (
     <Box
@@ -45,7 +41,6 @@ function EmailVerificationCompleted() {
               opacity: 0.9,
             }}
           >
-            <MyHrTag />
             <img src={SmileIcon} alt="스마일" style={{
               position: 'fixed',
               top: '15%',
@@ -90,11 +85,10 @@ function EmailVerificationCompleted() {
                 mb:2
               }}
             >로그인으로</Button>
-            <MyHrTag />
           </Box>
         </Container>
     </Box>
-  );
+  )
 }
 
-export default EmailVerificationCompleted;
+export default EmailVerificationCompleted

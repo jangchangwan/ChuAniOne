@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 // MUI
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -12,22 +13,19 @@ import logoicon from '../../assets/images/logo2.png'
 import Snackbar from '@mui/material/Snackbar'
 import styled from "styled-components"
 
+// 페이지 이동
+import { useNavigate } from 'react-router-dom'
 
 // redux 
-import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux"
 import { login, myinfo } from '../../store/Loginslice'
 import store from '../../store'
-
-// 화면전환 애니메이션
-// import { motion } from 'framer-motion'
 
 // Image
 import BackgroundImg from '../../assets/images/memberBackground.png'
 
 
-
-
+// 로그 이미지
 const LogoImg = styled.img`
   padding: 2rem;
   width: 15rem;
@@ -37,21 +35,26 @@ const LogoImg = styled.img`
   cursor: pointer;
 `
 
+/** 로그인 페이지 */
 function Login() {
+
+  // 페이지 이동 함수 선언
   const navigate = useNavigate()
+  // redux내 함수 사용 선언
   const dispatch = useDispatch<typeof store.dispatch>()
+  
+  // 로그인 실패 유무 확인
   const [LoginFail, setLoginFail] = useState<boolean>(false)
 
-  // 로그인
+  /** 로그인 버튼 클릭 시 */
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
 
     const loginDto = {
       email: data.get('email'),
       password: data.get('password')
     }
-    console.log(loginDto)
     await dispatch(login(loginDto))
       .unwrap()
       .then(() => {
@@ -61,16 +64,14 @@ function Login() {
       ).catch((e) => {
         setLoginFail(true)
       })
-  };
+  }
 
-  // 홈으로 가기
+  /** 메인으로 가기 */
   const goMain = () => {
     navigate('/')
   }
   
   return (
-    // <motion.div
-    // >
     <div>
       <div
         style={{
@@ -114,7 +115,6 @@ function Login() {
               noValidate sx={{ 
                 mt: 1
               }}
-
             >
               <TextField
                 margin="normal"
@@ -172,7 +172,10 @@ function Login() {
           </Box>
         </Container>
       </div>
-      <Snackbar open={LoginFail} autoHideDuration={3000} onClose={() => setLoginFail(!LoginFail)}
+      <Snackbar 
+        open={LoginFail} 
+        autoHideDuration={3000}
+        onClose={() => setLoginFail(!LoginFail)}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
         <Alert severity="error" sx={{ width: '100%' }}>
@@ -180,8 +183,7 @@ function Login() {
         </Alert>
       </Snackbar>
     </div>
-    // </motion.div>
-  );
+  )
 }
 
-export default Login;
+export default Login
