@@ -189,7 +189,6 @@ function a11yProps(index: number) {
 
 
 
-
 function AniDetail() {
   /** data의 images type */
   interface Images {
@@ -252,6 +251,7 @@ function AniDetail() {
   useEffect(() => {
     loadData()
     loadTaste()
+    setValue(0)
   }, [aniId])
 
   /** 애니메이션 상세데이터 불러오기 */
