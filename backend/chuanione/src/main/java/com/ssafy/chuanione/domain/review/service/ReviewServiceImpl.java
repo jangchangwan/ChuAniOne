@@ -40,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public Map<String, Object> getList(int id) {//애니메이션id
-        List<Review> list = reviewRepository.findByAnimationId(id);
+        List<Review> list = reviewRepository.findByAnimationIdOrderByIdDesc(id);
         List<ReviewResponseDto> resList = new ArrayList<>();
         double sum = 0.0;
         for(Review review : list){

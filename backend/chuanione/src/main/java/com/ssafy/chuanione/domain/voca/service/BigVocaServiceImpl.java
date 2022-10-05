@@ -45,7 +45,9 @@ public class BigVocaServiceImpl implements BigVocaService{
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         List<MemorizeVoca> memorizeVoca = memorizeVocaRepository.findAllByMemberId(member);
 
-
+        List<BigVoca> list =test();
+        System.out.println(list.size());
+        System.out.println(list);
         Page<BigVoca> bigVocaList;
         if (memorizeVoca.size() != 0) {
             List<Integer> memorizeVocaIds = new ArrayList<>();
@@ -87,24 +89,30 @@ public class BigVocaServiceImpl implements BigVocaService{
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         //해당 사용자가 작성한 최신 리뷰 조회
         AnimationType animationType = animationTypeRepository.findTopByMemberIdAndTypeOrderByIdDesc(member, 4);
-//        List<BigVocaMongo> bigVocaMongos = bigVocaMongoRepository.findByAni_id(37217);
         List<BigVocaMongo> bigVocaMongos = bigVocaMongoRepository.findByAni_id(37217);
         return bigVocaMongos.size() == 0 ? null : bigVocaMongos.get(0).getWords();
-
     }
 
 
-    public void test(){
+    public List<BigVoca> test(){
         Map<Integer, Map<String, String>> voca = getMemberVoca();
+        List<BigVoca> list = new ArrayList<>();
+
         for (Integer num: voca.keySet()) {
-            BigVoca.builder()
-                    .vocaId(bigVocaRepository.findByPronunciation(voca.get(num).get("pronunciation")).getVocaId())
+
+            System.out.println("korean: " + voca.get(num).get("korean"));
+            BigVoca bigVoca = BigVoca.builder()
+                    .vocaId(bigVocaRepository.findTopByKorean(voca.get(num).get("korean")).getVocaId())
                     .japanese(voca.get(num).get("japanese"))
                     .pronunciation(voca.get(num).get("pronunciation"))
                     .korean(voca.get(num).get("korean"))
                     .frequency(Integer.parseInt(voca.get(num).get("frequency")))
                     .build();
+            list.add(bigVoca);
+            System.out.println("voca: " + bigVoca);
         }
-        
+        System.out.println(list.size());
+        System.out.println(list);
+        return list;
     }
 }

@@ -1,5 +1,6 @@
 package com.ssafy.chuanione.domain.voca.service;
 
+import com.ssafy.chuanione.domain.voca.domain.BigVoca;
 import com.ssafy.chuanione.domain.voca.domain.BigVocaMongo;
 import com.ssafy.chuanione.domain.voca.domain.MemorizeVoca;
 import com.ssafy.chuanione.domain.voca.dto.BigVocaResponseDto;
@@ -23,5 +24,5 @@ public interface BigVocaService {
 
     Map<Integer, Map<String, String>> getMemberVoca();
 
-    void test();
+    List<BigVoca> test();
 }
