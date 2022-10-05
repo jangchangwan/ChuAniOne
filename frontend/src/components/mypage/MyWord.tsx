@@ -50,7 +50,7 @@ function MyWord() {
         myVocaList ?
         (
           myVocaList.map((item, idx) => (
-            <Grid item xs={6}><MyWordItem key={idx} wordData={item}/></Grid>
+            <Grid item key={idx} xs={6}><MyWordItem wordData={item}/></Grid>
             
           ))
         )

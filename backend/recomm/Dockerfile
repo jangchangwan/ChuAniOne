@@ -9,7 +9,7 @@ WORKDIR /app
 # WORKDIR /usr/src/app
 # RUN mkdir /project
 # ADD . /project
-# WORKDIR /project
+# WORKDIR /projectd
 
 # COPY requirements.txt  ./
 # COPY requirements.txt  /app/
@@ -18,9 +18,9 @@ COPY . /app/
 
 RUN pip install -r requirements.txt
 
-EXPOSE 8000
+# EXPOSE 8000
 
-CMD ["gunicorn", "--workers", "4", "--bind", "0.0.0.0:8000","--log-level=debug","recomm.wsgi:application", "-t 120"]
+# CMD ["gunicorn", "--workers", "4", "--bind", "0.0.0.0:8000","--log-level=debug","recomm.wsgi:application", "-t 120"]
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 # CMD ["python3", "manage.py", "runserver",  "0:8000"]
 

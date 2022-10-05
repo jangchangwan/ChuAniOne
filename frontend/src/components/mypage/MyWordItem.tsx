@@ -2,7 +2,7 @@ import React from 'react'
 
 // MUI
 import Grid from '@mui/material/Grid'
-import Checkbox from '@mui/material/Checkbox'
+import Button from '@mui/material/Button'
 import VolumeUpIcon from '@mui/icons-material/VolumeUp'
 
 // redux
@@ -24,7 +24,7 @@ const WordItemGrid = styled(Grid)`
   padding: 1rem;
   margin-bottom: 2.5rem;
 `
-
+/** TTS : 일본어 읽어주기  */
 function textToSpeech(word: string): void {
   
   // 크롬만 지원 가능
@@ -48,19 +48,19 @@ function textToSpeech(word: string): void {
 }
 
 
-
+/** 개별 단어 Component */ 
 function MyWordItem(wordData:any) {
   const dispatch = useDispatch<typeof store.dispatch>()
   const [checked, setChecked] = React.useState(false)
 
-  const checkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(wordData.wordData.voca)
+  const checkChange = () => {
     if (checked) {
       dispatch(insertMyVoca(wordData.wordData.voca.vocaId))
+      setChecked(false)
     } else {
       dispatch(deleteMyVoca(wordData.wordData.voca.vocaId))
+      setChecked(true)
     }
-    setChecked(event.target.checked)
   }
 
   return (
@@ -70,7 +70,7 @@ function MyWordItem(wordData:any) {
 
     >
       {/* 일본어 */}
-      <Grid container item xs={12}>
+      <Grid container>
         <Grid item xs={1}></Grid>
         <Grid item xs={2}>
           <VolumeUpIcon 
@@ -99,16 +99,30 @@ function MyWordItem(wordData:any) {
           sx = {{
             position: 'relative',
             top: '-1rem',
-            right: '-5%'
           }}
         >
-          <Checkbox color='default' onChange={checkChange} id='word' 
-          />
+          {
+            checked ?
+            <Button 
+              onClick={checkChange}
+              sx ={{
+                color: '#2b2c2b'
+              }}
+            >취소</Button>
+            :
+            <Button 
+              onClick={checkChange}
+              sx ={{
+                color: '#CD104D'
+              }}
+            >삭제</Button>
+          }
+          
         </Grid>
       </Grid>
       <Grid container>
-        <Grid xs={3}></Grid>
-        <Grid xs={9}>
+        <Grid item xs={3}></Grid>
+        <Grid item xs={9}>
           <div>({wordData.wordData.voca.pronunciation})</div>
         </Grid>
       </Grid>
