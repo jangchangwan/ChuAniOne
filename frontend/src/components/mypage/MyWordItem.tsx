@@ -24,7 +24,7 @@ const WordItemGrid = styled(Grid)`
   padding: 1rem;
   margin-bottom: 2.5rem;
 `
-
+/** TTS : 일본어 읽어주기  */
 function textToSpeech(word: string): void {
   
   // 크롬만 지원 가능
@@ -48,7 +48,7 @@ function textToSpeech(word: string): void {
 }
 
 
-
+/** 개별 단어 Component */ 
 function MyWordItem(wordData:any) {
   const dispatch = useDispatch<typeof store.dispatch>()
   const [checked, setChecked] = React.useState(false)
@@ -70,7 +70,7 @@ function MyWordItem(wordData:any) {
 
     >
       {/* 일본어 */}
-      <Grid container item xs={12}>
+      <Grid container>
         <Grid item xs={1}></Grid>
         <Grid item xs={2}>
           <VolumeUpIcon 
@@ -107,8 +107,8 @@ function MyWordItem(wordData:any) {
         </Grid>
       </Grid>
       <Grid container>
-        <Grid xs={3}></Grid>
-        <Grid xs={9}>
+        <Grid item xs={3}></Grid>
+        <Grid item xs={9}>
           <div>({wordData.wordData.voca.pronunciation})</div>
         </Grid>
       </Grid>

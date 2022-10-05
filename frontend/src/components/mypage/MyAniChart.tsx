@@ -20,13 +20,12 @@ ChartJS.register(
   Legend
 )
 
-
+/** My Ani Chart */
 export function MyAniChart(genresData) {
   const [myScore, setMyScore] = useState([0,0,0,0,0,0])
   const [myGenres, setMyGenres] = useState(['판타지','모험','이세계','모험','개그','시대물'])
   const [maxScore, setMaxScore] = useState(5)
   const option:any = {
-
 
   startAngle: 90,
     scales: {

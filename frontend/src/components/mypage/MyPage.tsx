@@ -28,7 +28,7 @@ function MyPage() {
             <MyLeft></MyLeft>
           </Box>
         </Grid>
-        <Grid item md={1}></Grid>
+        <Grid item md={0.5}></Grid>
         <Grid item xs={12} md={6}>
           <Box m={2} sx={{height:'100%'}}>
             <MyRight></MyRight>

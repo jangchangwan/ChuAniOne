@@ -7,7 +7,6 @@ import styled from "styled-components"
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 
 // 하위컴포넌트
 import MyAni from './MyAni'
@@ -80,7 +79,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <DetailBox>
-          <Typography>{children}</Typography>
+          {children}
         </DetailBox>
       )}
     </TabDiv>

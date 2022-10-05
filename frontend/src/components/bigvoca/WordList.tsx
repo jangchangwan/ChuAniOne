@@ -78,11 +78,11 @@ function WordList() {
       { vocaList ?
           
           ( vocaList.map((item, idx) => (
-            <Grid item xs={5}><WordItem key={idx} vocaData={item}/></Grid>
+            <Grid key={idx} item xs={5}>
+              <WordItem  vocaData={item}/>
+            </Grid>
             ))
           ) 
-          
-          
           :
             <Box
             sx={{
@@ -93,7 +93,7 @@ function WordList() {
             }}
           >추천해드릴 단어가 없네요</Box>
       }
-        </Grid>
+      </Grid>
       { vocaList ?
         <Pagination count={lastPage} defaultPage={0} 
         boundaryCount={1}
