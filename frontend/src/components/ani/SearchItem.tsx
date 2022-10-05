@@ -45,7 +45,7 @@ const styleBoxDetail = {
   width: '50%',
   height: '90%',
   bgcolor: 'background.paper',
-  borderRadius: '0.3rem',
+  borderRadius: '1rem',
   border: 'none',
   boxShadow: 24,
 }
