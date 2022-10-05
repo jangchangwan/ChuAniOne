@@ -9,6 +9,7 @@ from .serializers import AnimationSerializer, ReviewSerializer
 from .hybrid import get_user_data
 from drf_yasg.utils import swagger_auto_schema
 
+@swagger_auto_schema(methods=["get"], operation_description="get Test")
 @api_view(["GET"])
 def animation_list(request):
     animations = Animation.objects.all()
@@ -18,7 +19,7 @@ def animation_list(request):
     return JsonResponse(ani_serializer.data, status=status.HTTP_200_OK, safe=False)
 
 
-@swagger_auto_schema(methods=['post'], request_body=ReviewSerializer, operation_description="Create a post object")
+@swagger_auto_schema(methods=["post"], request_body=ReviewSerializer, operation_description="Create a post object")
 @api_view(["POST"])
 @parser_classes([JSONParser])
 def recommend(request):
