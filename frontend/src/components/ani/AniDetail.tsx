@@ -18,6 +18,7 @@ import Talk from './Talk'
 import { useDispatch, useSelector } from 'react-redux'
 import store from '../../store'
 import initialState from '../../store/Loginslice'
+import AniReducerType from '../../store/anislice'
 import { getAni, getTaste, postLike, deleteLike, deleteDislike, postDislike, deleteChoice, postChoice } from '../../store/anislice'
 
 
@@ -189,7 +190,7 @@ function a11yProps(index: number) {
 
 
 
-function AniDetail({ aniId }: any): any {
+function AniDetail() {
   /** data의 images type */
   interface Images {
     option_name: string,
@@ -229,6 +230,7 @@ function AniDetail({ aniId }: any): any {
   }
   
   const dispatch = useDispatch<typeof store.dispatch>()
+  const aniId = useSelector((state: AniReducerType) => (state.ani.aniId))
   const isLogin = useSelector((state: initialState) => (state.login.isLogin))
 
   /**
@@ -254,22 +256,26 @@ function AniDetail({ aniId }: any): any {
 
   /** 애니메이션 상세데이터 불러오기 */
   async function loadData() {
-    const resAni = await dispatch(getAni(aniId))
-
-    if (resAni.meta.requestStatus === "fulfilled") {
-      setData(resAni.payload)
-      if (resAni.payload.air_year_quarter)  setRelease(resAni.payload.air_year_quarter.split('|'))
+    if (aniId) {
+      const resAni = await dispatch(getAni(aniId))
+  
+      if (resAni.meta.requestStatus === "fulfilled") {
+        setData(resAni.payload)
+        if (resAni.payload.air_year_quarter)  setRelease(resAni.payload.air_year_quarter.split('|'))
+      }
     }
   }
 
   /** 좋아요 & 싫어요 & 찜 불러오기 */
   async function loadTaste() {
-    const resTaste = await dispatch(getTaste(aniId))
-
-    if (resTaste.meta.requestStatus === "fulfilled") {
-      setLike(resTaste.payload.like)
-      setDislike(resTaste.payload.dislike)
-      setChoice(resTaste.payload.choice)
+    if (aniId) {
+      const resTaste = await dispatch(getTaste(aniId))
+  
+      if (resTaste.meta.requestStatus === "fulfilled") {
+        setLike(resTaste.payload.like)
+        setDislike(resTaste.payload.dislike)
+        setChoice(resTaste.payload.choice)
+      }
     }
   }
 
@@ -277,50 +283,56 @@ function AniDetail({ aniId }: any): any {
 
   /** 좋아요 */
   async function handleLike () {
-    if (like) {
+    if (like && aniId) {
       const res = await dispatch(deleteLike(aniId))
 
       if (res.meta.requestStatus === "fulfilled" && res.payload) {
         setLike(!like)
       }
     } else {
-      const res = await dispatch(postLike(aniId))
-      if (res.meta.requestStatus === "fulfilled" && res.payload) {
-        setLike(!like)
-        onClick()
+      if (aniId) {
+        const res = await dispatch(postLike(aniId))
+        if (res.meta.requestStatus === "fulfilled" && res.payload) {
+          setLike(!like)
+          onClick()
+        }
       }
     }
   }
 
   /** 싫어요 */
   async function handleDislike () {
-    if (dislike) {
+    if (dislike && aniId) {
       const res = await dispatch(deleteDislike(aniId))
 
       if (res.meta.requestStatus === "fulfilled" && res.payload) {
         setDislike(!dislike)
       }
     } else {
-      const res = await dispatch(postDislike(aniId))
-      if (res.meta.requestStatus === "fulfilled" && res.payload) {
-        setDislike(!dislike)
+      if (aniId) {
+        const res = await dispatch(postDislike(aniId))
+        if (res.meta.requestStatus === "fulfilled" && res.payload) {
+          setDislike(!dislike)
+        }
       }
     }
   }
 
   /** 찜 */
   async function handleChoice () {
-    if (choice) {
+    if (choice && aniId) {
       const res = await dispatch(deleteChoice(aniId))
 
       if (res.meta.requestStatus === "fulfilled" && res.payload) {
         setChoice(!choice)
       }
     } else {
-      const res = await dispatch(postChoice(aniId))
-      if (res.meta.requestStatus === "fulfilled" && res.payload) {
-        setChoice(!choice)
-        onClick()
+      if (aniId) {
+        const res = await dispatch(postChoice(aniId))
+        if (res.meta.requestStatus === "fulfilled" && res.payload) {
+          setChoice(!choice)
+          onClick()
+        }
       }
     }
   }

@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid'
 // redux
 import { useDispatch } from 'react-redux'
 import store from '../../store'
-import { getSimilar } from '../../store/anislice'
+import { getSimilar, setAniId } from '../../store/anislice'
 
 const Container = styled.div`
   width: 90%;
@@ -58,7 +58,13 @@ function SimilarAni({ aniId }) {
     const res = await dispatch(getSimilar(aniId))
     if (res.meta.requestStatus === "fulfilled") {
       setData(res.payload)
+      console.log(res.payload)
     }
+  }
+
+  /** 애니메이션 바꾸기 */
+  async function changeDetail(aniId) {
+    await dispatch(setAniId(aniId))
   }
 
   useEffect(() => {
@@ -71,7 +77,7 @@ function SimilarAni({ aniId }) {
         <Grid container spacing={{ xs: 2, md: 3 }}>
           {data.map((item, index) => (
             <Grid item xs={6} sm={6} md={3} key={index}>
-              <ItemBox>
+              <ItemBox onClick={() => changeDetail(item.ani_id)}>
                 <ImgBox>
                   <ImgTag src={item.images[0].img_url}/>
                 </ImgBox>

@@ -7,9 +7,7 @@ import Pagination from '@mui/material/Pagination'
 
 // redux
 import { useDispatch } from 'react-redux'
-import { getChatInfo, getMyChat, searchMyChat } from '../../store/openchatslice'
-import { useSelector } from 'react-redux'
-import initialState from '../../store/Loginslice'
+import { getMyChat, searchMyChat } from '../../store/openchatslice'
 import store from '../../store'
 
 const Container = styled.div`

@@ -10,6 +10,11 @@ import AniDetail from '../ani/AniDetail'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 
+//redux
+import { useDispatch } from 'react-redux'
+import store from '../../store'
+import { setAniId, resetAniId } from '../../store/anislice'
+
 
 const Container = styled.div`
   height: 100%;
@@ -55,26 +60,30 @@ const styleBoxDetail = {
   width: '50%',
   height: '90%',
   bgcolor: 'background.paper',
-  borderRadius: '0.3rem',
+  borderRadius: '1rem',
   border: 'none',
   boxShadow: 24,
 }
 
 /** 애니 더보기 */
 function MyAniMoreItem(myAniData) {
+
+  const dispatch = useDispatch<typeof store.dispatch>()
+
   // 상세페이지 연동
   const [openDetail, setOpenDetail] = useState<boolean>(false)
-  const [detailId, setDetailId] = useState<number | null>(null)
   
     // 상세페이지 켜기
-    const handleOpenDetail = (aniId) => {
+    async function handleOpenDetail (aniId) {
+      await dispatch(setAniId(aniId))
       setOpenDetail(true)
-      setDetailId(aniId)
     }
     // 상세페이지 끄기
-    const handleCloseDetail = () => {
+    async function handleCloseDetail () {
+      await dispatch(resetAniId())
       setOpenDetail(false)
     }
+
   return (
     <Container>
       <AniBox onClick={() => handleOpenDetail(myAniData.myAniData.ani_id)}>
@@ -83,18 +92,18 @@ function MyAniMoreItem(myAniData) {
         </AniImgBox>
         <AniName>{myAniData.myAniData.name}</AniName>
       </AniBox>
-      { detailId ?
-        <Modal
-          open={openDetail}
-          onClose={handleCloseDetail}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={styleBoxDetail}>
-            <AniDetail aniId={detailId} />
-          </Box>
-        </Modal>
-      : null }
+      
+      <Modal
+        open={openDetail}
+        onClose={handleCloseDetail}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleBoxDetail}>
+          <AniDetail />
+        </Box>
+      </Modal>
+
     </Container>
   )
 }

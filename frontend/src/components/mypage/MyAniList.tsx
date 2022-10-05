@@ -22,6 +22,7 @@ import {
   getLikeAniList,
   getWatchAniList
 } from '../../store/mypageslice'
+import { setAniId, resetAniId } from '../../store/anislice'
 import store from '../../store'
 
 
@@ -126,7 +127,7 @@ const styleBoxDetail = {
   width: '50%',
   height: '90%',
   bgcolor: 'background.paper',
-  borderRadius: '0.3rem',
+  borderRadius: '1rem',
   border: 'none',
   boxShadow: 24,
 }
@@ -137,7 +138,6 @@ function MyAniList() {
 
   // 상세페이지 연동
   const [openDetail, setOpenDetail] = useState<boolean>(false)
-  const [detailId, setDetailId] = useState<number | null>(null)
 
   // 더보기 뒤로 버튼
   const [likeMore, setLikeMore] = useState(true)
@@ -154,12 +154,13 @@ function MyAniList() {
   const [totalWatchaniList, setTotalWatchAniList] = useState<any>([])
 
   /** 상세페이지 켜기 */ 
-  const handleOpenDetail = (aniId) => {
+  async function handleOpenDetail (aniId) {
+    await dispatch(setAniId(aniId))
     setOpenDetail(true)
-    setDetailId(aniId)
   }
   /** 상세페이지 끄기 */ 
-  const handleCloseDetail = () => {
+  async function handleCloseDetail () {
+    await dispatch(resetAniId())
     setOpenDetail(false)
   }
 
@@ -486,18 +487,17 @@ function MyAniList() {
       }
 
 
-      { detailId ?
-        <Modal
-          open={openDetail}
-          onClose={handleCloseDetail}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={styleBoxDetail}>
-            <AniDetail aniId={detailId} />
-          </Box>
-        </Modal>
-      : null }
+      <Modal
+        open={openDetail}
+        onClose={handleCloseDetail}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleBoxDetail}>
+          <AniDetail />
+        </Box>
+      </Modal>
+
     </Container>
   )
 }

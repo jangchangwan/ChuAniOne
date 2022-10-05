@@ -421,21 +421,29 @@ export const deleteTalk = createAsyncThunk(
 )
 
 
-export interface openChatReducerType {
+export interface AniReducerType {
+  aniId: number | undefined
 }
 
-const initialState:openChatReducerType = {
-}
+const initialState: AniReducerType = {
+  aniId: undefined
+} as AniReducerType
 
-const anislice:any = createSlice({
+const anislice: any = createSlice({
   name: 'ani',
   initialState,
   reducers: {
+    setAniId: (state, action) => {
+      state.aniId = action.payload
+    },
+    resetAniId: (state) => {
+      state.aniId = undefined
+    }
   },
   extraReducers: {
 
   },
 })
 
-export const {  } = anislice.actions
+export const { setAniId, resetAniId } = anislice.actions
 export default anislice.reducer
