@@ -88,17 +88,11 @@ WSGI_APPLICATION = "recomm.wsgi.application"
 # Database
 
 # Environment Variables
-# MONGO_NAME = os.environ["MONGO_NAME"]
-# MONGO_HOST = os.environ["MONGO_HOST"]
-# MONGO_PORT = int(os.environ["MONGO_PORT"])
-# MONGO_USER = os.environ["MONGO_USER"]
-# MONGO_PASS = os.environ["MONGO_PASS"]
-
-MONGO_NAME = "animations"
-MONGO_HOST = "j7e104.p.ssafy.io"
-MONGO_PORT = 27017
-MONGO_USER = "soaeng"
-MONGO_PASS = "soaeng"
+MONGO_NAME = os.environ["MONGO_NAME"]
+MONGO_HOST = os.environ["MONGO_HOST"]
+MONGO_PORT = int(os.environ["MONGO_PORT"])
+MONGO_USER = os.environ["MONGO_USER"]
+MONGO_PASS = os.environ["MONGO_PASS"]
 
 DATABASES = {
     "default": {
