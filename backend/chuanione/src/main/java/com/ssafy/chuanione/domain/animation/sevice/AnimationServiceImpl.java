@@ -35,7 +35,7 @@ public class AnimationServiceImpl implements AnimationService {
     private final AniLogRepository aniLogRepository;
 
     private final String[][] categoryArr = {{"판타지", "액션"}, {"드라마", "로맨스"}, {"모험", "무협"}, {"이세계", "판타지"}, {"모험", "SF"}, {"스포츠", "드라마"},
-            {"공포", "스릴러"}, {"치유"}, {"음악","로맨스"}, {"음식", "일상"}, {"개그","하렘"}, {"판타지", "액션"}};
+            {"공포", "스릴러"}, {"치유"}, {"음악","로맨스"}, {"음식", "일상"}, {"개그","하렘"}, {"추리"}};
 
     @Override
     public Map<String, List<Animation>> getMainList(){
