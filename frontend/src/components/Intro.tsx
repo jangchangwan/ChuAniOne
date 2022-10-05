@@ -8,7 +8,12 @@ import Member3 from '../assets/images/member3.png'
 import Member4 from '../assets/images/member4.png'
 import Member5 from '../assets/images/member5.png'
 import Member6 from '../assets/images/member6.png'
-import IntroImg1 from '../assets/images/introImg.png'
+import IntroBaseImg from '../assets/images/introImg.png'
+import Intro1 from '../assets/images/introImg1.png'
+import Intro2 from '../assets/images/introImg2.png'
+import Intro3 from '../assets/images/introImg3.png'
+import Intro4 from '../assets/images/introImg4.png'
+
 
 // MUI
 import Box from '@mui/material/Box'
@@ -43,6 +48,37 @@ const PageIntro3 = styled.div`
   background-color : #FFD1D1;
   width: 100%;
   height: 100%;
+`
+
+// 인트로 이미지
+const IntroImg1 = styled.img`
+  width: 60rem;
+  height: 40rem;
+  rotate: -25deg;
+  margin-left: -5rem;
+  margin-top: 2rem;
+  border: 1px solid black;
+`
+const IntroImg2 = styled.img`
+  width: 50rem;
+  height: 25rem;
+  rotate: 15deg;
+  margin-left: -10rem;
+  margin-top: 4rem;
+`
+const IntroImg3 = styled.img`
+  width: 19rem;
+  height: 30rem;
+  rotate: 30deg;
+  margin-left: 25rem;
+  margin-top: -14rem;
+`
+const IntroImg4 = styled.img`
+  width: 20rem;
+  height: 35rem;
+  rotate: -30deg;
+  margin-right: 15rem;
+  margin-top: -8rem;
 `
 
 // 메인으로 버튼
@@ -105,7 +141,7 @@ function Intro() {
     >
       {/* 웹사이트 소개 */}
       <PageIntro1
-        style={{ backgroundImage: `url(${IntroImg1})`}}
+        style={{ backgroundImage: `url(${IntroBaseImg})`}}
       >
         <Grid container
           sx={{
@@ -169,6 +205,7 @@ function Intro() {
                   backgroundColor: 'white',
                   borderRadius: '2rem',
                   padding: '3rem',
+                  overflow: 'hidden',
                 }}
               >
 
@@ -182,6 +219,7 @@ function Intro() {
                 <Typography variant="body2" color="text.secondary" sx={{ paddingBottom: '1rem' }}>
                   흥미가 있는 애니메이션 클릭 시 유사한 애니메이션도 추천해드립니다!
                 </Typography>
+                <IntroImg1 src={Intro1}></IntroImg1>
               </Box>
             </motion.div>
           </Grid>
@@ -196,6 +234,7 @@ function Intro() {
                   backgroundColor: '#FFF5E4',
                   borderRadius: '2rem',
                   padding: '3rem',
+                  overflow: 'hidden',
                 }}
               >
 
@@ -209,6 +248,7 @@ function Intro() {
                 <Typography variant="body2" color="#f5c26a" sx={{ paddingBottom: '1rem' }}>
                   다 외운 단어를 체크시 단어장에서 사라지고 마이페이지에서 공부 가능!
                 </Typography>
+                <IntroImg2 src={Intro2}></IntroImg2>
               </Box>
             </motion.div>
           </Grid>
@@ -223,7 +263,7 @@ function Intro() {
                   backgroundColor: '#FFE3E1',
                   borderRadius: '2rem',
                   padding: '3rem',
-
+                  overflow: 'hidden',
                 }}>
                 <h1 style={{ color: '#db7777' }}>애니 상세보기 다양한 기능 구현!</h1>
                 <Typography variant="body2" color="#FF9494">
@@ -238,6 +278,7 @@ function Intro() {
                 <Typography variant="body2" color="#FF9494">
                   애니와 비슷한 작품 추천까지
                 </Typography>
+                <IntroImg3 src={Intro3}></IntroImg3>
               </Box>
             </motion.div>
           </Grid>
@@ -254,20 +295,23 @@ function Intro() {
                   backgroundColor: '#E1EFFF',
                   borderRadius: '2rem',
                   padding: '3rem',
+                  overflow: 'hidden',
+                  textAlign: 'right',
                 }}
               >
                 <h1 style={{ color: '#366087' }}>서로 비슷한 취향의 사람과의 오픈채팅</h1>
 
 
                 <Typography variant="body2" color="#5D86D1">
-                  본인이 원하는 태그를 만들고 방을 생성하여 본인과 취향이 유사한 사람들과 채팅을 할 수 있다.
+                  본인이 원하는 태그를 만들고<br></br>방을 생성하여 취향이 유사한 사람들과<br></br>채팅을 할 수 있다.
                 </Typography>
                 <Typography variant="body2" color="#5D86D1">
-                  그리고 다양한 글씨체를 지원하여 본인이 원하는 글씨체로 쓰고 볼 수 있다.
+                  그리고 다양한 글씨체를 지원하여<br></br>본인이 원하는 글씨체로 쓰고 볼 수 있다.
                 </Typography>
                 <Typography variant="body2" color="#5D86D1" sx={{ paddingBottom: '1rem' }}>
-                  마지막으로 애니메이션 관련 이모티콘도 사용 가능!
+                  마지막으로 애니메이션 관련<br></br>이모티콘도 사용 가능!
                 </Typography>
+                <IntroImg4 src={Intro4}></IntroImg4>
               </Box>
             </motion.div>
           </Grid>
@@ -276,7 +320,7 @@ function Intro() {
 
       {/* 팀원소개 */}
       <PageIntro3
-        style={{ backgroundImage: `url(${IntroImg1})`}}
+        style={{ backgroundImage: `url(${IntroBaseImg})`}}
       >
         <h1
           style={{

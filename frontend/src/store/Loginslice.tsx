@@ -100,11 +100,11 @@ export const changeUserInfo = createAsyncThunk(
           nickname: userDto.nickname,
           password: userDto.password,
           profile: userDto.profile,
-  
         } 
+        const profileImg = userDto.profile
         const accessToken =localStorage.getItem("access-Token")
         http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
-        const res = await http.patch(`member/update/${userDto.id}`, memberDto)
+        const res = await http.patch(`member/update/${userDto.id}`, memberDto, profileImg)
         if (res.status === 200) return res
       }
     } catch (err:any) {
