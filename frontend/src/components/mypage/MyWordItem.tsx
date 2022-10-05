@@ -2,7 +2,7 @@ import React from 'react'
 
 // MUI
 import Grid from '@mui/material/Grid'
-import Checkbox from '@mui/material/Checkbox'
+import Button from '@mui/material/Button'
 import VolumeUpIcon from '@mui/icons-material/VolumeUp'
 
 // redux
@@ -53,14 +53,14 @@ function MyWordItem(wordData:any) {
   const dispatch = useDispatch<typeof store.dispatch>()
   const [checked, setChecked] = React.useState(false)
 
-  const checkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(wordData.wordData.voca)
+  const checkChange = () => {
     if (checked) {
       dispatch(insertMyVoca(wordData.wordData.voca.vocaId))
+      setChecked(false)
     } else {
       dispatch(deleteMyVoca(wordData.wordData.voca.vocaId))
+      setChecked(true)
     }
-    setChecked(event.target.checked)
   }
 
   return (
@@ -99,11 +99,25 @@ function MyWordItem(wordData:any) {
           sx = {{
             position: 'relative',
             top: '-1rem',
-            right: '-5%'
           }}
         >
-          <Checkbox color='default' onChange={checkChange} id='word' 
-          />
+          {
+            checked ?
+            <Button 
+              onClick={checkChange}
+              sx ={{
+                color: '#2b2c2b'
+              }}
+            >취소</Button>
+            :
+            <Button 
+              onClick={checkChange}
+              sx ={{
+                color: '#CD104D'
+              }}
+            >삭제</Button>
+          }
+          
         </Grid>
       </Grid>
       <Grid container>
