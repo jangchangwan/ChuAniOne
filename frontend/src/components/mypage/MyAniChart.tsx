@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+
+// Chart
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -9,7 +11,6 @@ import {
   Legend,
 } from 'chart.js'
 import { Radar } from 'react-chartjs-2'
-
 ChartJS.register(
   RadialLinearScale,
   PointElement,
@@ -19,11 +20,11 @@ ChartJS.register(
   Legend
 )
 
+
 export function MyAniChart(genresData) {
   const [myScore, setMyScore] = useState([0,0,0,0,0,0])
   const [myGenres, setMyGenres] = useState(['판타지','모험','이세계','모험','개그','시대물'])
   const [maxScore, setMaxScore] = useState(5)
-  const [ticks, setTicks] = useState(1)
   const option:any = {
 
 
@@ -91,8 +92,8 @@ export function MyAniChart(genresData) {
 
   useEffect (() => {
     const genres = genresData.genresData
-    let tempScore = [0,0,0,0,0,0];
-    let tempGenres = ['판타지','모험','이세계','모험','개그','시대물'];
+    let tempScore = [0,0,0,0,0,0]
+    let tempGenres = ['판타지','모험','이세계','모험','개그','시대물']
     let maxScore = 0
     genres.forEach(function (genre:any, index) {
       let score:any = Object.values(genre)
@@ -103,8 +104,7 @@ export function MyAniChart(genresData) {
       if (maxScore < score[0]){
         maxScore = score[0]
       }
-    });
-    setTicks(maxScore / 5)
+    })
     setMaxScore(maxScore)
     setMyScore(tempScore)
     setMyGenres(tempGenres)
@@ -112,4 +112,4 @@ export function MyAniChart(genresData) {
   },[genresData])
   return <Radar data={data} options={option} />
 }
-export default MyAniChart;
+export default MyAniChart

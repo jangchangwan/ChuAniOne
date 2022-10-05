@@ -5,10 +5,10 @@ import MyAniMoreItem from './MyAniMoreItem'
 import AniDetail from '../ani/AniDetail'
 
 // MUI
-import styled from 'styled-components';
+import styled from 'styled-components'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
@@ -25,6 +25,7 @@ import {
 import store from '../../store'
 
 
+// Total Container
 const Container = styled.div`
   overflow-x: hidden;
 `
@@ -34,18 +35,19 @@ const Titlediv = styled.div`
   flex-direction: row; 
   align-items: center;
 `
+
 const MyAniTitle = styled.p`
   margin: 0;
   margin-right: 1rem;
   font-size: 2rem;
 `
+
 const MoreIcon = styled.p`
   display: flex;
   align-items: center;
   margin-bottom: 0;
   cursor: pointer;
 `
-
 
 const CarouselContainer = styled.div`
   width: 100%;
@@ -59,7 +61,6 @@ const CarouselDiv = styled.div`
   height: 14rem;
   display: flex;
   align-items: center;
-  /* overflow: hidden; */
   scroll-behavior: smooth;
   transition: transform 0.5s;
 
@@ -116,6 +117,7 @@ const Name = styled.p`
   margin-left: 0.5rem;
 `
 
+// 상세페이지
 const styleBoxDetail = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -129,7 +131,7 @@ const styleBoxDetail = {
   boxShadow: 24,
 }
 
-
+/** 마이 애니 리스트 */
 function MyAniList() {
   const dispatch = useDispatch<typeof store.dispatch>()
 
@@ -151,12 +153,12 @@ function MyAniList() {
   const [totalChoiceaniList, setTotalChoiceAniList] = useState<any>([])
   const [totalWatchaniList, setTotalWatchAniList] = useState<any>([])
 
-  // 상세페이지 켜기
+  /** 상세페이지 켜기 */ 
   const handleOpenDetail = (aniId) => {
     setOpenDetail(true)
     setDetailId(aniId)
   }
-  // 상세페이지 끄기
+  /** 상세페이지 끄기 */ 
   const handleCloseDetail = () => {
     setOpenDetail(false)
   }
@@ -174,46 +176,56 @@ function MyAniList() {
       carousel01.current.style.transform = `translateX(${now01X}vw)`
     }
   }, [now01X])
+
   useEffect(() => {
     if (carousel02 && carousel02.current) {
       carousel02.current.style.transform = `translateX(${now02X}vw)`
     }
-  }, [now02X]) 
+  }, [now02X])
+
   useEffect(() => {
     if (carousel03 && carousel03.current) {
       carousel03.current.style.transform = `translateX(${now03X}vw)`
     }
   }, [now03X]) 
 
+  /** 리뷰 캐러셀 왼쪽 이동 */
   const clickLeftButton = () => {
-    setNow01X((prop) => prop + 13.5);
+    setNow01X((prop) => prop + 13.5)
     console.log(`it's work ${now01X}`)
   }
 
+  /** 리뷰 캐러셀 오른쪽 이동 */
   const clickRightButton = () => {
     setNow01X(now01X - 13.5)
     console.log(`it's work ${now01X}`)
   }
 
+  /** 찜 케러셀 왼쪽 이동 */
   const clickLeftButton2 = () => {
-    setNow02X((prop) => prop + 13.5);
+    setNow02X((prop) => prop + 13.5)
     console.log(`it's work ${now02X}`)
   }
 
+  /** 찜 캐러셀 오른쪽 이동 */
   const clickRightButton2 = () => {
     setNow02X(now02X - 13.5)
     console.log(`it's work ${now02X}`)
   }
+
+  /** 좋아요 캐러셀 왼쪽 이동 */
   const clickLeftButton3 = () => {
-    setNow03X((prop) => prop + 13.5);
+    setNow03X((prop) => prop + 13.5)
     console.log(`it's work ${now03X}`)
   }
 
+  /** 좋아요 캐러셀 오른쪽 이동 */
   const clickRightButton3 = () => {
     setNow03X(now03X - 13.5)
     console.log(`it's work ${now03X}`)
   }
-  // 데이터 불러오기
+
+  /** 애니데이터 불러오기 */
   async function loadAniData() {
     const aniResponse = await dispatch(getMyAniList())
     const likeAniResponse = await dispatch(getLikeAniList())
@@ -228,7 +240,8 @@ function MyAniList() {
     setTotalChoiceAniList(choiceAniResponse.payload.choice)
     setTotalWatchAniList(watchAniResponse.payload.watch)
   }
-  // 더보기 버튼
+
+  /** 리뷰 더보기 버튼 */
   const watchMoreData = () =>{
     if (watchMore) {
       setWatchMore(false)
@@ -236,6 +249,8 @@ function MyAniList() {
       setWatchMore(true)
     }
   }
+  
+  /** 찜 더보기 버튼 */
   const choiceMoreData = () =>{
     if (choiceMore) {
       setChoiceMore(false)
@@ -243,6 +258,8 @@ function MyAniList() {
       setChoiceMore(true)
     }
   }
+
+  /** 좋아요 더보기 버튼 */
   const likeMoreData = () =>{
     if (likeMore) {
       setLikeMore(false)
@@ -251,6 +268,7 @@ function MyAniList() {
     }
   }
   
+
   useEffect(() => {
     loadAniData()
   },[])
@@ -490,4 +508,4 @@ function MyAniList() {
   )
 }
 
-export default MyAniList;
+export default MyAniList

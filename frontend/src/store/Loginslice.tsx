@@ -11,8 +11,8 @@ export const login = createAsyncThunk(
       const res = await http.post('member/login.do', userData)
       const accessToken = res.data.accessToken
       const refreshToken = res.data.refreshToken
-      window.localStorage.setItem('access-Token', accessToken);
-      window.localStorage.setItem('refresh-Token', refreshToken);
+      window.localStorage.setItem('access-Token', accessToken)
+      window.localStorage.setItem('refresh-Token', refreshToken)
       return res
     } catch (err:any) {
       return rejectWithValue(err.response)
@@ -26,8 +26,8 @@ export const logout = createAsyncThunk(
   'LOGOUT',
   async (arg, { rejectWithValue }) => {
     try {
-      window.localStorage.removeItem('access-Token');
-      window.localStorage.removeItem('refresh-Token');
+      window.localStorage.removeItem('access-Token')
+      window.localStorage.removeItem('refresh-Token')
       return
     } catch (err:any) {
       return rejectWithValue(err.response)
@@ -79,8 +79,8 @@ export const myinfo = createAsyncThunk(
   'MYINFO',
   async (arg, {rejectWithValue}) => {
     try{
-      const accessToken =localStorage.getItem("access-Token");
-      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      const accessToken =localStorage.getItem("access-Token")
+      http.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`
       const res = await http.get('member/myinfo')
       return res
     } catch(err:any) {

@@ -1,8 +1,15 @@
-import React, {useState, useEffect, useRef} from 'react'
-import styled from 'styled-components';
+import React,  { useState } from 'react'
+
+// styled component
+import styled from 'styled-components'
+
+// 하위 컴포넌트
 import AniDetail from '../ani/AniDetail'
+
+// MUI
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
+
 
 const Container = styled.div`
   height: 100%;
@@ -19,6 +26,7 @@ const AniImgBox = styled.div`
   width: 95%;
   overflow: hidden;
 `
+
 const AniImg = styled.img`
   width: 100%;
   height: 100%;
@@ -37,6 +45,8 @@ const AniName = styled.p`
   margin-bottom: 1rem;
   font-size: 1.1rem;
 `
+
+/** 상세 애니 페이지 */
 const styleBoxDetail = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -50,6 +60,7 @@ const styleBoxDetail = {
   boxShadow: 24,
 }
 
+/** 애니 더보기 */
 function MyAniMoreItem(myAniData) {
   // 상세페이지 연동
   const [openDetail, setOpenDetail] = useState<boolean>(false)
@@ -85,7 +96,7 @@ function MyAniMoreItem(myAniData) {
         </Modal>
       : null }
     </Container>
-  );
+  )
 }
 
-export default MyAniMoreItem;
+export default MyAniMoreItem

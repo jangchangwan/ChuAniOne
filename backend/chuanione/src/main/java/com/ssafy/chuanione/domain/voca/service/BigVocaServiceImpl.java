@@ -45,9 +45,9 @@ public class BigVocaServiceImpl implements BigVocaService{
         Member member = SecurityUtil.getCurrentUsername().flatMap(memberRepository::findByEmail).orElseThrow(MemberNotFoundException::new);
         List<MemorizeVoca> memorizeVoca = memorizeVocaRepository.findAllByMemberId(member);
 
-        List<BigVoca> list =test();
-        System.out.println(list.size());
-        System.out.println(list);
+//        List<BigVoca> list =test();
+//        System.out.println(list.size());
+//        System.out.println(list);
         Page<BigVoca> bigVocaList;
         if (memorizeVoca.size() != 0) {
             List<Integer> memorizeVocaIds = new ArrayList<>();

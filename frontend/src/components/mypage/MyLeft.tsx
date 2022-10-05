@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+
+// styled Component
 import styled from "styled-components"
-import Grid from '@mui/material/Grid'
 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import MyAniChart   from "./MyAniChart";
+// 하위 컴포넌트
+import MyAniChart   from "./MyAniChart"
 
+// image
 import likeIcon from '../../assets/images/like.png'
 import wish from '../../assets/images/wish.png'
 import review1 from '../../assets/images/review1.png'
@@ -12,29 +14,34 @@ import review3 from '../../assets/images/review3.png'
 import talktalk1 from '../../assets/images/talktalk1.png'
 import talktalk3 from '../../assets/images/talktalk3.png'
 
-
+// redux
 import { useDispatch } from "react-redux"
 import { myinfo, nicknameCheck, changeUserInfo } from '../../store/Loginslice'
 import { getchallenge } from '../../store/mypageslice'
 import store from '../../store'
+
 // MUI
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { padding, width } from '@mui/system';
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import Grid from '@mui/material/Grid'
+
+
 // 프로필 사진, 닉네임, 경험치 관련
 const ProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 100%;
-
 `
+
+// 소개
 const IntroDiv = styled.div`
   border-radius: 1rem;
   width: 100%;
@@ -67,7 +74,6 @@ const ProfileContainerLv = styled.div`
   align-items: flex-start;
   justify-content: space-around;
   font-size: 1.5rem;
-  /* margin: 0 0 1rem 0; */
 `
 
 // 경험치 바 위의 텍스트 박스
@@ -80,8 +86,14 @@ const ProfileContainerExpTextBox = styled.div`
 
 // 텍스트 박스 안의 왼쪽, 오른쪽 텍스트
 const ProfileContainerExpText = styled.div`
+  background-color: #f37b83;
+  border-radius: 10%;
+  padding: 2px;
+  color: white;
   height: 1rem;
   font-size: 0.8rem;
+  opacity: 1;
+  transition: opacity 0.35s ease-in-out;
 `
 
 // 경험치 바 밖
@@ -91,6 +103,9 @@ const ProfileContainerExpOut = styled.div`
   height: 1rem;
   border-radius: 10px 10px 10px 10px;
   border-color: #f37b83;
+  &:hover .remainExp {
+    opacity: 1;
+  }
 `
 
 // 경험치 바 안
@@ -98,6 +113,9 @@ const ProfileContainerExpIn = styled.div`
   height: 1rem;
   border-radius: 10px 10px 10px 10px;
   background-color: #f37b83; 
+  &:hover .remainExp {
+    opacity: 1;
+  }
 `
 
 // 소개
@@ -107,13 +125,15 @@ const IntroductonBox = styled.div`
   margin: 2rem 0 0 0;
 `
 
-
+// 에러 메세지
 const ErrorText = styled.span`
   width: 100%;
   color: #ff0000;
   font-size: 1rem;
   margin-bottom: 0.5rem;
 `
+
+// 성공 메세지
 const SuccessText = styled.span`
   width: 100%;
   color: #009c87;
@@ -121,17 +141,22 @@ const SuccessText = styled.span`
   margin-bottom: 1rem;
 `
 
+// 벳지
 const BadgeDiv = styled.div`
   display: flex;
   float: left;
   flex-direction: row;
   align-items: center;
 `
+
+// 벳지 이미지
 const BadgeImg = styled.img`
   width: 3rem;
   height: 3rem;
   filter: drop-shadow(1px 1px 1px #000);
 `
+
+// 큰 차트 박스
 const TotalChartDiv = styled.div`
   background-color: #FFF5E4;
   width: 100%;
@@ -139,6 +164,8 @@ const TotalChartDiv = styled.div`
   border: 0.5rem solid #967E76;
   padding: 1rem
 `
+
+// 차트 박스
 const ChartDiv = styled.div`
   position: relative;
   left: 10%;
@@ -146,9 +173,11 @@ const ChartDiv = styled.div`
   padding: 1rem
 `
 
+/** 마이페이지 왼쪽 페이지 */
 function MyLeft() {
   const dispatch = useDispatch<typeof store.dispatch>()
 
+  // 도전과제 페이지
   const [myChallengeList, setChallengeList] = useState<any>([])
   // 개인정보수정 모달 열고 닫기
   const [open, setOpen] = React.useState(false);
@@ -185,7 +214,7 @@ function MyLeft() {
   
   
 
-  // 비밀번호 유효성 검사
+  /** 비밀번호 유효성 검사  */
   const validatePwd = (e:any) => {
     let patternEngAtListOne = new RegExp(/[a-zA-Z]+/) // + for at least one
     let patternSpeAtListOne = new RegExp(/[~!@#$%^]+/) // + for at least one
@@ -209,7 +238,7 @@ function MyLeft() {
       setPwdValid(false)
     }
   }
-  // 닉네임 유효성 검사
+  /** 닉네임 유효성 검사 */
   const validateNickName = (e:any) => {
     if (e.target.value) {
       setDefaultNickname(true)
@@ -229,14 +258,14 @@ function MyLeft() {
       setNicknameValid(false)
     } 
   }
-  // 닉네임 중복체크
+  /** 닉네임 중복체크 */
   const isDuplicateNickname = () => {
-    console.log(nickName);
+    console.log(nickName)
     
     dispatch(nicknameCheck(nickName))
       .unwrap()
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data)
         if (res.data === false){
           setisDuplicateNicknameChecked(true)
         } else {
@@ -245,17 +274,17 @@ function MyLeft() {
     })
   }
   
-  // 개인정보수정 창열기
+  /** 개인정보수정 창열기 */ 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
-  // 개인정보수정 창닫기
+  /** 개인정보수정 창닫기 */ 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
-  // 개인정보수정
+  /** 개인정보수정 */
   const changeInfo = (event:any) => {
     const changeDto = {
       introduction: introduction,
@@ -281,7 +310,7 @@ function MyLeft() {
         setUserId(data.member.memberId)
         setExp(data.exp)
       }).catch((e) => {
-        console.log(e);
+        console.log(e)
         
       })
     loadChallengeData()
@@ -325,8 +354,6 @@ function MyLeft() {
                     sx={{ paddingTop: '2px', cursor: 'pointer'}}
                   ></MoreVertIcon>
                 </Grid>
-                
-                
               </Grid>
               
               <Dialog open={open} onClose={handleClose}>
@@ -356,7 +383,10 @@ function MyLeft() {
                     }
                     
                   </div>
-                  <Button>이미지 선택</Button>
+                  <Button component="label">
+                    이미지 선택
+                    <input hidden multiple type="file" />
+                  </Button>
                   <Grid container spacing={1}>
                     <Grid item xs={8}>
                       <TextField
@@ -433,8 +463,7 @@ function MyLeft() {
             </ProfileContainerLv>
             
             <ProfileContainerExpTextBox>
-              {/* <ProfileContainerExpText style={{ color:"blue" }}>현재 경험치 : {myexp}</ProfileContainerExpText> */}
-              <ProfileContainerExpText style={{ color:"red" }}>다음 레벨까지 : {100 - myexp} !!</ProfileContainerExpText>
+              <ProfileContainerExpText className='remainExp'>다음 레벨까지 : {100 - myexp} !!</ProfileContainerExpText>
             </ProfileContainerExpTextBox>
             <ProfileContainerExpOut>
               <ProfileContainerExpIn style={{ width: `${myexp}%`}}></ProfileContainerExpIn>
@@ -500,7 +529,7 @@ function MyLeft() {
       
       
     </div>
-  );
+  )
 }
 
-export default MyLeft;
+export default MyLeft
