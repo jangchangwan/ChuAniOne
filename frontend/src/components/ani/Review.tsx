@@ -232,7 +232,6 @@ function Review({ aniId }) {
   /** 리뷰 작성 시, Django로 전송 */
   function sendDjango() {
     axios.post(`https://j7e104.p.ssafy.io/server/v1/recomm`, 
-    // axios.post(`http://localhost:8000/server/v1/recomm`, 
       {
         member_id: 6000000 + member_id,
         ani_id: aniId,
