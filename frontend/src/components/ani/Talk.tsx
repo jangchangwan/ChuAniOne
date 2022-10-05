@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import TextField from '@mui/material/TextField'
 import TalkList from './TalkList'
 import Button from '@mui/material/Button'
-import SendIcon from '@mui/icons-material/Send'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import { IconButton } from '@mui/material'
 
@@ -11,6 +10,8 @@ import { IconButton } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import store from '../../store'
 import { createTalk, getTalk, deleteTalk } from '../../store/anislice'
+import { useSelector } from 'react-redux'
+import initialState from '../../store/Loginslice'
 
 const Container = styled.div`
   width: 90%;
@@ -58,6 +59,7 @@ const Btn = styled(Button)`
   color: #5ec6e6 !important;
 `
 
+/** 상세페이지: 톡톡 */
 function Talk({ aniId }) {
   interface Data {
     animation: number,
@@ -69,12 +71,17 @@ function Talk({ aniId }) {
     writer_name: string,
   }
 
+  /**
+    cnt: 톡톡 개수
+    writeTalk: 톡톡 작성
+  **/
   const dispatch = useDispatch<typeof store.dispatch>()
+  const isLogin = useSelector((state: initialState) => (state.login.isLogin))
   const [data, setData] = useState<Data[]>([])
   const [cnt, setCnt] = useState<number>(0)
   const [writeTalk, setWriteTalk] = useState<string>('')
 
-  // 톡톡 불러오기
+  /** 톡톡 불러오기 */
   async function loadData() {
     const res = await dispatch(getTalk(aniId))
     if (res.meta.requestStatus === "fulfilled") {
@@ -83,7 +90,7 @@ function Talk({ aniId }) {
     }
   }
 
-  // 톡톡 작성하기
+  /** 톡톡 작성 */
   async function sendTalk() {
     if (!writeTalk.trim()) return
 
@@ -99,7 +106,7 @@ function Talk({ aniId }) {
     } 
   }
 
-  // 톡톡 삭제하기
+  /** 톡톡 삭제 */
   async function delTalk(tid) {
     const res = await dispatch(deleteTalk({ id: aniId, tid }))
     if (res.payload) loadData()
@@ -112,35 +119,37 @@ function Talk({ aniId }) {
   return (
     <Container>
       <TalkCountBox>
-        <TalkCount>{cnt}개의 Talk</TalkCount>
+        <TalkCount>{cnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}개의 Talk</TalkCount>
         <RenewBtn onClick={loadData}><RenewIcon/></RenewBtn>
       </TalkCountBox>
 
-      <SendTalk>
-        <TalkInput 
-          id="outlined-basic" 
-          placeholder="이 작품에 대해 자유롭게 이야기해보세요 !" 
-          value={writeTalk}
-          onChange={(e) => setWriteTalk(e.target.value)}
-          onKeyPress={(e) => {
-            console.log(e)
-            if (e.code === "Enter" && !e.shiftKey) sendTalk()
-          }}
-          multiline
-          rows={2}
-          variant="outlined"
-          sx={{
-            "& .MuiOutlinedInput-root.Mui-focused": {
-              "& > fieldset": {
-              borderColor: "#b7eeff"
-          }}}}
-        />
-        <BtnDiv>
-          <Btn type="button" onClick={sendTalk}>
-            등록
-          </Btn>
-        </BtnDiv>
-      </SendTalk>
+      { isLogin? 
+        <SendTalk>
+          <TalkInput 
+            id="outlined-basic" 
+            placeholder="이 작품에 대해 자유롭게 이야기해보세요 !" 
+            value={writeTalk}
+            onChange={(e) => setWriteTalk(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.code === "Enter" && !e.shiftKey) sendTalk()
+            }}
+            multiline
+            rows={2}
+            variant="outlined"
+            sx={{
+              "& .MuiOutlinedInput-root.Mui-focused": {
+                "& > fieldset": {
+                borderColor: "#b7eeff"
+            }}}}
+          />
+          <BtnDiv>
+            <Btn type="button" onClick={sendTalk}>
+              등록
+            </Btn>
+          </BtnDiv>
+        </SendTalk>
+      : null}
+
       <TalkList data={data} delTalk={delTalk}/>
     </Container>
   )

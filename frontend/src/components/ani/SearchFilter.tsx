@@ -16,9 +16,6 @@ const Container = styled.div`
   background-color: #f8ebed;
   padding: 2rem 1rem;
   width: calc(20% - 2rem);
-  /* border: 2px solid #f37b83; */
-  /* border-radius: 2rem; */
-  /* min-height: 100vh; */
 `
 
 const SearchBox = styled.div`
@@ -68,7 +65,6 @@ const NameBox = styled.div`
 const FilterName = styled.p`
   font-weight: bold;
   cursor: default;
-  /* background-color: #f37b83; */
   border-radius: 1rem;
   padding: 0.2rem 0.5rem;
 `
@@ -102,9 +98,6 @@ const Check = styled(Checkbox)`
 `
 
 function SearchFilter({ 
-    keyword, 
-    genres,
-    tags,
     changeKeyword,
     addGenres,
     removeGenres,
@@ -112,6 +105,12 @@ function SearchFilter({
     removeTags,
   }) {
 
+  /**
+    showMoreGenre: 장르 더보기
+    showMoreTag: 태그 더보기
+    genres_value: 장르 값 목록
+    tags_value: 태그 값 목록
+  **/
   const [ showMoreGenre, setShowMoreGenre ] = useState<boolean>(false)
   const [ showMoreTag, setShowMoreTag ] = useState<boolean>(false)
   const genres_value = [
@@ -127,17 +126,16 @@ function SearchFilter({
     '요괴 및 괴물', '육아', '정치', '좀비', '주체적 여성', '짝사랑', '철학', '퇴마', '학교'
   ]
 
-  // 키워드 변경
+  // 검색 키워드
   const [search, setSearch] = useState<string>('')
 
+  /** AniSearch 키워드 변경 */
   const searchKeyword = (e) => {
-    // setSearch(search.trim())
     changeKeyword(e.target.value.trim())
   }
 
-  // 장르 필터링
+  /** 장르 필터링 */
   const getGenres = (e) => {
-    // console.log(e.target.checked, e.target.labels[0].innerText)
     if (e.target.checked) {
       addGenres(e.target.labels[0].innerText)
     } else {
@@ -145,9 +143,8 @@ function SearchFilter({
     }
   }
 
-  // 태그 필터링
+  /** 태그 필터링 */
   const getTags = (e) => {
-    // console.log(e.target.checked, e.target.labels[0].innerText)
     if (e.target.checked) {
       addTags(e.target.labels[0].innerText)
     } else {
@@ -158,6 +155,7 @@ function SearchFilter({
   return (
     <Container>
       <SearchBox>
+        {/* 키워드 검색 */}
         <SearchInput id="outlined-basic" placeholder='검색어를 입력하세요' variant="outlined" 
           sx={{
             "& .MuiOutlinedInput-root.Mui-focused": {
@@ -176,6 +174,7 @@ function SearchFilter({
         </SearchIconBox>
       </SearchBox>
       
+      {/* 장르 필터링 */}
       <FilterContainer>
         <NameBox>
           <FilterName>장르</FilterName>
@@ -187,25 +186,16 @@ function SearchFilter({
         <FilterBox>
           { genres_value.map((genre, idx) => (
             idx < 8 ? 
-              <Filter 
-                control={<Check />} label={genre} 
-                onChange={(e) => {
-                  getGenres(e)
-                }}
-              />
+              <Filter key={idx} control={<Check />} label={genre} onChange={(e) => getGenres(e)}/>
             : 
             (showMoreGenre ? 
-              <Filter 
-                control={<Check />} label={genre} 
-                onChange={(e) => {
-                  getGenres(e)
-                }}
-              /> : null)
-          
+              <Filter control={<Check />} label={genre} onChange={(e) => getGenres(e)}/> 
+            : null)
           ))}
         </FilterBox>
       </FilterContainer>
 
+      {/* 태그 필터링 */}
       <FilterContainer>
         <NameBox>
           <FilterName>태그</FilterName>
@@ -217,7 +207,7 @@ function SearchFilter({
         <FilterBox>
           { tags_value.map((tag, idx) => (
             idx < 8 ? 
-              <Filter control={<Check />} label={tag} onClick={(e) => getTags(e)}/>
+              <Filter key={idx} control={<Check />} label={tag} onClick={(e) => getTags(e)}/>
             : (showMoreTag ? <Filter control={<Check />} label={tag} onClick={(e) => getTags(e)}/> : null)
           ))}
         </FilterBox>

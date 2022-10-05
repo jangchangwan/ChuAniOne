@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 
 // redux
@@ -37,7 +36,7 @@ const ItemName = styled.p`
   margin: 0;
 `
 
-
+/** 상세페이지: 비슷한 작품 */
 function SimilarAni({ aniId }) {
   interface Data {
     ani_id: number,
@@ -54,6 +53,7 @@ function SimilarAni({ aniId }) {
   const dispatch = useDispatch<typeof store.dispatch>()
   const [data, setData] = useState<Data[]>([])
 
+  /** 비슷한 애니메이션 불러오기 */
   async function loadData() {
     const res = await dispatch(getSimilar(aniId))
     if (res.meta.requestStatus === "fulfilled") {
