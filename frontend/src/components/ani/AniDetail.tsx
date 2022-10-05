@@ -377,7 +377,7 @@ function AniDetail({ aniId }: any): any {
                   <InfoName>출시</InfoName>
                   <InfoTextBox>
                     { release.map((item, idx) => (
-                      <InfoText>{item}</InfoText>
+                      <InfoText key={idx}>{item}</InfoText>
                     ))}
                   </InfoTextBox>
                 </InfoDiv>
