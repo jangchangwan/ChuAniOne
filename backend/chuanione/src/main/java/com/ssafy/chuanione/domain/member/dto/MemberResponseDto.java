@@ -18,6 +18,7 @@ public class MemberResponseDto {
     private String birthday;
     private Gender gender;
     private String introduction;
+    private String profile;
     private Role role;
 
     public static MemberResponseDto from(Member member){
@@ -30,6 +31,7 @@ public class MemberResponseDto {
                 .birthday(member.getBirthday())
                 .gender(member.getGender())
                 .introduction(member.getIntroduction())
+                .profile(member.getProfile())
                 .role(member.getRole())
                 .build();
     }
