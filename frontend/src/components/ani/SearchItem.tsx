@@ -4,6 +4,11 @@ import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import AniDetail from './AniDetail'
 
+// redux
+import { useDispatch } from 'react-redux'
+import store from '../../store'
+import { resetAniId, setAniId } from '../../store/anislice'
+
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -52,6 +57,7 @@ const styleBoxDetail = {
 
 /** 검색 아이템 */
 function SearchItem({ ani }) {
+  const dispatch = useDispatch<typeof store.dispatch>()
   
   /** data type */
   const data = {
@@ -65,21 +71,23 @@ function SearchItem({ ani }) {
   const [showDetail, setShowDetail] = useState<boolean>(false)
 
   /** 상세페이지 모달 열기 */
-  const handleOpenDetail = () => {
+  async function handleOpenDetail(aniId) {
+    await dispatch(setAniId(aniId))
     setShowDetail(true)
   }
 
   /** 상세페이지 모달 닫기 */
-  const handleCloseDetail = () => {
+  async function handleCloseDetail() {
+    await dispatch(resetAniId())
     setShowDetail(false)
   }
 
   return (
     <Container>
-      <ImgBox onClick={handleOpenDetail}>
+      <ImgBox onClick={() => handleOpenDetail(data.id)}>
         <Img src={data.img}/>
       </ImgBox>
-      <Name  onClick={handleOpenDetail}>{data.name}</Name>
+      <Name  onClick={() => handleOpenDetail(data.id)}>{data.name}</Name>
 
       { showDetail ?
         <Modal
@@ -89,7 +97,7 @@ function SearchItem({ ani }) {
           aria-describedby="modal-modal-description"
         >
           <Box sx={styleBoxDetail}>
-            <AniDetail aniId={data.id}/>
+            <AniDetail />
           </Box>
         </Modal>
         : null
