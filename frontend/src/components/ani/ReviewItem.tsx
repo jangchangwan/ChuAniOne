@@ -83,7 +83,6 @@ const ReviewText = styled.p`
 
 /** 리뷰 아이템 */
 function ReviewItem({ data }) {
-  const userId = useSelector((state: initialState) => (state.login.userId))
 
   return (
     <Container>
