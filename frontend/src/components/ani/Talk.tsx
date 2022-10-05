@@ -131,7 +131,6 @@ function Talk({ aniId }) {
             value={writeTalk}
             onChange={(e) => setWriteTalk(e.target.value)}
             onKeyPress={(e) => {
-              console.log(e)
               if (e.code === "Enter" && !e.shiftKey) sendTalk()
             }}
             multiline
@@ -150,7 +149,7 @@ function Talk({ aniId }) {
           </BtnDiv>
         </SendTalk>
       : null}
-      
+
       <TalkList data={data} delTalk={delTalk}/>
     </Container>
   )
