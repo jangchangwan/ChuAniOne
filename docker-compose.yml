@@ -50,30 +50,30 @@ services:
     depends_on:
       - db
 
-  # django:
-  #   build:
-  #     context: ./backend/recomm
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8000:8000"
-  #   # command:
-  #   #   # - ls
-  #     # - python manage.py runserver 0:8000
-  #     # - gunicorn recomm.wsqi.application --bind 0.0.0.0:8000
-  #   # volumes:
-  #   #   - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm/:/app 
-  #   container_name: django_chu
-  #   restart: always
-  #   environment:
-  #   - TZ=Asia/Seoul
-  #   depends_on:
-  #     - db
   django:
+    build:
+      context: ./backend/recomm
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    # command:
+    #   # - ls
+      # - python manage.py runserver 0:8000
+      # - gunicorn recomm.wsqi.application --bind 0.0.0.0:8000
+    # volumes:
+    #   - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm/:/app 
     container_name: django_chu
-    build: ./backend/recomm
-    image: docker-server/django
     restart: always
-    command: uwsgi --ini uwsgi.ini
-    volumes:
-      - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm:/srv/docker-server
-      - ./log:/var/log/uwsgi
+    environment:
+    - TZ=Asia/Seoul
+    depends_on:
+      - db
+  # django:
+  #   container_name: django_chu
+  #   build: ./backend/recomm
+  #   image: docker-server/django
+  #   restart: always
+  #   command: uwsgi --ini uwsgi.ini
+  #   volumes:
+  #     - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm:/srv/docker-server
+  #     - ./log:/var/log/uwsgi
