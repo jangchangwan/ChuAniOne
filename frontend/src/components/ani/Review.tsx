@@ -239,7 +239,7 @@ function Review({ aniId }) {
     //     content: review,
     //   }
     // )
-      axios.get(`https://j7e104.p.ssafy.io/server/v1/recomm/test`)
+      console.log(axios.get(`https://j7e104.p.ssafy.io/server/v1/recomm/test`))
   }
   
   /** 리뷰 수정 */
