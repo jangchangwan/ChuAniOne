@@ -9,6 +9,7 @@ import com.ssafy.chuanione.domain.member.exception.MemberNotFoundException;
 import com.ssafy.chuanione.global.jwt.TokenProvider;
 import com.ssafy.chuanione.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -34,8 +35,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final EmailTokenService emailTokenService;
 
-    private final String uploadPath = System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
-    private final String uploadFolder = "uploads";
+    @Value("${part4.upload.path}")
+    private String uploadPath;
+    //private final String uploadFolder = "uploads";
 
 
     public MemberResponseDto doSignUp(SignUpRequestDto requestDto) throws Exception {
@@ -146,7 +148,7 @@ public class MemberService {
             System.out.println("profile is not empty!");
             try {
                 // 업로드 폴더 접근
-                File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+                File uploadDir = new File(uploadPath + File.separator);
                 // 없으면 업로드 폴더 생성
                 if (!uploadDir.exists()) {
                     try {
@@ -173,7 +175,7 @@ public class MemberService {
 
                 // db에 profile 경로 저장
                 member = Member.builder()
-                        .profile(uploadFolder + "/" + savingName)
+                        .profile(uploadPath + "/" + savingName)
                         .nickname(requestDto.getNickname())
                         .introduction(requestDto.getIntroduction())
                         .password(requestDto.getPassword())
