@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { TextField, Snackbar } from '@mui/material'
-import { Cancel, Recommend } from '@mui/icons-material'
+import { Cancel } from '@mui/icons-material'
 import { createChat } from '../../store/openchatslice'
 import Alert from '@mui/material/Alert'
 import store from '../../store'
-import { useFetcher } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import initialState from '../../store/Loginslice'
 
@@ -15,9 +14,8 @@ const Container = styled.div`
   padding: 2rem;
   margin: 0.7rem 10%;
   height: calc(100% - 2rem - 1.4rem);
-  background-color: #f5f5f5;
+  background-color: #f5f5f5cf;
   border-radius: 1.5rem;
-  z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,7 +24,6 @@ const Container = styled.div`
 
 const BoxDiv = styled.div`
   width: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,10 +36,8 @@ const Box = styled.div`
 const Name = styled.h2`
   width: fit-content;
   margin-left: 0.5rem;
-
   margin-bottom: 0.5rem;
   padding: 0 0.4rem 0 0.4rem;
-  /* color: #333333; */
 `
 
 const Hashes = styled.div`
@@ -82,7 +77,6 @@ const CreateRoom = styled.button`
   
   color: #ffffff;
   font-size: 1.3rem;
-  font-family: 'Lato', sans-serif;
   font-weight: 500;
 
   background: transparent;
@@ -130,8 +124,9 @@ const CreateRoom = styled.button`
   }
 `
 
-
+/** 채팅방 만들기 */
 function MakeChat() {
+  /** room type */
   interface Room {
     name: string | null,
     hashtags: string[],
@@ -159,11 +154,14 @@ function MakeChat() {
     2: false
   }) 
 
-  // 방 생성 결과 알림
+  /**
+    openSuccess: 생성 성공
+    openFail: 생성 실패
+   */
   const [openSuccess, setOpenSuccess] = useState<boolean>(false)
   const [openFail, setOpenFail] = useState<boolean>(false)
 
-  // 방 제목 세팅
+  /** 방 제목 설정 */
   function getName(e: any): void {
     setName(name.trim())
     setRoom({
@@ -171,9 +169,10 @@ function MakeChat() {
     })
   }
 
-  // 해시태그 추가
+  /** 해시태그 추가 */
   function addHash(): void {
     if (room.hashtags.length < 3) {
+
       // room에 hashtag 추가
       const hashs = [
         ...room.hashtags,
@@ -186,7 +185,7 @@ function MakeChat() {
     }
   }
 
-  // 해시태그 삭제
+  /** 해시태그 삭제 */
   function removeHash(hashtag: string, idx: number): void {
     const hashs = room.hashtags.filter(function(data) {
       return data !== hashtag
@@ -205,7 +204,7 @@ function MakeChat() {
     setDeleteHash(change)
   }
 
-  // 방 생성하기
+  /** 방 생성 */
   async function createRoom() {
     if (room.name) {
       const data: any = {
@@ -216,8 +215,6 @@ function MakeChat() {
       await room.hashtags.map((hash, idx) => (
         data[`tag${idx+1}`] = hash
       ))
-      
-      console.log(data)
 
       const res = await dispatch(createChat(data))
       

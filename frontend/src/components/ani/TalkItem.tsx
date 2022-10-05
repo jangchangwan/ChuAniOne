@@ -69,18 +69,19 @@ const UserContent = styled.p`
   }
 `
 
+/** 톡톡 아이템 */
 function TalkItem({ data, delTalk }: any): any {
   const userId = useSelector((state: initialState) => (state.login.userId))
+
+  /** 시간 설정 */
   const [time, setTime] = useState<string>('')
-
   const date = new Date()
-
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
 
 
-  // 오늘 날짜면 시간 | 아니면 날짜 보여주기
+  /** 오늘인 경우, 시간 | 아닌 경우, 날짜 보여주기 */
   useEffect(() => {
     const value = data.date
 

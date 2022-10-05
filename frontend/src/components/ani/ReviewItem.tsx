@@ -17,7 +17,6 @@ const Container = styled.div`
   height: auto;
   background: linear-gradient( to bottom,  #ffe0e0, #fff0f0);
   color: #333333;
-  /* background-color: #fff0f0; */
 `
 
 const Header = styled.div`
@@ -27,7 +26,6 @@ const Header = styled.div`
 `
 
 const UserBox = styled.div`
-
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
@@ -78,15 +76,13 @@ const RatingText = styled.p`
   font-size: 1.2rem;
 `
 
-
 const ReviewText = styled.p`
   margin: 0;
   white-space: pre-wrap;
 `
 
-
+/** 리뷰 아이템 */
 function ReviewItem({ data }) {
-  const userId = useSelector((state: initialState) => (state.login.userId))
 
   return (
     <Container>

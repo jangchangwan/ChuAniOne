@@ -5,7 +5,6 @@ import SearchIcon from '@mui/icons-material/Search'
 import Pagination from '@mui/material/Pagination'
 import ChatTotalItem from './ChatTotalItem'
 
-
 // redux
 import { useDispatch } from 'react-redux'
 import { getChatAll, searchChat } from '../../store/openchatslice'
@@ -15,7 +14,6 @@ const Container = styled.div`
   width: 80%;
   padding: 0 10%;
   height: 100%;
-  /* background-color: green; */
 `
 const SearchBox = styled.div`
   width: 96%;
@@ -62,11 +60,9 @@ const PageBox = styled.div`
   left: 0;
 `
 
-
+/** 전체 채팅방 목록 */
 function ChatTotal() {
-  const dispatch = useDispatch<typeof store.dispatch>()
-  const [keyword, setKeyword] = useState<string>('')
-
+  /** roomData type */
   interface RoomData {
     id: number,
     name: string,
@@ -78,17 +74,26 @@ function ChatTotal() {
     max: number,
     count: number, 
   }
+  
+  const dispatch = useDispatch<typeof store.dispatch>()
 
+  /**
+    keyword: 검색 키워드
+    data: 채팅방 목록 데이터
+    page: 현재 페이지
+    lastPage: 마지막 페이지
+  **/
+  const [keyword, setKeyword] = useState<string>('')
   const [data, setData] = useState<Partial<RoomData[]>>([])
   const [page, setPage] = useState<number>(1)
   const [lastPage, setLastPage] = useState<number>(1)
 
-  // 초기 데이터 불러오기
+  /** 초기데이터 불러오기 */
   useEffect(() => {
     loadData(1)
   }, [keyword, page])
 
-  // 데이터 불러오기
+  /** 데이터 불러오기 */
   async function loadData(page: number) {
     // 검색 키워드가 있을 경우, 검색 목록 가져오기
     if (keyword.trim()) {
@@ -107,7 +112,7 @@ function ChatTotal() {
     }
   } 
 
-  // 페이지네이션 동작
+  /** 페이지네이션 */
   function handlePage(event: any) {
     if (event.target.dataset.testid) {
       if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
@@ -142,14 +147,16 @@ function ChatTotal() {
         </SearchIconBox>
       </SearchBox>
 
-
+      {/* 채팅방 전체 목록 */}
       <ChatTotalList>
         { data ?
           ( data.map((item, idx) => (
-              <ChatTotalItem chatData={item} loadData={loadData} page={page}/>
+              <ChatTotalItem key={idx} chatData={item} loadData={loadData} page={page}/>
             ))
           ) : null
         }
+
+        {/* 페이지네이션 */}
         <PageBox>
           <Pagination count={lastPage} defaultPage={1} boundaryCount={2} 
             size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)} />

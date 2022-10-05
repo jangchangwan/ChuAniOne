@@ -4,16 +4,15 @@ import Player from 'react-player'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
 import { IconButton } from '@mui/material'
-import { ThumbDownAlt, ThumbDownOffAlt, ThumbUpAlt, ThumbUpOffAlt, DownloadDone, Add, RestartAlt } from '@mui/icons-material'
+import { ThumbDownAlt, ThumbDownOffAlt, ThumbUpAlt, ThumbUpOffAlt, DownloadDone, Add } from '@mui/icons-material'
 import confetti from 'canvas-confetti'
 
+// components
 import Info from './Info'
 import Review from './Review'
 import SimilarAni from './SimilarAni'
 import Talk from './Talk'
-// import Books from './Books'
 
 // redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,6 +27,7 @@ const Container = styled.div`
   height: 100%;
   overflow: hidden;
   color: #333333;
+  border-radius: 1rem;
 `
 
 const TopBox = styled.div`
@@ -60,11 +60,9 @@ const AniName = styled.h1`
 
 const ButtonDiv = styled.div`
   display: flex;
-  /* justify-content: center; */
 `
 
 const IconBtn = styled(IconButton)`
-  
 `
 
 const InfoBox = styled.div`
@@ -73,14 +71,20 @@ const InfoBox = styled.div`
 
 const InfoDiv = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 `
 
 const InfoName = styled.p`
+  width: 3rem;
   font-size: 1.1rem;
   margin: 0;
   margin-right: 0.5rem;
   color: white;
+`
+
+const InfoTextBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 const InfoText = styled.p`
@@ -146,19 +150,16 @@ const TabDiv = styled.div`
 `
 
 const DetailBox = styled(Box)`
-  /* padding: 0.5rem;
-  width: 100%;
-  height: 100%; */
 `
 
 interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
+  children?: React.ReactNode,
+  index: number,
+  value: number,
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props
 
   return (
     <TabDiv
@@ -170,7 +171,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <DetailBox>
-          <Typography>{children}</Typography>
+          {children}
         </DetailBox>
       )}
     </TabDiv>
@@ -189,11 +190,14 @@ function a11yProps(index: number) {
 
 
 function AniDetail({ aniId }: any): any {
+  /** data의 images type */
   interface Images {
     option_name: string,
     img_url: string,
     crop_ratio: string,
   }
+
+  /** data type */
   interface Data extends Images {
     air_year_quarter: string,
     ani_id: number,
@@ -215,6 +219,7 @@ function AniDetail({ aniId }: any): any {
     _id: string,
   }
   
+  /** 비디오 속성 */
   const videoAttrs = {
     playing: true,
     muted: true,
@@ -226,26 +231,38 @@ function AniDetail({ aniId }: any): any {
   const dispatch = useDispatch<typeof store.dispatch>()
   const isLogin = useSelector((state: initialState) => (state.login.isLogin))
 
+  /**
+    value: 탭 이동
+    data: 애니메이션 상세데이터
+    like: 좋아요
+    dislike: 싫어요
+    choice: 찜
+    release: 출시 리스트로 저장
+  **/
   const [value, setValue] = useState<number>(0)
   const [data, setData] = useState<Data | null>(null)
   const [like, setLike] = useState<boolean>(false)
   const [dislike, setDislike] = useState<boolean>(false)
   const [choice, setChoice] = useState<boolean>(false)
+  const [release, setRelease] = useState<string[]>([])
 
+  // 애니메이션이 바뀔 때마다 데이터, 좋아요, 싫어요, 찜 다시불러오기
   useEffect(() => {
     loadData()
     loadTaste()
   }, [aniId])
 
+  /** 애니메이션 상세데이터 불러오기 */
   async function loadData() {
     const resAni = await dispatch(getAni(aniId))
 
     if (resAni.meta.requestStatus === "fulfilled") {
       setData(resAni.payload)
+      if (resAni.payload.air_year_quarter)  setRelease(resAni.payload.air_year_quarter.split('|'))
     }
   }
 
-  // 좋아요 & 싫어요 & 찜 불러오기
+  /** 좋아요 & 싫어요 & 찜 불러오기 */
   async function loadTaste() {
     const resTaste = await dispatch(getTaste(aniId))
 
@@ -258,7 +275,7 @@ function AniDetail({ aniId }: any): any {
 
 
 
-  // 좋아요
+  /** 좋아요 */
   async function handleLike () {
     if (like) {
       const res = await dispatch(deleteLike(aniId))
@@ -275,7 +292,7 @@ function AniDetail({ aniId }: any): any {
     }
   }
 
-  // 싫어요
+  /** 싫어요 */
   async function handleDislike () {
     if (dislike) {
       const res = await dispatch(deleteDislike(aniId))
@@ -291,7 +308,7 @@ function AniDetail({ aniId }: any): any {
     }
   }
 
-  // 찜
+  /** 찜 */
   async function handleChoice () {
     if (choice) {
       const res = await dispatch(deleteChoice(aniId))
@@ -308,7 +325,7 @@ function AniDetail({ aniId }: any): any {
     }
   }
 
-  // 폭죽
+  /** 좋아요, 찜 눌렀을 때 폭죽효과 */
   const onClick = useCallback(() => {
     confetti({
       origin: {
@@ -321,7 +338,7 @@ function AniDetail({ aniId }: any): any {
     })
   }, [])
 
-  // 탭
+  /** 탭 변경 */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
@@ -330,6 +347,7 @@ function AniDetail({ aniId }: any): any {
     <Container>
       { data ?
         <TopBox>
+          {/* 이름, 좋아요, 싫어요, 찜, 제작, 출시일 */}
           <AniInfo>
             <AniName>{data.name}</AniName>
               { isLogin ?
@@ -346,17 +364,28 @@ function AniDetail({ aniId }: any): any {
                 </ButtonDiv>
               : null }
 
+            {/* 제작, 출시일 */}
             <InfoBox>
-              <InfoDiv>
-                <InfoName>제작</InfoName>
-                <InfoText>{data.production}</InfoText>
-              </InfoDiv>
-              <InfoDiv>
-                <InfoName>출시</InfoName>
-                <InfoText>{data.air_year_quarter}</InfoText>
-              </InfoDiv>
+              { data && data.production ?
+                <InfoDiv>
+                  <InfoName>제작</InfoName>
+                  <InfoText>{data.production}</InfoText>
+                </InfoDiv>
+              : null }
+              { release ? (
+                <InfoDiv>
+                  <InfoName>출시</InfoName>
+                  <InfoTextBox>
+                    { release.map((item, idx) => (
+                      <InfoText key={idx}>{item}</InfoText>
+                    ))}
+                  </InfoTextBox>
+                </InfoDiv>
+              ): null}
             </InfoBox>
           </AniInfo>
+          
+          {/* 비디오 | 이미지 */}
           { data.highlight_video.dash_url ? 
             <VideoBox>
               <Player url={data.highlight_video.dash_url} {...videoAttrs}/>
@@ -367,9 +396,10 @@ function AniDetail({ aniId }: any): any {
             </ImageBox>
           }
         </TopBox>
-
         : null
       }
+
+      {/* 탭 */}
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs 
           value={value} 
@@ -386,7 +416,6 @@ function AniDetail({ aniId }: any): any {
           <Tab label="리뷰" {...a11yProps(1)} />
           <Tab label="비슷한 작품" {...a11yProps(2)} />
           <Tab label="톡톡" {...a11yProps(3)} />
-          {/* <Tab label="도서" {...a11yProps(4)} /> */}
         </Tabs>
       </Box>
 
@@ -404,9 +433,6 @@ function AniDetail({ aniId }: any): any {
           <TabPanel value={value} index={3}>
             <Talk aniId={data.ani_id}/>
           </TabPanel>
-          {/* <TabPanel value={value} index={4}>
-            <Books />
-          </TabPanel>  */}
         </TabBox>
       : null }
     </Container>

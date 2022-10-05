@@ -97,10 +97,12 @@ const EnterRoom = styled(Button)`
   background-color: #f37b83 !important;
 `
 
-function MyChatItem({ roomData, opened, openedId,  handleOpened, handleClosed }: any): any {
+/** 내 채팅방 아이템 */
+function MyChatItem({ roomData, handleOpened }) {
 
   const userId = useSelector((state: initialState) => state.login.userId)
 
+  /** 오픈채팅방 열기 */
   const openChat = () => {
     handleOpened(roomData.id)
   }

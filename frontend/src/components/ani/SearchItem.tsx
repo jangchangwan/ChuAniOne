@@ -50,8 +50,10 @@ const styleBoxDetail = {
   boxShadow: 24,
 }
 
-
+/** 검색 아이템 */
 function SearchItem({ ani }) {
+  
+  /** data type */
   const data = {
     id: ani.ani_id,
     name: ani.name,
@@ -59,12 +61,15 @@ function SearchItem({ ani }) {
     is_adult: ani._adult,
   }
 
+  /** 상세페이지 모달 */
   const [showDetail, setShowDetail] = useState<boolean>(false)
 
+  /** 상세페이지 모달 열기 */
   const handleOpenDetail = () => {
     setShowDetail(true)
   }
 
+  /** 상세페이지 모달 닫기 */
   const handleCloseDetail = () => {
     setShowDetail(false)
   }
