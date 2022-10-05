@@ -1,39 +1,44 @@
 import React, { useState } from 'react'
 
-// CSS 
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import BackgroundImg from '../../assets/images/memberBackground.png'
+// MUI 
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField'
+import Grid from '@mui/material/Grid'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormControl from '@mui/material/FormControl'
+import FormLabel from '@mui/material/FormLabel'
 import IconButton from '@mui/material/IconButton'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
+// image
+import BackgroundImg from '../../assets/images/memberBackground.png'
+
+// styled Component
 import styled from 'styled-components'
-// redux
-// import { useSelector } from 'react-redux'
+
+// 페이지 이동
 import { useNavigate } from 'react-router-dom'
+
+// redux
 import { useDispatch } from "react-redux"
 import { signup, nicknameCheck, emailCheck } from '../../store/Loginslice'
 import store from '../../store'
 
-// 화면전환 애니메이션
-// import { motion } from 'framer-motion';
 
-
+// 에러 텍스트
 const ErrorText = styled.span`
   width: 100%;
   color: #ff0000;
   font-size: 1rem;
   margin-bottom: 0.5rem;
 `
+
+// 성공 텍스트
 const SuccessText = styled.span`
   width: 100%;
   color: #009c87;
@@ -41,13 +46,15 @@ const SuccessText = styled.span`
   margin-bottom: 1rem;
 `
 
+
+/** 회원가입 페이지 */
 function Signup() {
   // 필드 유효성검사
   const [emailValid, setEmailValid] = useState(true)
   const [nicknameValid, setNicknameValid] = useState(true)
   const [pwdValid, setPwdValid] = useState(true)
 
-  // // 비밀번호 재확인 변수
+  // 비밀번호 재확인 변수
   const [checkedPwd, setCheckedPwd] = useState(true)
 
   // 닉네임, 이메일 중복체크
@@ -55,7 +62,7 @@ function Signup() {
   const [isDuplicateNicknameChecked, setisDuplicateNicknameChecked] = useState(false)
   const [isDuplicateEmailChecked, setisDuplicateEmailChecked] = useState(false)
 
-  // //필드 값 입력
+  // 필드 값 입력
   const [userEmail, setUserEmail] = useState('')
   const [userNickname, setUserNickname] = useState('')
   const [userPassword, setUserPassword] = useState('')
@@ -69,13 +76,17 @@ function Signup() {
   const [defaultPwd2, setDefaultPwd2] = useState(false)
   const [defaultNickname, setDefaultNickname] = useState(false)
 
+  // 닉네임 확인 체크
   const [confirmNickname, setConfirmNickname] = useState(false)
 
+  // 페이지 이동 함수 선언
   const navigate = useNavigate()
+
+  // redux 내 함수 사용 선언
   const dispatch = useDispatch<typeof store.dispatch>()
 
-  // 유효성
-  // 닉네임 유효성 1~10자
+ 
+  /** 닉네임 유효성 검사 1~10자 */
   const validateNickName = (e:any) => {
     if (e.target.value) {
       setDefaultNickname(true)
@@ -95,13 +106,16 @@ function Signup() {
       setNicknameValid(false)
     } 
   }
-  // 이메일 유효성 1 ~30자
+
+  /** 이메일 유효성 1 ~30자
+  ^ 시작일치, $ 끝 일치
+   {2, 3} 2개 ~ 3개
+   * 0회 이상, + 1회 이상
+   [-_.] - 또는 _ 또는 .
+   ? 없거나 1회 
+   */
   const validateEmail = (e:any) => {
-    // ^ 시작일치, $ 끝 일치
-    // {2, 3} 2개 ~ 3개
-    // * 0회 이상, + 1회 이상
-    // [-_.] - 또는 _ 또는 .
-    // ? 없거나 1회
+    
     if (e.target.value) {
       setDefaultEmail(true)
     } else {
@@ -115,7 +129,8 @@ function Signup() {
       setEmailValid(false)
     } 
   }
-  // 비밀번호 유효성
+
+  /** 비밀번호 유효성 */
   const validatePwd = (e:any) => {
     let patternEngAtListOne = new RegExp(/[a-zA-Z]+/) // + for at least one
     let patternSpeAtListOne = new RegExp(/[~!@#$%^]+/) // + for at least one
@@ -135,16 +150,15 @@ function Signup() {
       e.target.value.length <= 15
     ) {
       setPwdValid(true)
-      console.log(pwdValid)
     } else {
       setPwdValid(false)
-      console.log(pwdValid)
     }
   }
-  // 회원가입
+
+  /** 회원가입 */
   const SignUpSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
     const signupDto = {
       birthday: data.get('userBirthday'),
       email: data.get('userEmail'),
@@ -154,23 +168,17 @@ function Signup() {
       introduction: "안녕하세요!" + data.get('userNickname') + "입니다.",
       
     }
-    console.log(signupDto);
-    
     dispatch(signup(signupDto))
       .then((res) => {
-        console.log(res.type)
         if (res.type === 'SIGNUP/rejected'){
-          console.log("실패")
-          console.log(res)
           alert("입력하신 정보를 한번 더 확인해주세요.")
         } else {
-          console.log('성공')
           navigate('/EmailCertification')
         }
       })
   }
 
-  // 이메일 중복체크
+  /** 이메일 중복체크 */
   const isDuplicateEmail = () => {
     dispatch(emailCheck(userEmail))
       .then((res) => {
@@ -183,14 +191,11 @@ function Signup() {
     })
   }
 
-  // 닉네임 중복체크
+  /** 닉네임 중복체크 */
   const isDuplicateNickname = () => {
-    console.log(userNickname);
-    
     dispatch(nicknameCheck(userNickname))
       .unwrap()
       .then((res) => {
-        console.log(res.data);
         if (res.data === false){
           setisDuplicateNicknameChecked(true)
         } else {
@@ -198,19 +203,19 @@ function Signup() {
         }
     })
   }
-  // 뒤로가기
+
+  /** 뒤로가기 */
   const moveback = () => {
     navigate(-1)
   }
-  // 비밀번호 재확인
-  const samePassword = (e:any) => {
 
+  /** 비밀번호 재확인 */
+  const samePassword = (e:any) => {
     if (e.target.value) {
       setDefaultPwd2(true)
     } else {
       setDefaultPwd2(false)
     }
-
     if (
       userPassword === userPassword2
     ) {
@@ -219,11 +224,13 @@ function Signup() {
       setCheckedPwd(false)
     }
   }
-  // 성별
+
+  /** 성별 */
   const changeGender = (e:any) => {
     setUserGender(e.target.value)
   }
 
+  // 버튼 활성화 유무
   let btnDisabled = true
   if (
     pwdValid && // 비밀번호 유효성
@@ -402,7 +409,6 @@ function Signup() {
           <ErrorText>비밀번호가 일치하지 않습니다</ErrorText> : null}
           {defaultPwd2 && checkedPwd ? 
           <SuccessText>비밀번호가 일치합니다</SuccessText> : null}
-
           <TextField
           margin="normal"
           type="date"
@@ -455,10 +461,7 @@ function Signup() {
         </Box>
       </Box>
       </Container>
-      
-    
     </div>
-  );
+  )
 }
-
-export default Signup;
+export default Signup

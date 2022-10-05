@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react'
 
-// CSS 관련
+// MUI
 import Grid from '@mui/material/Grid'
 import Checkbox from '@mui/material/Checkbox'
 import VolumeUpIcon from '@mui/icons-material/VolumeUp'
 
+// styled Component
+import styled from 'styled-components'
+
+// redux
 import { insertMyVoca, deleteMyVoca } from '../../store/bigvocaslice'
 import { useDispatch } from "react-redux"
 import store from '../../store'
-import styled from 'styled-components'
 
+// 단어 박스
 const WordItemGrid = styled(Grid)`
   display: flex;
   align-items: center;
@@ -17,7 +21,7 @@ const WordItemGrid = styled(Grid)`
   box-shadow: 0.5px 0.5px 0.5px 0.5px black;
   padding: 1rem;
 `
-
+/** TTS : 일본어 읽어주기  */
 function textToSpeech(word: string): void {
   
   // 크롬만 지원 가능
@@ -27,10 +31,8 @@ function textToSpeech(word: string): void {
   }
   // 읽고 있는 경우 멈추기
   window.speechSynthesis.cancel()
-
   
   const speechMsg = new SpeechSynthesisUtterance()
-  console.log(window.speechSynthesis.getVoices());
 
   speechMsg.rate = 1 // 속도: 0.1 ~ 10      
   speechMsg.pitch = 1 // 음높이: 0 ~ 2
@@ -42,11 +44,14 @@ function textToSpeech(word: string): void {
 }
 
 
-
+/** 개별 단어 Component */ 
 function WordItem({ vocaData }) {
+  // redux내 함수 사용 선언
   const dispatch = useDispatch<typeof store.dispatch>()
+  // 체크 유무
   const [checked, setChecked] = React.useState(false)
 
+  /** 체크 클릭시 등록 및 삭제 */
   const checkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     if (checked) {
@@ -54,8 +59,8 @@ function WordItem({ vocaData }) {
     } else {
       dispatch(insertMyVoca(vocaData.vocaId))
     }
-    setChecked(event.target.checked);
-  };
+    setChecked(event.target.checked)
+  }
 
   useEffect(() =>{
     setChecked(false)
@@ -107,7 +112,7 @@ function WordItem({ vocaData }) {
         </Grid>
       </Grid>
     </WordItemGrid>
-  );
+  )
 }
 
-export default WordItem;
+export default WordItem

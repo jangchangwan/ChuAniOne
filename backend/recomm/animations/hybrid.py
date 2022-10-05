@@ -168,9 +168,12 @@ def get_user_data(user_id, ani_id, score):
     temp_col = ['user_id', 'ani_id', 'score']
     temp1 = pd.DataFrame(data=rating_data, columns=temp_col)
     rating_df = pd.concat([rating_df, temp1], ignore_index=True)
-
+    
+    print(temp_col)
+    print(rating_df.head(1))
+    
     # 리뷰를 처음 남기는 사람이라면 0으로 이뤄진 행 추가
-    if user_id not in user_ani_ratings_df.index:
+    if user_id not in user_ani_ratings_df.index.astype(int):
         temp = [0 for i in range(len(user_ani_ratings_df.index))]
         temp2 = pd.DataFrame([temp], index=[user_id], columns=user_ani_ratings_df.columns)
         temp2.index.names = ["user_id"]
@@ -178,9 +181,12 @@ def get_user_data(user_id, ani_id, score):
 
     # 0점을 score값으로 변경
     user_ani_ratings_df.loc[user_id, ani_id] = score
+    
+    print(user_ani_ratings_df.loc[user_id, ani_id])
 
     # matrix는 pivot_table 값을 numpy matrix로 만든 것
     matrix = user_ani_ratings_df.values
+    matrix = matrix.astype(float)
 
     # user_ratings_mean은 사용자의 평균 평점
     user_ratings_mean = np.mean(matrix, axis=1)

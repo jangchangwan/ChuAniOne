@@ -54,7 +54,7 @@ public class BigVocaController {
 
     @GetMapping("/test")
     public ResponseEntity<Void> test() {
-        vocaService.getMemberVoca();
+        vocaService.test();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -1,21 +1,17 @@
 import React from 'react';
-import Box from '@mui/material/Box';
+
+// MUI
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
-// import styled from "styled-components"
+
+// image
 import BackgroundImg from '../../assets/images/memberBackground.png'
 import logoicon from '../../assets/images/smallLogo.png'
 import SmileIcon from '../../assets/images/smileIcon.png'
-import styled from "styled-components"
 
-const MyHrTag = styled.hr`
-  width : 100%;
-  height : 5px;
-  background-color : #FFD1D1;
-  border : none;
-  border-radius : 5rem;
-`
 
+/** 이메일 인증 요청 페이지 */
 function EmailCertification() {
   return (
     <Box
@@ -45,56 +41,67 @@ function EmailCertification() {
               opacity: 0.9,
             }}
           >
-            <MyHrTag />
-            <img src={SmileIcon} alt="스마일" style={{
-              position: 'fixed',
-              top: '15%',
-              right: '10%'
-            }}/>
-            <img src={logoicon} alt="로고" style={{
+            <img 
+              src={SmileIcon} 
+              alt="스마일" 
+              style={{
+                position: 'fixed',
+                top: '15%',
+                right: '10%'
+              }}
+            />
+            <img 
+              src={logoicon} 
+              alt="로고" 
+              style={{
               paddingTop: '2rem',
               width: '40rem',
               height: 'auto'
-            }}/>
+              }}
+            />
             <p
               style={{
                 fontSize: '3rem',
-              }}
-            >회원가입 완료!</p>
+              }}>
+              회원가입 완료!
+            </p>
             <p
               style={{
                 fontSize: '1.5rem',
                 padding: 0,
                 margin: 0,
-              }}
-            >입력하신 이메일로 인증메일이 전송되었습니다.</p>
+              }}>
+              입력하신 이메일로 인증메일이 전송되었습니다.
+            </p>
             <p
               style={{
                 fontSize: '1.5rem',
                 padding: 0,
                 margin: 0,
-              }}
-            >인증메일로 통해 인증하신 후 로그인이 가능합니다.</p>
+              }}>
+              인증메일로 통해 인증하신 후 로그인이 가능합니다.
+            </p>
             <p
               style={{
                 fontSize: '1.5rem',
                 padding: 0,
                 margin: 0,
-              }}
-            >꼭! 인증메일을 확인해주세요</p>
+              }}>
+              꼭! 인증메일을 확인해주세요
+            </p>
             <Button
               href='/login'
               variant="contained"
               sx = {{
                 mt:3,
                 mb:2
-              }}
-            >로그인으로</Button>
-            <MyHrTag />
+              }}>
+              로그인으로
+            </Button>
           </Box>
         </Container>
     </Box>
-  );
+  )
 }
 
-export default EmailCertification;
+export default EmailCertification

@@ -329,9 +329,15 @@ public class ChatServiceImpl implements ChatService {
        Room room = roomRepository.findById(room_id).orElse(null);
        // 만약 방장아이디와 나가려는 사람의 아이디가 같다면 참가자와 방도 삭제
         if( room.getAdmin() == member){
+            // 참가자 삭제
             List<JoinUser> list = joinUserRepository.findAllByRoom_id(room_id);
             for (JoinUser join : list) {
                 joinUserRepository.delete(join);
+            }
+            // 채팅내역 삭제
+            List<Chat> chatList = chatRepository.findAllByRoomId(room_id);
+            for (Chat chat : chatList) {
+                chatRepository.delete(chat);
             }
             roomRepository.delete(room);
         }
