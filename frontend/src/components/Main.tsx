@@ -42,7 +42,6 @@ const CarouselImg = styled.img`
 `
 
 const RightContainer = styled.div`
-  /* background-color: aqua; */
   padding: 0 3rem;
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -52,7 +51,6 @@ const RightContainer = styled.div`
   overflow-y: auto;
 
   ::-webkit-scrollbar {
-    /* background-color: ; */
     width: 0.5rem;
     border-radius: 0.3rem;
   }
@@ -86,10 +84,8 @@ const CarouselDiv = styled.div`
   height: 14rem;
   display: flex;
   align-items: center;
-  /* overflow: hidden; */
   scroll-behavior: smooth;
   transition: transform 0.5s;
-
 `
 
 const Left = styled.div`
@@ -151,43 +147,52 @@ const styleBoxDetail = {
   width: '50%',
   height: '90%',
   bgcolor: 'background.paper',
-  borderRadius: '0.3rem',
+  borderRadius: '1rem',
   border: 'none',
   boxShadow: 24,
 }
 
-
+/** 메인페이지 */
 function Main() {
   const dispatch = useDispatch<typeof store.dispatch>()
 
+  /** 추천 애니메이션 데이터 */
   const [data, setData] = useState<any>()
 
-  const [openDetail, setOpenDetail] = useState<boolean>(false)
+  /**
+    openDetail: 상세페이지 모달
+    detailId: 상세페이지가 열려있는 애니메이션 id
+    arr: data 중 보여줄 데이터 랜덤 선택
+  **/
+  const [openDetail, setOpenDetail] = useState<boolean>(false)  
   const [detailId, setDetailId] = useState<number | null>(null)
   const [arr, setArr] = useState<string[]>([])
-  let cnt = 0
   
+  // title: data의 key에 따른 제목
   const title = {
-    '0': '판타지 액션',
-    '1': '드라마 로맨스',
-    '2': '모험 무협',
-    '3': '이세계 판타지',
-    '4': '모험 SF',
-    '5': '스포츠 드라마',
-    '6': '공포 스릴러',
-    '7': '치유',
-    '8': '음악 로맨스',
-    '9': '음식 일상',
-    '10': '개그 하렘',
-    '11': '판타지 액션',
+    '0': '판타지 액션',    // 판타지 액션
+    '1': '드라마 로맨스',  // 드라마 로맨스
+    '2': '모험 무협',      // 모험 무협
+    '3': '이세계 판타지',  // 이세계 판타지
+    '4': '모험 SF',        // 모험 SF
+    '5': '스포츠 드라마',  // 스포츠 드라마
+    '6': '공포 스릴러',    // 공포 스릴러
+    '7': '치유',           // 치유 
+    '8': '음악 로맨스',    // 음악 로맨스 
+    '9': '음식 일상',      // 음식 일상
+    '10': '개그 하렘',     // 개그 하렘
+    '11': '내 이름은 코난, 탐정이죠 !', // 추리
     '12': '내가 찾던 게 바로 이거잖아',
   }
 
+
+  /** 상세페이지 모달 열기(aniId) */
   const handleOpenDetail = (aniId) => {
     setOpenDetail(true)
     setDetailId(aniId)
   }
   
+  /** 상세페이지 모달 닫기 */
   const handleCloseDetail = () => {
     setOpenDetail(false)
   }
@@ -201,6 +206,7 @@ function Main() {
   const carousel05 = useRef() as React.MutableRefObject<HTMLDivElement>
   const carousel06 = useRef() as React.MutableRefObject<HTMLDivElement>
 
+  // 캐러셀 좌우이동 값
   const [now00X, setNow00X] = useState(0)
   const [now01X, setNow01X] = useState(0)
   const [now02X, setNow02X] = useState(0)
@@ -209,6 +215,7 @@ function Main() {
   const [now05X, setNow05X] = useState(0)
   const [now06X, setNow06X] = useState(0)
 
+  // 캐러셀 좌우값 변화에 따라 transform
   useEffect(() => {
     if (carousel00 && carousel00.current) {
       carousel00.current.style.transform = `translateX(${now00X}vw)`
@@ -251,15 +258,14 @@ function Main() {
     }
   }, [now06X]) 
 
+
   // 데이터 불러오기
   useEffect(() => {
     loadData()
-    if (!cnt) shuffle()
+    shuffle()
+  }, [])
 
-    cnt += 1
-  }, [cnt])
-
-  // 데이터 불러오기
+  /** 애니메이션 데이터 불러오기 */
   async function loadData() {
     const res = await dispatch(getMain())
     if (res.meta.requestStatus==="fulfilled" && res.payload) {
@@ -267,9 +273,9 @@ function Main() {
     }
   }
 
-  // 데이터 랜덤 섞기  
+  /** 데이터 랜덤 섞기 */
   function shuffle() {
-    const array = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+    const array = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -280,7 +286,7 @@ function Main() {
 }
 
 
-  // 좌측 캐러셀 이미지
+  /** 좌측 캐러셀 이미지 */
   const carouselImages = [ 
     { id: 38912,
       img: 'https://thumbnail.laftel.net/items/full/b54e5776-59b2-489c-8d7f-407cdad1a66c.jpg',
@@ -301,6 +307,7 @@ function Main() {
 
   return (
     <Container>
+      {/* 시작 애니메이션 */}
       <motion.div
         initial={{ opacity: 1 }}
         animate={{ 
@@ -452,6 +459,8 @@ function Main() {
           alignItems: 'center'
         }}
       >
+
+        {/* 좌측 캐러셀 */}
         <LeftContainer>
           <Carousel
             navButtonsAlwaysVisible={false}
@@ -469,7 +478,7 @@ function Main() {
             swipe={true}
           >
             {carouselImages.map((item, idx) => (
-              <CarouselPaper key={item.id} elevation={0} onClick={()=>handleOpenDetail(item.id)}>
+              <CarouselPaper key={idx} elevation={0} onClick={()=>handleOpenDetail(item.id)}>
                 <CarouselImg src={item.img} />
               </CarouselPaper>
             ))}
@@ -477,7 +486,7 @@ function Main() {
         </LeftContainer>
         
         <RightContainer>
-          {/* 추천 */}
+          {/* 추천 애니메이션 */}
           { data && data['12'] ? 
             <CarouselContainer>
               <CarouselTitle>{title['12']}</CarouselTitle>
@@ -493,7 +502,7 @@ function Main() {
               }
               <CarouselDiv ref={carousel00}>
                 { data['12'].map((item, idx) => (
-                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                  <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)} >
                     <ImgBox>
                       <Img src={item.images[0].img_url}/>
                     </ImgBox>
@@ -522,7 +531,7 @@ function Main() {
               }
               <CarouselDiv ref={carousel01}>
                 { data[arr[0]].map((item, idx) => (
-                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                  <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)} >
                     <ImgBox>
                       <Img src={item.images[0].img_url}/>
                     </ImgBox>
@@ -551,7 +560,7 @@ function Main() {
               }
               <CarouselDiv ref={carousel02}>
                 { data[arr[1]].map((item, idx) => (
-                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                  <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)} >
                     <ImgBox>
                       <Img src={item.images[0].img_url}/>
                     </ImgBox>
@@ -581,7 +590,7 @@ function Main() {
               }
               <CarouselDiv ref={carousel03}>
                 { data[arr[2]].map((item, idx) => (
-                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                  <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)} >
                     <ImgBox>
                       <Img src={item.images[0].img_url}/>
                     </ImgBox>
@@ -610,7 +619,7 @@ function Main() {
               }
               <CarouselDiv ref={carousel04}>
                 { data[arr[3]].map((item, idx) => (
-                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                  <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)} >
                     <ImgBox>
                       <Img src={item.images[0].img_url}/>
                     </ImgBox>
@@ -639,7 +648,7 @@ function Main() {
               }
               <CarouselDiv ref={carousel05}>
                 { data[arr[4]].map((item, idx) => (
-                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                  <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)} >
                     <ImgBox>
                       <Img src={item.images[0].img_url}/>
                     </ImgBox>
@@ -668,7 +677,7 @@ function Main() {
               }
               <CarouselDiv ref={carousel06}>
                 { data[arr[5]].map((item, idx) => (
-                  <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+                  <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)} >
                     <ImgBox>
                       <Img src={item.images[0].img_url}/>
                     </ImgBox>
@@ -681,6 +690,7 @@ function Main() {
 
         </RightContainer>
         
+        {/* 상세 페이지 모달 */}
         { detailId ?
           <Modal
             open={openDetail}
@@ -694,10 +704,7 @@ function Main() {
           </Modal>
         : null }
 
-
-
       </motion.div>
-
     </Container>
   )
 }

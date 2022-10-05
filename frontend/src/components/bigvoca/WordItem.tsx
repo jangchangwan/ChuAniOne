@@ -106,8 +106,8 @@ function WordItem({ vocaData }) {
         </Grid>
       </Grid>
       <Grid container>
-        <Grid xs={2}></Grid>
-        <Grid xs={10}>
+        <Grid item xs={2}></Grid>
+        <Grid item xs={10}>
           <div>({vocaData.pronunciation})</div>
         </Grid>
       </Grid>

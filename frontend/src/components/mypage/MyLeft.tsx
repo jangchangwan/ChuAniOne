@@ -260,12 +260,9 @@ function MyLeft() {
   }
   /** 닉네임 중복체크 */
   const isDuplicateNickname = () => {
-    console.log(nickName)
-    
     dispatch(nicknameCheck(nickName))
       .unwrap()
       .then((res) => {
-        console.log(res.data)
         if (res.data === false){
           setisDuplicateNicknameChecked(true)
         } else {
@@ -293,7 +290,6 @@ function MyLeft() {
       profile: profileImg,
       id: userId,
     }
-    console.log(changeDto)
     dispatch(changeUserInfo(changeDto))
     
     setOpen(false)
@@ -480,7 +476,7 @@ function MyLeft() {
           {
             myChallengeList ?
             ( myChallengeList.map((item, idx) => (
-              <BadgeDiv>
+              <BadgeDiv key={idx}>
               {
                 item === '리뷰 작성 완료' ?
                 <BadgeImg src={review1}></BadgeImg>

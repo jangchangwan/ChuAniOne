@@ -36,13 +36,13 @@ const Titlediv = styled.div`
   align-items: center;
 `
 
-const MyAniTitle = styled.p`
+const MyAniTitle = styled.div`
   margin: 0;
   margin-right: 1rem;
   font-size: 2rem;
 `
 
-const MoreIcon = styled.p`
+const MoreIcon = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 0;
@@ -112,7 +112,7 @@ const Img = styled.img`
   }
 `
 
-const Name = styled.p`
+const Name = styled.div`
   margin: 0;
   margin-left: 0.5rem;
 `
@@ -192,37 +192,31 @@ function MyAniList() {
   /** 리뷰 캐러셀 왼쪽 이동 */
   const clickLeftButton = () => {
     setNow01X((prop) => prop + 13.5)
-    console.log(`it's work ${now01X}`)
   }
 
   /** 리뷰 캐러셀 오른쪽 이동 */
   const clickRightButton = () => {
     setNow01X(now01X - 13.5)
-    console.log(`it's work ${now01X}`)
   }
 
   /** 찜 케러셀 왼쪽 이동 */
   const clickLeftButton2 = () => {
     setNow02X((prop) => prop + 13.5)
-    console.log(`it's work ${now02X}`)
   }
 
   /** 찜 캐러셀 오른쪽 이동 */
   const clickRightButton2 = () => {
     setNow02X(now02X - 13.5)
-    console.log(`it's work ${now02X}`)
   }
 
   /** 좋아요 캐러셀 왼쪽 이동 */
   const clickLeftButton3 = () => {
     setNow03X((prop) => prop + 13.5)
-    console.log(`it's work ${now03X}`)
   }
 
   /** 좋아요 캐러셀 오른쪽 이동 */
   const clickRightButton3 = () => {
     setNow03X(now03X - 13.5)
-    console.log(`it's work ${now03X}`)
   }
 
   /** 애니데이터 불러오기 */
@@ -308,7 +302,7 @@ function MyAniList() {
         }
         <CarouselDiv ref={carousel01}>
           { watchaniList.map((item, idx) => (
-            <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+            <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)}>
               <ImgBox>
                 <Img src={item.images[0].img_url}/>
               </ImgBox>
@@ -381,7 +375,7 @@ function MyAniList() {
         }
         <CarouselDiv ref={carousel02}>
           { choiceaniList.map((item, idx) => (
-            <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+            <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)}>
               <ImgBox>
                 <Img src={item.images[0].img_url}/>
               </ImgBox>
@@ -452,7 +446,7 @@ function MyAniList() {
         }
         <CarouselDiv ref={carousel03}>
           { likeAniList.map((item, idx) => (
-            <ItemDiv onClick={() => handleOpenDetail(item.ani_id)}>
+            <ItemDiv key={idx} onClick={() => handleOpenDetail(item.ani_id)}>
               <ImgBox>
                 <Img src={item.images[0].img_url}/>
               </ImgBox>

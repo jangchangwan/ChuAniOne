@@ -21,6 +21,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: #333333;
 `
 
 const NameHashBox = styled.div`
@@ -87,14 +88,21 @@ interface User {
   profile: string,
 }
 
+/** 전체 채팅방 아이템 */
 function ChatTotalItem({ chatData, loadData, page }: any): any {
   const dispatch = useDispatch<typeof store.dispatch>()
   const userId = useSelector((state: initialState) => (state.login.userId))
 
+  /**
+    openSuccess: 채팅방 입장 성공
+    openFail: 채팅방 입장 실패
+    openAlready: 이미 입장한 채팅방
+   */
   const [openSuccess, setOpenSuccess] = useState<boolean>(false)
   const [openFail, setOpenFail] = useState<boolean>(false)
   const [openAlready, setOpenAlready] = useState<boolean>(false)
 
+  /** 채팅방 입장 */
   async function enterRequest() {
     // 1. 방 정보 가져오기
     const res = await dispatch(getChatInfo(chatData.id))
@@ -105,7 +113,6 @@ function ChatTotalItem({ chatData, loadData, page }: any): any {
       var joined = false
 
       users.map((user: any, idx: number) => {
-        console.log(user.memberId, userId)
         if (user.memberId === userId) {
           joined = true
         }

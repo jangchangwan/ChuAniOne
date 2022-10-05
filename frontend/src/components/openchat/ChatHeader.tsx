@@ -73,7 +73,6 @@ const InfoContainer = styled(Box)`
   width: 25%;
   background-color: white;
   padding: 1rem 1rem 2rem 1rem;
-  /* height: 60%; */
   border-radius: 0.3rem;
   display: flex;
   flex-direction: column;
@@ -82,18 +81,19 @@ const InfoContainer = styled(Box)`
 
 const InfoHeader = styled.div`
   width: 100%;
-  height: 3.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   position: relative;
+  padding: 1rem 0;
   margin-bottom: 1rem;
   border-bottom: 3px solid #B1B2FF;
 `
 
 const InfoTitle = styled.h1`
   padding: 0 1rem;
-  
+  margin: 0;
 `
 
 const CloseBtnDiv = styled.div`
@@ -114,13 +114,14 @@ const InfoContentBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  margin: 0;
 `
 const InfoContentHash = styled.p`
   font-size: 1.2rem;
   padding: 0.3rem 0.5rem;
   border-radius: 1rem;
   color: #999bf8;
-  margin: 0 0.5rem;
+  margin: 0.5rem 0.2rem;
 `
 
 const InfoContentTitle = styled.p`
@@ -139,17 +140,15 @@ const InfoContent = styled.p`
 
 const InfoUserBox = styled.div`
   padding: 0.5rem 1rem;
-  /* background-color: #EEF1FF; */
-  border: 2px dashed #B1B2FF;
   width: 70%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `
 
 const UserInfo = styled.p`
-  margin-left: 0.2rem;
-  margin-right: 0.2rem;
+  margin: 0.2rem;
 `
 
 const BtnBox = styled.div`
@@ -179,11 +178,12 @@ const NameInput = styled(TextField)`
 `
 
 
-
+/** 수정 모달 */
 function UpdateModal({ openedId, roomInfo, getChangeInfo }) {
   const dispatch = useDispatch<typeof store.dispatch>()
   const userId = useSelector((state: initialState) => (state.login.userId))
   
+  // 변경되는 값
   const [changeInfo, setChangeInfo] = useState<any>({
     max: roomInfo.rDto.max,
     memberId: roomInfo.rDto.memberId,
@@ -201,16 +201,17 @@ function UpdateModal({ openedId, roomInfo, getChangeInfo }) {
   const [openSuccess, setOpenSuccess] = useState<boolean>(false)
   const [openFail, setOpenFail] = useState<boolean>(false)
 
-  // Update Modal On/Off
+  /** 수정 모달 열기 */
   const openUpdateTrue = () => {
     setOpenUpdate(true)
   }
 
+  /** 수정 모달 닫기 */
   const openUpdateFalse = () => {
     setOpenUpdate(false)
   }
 
-  // 수정 요청하기
+  /** 방 정보 수정 */
   async function reviseRequest() {
     const res = await dispatch(updateChat({
       ...changeInfo,
@@ -218,7 +219,7 @@ function UpdateModal({ openedId, roomInfo, getChangeInfo }) {
       name, tag1, tag2, tag3
     }))
 
-    if (res) {
+    if (res.meta.requestStatus==="fulfilled") {
       setOpenSuccess(true)
       openUpdateFalse()
     } else {
@@ -228,6 +229,7 @@ function UpdateModal({ openedId, roomInfo, getChangeInfo }) {
     getChangeInfo()
   }
 
+  /** 방 이름 바꾸기 */
   const changeName = () => {
     if (changeInfo.name !== name && name.trim()) {
       setChangeInfo({ ...changeInfo, name: name.trim() })
@@ -246,7 +248,7 @@ function UpdateModal({ openedId, roomInfo, getChangeInfo }) {
         aria-describedby="modal-modal-description"
       >
         <InfoContainer>
-          <InfoHeader>
+          <InfoHeader >
             <InfoTitle>방 정보 수정</InfoTitle>
             <CloseBtnDiv>
               <CloseBtn onClick={openUpdateFalse}><ModalCloseIcon/></CloseBtn>
@@ -342,7 +344,8 @@ function UpdateModal({ openedId, roomInfo, getChangeInfo }) {
 
 
       </Modal>
-
+      
+      {/* 상태 메시지 */}
       <Snackbar open={openSuccess} autoHideDuration={3000} onClose={() => setOpenSuccess(!openSuccess)}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
@@ -363,8 +366,8 @@ function UpdateModal({ openedId, roomInfo, getChangeInfo }) {
 }
 
 
-
-function ChatHeader({ opened, openedId, handleOpened, handleClosed }: any) {
+/** 채팅방 헤더 */
+function ChatHeader({ openedId, handleClosed }: any) {
 
   const dispatch = useDispatch<typeof store.dispatch>()
   const userId = useSelector((state: initialState) => (state.login.userId))
@@ -381,51 +384,54 @@ function ChatHeader({ opened, openedId, handleOpened, handleClosed }: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
-  // 더보기: Modal
+  /** 더보기 모달 열기 */
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
 
+  /** 더보기 모달 닫기 */
   const handleClose = () => {
     setAnchorEl(null)
   }
 
-  // 방정보 Modal 
+  /** 방정보 모달 열기 */
   const openInfoTrue = () => {
     setOpenInfo(true)
   }
 
+  /** 방정보 모달 닫기 */
   const openInfoFalse = () => {
     setOpenInfo(false)
   }
 
-
-  // 채팅방 닫기
+  /** 채팅방 닫기 */
   const closeChat = () => {
     handleClosed()
   }
 
-  // 채팅방 퇴장하기: Confirm Modal
+  /** 채팅방 퇴장하기: Confirm Modal 열기 */ 
   const openConfirm = () => {
     setLeaveConfirm(true)
   }
 
+  /** 채팅방 퇴장하기: Confirm Modal 닫기 */ 
   const closeConfirm = () => {
     setLeaveConfirm(false)
   }
 
-  // 채팅방 퇴장
+  /** 채팅방 퇴장 */
   const leave = () => {
     dispatch(leaveRoom(openedId))
     closeConfirm()
     handleClosed()
   }
 
+  /** 채팅방 데이터 갱신 */
   const getChangeInfo = () => {
     setChangeInfo(!changeInfo)
   }
   
-  // 방 정보 가져오기
+  /** 방정보 가져오기 */
   async function getInfo() {
     const res = await dispatch(getChatInfo(openedId))
     
@@ -436,7 +442,7 @@ function ChatHeader({ opened, openedId, handleOpened, handleClosed }: any) {
 
   useEffect(() => {
     getInfo()
-  }, [openedId])
+  }, [openedId, changeInfo])
 
   useEffect(() => {
     getInfo()
@@ -504,22 +510,24 @@ function ChatHeader({ opened, openedId, handleOpened, handleClosed }: any) {
             <InfoContainer>
               <InfoHeader>
                 <InfoTitle>{roomInfo.rDto.name}</InfoTitle>
+                <InfoContentBox>
+                  { roomInfo.rDto.tag1 ? <InfoContentHash># {roomInfo.rDto.tag1}</InfoContentHash> : null }
+                  { roomInfo.rDto.tag2 ? <InfoContentHash># {roomInfo.rDto.tag2}</InfoContentHash> : null }
+                  { roomInfo.rDto.tag3 ? <InfoContentHash># {roomInfo.rDto.tag3}</InfoContentHash> : null }
+                </InfoContentBox>
                 <CloseBtnDiv>
                   <CloseBtn onClick={openInfoFalse}><ModalCloseIcon/></CloseBtn>
                 </CloseBtnDiv>
               </InfoHeader>
-              <InfoContentBox>
-                { roomInfo.rDto.tag1 ? <InfoContentHash># {roomInfo.rDto.tag1}</InfoContentHash> : null }
-                { roomInfo.rDto.tag2 ? <InfoContentHash># {roomInfo.rDto.tag2}</InfoContentHash> : null }
-                { roomInfo.rDto.tag3 ? <InfoContentHash># {roomInfo.rDto.tag3}</InfoContentHash> : null }
-              </InfoContentBox>
+
 
                 <InfoContentTitle>현재 인원 / 전체 인원 </InfoContentTitle>
                 <InfoContent>{ roomInfo.mDto.length } / { roomInfo.rDto.max }</InfoContent>
               
+                <InfoContentTitle>참가자 목록 </InfoContentTitle>
               <InfoUserBox>
                 { roomInfo.mDto.map((user, idx) => (
-                  <UserInfo>{user.nickname}</UserInfo>
+                  <UserInfo key={idx}>{user.nickname}</UserInfo>
                 ))}
               </InfoUserBox>
               { roomInfo.rDto.memberId === userId ? 
