@@ -1,25 +1,34 @@
-import React, {useEffect, useState} from 'react';
-import WordItem from './WordItem'
+import React, {useEffect, useState} from 'react'
 
-import { getVocaList } from '../../store/bigvocaslice'
-import { useDispatch } from "react-redux"
-import store from '../../store'
-import BackgroundImg from  '../../assets/images/wordBackgroundImg.png'
+// MUI
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import styled from "styled-components";
 import Pagination from '@mui/material/Pagination'
 
-const ItemGrid = styled(Grid)`
+// image
+import BackgroundImg from  '../../assets/images/wordBackgroundImg.png'
 
-`
+// redux
+import { getVocaList } from '../../store/bigvocaslice'
+import { useDispatch } from "react-redux"
+import store from '../../store'
+
+// 하위 컴포넌트
+import WordItem from './WordItem'
+
+/** 단어 전체 리스트 Component */
 function WordList() {
-  const dispatch = useDispatch<typeof store.dispatch>()
-  const [vocaList, setVocaList]:any = useState([])
 
+  // redux 내 함수 사용 선언
+  const dispatch = useDispatch<typeof store.dispatch>()
+
+  // 단어 관련 변수
   const num: number = 1000
   const value: number = parseInt(`${num / 8}`)
+  const [vocaList, setVocaList]:any = useState([])
+
+  // 페이지 관련 변수
   const [page, setPage] = useState<number>(1)
   const [lastPage, setLastPage] = useState<number>(value)
 
@@ -32,16 +41,15 @@ function WordList() {
     loadData(page)
     }, [page])
 
+  /** 빅보카 데이터 로드 */
   function loadData(page: number) {
     dispatch(getVocaList(page))
       .then((res:any) =>{
-        console.log(res);
-        
         setVocaList(res.payload.data)
     })
   }
 
-  // 페이지네이션 동작
+  /** 페이지네이션 동작 */
   function handlePage(event: any) {
     if (event.target.dataset.testid) {
       if (event.target.dataset.testid === "NavigateBeforeIcon" && page > 1) {
@@ -70,7 +78,7 @@ function WordList() {
       { vocaList ?
           
           ( vocaList.map((item, idx) => (
-            <ItemGrid item xs={5}><WordItem key={idx} vocaData={item}/></ItemGrid>
+            <Grid item xs={5}><WordItem key={idx} vocaData={item}/></Grid>
             ))
           ) 
           
@@ -96,7 +104,7 @@ function WordList() {
       }
         
     </Container>
-  );
+  )
 }
 
-export default WordList;
+export default WordList

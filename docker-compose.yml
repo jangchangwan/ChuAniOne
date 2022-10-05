@@ -12,6 +12,7 @@ services:
       - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/frontend/build:/usr/share/nginx/html
       - /var/nginx/log:/log
       - /home/ubuntu/docker-volume/ssl:/var/www/html
+      - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm:/srv/docker-server
     container_name: nginx_chu
     depends_on:
       - spring-boot
@@ -57,13 +58,22 @@ services:
       - "8000:8000"
     # command:
     #   # - ls
-      - python manage.py runserver 0:8000
+      # - python manage.py runserver 0:8000
       # - gunicorn recomm.wsqi.application --bind 0.0.0.0:8000
-    volumes:
-      - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm:/app 
+    # volumes:
+    #   - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm/:/app 
     container_name: django_chu
     restart: always
     environment:
     - TZ=Asia/Seoul
     depends_on:
       - db
+  # django:
+  #   container_name: django_chu
+  #   build: ./backend/recomm
+  #   image: docker-server/django
+  #   restart: always
+  #   command: uwsgi --ini uwsgi.ini
+  #   volumes:
+  #     - /home/ubuntu/docker-volume/jenkins/workspace/chuanione/backend/recomm:/srv/docker-server
+  #     - ./log:/var/log/uwsgi
