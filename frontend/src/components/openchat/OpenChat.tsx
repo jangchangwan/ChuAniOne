@@ -5,7 +5,6 @@ import ChatRight from './ChatRight'
 
 // background
 import { motion } from 'framer-motion' 
-// import aniimg from '../../assets/images/aniImg.gif'
 import aniimg from '../../assets/images/aniImg.png'
 
 const Container = styled.div`
@@ -17,6 +16,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   overflow:hidden;
+  background-image: url(${aniimg});
 `
 
 const Circlediv = styled.div`
@@ -26,36 +26,40 @@ const Circlediv = styled.div`
   border-radius: 50%;
 `
 const CircleWord = styled.span`
-    color: #FFDE00;
-    font-size: 10rem;
-    height: 770px;
-    position: absolute;
-    width: 20px;
-    left: 0;
-    top: 0;
-    transform-origin: bottom center;
+  color: #FFDE00;
+  font-size: 10rem;
+  height: 770px;
+  position: absolute;
+  width: 20px;
+  left: 0;
+  top: 0;
+  transform-origin: bottom center;
 `
 
-
-
+/** 오픈채팅 페이지 */
 function OpenChat() { 
+
+  /**
+    opened: 채팅방 on/off
+    openedId: 열린 채팅방 id
+  **/
   const [opened, setOpened] = useState<boolean>(false)
   const [openedId, setOpenedId] = useState<number | undefined>()
 
+  /** 채팅방 열기 */
   const handleOpened = ( roomId: number ) => {
     setOpened(true)
     setOpenedId(roomId)
   }
 
+  /** 채팅방 닫기 */
   const handleClosed = () => {
     setOpened(false)
     setOpenedId(undefined)
   }
 
   return (
-    <Container
-      style = {{ backgroundImage: `url(${aniimg})`}}
-    >
+    <Container>
       <motion.div
         initial = {{ 
           rotate: 0,
@@ -68,7 +72,8 @@ function OpenChat() {
         transition = {{duration: 60, repeat: Infinity}}
         style={{
           position: 'absolute',
-          left: '35%'
+          left: '35%',
+          zIndex: 1,
         }}
       >
         <Circlediv>
@@ -108,16 +113,13 @@ function OpenChat() {
           </p>
         </Circlediv>
       </motion.div>
+  
       <ChatLeft 
-        opened={opened} 
-        openedId={openedId}
         handleOpened={handleOpened}
-        handleClosed={handleClosed}
       />
       <ChatRight 
         opened={opened} 
         openedId={openedId} 
-        handleOpened={handleOpened} 
         handleClosed={handleClosed}
       />
     </Container>

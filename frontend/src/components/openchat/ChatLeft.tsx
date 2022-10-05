@@ -11,13 +11,12 @@ const Container = styled.div`
   width: 38%;
   height: 85%;
   padding: 1rem 2rem;
-  /* background-color: gray; */
+  z-index: 2;
 `
 
 const TabBox = styled.div`
   width: 100%;
   height: 92%;
-  /* background-color: aqua; */
 `
 
 const TabDiv = styled.div`
@@ -27,7 +26,6 @@ const TabDiv = styled.div`
 `
 
 const DetailBox = styled(Box)`
-  /* padding: 0.5rem; */
   width: 100%;
   height: 100%;
 `
@@ -51,9 +49,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <DetailBox>
-          {children}
-        </DetailBox>
+        <DetailBox>{children}</DetailBox>
       )}
     </TabDiv>
   )
@@ -67,10 +63,12 @@ function a11yProps(index: number) {
   }
 }
 
-
-function ChatLeft ({ opened, openedId,  handleOpened, handleClosed }: any) {
+/** 채팅방 목록, 방 만들기 */
+function ChatLeft ({ handleOpened }: any) {
+  // 탭
   const [value, setValue] = useState<number>(0)
 
+  /** 탭 변경 */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
@@ -88,12 +86,7 @@ function ChatLeft ({ opened, openedId,  handleOpened, handleClosed }: any) {
           <ChatTotal />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <MyChat 
-            opened={opened}
-            openedId={openedId}
-            handleOpened={handleOpened}
-            handleClosed={handleClosed}
-          />
+          <MyChat handleOpened={handleOpened}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
           <MakeChat />

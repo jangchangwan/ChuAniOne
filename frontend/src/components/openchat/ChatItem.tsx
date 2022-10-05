@@ -34,12 +34,10 @@ const Content = styled.p`
   max-width: 80%;
   min-height: 1.2rem;
   margin-top: 0.5rem;
-  text-align: center;
   background-color: white;
   padding: 0.5rem 1rem;
   border-radius: 1rem;
 ` 
-
 
 const Time = styled.p`
   margin-left: 0.3rem;
@@ -47,8 +45,10 @@ const Time = styled.p`
   margin-bottom: 1.5rem;
 `
 
+/** 채팅 아이템 */
 function ChatItem({ data }: any) {
   const userId = useSelector((state: initialState) => (state.login.userId))
+  
   return (
     data.memberId === userId ?
     <Container className="mine">
