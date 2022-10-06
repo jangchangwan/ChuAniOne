@@ -176,7 +176,6 @@ ratings_pred_mat = pd.DataFrame(ratings_pred, index=ani_ratings_mat.index, colum
 print('MSE : ', get_mse(ratings_pred, ani_ratings_mat.values ))
 
 ratings_pred = predict_rating_topsim(ani_ratings_mat.values, ani_sim_df.values, n=14)
-
 print('아이템 기반 최근접 Top-14 이웃 MSE : ', get_mse(ratings_pred, ani_ratings_mat.values))
 
 # 계산된 예측 평점 데이터를 DataFrame으로 변경
