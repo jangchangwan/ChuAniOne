@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics.pairwise import cosine_similarity
+import pickle
 
 
 def matrix_factorization(R, K, steps, learning_rate, r_lambda):
@@ -117,7 +118,7 @@ def recomm_ani_by_user_id(pred_df, user_id, unseen_list, top_n):
     return recomm_ani
 
 
-def start_recomm(user_id):
+def latent_recomm(user_id):
     print(">>>>>>>>>>>>>>>>>>> start_recomm")
     user_rating_id = ani_ratings_mat.loc[user_id,:]
     user_rating_id = user_rating_id[user_rating_id > 0 ].sort_values(ascending=False)
@@ -132,7 +133,20 @@ def start_recomm(user_id):
 
     # 평점 데이터를 DataFrame으로 생성
     recomm_ani_df = pd.DataFrame(data=recomm_ani.values, index=recomm_ani.index, columns=["pred_score"])
-    return recomm_ani_df
+    
+    recomm_ani_list = list(recomm_ani_df.index)
+        
+    log = dbcol_log.find_one({"member_id": user_id})
+    if log != None:
+        print("related update")
+        dbcol_log.update_one({"member_id": user_id}, {"$set": {"latent": recomm_ani_list}}, upsert=True)
+    else:
+        print("related insert")
+        dbcol_log.insert_one({"member_id": user_id, "latent": recomm_ani_list})
+        print("member_id: ", user_id)
+        print("latent: ", recomm_ani_list)
+        
+    return recomm_ani_list
 
 
 # 환경변수 불러오기
@@ -151,6 +165,7 @@ dbcol_review = db.ani_review
 dbcol_feat = db.ani_feature
 dbcol_log = db.ani_log
 
+print("DB 연결 완료")
 
 ratings = pd.DataFrame(dbcol_review.find({}, {"_id": 0}))
 ratings = ratings[["profile", "animation", "score"]]
@@ -163,25 +178,36 @@ ani_ratings.rename(columns={"profile": "user_id", "animation": "ani_id"}, inplac
 ani_ratings = ani_ratings[["user_id", "ani_id", "score", "name"]]
 ani_ratings_mat = ani_ratings.pivot_table("score", index="user_id", columns="ani_id")
 ani_ratings_mat = ani_ratings_mat.fillna(0)
-ani_ratings_mat_T = ani_ratings_mat.transpose()
 
-ani_sim = cosine_similarity(ani_ratings_mat_T, ani_ratings_mat_T)
+# ani_ratings_mat_T = ani_ratings_mat.transpose()
+
+# ani_sim = cosine_similarity(ani_ratings_mat_T, ani_ratings_mat_T)
 
 # cosine_similarity()로 반환된 Numpy행렬을 애니메이션 제목으로 매핑해 DataFrame으로 변환
-ani_sim_df = pd.DataFrame(ani_sim, index=ani_ratings_mat.columns, columns=ani_ratings_mat.columns)
+# ani_sim_df = pd.DataFrame(ani_sim, index=ani_ratings_mat.columns, columns=ani_ratings_mat.columns)
 
 
-ratings_pred = predict_rating(ani_ratings_mat.values, ani_sim_df.values)
-ratings_pred_mat = pd.DataFrame(ratings_pred, index=ani_ratings_mat.index, columns = ani_ratings_mat.columns)
-print('MSE : ', get_mse(ratings_pred, ani_ratings_mat.values ))
+# ratings_pred = predict_rating(ani_ratings_mat.values, ani_sim_df.values)
+# ratings_pred_mat = pd.DataFrame(ratings_pred, index=ani_ratings_mat.index, columns = ani_ratings_mat.columns)
+# print('MSE : ', get_mse(ratings_pred, ani_ratings_mat.values ))
 
-ratings_pred = predict_rating_topsim(ani_ratings_mat.values, ani_sim_df.values, n=14)
-print('아이템 기반 최근접 Top-14 이웃 MSE : ', get_mse(ratings_pred, ani_ratings_mat.values))
+# ratings_pred = predict_rating_topsim(ani_ratings_mat.values, ani_sim_df.values, n=14)
+# print('아이템 기반 최근접 Top-14 이웃 MSE : ', get_mse(ratings_pred, ani_ratings_mat.values))
 
+path = os.path.abspath(os.path.join(os.getcwd(), "model", "data"))
+# with open(path + "/ratings_pred.pkl", "wb") as f:
+#     pickle.dump(ratings_pred, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+##### 미리 파일로 저장
+with open(path + "/ratings_pred.pkl", "rb") as f:
+    ratings_pred = pickle.load(f)
+
+with open(path + "/ratings_pred_mat.pkl", "rb") as f:
+    ratings_pred_mat = pickle.load(f)
+
+print("파일 불러오기 완료")
 # 계산된 예측 평점 데이터를 DataFrame으로 변경
-ratings_pred_mat = pd.DataFrame(data=ratings_pred, index=ani_ratings_mat.index,columns=ani_ratings_mat.columns)
-
-
+# ratings_pred_mat = pd.DataFrame(data=ratings_pred, index=ani_ratings_mat.index,columns=ani_ratings_mat.columns)
 
 
 # # 애니 제목 컬럼으로 pivot 수행. 
@@ -191,4 +217,4 @@ ratings_pred_mat = pd.DataFrame(data=ratings_pred, index=ani_ratings_mat.index,c
 # pred_mat = np.dot(P, Q.T)
 # ratings_pred_mat = pd.DataFrame(data=pred_mat, index= ratings_mat.index, columns = ratings_mat.columns)
 
-start_recomm(2976649)
+latent_recomm(6000005)
