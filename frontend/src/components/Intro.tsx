@@ -305,11 +305,8 @@ function Intro() {
                 <Typography variant="body2" color="#5D86D1">
                   본인이 원하는 태그를 만들고<br></br>방을 생성하여 취향이 유사한 사람들과<br></br>채팅을 할 수 있다.
                 </Typography>
-                <Typography variant="body2" color="#5D86D1">
-                  그리고 다양한 글씨체를 지원하여<br></br>본인이 원하는 글씨체로 쓰고 볼 수 있다.
-                </Typography>
                 <Typography variant="body2" color="#5D86D1" sx={{ paddingBottom: '1rem' }}>
-                  마지막으로 애니메이션 관련<br></br>이모티콘도 사용 가능!
+                  마지막으로<br></br>이모지도 사용 가능!
                 </Typography>
                 <IntroImg4 src={Intro4}></IntroImg4>
               </Box>

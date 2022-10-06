@@ -58,7 +58,6 @@ function SimilarAni({ aniId }) {
     const res = await dispatch(getSimilar(aniId))
     if (res.meta.requestStatus === "fulfilled") {
       setData(res.payload)
-      console.log(res.payload)
     }
   }
 
