@@ -6,7 +6,10 @@ from . import views
 urlpatterns = [
     # 애니 전체 목록
     url(r"^server/v1/recomm/test", views.animation_list),
-    # 리뷰 기반 추천
-    url(r"^server/v1/recomm", views.recommend),
+    # 평점 기반 추천 - not hybrid
+    # url(r"^server/v1/recomm/surprise", views.sur_recomm),
+    url(r"^server/v1/recomm", views.sur_recomm),
+    # 평점 기반 추천 - hybrid
+    # url(r"^server/v1/recomm", views.recommend),
     
 ]
