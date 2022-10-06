@@ -54,7 +54,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Map<String, Object> getListAllPage(int page) {
 //        Page<Perfume> perfumePage = perfumeRepository.findAll(PageRequest.of(page, 16, Sort.by("koName")));
-        Page<Room> roomPage = roomRepository.findAll(PageRequest.of(page,5));
+        Page<Room> roomPage = roomRepository.findAllOrderByIdDesc(PageRequest.of(page,5));
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
         List<Room> rooms = roomPage.getContent();
