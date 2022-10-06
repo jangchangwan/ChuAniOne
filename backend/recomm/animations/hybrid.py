@@ -65,19 +65,25 @@ feat_df_idx_to_feat = dict(zip(feat_df.index, feat_df["feat_str"]))
 
 
 def recommend_ani(df_svd_preds, userId, ori_ani_df, ori_score_df, n):
-    print("추천 시작")
+
     # 최종적으로 만든 pred_df에서 사용자 index에 따라 애니 데이터 정렬 -> 애니 평점이 높은 순으로 정렬 됌
     sorted_user_predictions = df_svd_preds.loc[userId].sort_values(ascending=False)
-    # print(sorted_user_predictions)
+    
     # 원본 평점 데이터에서 user id에 해당하는 데이터를 뽑아낸다.
     user_data = ori_score_df[ori_score_df.user_id == userId]
-
+        
     # 위에서 뽑은 user_data와 원본 애니 데이터를 합친다.
-    user_history = user_data.merge(ori_ani_df, on='ani_id').sort_values(['score'], ascending=False)
+    user_history = user_data.merge(ori_ani_df, on = 'ani_id')
+    # user_history = pd.merge(user_data, ori_ani_df, on="ani_id").sort_values(['score'], ascending=False)
+    user_history = user_history.fillna(0)
+    user_history = user_history .drop_duplicates()
+    user_history['score'] = pd.to_numeric(user_history['score'], errors='coerce')
+    user_history = user_history.sort_values(["score"], ascending=False)
+    print("user_history\n", user_history)
 
     # 유저가 이미 본 애니 id를 뽑는다. (TF-IDF에 사용)
     user_history_list = user_history['ani_id'].values.tolist()
-
+    
     # 유저가 이미 본 애니 series id를 뽑는다.
     user_history_series_list_all = user_history['series_id'].values.tolist()
     user_history_series_list = []
@@ -88,10 +94,12 @@ def recommend_ani(df_svd_preds, userId, ori_ani_df, ori_score_df, n):
 
     # 원본 애니 데이터에서 사용자가 본 애니 데이터를 제외한 데이터를 추출
     recommendations = ori_ani_df[~ori_ani_df['ani_id'].isin(user_history['ani_id'])]
-
+    print("recommendations before: \n", recommendations, "\n")
+    
     # 사용자의 애니 평점이 높은 순으로 정렬된 데이터와 위 recommendations을 합친다.
-    recommendations = recommendations.merge(pd.DataFrame(sorted_user_predictions).reset_index(), on='ani_id')
-
+    recommendations = pd.merge(recommendations, pd.DataFrame(sorted_user_predictions).reset_index(), on='ani_id')
+    print("recommendations after: \n", recommendations, "\n")
+    
     # 컬럼 이름 바꾸고 정렬해서 return
     recommendation_list_all = list(recommendations.sort_values(userId, ascending=False)['ani_id'])
 
@@ -119,7 +127,7 @@ def recommend_ani(df_svd_preds, userId, ori_ani_df, ori_score_df, n):
         # 30개가 추천되면 종료
         if len(recommendation_list) == n:
             return user_history_list, recommendation_list
-    print("추천 끝")
+        
 
 def recommend_ani_2(user_history_list, recommendation_list, n):
     print("TFIDF 시작")
@@ -147,8 +155,9 @@ def recommend_ani_2(user_history_list, recommendation_list, n):
     for num in range(n):
         id_list.append(recommendation_list[sim_scores[num][0]-1])
 
-    return id_list
     print("TFIDF 끝")
+    return id_list
+
 
 def get_user_data(user_id, ani_id, score):
     
@@ -168,10 +177,7 @@ def get_user_data(user_id, ani_id, score):
     temp_col = ['user_id', 'ani_id', 'score']
     temp1 = pd.DataFrame(data=rating_data, columns=temp_col)
     rating_df = pd.concat([rating_df, temp1], ignore_index=True)
-    
-    print(temp_col)
-    print(rating_df.head(1))
-    
+        
     # 리뷰를 처음 남기는 사람이라면 0으로 이뤄진 행 추가
     if user_id not in user_ani_ratings_df.index.astype(int):
         temp = [0 for i in range(len(user_ani_ratings_df.index))]
@@ -181,8 +187,6 @@ def get_user_data(user_id, ani_id, score):
 
     # 0점을 score값으로 변경
     user_ani_ratings_df.loc[user_id, ani_id] = score
-    
-    print(user_ani_ratings_df.loc[user_id, ani_id])
 
     # matrix는 pivot_table 값을 numpy matrix로 만든 것
     matrix = user_ani_ratings_df.values
@@ -205,7 +209,7 @@ def get_user_data(user_id, ani_id, score):
     svd_user_predicted_ratings = np.dot(
         np.dot(U, sigma), Vt) + user_ratings_mean.reshape(-1, 1)
     df_svd_preds = pd.DataFrame(svd_user_predicted_ratings, index=user_ani_ratings_df.index, columns=user_ani_ratings_df.columns)
-
+    
     input_user_id = user_id
     user_history_list, recommendation_list = recommend_ani(df_svd_preds, input_user_id, ani_df, rating_df, 28)
 
