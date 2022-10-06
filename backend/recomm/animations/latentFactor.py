@@ -216,5 +216,3 @@ print("파일 불러오기 완료")
 # P, Q = matrix_factorization(ratings_mat.values, K=50, steps=1, learning_rate=0.01, r_lambda = 0.01)
 # pred_mat = np.dot(P, Q.T)
 # ratings_pred_mat = pd.DataFrame(data=pred_mat, index= ratings_mat.index, columns = ratings_mat.columns)
-
-latent_recomm(6000005)
