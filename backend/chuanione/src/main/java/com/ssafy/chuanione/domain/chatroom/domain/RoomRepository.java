@@ -26,7 +26,7 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 
 
     // 전체 리스트
-     Page<Room> findAllOrderByIdDesc(Pageable pageable);
+//     Page<Room> findAllOrderByIdDesc(Pageable pageable);
 
     // 입장중인 리스트
 

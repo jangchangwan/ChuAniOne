@@ -50,6 +50,7 @@ public class AnimationServiceImpl implements AnimationService {
         List<AniLog> aniLog = aniLogRepository.findByMemberId(login.getId() + 6000000);
         if(aniLog.size() > 0){
             int[] recommend = aniLog.get(0).getSurprise();
+            System.out.println(recommend);
             List<Animation> ani = animationRepository.findAllByQuery(recommend);
             result.put("12", ani);
         }
