@@ -121,4 +121,15 @@ def surprise_recomm(user_id, ani_id, score):
     unseen_ani = get_unseen_surprise(ani_ratings, ani_df, user_id)
     top_ani_preds = recomm_ani_by_surprise(algo, user_id, unseen_ani, top_n=14)
     
+    
+    log = dbcol_log.find_one({"member_id": user_id})
+    if log != None:
+        print("related update")
+        dbcol_log.update_one({"member_id": user_id}, {"$set": {"surprise": top_ani_preds}}, upsert=True)
+    else:
+        print("related insert")
+        dbcol_log.insert_one({"member_id": user_id, "surprise": top_ani_preds})
+        print("member_id: ", user_id)
+        print("surprise: ", top_ani_preds)
+    
     return top_ani_preds
