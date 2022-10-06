@@ -163,17 +163,22 @@ function Intro() {
               </span>
             </PageButton>
           </Grid>
-          <Grid item xs={1}></Grid>
           <Grid item xs={3}>
-            <iframe
-              width="640px"
-              height="350px"
-              src="https://www.youtube.com/embed/ngQkkMlmzA8"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen>
-            </iframe>
+            <div style={{ 
+              width: '640px',
+              height: '360px',
+              border: '1rem solid #967E76',
+              borderRadius: '1rem'}}>
+              <iframe
+                width="640px"
+                height="360px"
+                src="https://www.youtube.com/embed/oGQ1oaCvIBA"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen>
+              </iframe>
+            </div>
           </Grid>
         </Grid>
       </PageIntro1>
