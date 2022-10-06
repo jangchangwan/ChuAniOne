@@ -69,16 +69,17 @@ const IntroImg2 = styled.img`
 const IntroImg3 = styled.img`
   width: 19rem;
   height: 30rem;
-  rotate: 30deg;
-  margin-left: 25rem;
-  margin-top: -14rem;
+  rotate: 17deg;
+  margin-left: 26rem;
+  margin-top: -15rem;
 `
 const IntroImg4 = styled.img`
   width: 20rem;
   height: 35rem;
-  rotate: -30deg;
-  margin-right: 15rem;
-  margin-top: -8rem;
+  rotate: -20deg;
+  margin-right: 25rem;
+  margin-top: -3rem;
+  z-index: 1;
 `
 
 // 메인으로 버튼
@@ -192,8 +193,8 @@ function Intro() {
               textAlign: 'center'
             }}
           >
-            <h1 style={{ fontSize: '3rem', color: 'white', marginTop: 0, paddingTop: '3rem' }}> Chu Ani One 은</h1>
-            <h1 style={{ fontSize: '3rem', color: 'white', paddingBottom: '3rem' }}> 왜 사용해야 하나요?</h1>
+            <h1 style={{ fontSize: '3rem', color: 'white', marginTop: '0', paddingTop: '6rem' }}> Chu Ani One 은</h1>
+            <h1 style={{ fontSize: '3rem', color: 'white', marginTop: '0', paddingTop: '2rem', paddingBottom: '3rem' }}> 왜 사용해야 하나요?</h1>
           </Box>
         </motion.div>
         <Grid container maxWidth="xl"
@@ -304,9 +305,9 @@ function Intro() {
                   textAlign: 'right',
                 }}
               >
-                <h1 style={{ color: '#366087' }}>서로 비슷한 취향의 사람과의 오픈채팅</h1>
-
-
+                <div style={{ zIndex: '3'}}>
+                  <h1 style={{ color: '#366087'}}>서로 비슷한 취향의 사람과의 오픈채팅</h1>
+                </div>
                 <Typography variant="body2" color="#5D86D1">
                   본인이 원하는 태그를 만들고<br></br>방을 생성하여 취향이 유사한 사람들과<br></br>채팅을 할 수 있다.
                 </Typography>
