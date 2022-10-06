@@ -15,7 +15,7 @@
 | 이승현 | Frontend           |
 | 장창완 | Frontend           |
 
-📽 **UCC 보러가기**
+📽 [**UCC 보러가기**](https://youtu.be/oGQ1oaCvIBA)
 
 ![logo2](README.assets/logo2.png)
 
@@ -210,6 +210,23 @@
 
 ## 06 기술 특이점
 
+📌 **Stomp를 활용한 socket 통신**
+
+- **Stomp** : Websocket 위에서 동작하는 텍스트 기반의 메세지 전송 프로토콜
+
+- 메세지를 Controller 어노테이션이 적용된 객체를 이용해 조직적으로 관리할 수 있으며 Spring Security를 적용해 메세지를 보호할 수 있다.
+
+- Messaging Protocol을 만들고 메세지 형식을 커스터마이징 할 필요가 없다.
+- STOMP의 "destination" 및 Message Type을 기반으로 메세지를 보호하기 위해 Spring Security를 사용할 수 있다.
+
+<img src="README.assets/image-20221006135628741.png" alt="image-20221006135628741" style="zoom:80%;" />
+
+
+
+📌 **여기 동운이오빠가 적으면 될듯 !**
+
+
+
 
 
 ---
@@ -235,6 +252,10 @@
 ---
 
 ## 08 서비스 설계
+
+- **ERD**
+
+  ![img](https://cdn.discordapp.com/attachments/1012637429376753677/1027439856579776543/unknown.png)
 
 - **기능 명세서**
 
