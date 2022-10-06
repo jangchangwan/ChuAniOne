@@ -42,8 +42,8 @@ ani_ratings = ani_ratings[["user_id", "ani_id", "score", "name"]]
 print(ani_ratings.head())
 
 # ani_ratings.csv 파일로 언로드 시 인덱스와 헤더를 모두 제거한 새로운 파일 생성.
-path = os.path.abspath(os.path.join(os.getcwd(), "model", "data"))
-ani_ratings.to_csv(path + "/ani_ratings.csv", index=False, encoding="utf-8")
+# path = os.path.abspath(os.path.join(os.getcwd(), "model", "data"))
+# ani_ratings.to_csv(path + "/ani_ratings.csv", index=False, encoding="utf-8")
 
 def get_unseen_surprise(ani_ratings, ani_id, user_id):
     # 입력값으로 들어온 userId에 해당하는 사용자가 평점을 매긴 모든 도서를 리스트로 생성
@@ -76,17 +76,18 @@ def recomm_ani_by_surprise(algo, user_id, unseen_ani, top_n):
 
   # top_n으로 추출된 영화의 정보 추출, 영화 아이디, 추천 예상 평점, 제목 추출
   top_ani_ids = [ int(pred.iid) for pred in top_predictions]
-  top_ani_rating = [ pred.est for pred in top_predictions]
-  top_ani_names = ani_ratings[ani_ratings.isin(top_ani_ids)]["name"]
+  # top_ani_rating = [ pred.est for pred in top_predictions]
+  # top_ani_names = ani_ratings[ani_ratings.isin(top_ani_ids)]["name"]
 
-  top_ani_preds = [ (id, rating) for id, rating in zip(top_ani_ids, top_ani_rating)]
-  return top_ani_preds
+  # top_ani_preds = [ (id, rating) for id, rating in zip(top_ani_ids, top_ani_rating)]
+  # return top_ani_preds
+  return top_ani_ids
 
 
 ##########################################################################################
 
 def surprise_recomm(user_id, ani_id, score):
-    df = pd.read_csv("./data/ani_ratings.csv")
+    df = ani_ratings
     reader = Reader(rating_scale=(0.5, 5))
     data = Dataset.load_from_df(df[["user_id", "ani_id", "score"]], reader=reader)
 
@@ -115,10 +116,18 @@ def surprise_recomm(user_id, ani_id, score):
 
     print(ani_df[ani_df["id"]==ani_id])
 
-    uid = str(user_id)
-    iid = str(ani_id)
-
     unseen_ani = get_unseen_surprise(ani_ratings, ani_df, user_id)
     top_ani_preds = recomm_ani_by_surprise(algo, user_id, unseen_ani, top_n=14)
+    
+    
+    log = dbcol_log.find_one({"member_id": user_id})
+    if log != None:
+        print("related update")
+        dbcol_log.update_one({"member_id": user_id}, {"$set": {"surprise": top_ani_preds}}, upsert=True)
+    else:
+        print("related insert")
+        dbcol_log.insert_one({"member_id": user_id, "surprise": top_ani_preds})
+        print("member_id: ", user_id)
+        print("surprise: ", top_ani_preds)
     
     return top_ani_preds
