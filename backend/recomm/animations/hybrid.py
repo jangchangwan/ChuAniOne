@@ -3,6 +3,7 @@ import os
 from pymongo import MongoClient
 import pandas as pd
 import numpy as np
+import pickle
 from scipy.sparse.linalg import svds
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -51,10 +52,13 @@ print("총 데이터 수: ", len(rating_df))
 # 형태소 분석이 이뤄진 데이터 불러오기
 feat_df = pd.DataFrame(dbcol_feat.find({}, {"id": 1, "feat_str": 1}))
 
-
+path = os.path.abspath(os.path.join(os.getcwd(), "model", "data"))
 # 사용자 - 애니 pivot table 생성
-user_ani_ratings_df = rating_df.pivot(index="user_id", columns="ani_id", values="score").fillna(0)
-
+# user_ani_ratings_df = rating_df.pivot(index="user_id", columns="ani_id", values="score").fillna(0)
+# with open(path + "/user_ani_ratings.pkl", "wb") as f:
+#     pickle.dump(user_ani_ratings_df, f, protocol=pickle.HIGHEST_PROTOCOL)
+with open(path + "/user_ani_ratings.pkl", "rb") as f:
+    user_ani_ratings_df = pickle.load(f)
 
 ani_df_id_to_idx = dict(zip(ani_df["ani_id"], ani_df.index))
 ani_df_idx_to_series = dict(zip(ani_df.index, ani_df["series_id"]))
@@ -94,11 +98,9 @@ def recommend_ani(df_svd_preds, userId, ori_ani_df, ori_score_df, n):
 
     # 원본 애니 데이터에서 사용자가 본 애니 데이터를 제외한 데이터를 추출
     recommendations = ori_ani_df[~ori_ani_df['ani_id'].isin(user_history['ani_id'])]
-    print("recommendations before: \n", recommendations, "\n")
     
     # 사용자의 애니 평점이 높은 순으로 정렬된 데이터와 위 recommendations을 합친다.
     recommendations = pd.merge(recommendations, pd.DataFrame(sorted_user_predictions).reset_index(), on='ani_id')
-    print("recommendations after: \n", recommendations, "\n")
     
     # 컬럼 이름 바꾸고 정렬해서 return
     recommendation_list_all = list(recommendations.sort_values(userId, ascending=False)['ani_id'])
@@ -197,7 +199,7 @@ def get_user_data(user_id, ani_id, score):
 
     # R_user_mean : 사용자-애니에 대해 사용자 평균 평점을 뺀 것.
     matrix_user_mean = matrix - user_ratings_mean.reshape(-1, 1)
-
+    matrix_user_mean = np.nan_to_num(matrix_user_mean)
     # U 행렬, sigma 행렬, V 전치 행렬을 반환.
     U, sigma, Vt = svds(matrix_user_mean, k=12)
 

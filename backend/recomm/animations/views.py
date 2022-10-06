@@ -4,11 +4,11 @@ from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework import status
 
-from animations.surprise import surprise_recomm
-
 from .models import Animation
 from .serializers import AnimationSerializer, ReviewSerializer
 from .hybrid import get_user_data
+from .surprise import surprise_recomm
+from .latentFactor import latent_recomm
 from drf_yasg.utils import swagger_auto_schema
 
 @swagger_auto_schema(methods=["get"], operation_description="get Test")
@@ -35,5 +35,14 @@ def recommend(request):
 @parser_classes([JSONParser])
 def sur_recomm(request):
     data = request.data
-    response = {"recomm": surprise_recomm(user_id=data["member_id"], ani_id=data["ani_id"], score=data["score"])}
+    response = {"recomm": surprise_recomm(user_id=data["member_id"], ani_id=data["ani_id"])}
+    return JsonResponse(response, status=status.HTTP_201_CREATED, safe=False)
+
+
+@swagger_auto_schema(methods=["post"], request_body=ReviewSerializer, operation_description="Create a post object")
+@api_view(["POST"])
+@parser_classes([JSONParser])
+def lat_recomm(request):
+    data = request.data
+    response = {"recomm": latent_recomm(user_id=data["member_id"])}
     return JsonResponse(response, status=status.HTTP_201_CREATED, safe=False)

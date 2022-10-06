@@ -86,7 +86,7 @@ def recomm_ani_by_surprise(algo, user_id, unseen_ani, top_n):
 
 ##########################################################################################
 
-def surprise_recomm(user_id, ani_id, score):
+def surprise_recomm(user_id, ani_id):
     df = ani_ratings
     reader = Reader(rating_scale=(0.5, 5))
     data = Dataset.load_from_df(df[["user_id", "ani_id", "score"]], reader=reader)

@@ -14,4 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class AniLog {
     private int member_id;
     private int[] recommended;
+    private int[] latent;
+    private int[] surprise;
 }
