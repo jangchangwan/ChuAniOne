@@ -49,7 +49,7 @@ public class AnimationServiceImpl implements AnimationService {
         if(login == null) return result;
         List<AniLog> aniLog = aniLogRepository.findByMemberId(login.getId() + 6000000);
         if(aniLog.size() > 0){
-            int[] recommend = aniLogRepository.findByMemberId(15).get(0).getLatent();
+            int[] recommend = aniLog.get(0).getLatent();
             List<Animation> ani = animationRepository.findAllByQuery(recommend);
             result.put("12", ani);
         }
