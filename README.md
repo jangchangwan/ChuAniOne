@@ -156,6 +156,9 @@
 ## 04 개발환경
 
 📌 **Backend**
+- Django 4.1.1
+- djongo 1.3.6
+- pymongo 3.12.3
 
 📌 **Frontend**
 
@@ -189,6 +192,17 @@
 - @types/stompjs 2.3.5
 
 📌 **BigData**
+- keras 2.10.0
+- konlpy 0.6.0
+- numpy 1.23.3
+- pandas 1.5.0
+- scikit-learn==1.1.2
+- scikit-surprise==1.1.3
+- scipy 1.9.1
+- surprise 0.1
+- tensorflow 2.10.0
+- MongoDB 4.4.16
+
 
 📌 **CI/CD**
 
