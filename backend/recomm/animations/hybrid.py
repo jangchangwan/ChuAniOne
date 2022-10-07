@@ -25,25 +25,35 @@ dbcol_review = db.ani_review
 dbcol_feat = db.ani_feature
 dbcol_log = db.ani_log
 
+path = os.path.abspath(os.path.join(os.getcwd(), "model", "data"))
+
 # 애니 정보 불러오기
-ani_df = pd.DataFrame(dbcol_info.find({}, {"id": 1, "name": 1, "series_id": 1}))
-ani_df.drop('_id', axis=1, inplace=True)
-ani_df.columns = ["ani_id", "ani_name", "series_id"]
+# ani_df = pd.DataFrame(dbcol_info.find({}, {"id": 1, "name": 1, "series_id": 1}))
+# ani_df.drop('_id', axis=1, inplace=True)
+# ani_df.rename(columns={"id": "ani_id", "name": "ani_name"}, inplace=True)
+
+# with open(path + "/ani_df.pkl", "wb") as f:
+#     pickle.dump(ani_df, f, protocol=pickle.HIGHEST_PROTOCOL)
+with open(path + "/ani_df.pkl", "rb") as f:
+    ani_df = pickle.load(f)
 
 # 평가 데이터 불러오기
-rating_df = pd.DataFrame(dbcol_review.find({}))
-rating_df = rating_df[["profile", "animation", "score"]]
-rating_df.columns = ["user_id", "ani_id", "score"]
+# rating_df = pd.DataFrame(dbcol_review.find({}, {"_id": 0, "profile": 1, "animation": 1, "score": 1}))
+# rating_df.rename(columns={"profile": "user_id", "animation": "ani_id"}, inplace=True)
 
-# 데이터 중복 확인
-rating_df["user_id"].nunique()
-rating_df.drop_duplicates(subset=["user_id"], inplace=True)
-rating_df = rating_df.dropna(how="any")
+# # 데이터 중복 확인
+# rating_df["user_id"].nunique()
+# rating_df.drop_duplicates(subset=["user_id"], inplace=True)
+# rating_df = rating_df.dropna(how="any")
 
-# 결측값 제거
-rating_df["user_id"].replace("", np.nan, inplace=True)
-rating_df = rating_df.dropna(how="any") # Null값이 존재하는 행 제거
+# # 결측값 제거
+# rating_df["user_id"].replace("", np.nan, inplace=True)
+# rating_df = rating_df.dropna(how="any") # Null값이 존재하는 행 제거
 
+# with open(path + "/rating_df.pkl", "wb") as f:
+#     pickle.dump(rating_df, f, protocol=pickle.HIGHEST_PROTOCOL)
+with open(path + "/rating_df.pkl", "rb") as f:
+    rating_df = pickle.load(f)
 
 print("Null값 유무: ", rating_df.isnull().values.any())
 print("총 데이터 수: ", len(rating_df))
@@ -52,7 +62,6 @@ print("총 데이터 수: ", len(rating_df))
 # 형태소 분석이 이뤄진 데이터 불러오기
 feat_df = pd.DataFrame(dbcol_feat.find({}, {"id": 1, "feat_str": 1}))
 
-path = os.path.abspath(os.path.join(os.getcwd(), "model", "data"))
 # 사용자 - 애니 pivot table 생성
 # user_ani_ratings_df = rating_df.pivot(index="user_id", columns="ani_id", values="score").fillna(0)
 # with open(path + "/user_ani_ratings.pkl", "wb") as f:
@@ -187,20 +196,25 @@ def get_user_data(user_id, ani_id, score):
         temp2.index.names = ["user_id"]
         user_ani_ratings_df = pd.concat([user_ani_ratings_df, temp2])
 
+    print(">>>> score")
     # 0점을 score값으로 변경
     user_ani_ratings_df.loc[user_id, ani_id] = score
 
     # matrix는 pivot_table 값을 numpy matrix로 만든 것
+    print(">>>> matrix")
     matrix = user_ani_ratings_df.values
     matrix = matrix.astype(float)
 
     # user_ratings_mean은 사용자의 평균 평점
+    print(">>>> user_ratings_mean")
     user_ratings_mean = np.mean(matrix, axis=1)
 
     # R_user_mean : 사용자-애니에 대해 사용자 평균 평점을 뺀 것.
     matrix_user_mean = matrix - user_ratings_mean.reshape(-1, 1)
     matrix_user_mean = np.nan_to_num(matrix_user_mean)
+    
     # U 행렬, sigma 행렬, V 전치 행렬을 반환.
+    print(">>>> U, sigma, Vt")
     U, sigma, Vt = svds(matrix_user_mean, k=12)
 
     # 위는 0이 아닌 값만 포함되었기에 0이 포함된 대칭행렬로 diag를 이용해 변환
@@ -208,8 +222,8 @@ def get_user_data(user_id, ani_id, score):
 
     # U, Sigma, Vt의 내적을 수행하면, 다시 원본 행렬로 복원이 된다.
     # 거기에 아까 평균을 빼었으니 다시 사용자 평균 rating 더한다.
-    svd_user_predicted_ratings = np.dot(
-        np.dot(U, sigma), Vt) + user_ratings_mean.reshape(-1, 1)
+    svd_user_predicted_ratings = np.dot(np.dot(U, sigma), Vt) + user_ratings_mean.reshape(-1, 1)
+    print(">>>> df_svd_preds")
     df_svd_preds = pd.DataFrame(svd_user_predicted_ratings, index=user_ani_ratings_df.index, columns=user_ani_ratings_df.columns)
     
     input_user_id = user_id
