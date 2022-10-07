@@ -228,7 +228,19 @@
 
 <img src="README.assets/image-20221006135628741.png" alt="image-20221006135628741" style="zoom:80%;" />
 
-📌 **여기 동운이오빠가 적으면 될듯 !**
+📌 **빅데이터 알고리즘 1 - 컨텐츠 기반 필터링**
+
+- Okt를 활용하고 morphs를 사용하여 형태소 분석을 한 뒤 불용어 처리로 데이터 정제
+
+- sklearn의 TfidfVectorizer 라이브러리를 활용하여 분석진행
+
+- sklearn의 cosine_similarity 라이브러리를 활용하여 유사도 계산
+
+📌 **빅데이터 알고리즘 2 - 협업 필터링 + 컨텐츠 기반 필터링**
+
+- scipy의 svds 라이브러리를 활용하여 U, sigma, V 행렬을 반환하고 diag를 이용해 변환하고 내적을 수행하는 특이값분해를 진행하여 1차 추출
+
+- sklearn의 TfidfVectorizer, cosine_similarity 라이브러리를 활용하여 2차 추출
 
 ---
 
