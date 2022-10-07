@@ -159,6 +159,12 @@
 - Django 4.1.1
 - djongo 1.3.6
 - pymongo 3.12.3
+- spring-boot 2.7.3
+- spring-security 2.7.3
+- docker 20.10.18
+- docker-compose 2.1.0
+- mysql 5.7
+- nginx 1.23.1
 
 📌 **Frontend**
 
