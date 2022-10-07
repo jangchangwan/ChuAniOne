@@ -41,7 +41,7 @@ public interface JoinUserRepository extends JpaRepository<JoinUser, Long> {
 //    void deleteJoinUserByRoom(int room);
 
     // 참여중인 채팅방 id 리스트
-    @Query(nativeQuery = true, value ="SELECT * FROM member_room where member_id = :member_id")
+    @Query(nativeQuery = true, value ="SELECT * FROM member_room where member_id = :member_id order by member_room_id desc")
     Page<JoinUser> findByMemberId(int member_id, Pageable pageable);
 //    Page<JoinUser> getMyList(Pageable pageable, @Param("member_id")int member_id);
 
