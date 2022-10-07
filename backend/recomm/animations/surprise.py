@@ -3,6 +3,7 @@ from dotenv import load_dotenv, find_dotenv
 import pandas as pd
 import numpy as np
 from pymongo import MongoClient
+import random
 
 from surprise import Reader
 from surprise import SVD
@@ -117,8 +118,10 @@ def surprise_recomm(user_id, ani_id):
     print(ani_df[ani_df["id"]==ani_id])
 
     unseen_ani = get_unseen_surprise(ani_ratings, ani_df, user_id)
-    top_ani_preds = recomm_ani_by_surprise(algo, user_id, unseen_ani, top_n=14)
+    top_ani_preds = recomm_ani_by_surprise(algo, user_id, unseen_ani, top_n=50)
     
+    # 50개 중 14개 랜덤으로
+    top_ani_preds = random.sample(list(top_ani_preds), 14)
     
     log = dbcol_log.find_one({"member_id": user_id})
     if log != None:
