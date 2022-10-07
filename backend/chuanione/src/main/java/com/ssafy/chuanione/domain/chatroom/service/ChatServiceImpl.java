@@ -54,25 +54,21 @@ public class ChatServiceImpl implements ChatService {
     // 전체 채팅방 리스트 - 페이지네이션
     @Override
     public Map<String, Object> getListAllPage(int page) {
-        return null;
-//        Page<Perfume> perfumePage = perfumeRepository.findAll(PageRequest.of(page, 16, Sort.by("koName")));
-//        Page<Room> roomPage = roomRepository.findAllOrderByIdDesc(PageRequest.of(page,5));
-//        long totalCount = roomPage.getTotalElements();
-//        long pageCount = roomPage.getTotalPages();;
-//        List<Room> rooms = roomPage.getContent();
-//        List<RoomResponseDto> dtoList = new LinkedList<>();
-//        for(Room room : rooms) {
-//            int count = joinUserRepository.countDistinctById(room.getId());
-//            Member member = room.getAdmin();
-//            dtoList.add(RoomResponseDto.from(room, count, member));
-//        }
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("totalCnt",totalCount);
-//        map.put("pageCnt",pageCount);
-//        map.put("rDto",dtoList);
-//        return map;
-
-
+        Page<Room> roomPage = roomRepository.findAllByOrderByIdDesc(PageRequest.of(page,5));
+        long totalCount = roomPage.getTotalElements();
+        long pageCount = roomPage.getTotalPages();;
+        List<Room> rooms = roomPage.getContent();
+        List<RoomResponseDto> dtoList = new LinkedList<>();
+        for(Room room : rooms) {
+            int count = joinUserRepository.countDistinctById(room.getId());
+            Member member = room.getAdmin();
+            dtoList.add(RoomResponseDto.from(room, count, member));
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCnt",totalCount);
+        map.put("pageCnt",pageCount);
+        map.put("rDto",dtoList);
+        return map;
     }
     
     // 채팅방 하나 조회
@@ -225,7 +221,7 @@ public class ChatServiceImpl implements ChatService {
         String tag1 = keyword;
         String tag2 = keyword;
         String tag3 = keyword;
-        Page<Room> roomPage = roomRepository.findByNameLikeOrTag1LikeOrTag2LikeOrTag3Like(PageRequest.of(page,5),"%"+name+"%", "%"+tag1+"%","%"+tag2+"%","%"+tag3+"%");
+        Page<Room> roomPage = roomRepository.findByNameLikeOrTag1LikeOrTag2LikeOrTag3LikeOrderByIdDesc(PageRequest.of(page,5),"%"+name+"%", "%"+tag1+"%","%"+tag2+"%","%"+tag3+"%");
         long totalCount = roomPage.getTotalElements();
         long pageCount = roomPage.getTotalPages();;
         List<Room> rooms = roomPage.getContent();
